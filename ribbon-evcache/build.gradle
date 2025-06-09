@@ -1,10 +1,13 @@
 dependencies {
     api project(':ribbon')
     api 'com.netflix.evcache:evcache-client:1.0.5'
+    compileOnly "com.diffblue.cover:cover-annotations:1.5.0"
     api "io.reactivex:rxjava:${rx_java_version}"
     api "org.slf4j:slf4j-api:${slf4j_version}"
     testImplementation project(':ribbon-test')
     testImplementation "junit:junit:${junit_version}"
     testImplementation "org.powermock:powermock-easymock-release-full:${powermock_version}"
     testImplementation "org.easymock:easymock:${easymock_version}"
+    testImplementation "com.diffblue.cover:cover-annotations:1.5.0"
+    testImplementation "org.mockito:mockito-core:4.11.0"
 }

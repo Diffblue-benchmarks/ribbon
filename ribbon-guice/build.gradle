@@ -4,9 +4,12 @@ dependencies {
     api project(':ribbon')
     api 'com.google.inject:guice:4.0'
     api 'com.google.inject.extensions:guice-multibindings:4.0'
+    compileOnly "com.diffblue.cover:cover-annotations:1.5.0"
     testImplementation 'junit:junit:4.11'
+    testImplementation "org.mockito:mockito-core:4.11.0"
     testImplementation "io.reactivex:rxjava:${rx_java_version}"
     testImplementation "io.reactivex:rxnetty:${rx_netty_version}"
     testImplementation (project(':ribbon-examples')) {transitive=false}
     testImplementation "com.netflix.archaius:archaius-core:${archaius_version}"
+    testImplementation "com.diffblue.cover:cover-annotations:1.5.0"
 }

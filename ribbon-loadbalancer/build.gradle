@@ -1,6 +1,7 @@
 dependencies {
     api project(':ribbon-core')
     api 'com.netflix.netflix-commons:netflix-statistics:0.1.1'
+    compileOnly "com.diffblue.cover:cover-annotations:1.5.0"
     api "io.reactivex:rxjava:${rx_java_version}"
     api "org.slf4j:slf4j-api:${slf4j_version}"
     api "com.netflix.servo:servo-core:${servo_version}"
@@ -13,4 +14,5 @@ dependencies {
     testImplementation 'org.awaitility:awaitility:3.0.0'
     testImplementation "org.slf4j:slf4j-log4j12:${slf4j_version}"
     testImplementation "com.sun.jersey:jersey-server:${jersey_version}"
+    testImplementation "com.diffblue.cover:cover-annotations:1.5.0"
 }

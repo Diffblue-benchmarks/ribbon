@@ -4,9 +4,12 @@ dependencies {
     api "com.google.guava:guava:${guava_version}"
     api 'commons-configuration:commons-configuration:1.8'
     api 'commons-lang:commons-lang:2.6'
+    compileOnly "com.diffblue.cover:cover-annotations:1.5.0"
+    testImplementation "com.diffblue.cover:cover-annotations:1.5.0"
     api "com.netflix.archaius:archaius-core:${archaius_version}"
 
     api project(':ribbon-core')
 
-    testImplementation 'junit:junit:4.11' 
+    testImplementation 'junit:junit:4.11'
+    testImplementation "org.mockito:mockito-core:4.11.0" 
 }

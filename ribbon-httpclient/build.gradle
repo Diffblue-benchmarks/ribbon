@@ -3,6 +3,7 @@ dependencies {
     api project(':ribbon-loadbalancer')
     api 'commons-collections:commons-collections:3.2.2'        
     api 'org.apache.httpcomponents:httpclient:4.2.1'
+    compileOnly "com.diffblue.cover:cover-annotations:1.5.0"
     api 'com.google.code.findbugs:annotations:2.0.0' 
     api "com.sun.jersey:jersey-client:${jersey_version}"
     api "com.sun.jersey.contribs:jersey-apache-client4:${jersey_version}"
@@ -11,6 +12,7 @@ dependencies {
     api "com.google.guava:guava:${guava_version}"
     api 'com.netflix.netflix-commons:netflix-commons-util:0.1.1'
     testImplementation 'junit:junit:4.11'
+    testImplementation "org.mockito:mockito-core:4.11.0"
     testImplementation "org.slf4j:slf4j-log4j12:${slf4j_version}"
     testImplementation 'commons-io:commons-io:2.0.1'
     testImplementation "com.sun.jersey:jersey-server:${jersey_version}"
@@ -18,4 +20,5 @@ dependencies {
     testImplementation 'com.fasterxml.jackson.core:jackson-databind:2.4.3'
     testImplementation project(':ribbon-archaius')
     testImplementation project(":ribbon-loadbalancer").sourceSets.test.output
+    testImplementation "com.diffblue.cover:cover-annotations:1.5.0"
 }
