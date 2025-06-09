@@ -3,6 +3,9 @@ dependencies {
     api project(':ribbon-loadbalancer')
     api project(':ribbon-eureka')
     api 'org.codehaus.jackson:jackson-mapper-asl:1.9.11'
+    compileOnly "com.diffblue.cover:cover-annotations:1.5.0"
+    testImplementation "com.diffblue.cover:cover-annotations:1.5.0"
+    testImplementation "org.mockito:mockito-core:4.11.0"
     api "com.netflix.eureka:eureka-client:${eureka_version}"
     api "io.reactivex:rxjava:${rx_java_version}"
     api 'javax.ws.rs:jsr311-api:1.1.1'  
