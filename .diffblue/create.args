@@ -1,0 +1,2 @@
+--exclude=com.netflix.ribbon.proxy.Utils
+--exclude=com.netflix.ribbon.proxy.RibbonDynamicProxy
