@@ -1,18 +1,46 @@
 plugins {
     id 'com.netflix.nebula.netflixoss' version '11.3.2'
+    id 'info.solidsoft.pitest' version '1.15.0' apply false
 }
 
 // Establish version and status
 ext.githubProjectName = rootProject.name // Change if github project name is not the same as the root project's name
 
+repositories {
+    mavenCentral()
+}
+
+apply plugin: 'info.solidsoft.pitest.aggregator'
+
 subprojects {
     apply plugin: 'com.netflix.nebula.netflixoss'
     apply plugin: 'java-library'
+    apply plugin: 'info.solidsoft.pitest'
 
     java {
         toolchain {
             languageVersion = JavaLanguageVersion.of(8)
         }
+    }
+
+    pitest {
+        targetTests = ['**Test*']
+        targetClasses = ['com.netflix.*']
+        excludedTestClasses = ['com.netflix.ribbon.transport.netty.LoadBalancingRxClientDiffblueTest',
+                               'com.netflix.niws.loadbalancer.EurekaNotificationServerListUpdaterTest',
+                               'com.netflix.ribbon.examples.rx.RxMovieProxyExampleTest',
+                               'com.netflix.ribbon.examples.rx.RibbonModuleTest',
+                               'com.netflix.loadbalancer.PollingServerListUpdaterTest',
+                               'com.netflix.niws.client.http.GetPostTest',
+                               'com.netflix.niws.client.http.PrimeConnectionsTest',
+                               'com.netflix.loadbalancer.WeightedResponseTimeRuleTest',
+                               'com.netflix.ribbon.transport.netty.http.ListenerTest',
+                               'com.netflix.ribbon.transport.netty.http.NettyClientTest']
+        excludedClasses = ['com.netflix.loadbalancer.ConfigurationBasedServerList']
+        outputFormats = ['XML', 'HTML']
+        exportLineCoverage = true
+        timestampedReports = false
+        verbose = true
     }
 
 
