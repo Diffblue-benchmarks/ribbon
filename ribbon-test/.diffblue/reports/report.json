@@ -1,0 +1,884 @@
+{
+  "meta" : {
+    "reportVersion" : "2.7"
+  },
+  "run" : {
+    "version" : "2025.06.02-fd4f1ca-licensed",
+    "creationTimestamp" : "2025-06-17T14:52:45.725+01:00",
+    "command" : "dcover coverage-reports ",
+    "totalTime" : 125.013,
+    "environmentDetectionTime" : 27.559,
+    "indexingTime" : 0.0,
+    "entryPointsTime" : 0.0,
+    "generationTime" : 0.0,
+    "timeToFirstTest" : 125.02,
+    "timeToLastTest" : 125.02,
+    "indexQueryTime" : 0.0,
+    "verificationTime" : 0.0,
+    "validationTime" : 0.0
+  },
+  "codes" : {
+    "T000" : "Method eligible for test creation",
+    "T001" : "Trivial getter",
+    "T003" : "Private method",
+    "T004" : "In anonymous inner class",
+    "T005" : "Trivial constructor",
+    "T009" : "No implementation for abstract class",
+    "T010" : "Abstract or interface method",
+    "T012" : "Synthetic method",
+    "T020" : "Other trivial method",
+    "T023" : "Testability unknown"
+  },
+  "summary" : {
+    "classesCount" : 16,
+    "methodsCount" : 56,
+    "cumulativeDiffblueTestCount" : 0,
+    "cumulativeManualTestCount" : 0,
+    "completeTestCount" : 0,
+    "incompleteTestCount" : 0,
+    "skeletonTestCount" : 0,
+    "totalPhysicalLineCount" : 406,
+    "perMethodTestability" : {
+      "T000" : 25,
+      "T001" : 3,
+      "T003" : 1,
+      "T004" : 8,
+      "T005" : 5,
+      "T009" : 3,
+      "T010" : 6,
+      "T012" : 1,
+      "T020" : 1,
+      "T023" : 3
+    },
+    "perMethodOutcome" : {
+      "T000" : 25,
+      "T001" : 3,
+      "T003" : 1,
+      "T004" : 8,
+      "T005" : 5,
+      "T009" : 3,
+      "T010" : 6,
+      "T012" : 1,
+      "T020" : 1,
+      "T023" : 3
+    }
+  },
+  "classes" : {
+    "com.netflix.ribbon.test.resources.EmbeddedResources" : {
+      "methodsCount" : 14,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T000" : 11,
+        "T005" : 1,
+        "T012" : 1,
+        "T023" : 1
+      },
+      "perMethodOutcome" : {
+        "T000" : 11,
+        "T005" : 1,
+        "T012" : 1,
+        "T023" : 1
+      }
+    },
+    "com.netflix.ribbon.test.resources.EmbeddedResources$1" : {
+      "methodsCount" : 2,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T004" : 2
+      },
+      "perMethodOutcome" : {
+        "T004" : 2
+      }
+    },
+    "com.netflix.ribbon.test.resources.EmbeddedResources$2" : {
+      "methodsCount" : 2,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T004" : 2
+      },
+      "perMethodOutcome" : {
+        "T004" : 2
+      }
+    },
+    "com.netflix.ribbon.test.resources.EmbeddedResources$Person" : {
+      "methodsCount" : 5,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T000" : 2,
+        "T005" : 2,
+        "T020" : 1
+      },
+      "perMethodOutcome" : {
+        "T000" : 2,
+        "T005" : 2,
+        "T020" : 1
+      }
+    },
+    "com.netflix.ribbon.testutils.MockedDiscoveryServerListTest" : {
+      "methodsCount" : 5,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T000" : 1,
+        "T009" : 1,
+        "T010" : 3
+      },
+      "perMethodOutcome" : {
+        "T000" : 1,
+        "T009" : 1,
+        "T010" : 3
+      }
+    },
+    "com.netflix.ribbon.testutils.TestUtils" : {
+      "methodsCount" : 2,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T000" : 1,
+        "T005" : 1
+      },
+      "perMethodOutcome" : {
+        "T000" : 1,
+        "T005" : 1
+      }
+    },
+    "com.netflix.ribbon.testutils.TestUtils$1" : {
+      "methodsCount" : 2,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T004" : 2
+      },
+      "perMethodOutcome" : {
+        "T004" : 2
+      }
+    },
+    "com.netflix.serialization.Deserializer" : {
+      "methodsCount" : 1,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T010" : 1
+      },
+      "perMethodOutcome" : {
+        "T010" : 1
+      }
+    },
+    "com.netflix.serialization.JacksonCodec" : {
+      "methodsCount" : 5,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T000" : 3,
+        "T001" : 1,
+        "T023" : 1
+      },
+      "perMethodOutcome" : {
+        "T000" : 3,
+        "T001" : 1,
+        "T023" : 1
+      }
+    },
+    "com.netflix.serialization.SerializationUtils" : {
+      "methodsCount" : 4,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T000" : 3,
+        "T005" : 1
+      },
+      "perMethodOutcome" : {
+        "T000" : 3,
+        "T005" : 1
+      }
+    },
+    "com.netflix.serialization.Serializer" : {
+      "methodsCount" : 1,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T010" : 1
+      },
+      "perMethodOutcome" : {
+        "T010" : 1
+      }
+    },
+    "com.netflix.serialization.StringDeserializer" : {
+      "methodsCount" : 4,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T000" : 1,
+        "T001" : 1,
+        "T003" : 1,
+        "T023" : 1
+      },
+      "perMethodOutcome" : {
+        "T000" : 1,
+        "T001" : 1,
+        "T003" : 1,
+        "T023" : 1
+      }
+    },
+    "com.netflix.serialization.TypeDef" : {
+      "methodsCount" : 5,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T000" : 2,
+        "T009" : 2,
+        "T010" : 1
+      },
+      "perMethodOutcome" : {
+        "T000" : 2,
+        "T009" : 2,
+        "T010" : 1
+      }
+    },
+    "com.netflix.serialization.TypeDef$1" : {
+      "methodsCount" : 1,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T004" : 1
+      },
+      "perMethodOutcome" : {
+        "T004" : 1
+      }
+    },
+    "com.netflix.serialization.TypeDef$2" : {
+      "methodsCount" : 1,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T004" : 1
+      },
+      "perMethodOutcome" : {
+        "T004" : 1
+      }
+    },
+    "com.netflix.serialization.TypeTokenBasedReference" : {
+      "methodsCount" : 2,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T000" : 1,
+        "T001" : 1
+      },
+      "perMethodOutcome" : {
+        "T000" : 1,
+        "T001" : 1
+      }
+    }
+  },
+  "methods" : {
+    "com.netflix.ribbon.test.resources.EmbeddedResources$1.<init>:(Lcom/netflix/ribbon/test/resources/EmbeddedResources;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T004",
+      "perMethodOutcome" : "T004",
+      "lineNumbers" : [
+        168
+      ]
+    },
+    "com.netflix.ribbon.test.resources.EmbeddedResources$1.write:(Ljava/io/OutputStream;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T004",
+      "perMethodOutcome" : "T004",
+      "lineNumbers" : [
+        173,
+        174,
+        175,
+        176,
+        177
+      ]
+    },
+    "com.netflix.ribbon.test.resources.EmbeddedResources$2.<init>:(Lcom/netflix/ribbon/test/resources/EmbeddedResources;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T004",
+      "perMethodOutcome" : "T004",
+      "lineNumbers" : [
+        191
+      ]
+    },
+    "com.netflix.ribbon.test.resources.EmbeddedResources$2.write:(Ljava/io/OutputStream;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T004",
+      "perMethodOutcome" : "T004",
+      "lineNumbers" : [
+        195,
+        196,
+        197,
+        198,
+        199
+      ]
+    },
+    "com.netflix.ribbon.test.resources.EmbeddedResources$Person.<init>:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T005",
+      "perMethodOutcome" : "T005",
+      "lineNumbers" : [
+        51
+      ]
+    },
+    "com.netflix.ribbon.test.resources.EmbeddedResources$Person.<init>:(Ljava/lang/String;I)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T005",
+      "perMethodOutcome" : "T005",
+      "lineNumbers" : [
+        53,
+        54,
+        55,
+        56
+      ]
+    },
+    "com.netflix.ribbon.test.resources.EmbeddedResources$Person.equals:(Ljava/lang/Object;)Z" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85
+      ]
+    },
+    "com.netflix.ribbon.test.resources.EmbeddedResources$Person.hashCode:()I" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        63,
+        64,
+        65,
+        66,
+        67
+      ]
+    },
+    "com.netflix.ribbon.test.resources.EmbeddedResources$Person.toString:()Ljava/lang/String;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T020",
+      "perMethodOutcome" : "T020",
+      "lineNumbers" : [
+        59
+      ]
+    },
+    "com.netflix.ribbon.test.resources.EmbeddedResources.<clinit>:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T023",
+      "perMethodOutcome" : "T023"
+    },
+    "com.netflix.ribbon.test.resources.EmbeddedResources.<init>:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T005",
+      "perMethodOutcome" : "T005",
+      "lineNumbers" : [
+        46
+      ]
+    },
+    "com.netflix.ribbon.test.resources.EmbeddedResources.access$000:()Lorg/codehaus/jackson/map/ObjectMapper;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T012",
+      "perMethodOutcome" : "T012",
+      "lineNumbers" : [
+        46
+      ]
+    },
+    "com.netflix.ribbon.test.resources.EmbeddedResources.createPerson:(Ljava/lang/String;)Ljavax/ws/rs/core/Response;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        137,
+        138
+      ]
+    },
+    "com.netflix.ribbon.test.resources.EmbeddedResources.echoContext:(Ljava/lang/String;)Ljavax/ws/rs/core/Response;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        116
+      ]
+    },
+    "com.netflix.ribbon.test.resources.EmbeddedResources.getEntityStream:()Ljavax/ws/rs/core/StreamingOutput;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        191
+      ]
+    },
+    "com.netflix.ribbon.test.resources.EmbeddedResources.getNoEntity:()Ljavax/ws/rs/core/Response;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        122
+      ]
+    },
+    "com.netflix.ribbon.test.resources.EmbeddedResources.getPerson:()Ljavax/ws/rs/core/Response;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        108,
+        109
+      ]
+    },
+    "com.netflix.ribbon.test.resources.EmbeddedResources.getReadTimeout:()Ljavax/ws/rs/core/Response;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        128,
+        129,
+        130
+      ]
+    },
+    "com.netflix.ribbon.test.resources.EmbeddedResources.getStream:()Ljavax/ws/rs/core/StreamingOutput;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        168
+      ]
+    },
+    "com.netflix.ribbon.test.resources.EmbeddedResources.postWithTimeout:(Ljava/lang/String;)Ljavax/ws/rs/core/Response;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        152,
+        154,
+        153,
+        155
+      ]
+    },
+    "com.netflix.ribbon.test.resources.EmbeddedResources.queryPerson:(Ljava/lang/String;I)Ljavax/ws/rs/core/Response;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        144,
+        145
+      ]
+    },
+    "com.netflix.ribbon.test.resources.EmbeddedResources.redirect:(I)Ljavax/ws/rs/core/Response;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        184
+      ]
+    },
+    "com.netflix.ribbon.test.resources.EmbeddedResources.throttle:()Ljavax/ws/rs/core/Response;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        161
+      ]
+    },
+    "com.netflix.ribbon.testutils.MockedDiscoveryServerListTest.<init>:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T010",
+      "perMethodOutcome" : "T010",
+      "lineNumbers" : [
+        47
+      ]
+    },
+    "com.netflix.ribbon.testutils.MockedDiscoveryServerListTest.getDummyInstanceInfo:(Ljava/lang/String;Ljava/util/List;)Ljava/util/List;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63
+      ]
+    },
+    "com.netflix.ribbon.testutils.MockedDiscoveryServerListTest.getMockServerList:()Ljava/util/List;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T010",
+      "perMethodOutcome" : "T010"
+    },
+    "com.netflix.ribbon.testutils.MockedDiscoveryServerListTest.getVipAddress:()Ljava/lang/String;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T010",
+      "perMethodOutcome" : "T010"
+    },
+    "com.netflix.ribbon.testutils.MockedDiscoveryServerListTest.setupMock:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T009",
+      "perMethodOutcome" : "T009",
+      "lineNumbers" : [
+        68,
+        69,
+        70,
+        72,
+        73,
+        75,
+        76,
+        77,
+        79,
+        81,
+        82,
+        83,
+        84,
+        85
+      ]
+    },
+    "com.netflix.ribbon.testutils.TestUtils$1.<init>:(Ljava/util/concurrent/atomic/AtomicBoolean;Lrx/functions/Func0;Ljava/util/concurrent/locks/Lock;Ljava/util/concurrent/locks/Condition;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T004",
+      "perMethodOutcome" : "T004",
+      "lineNumbers" : [
+        37
+      ]
+    },
+    "com.netflix.ribbon.testutils.TestUtils$1.run:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T004",
+      "perMethodOutcome" : "T004",
+      "lineNumbers" : [
+        40,
+        41,
+        42,
+        44,
+        46,
+        47,
+        46,
+        47,
+        50,
+        53,
+        51,
+        52,
+        53,
+        55
+      ]
+    },
+    "com.netflix.ribbon.testutils.TestUtils.<init>:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T005",
+      "perMethodOutcome" : "T005",
+      "lineNumbers" : [
+        30
+      ]
+    },
+    "com.netflix.ribbon.testutils.TestUtils.waitUntilTrueOrTimeout:(ILrx/functions/Func0;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        33,
+        34,
+        35,
+        36,
+        37,
+        56,
+        57,
+        59,
+        63,
+        64,
+        65,
+        60,
+        61,
+        63,
+        64,
+        65,
+        63,
+        64,
+        65,
+        67,
+        68
+      ]
+    },
+    "com.netflix.serialization.Deserializer.deserialize:(Ljava/io/InputStream;Lcom/netflix/serialization/TypeDef;)Ljava/lang/Object;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T010",
+      "perMethodOutcome" : "T010"
+    },
+    "com.netflix.serialization.JacksonCodec.<clinit>:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T023",
+      "perMethodOutcome" : "T023"
+    },
+    "com.netflix.serialization.JacksonCodec.<init>:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        16,
+        20
+      ]
+    },
+    "com.netflix.serialization.JacksonCodec.deserialize:(Ljava/io/InputStream;Lcom/netflix/serialization/TypeDef;)Ljava/lang/Object;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        25,
+        26,
+        28
+      ]
+    },
+    "com.netflix.serialization.JacksonCodec.getInstance:()Lcom/netflix/serialization/JacksonCodec;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T001",
+      "perMethodOutcome" : "T001",
+      "lineNumbers" : [
+        42
+      ]
+    },
+    "com.netflix.serialization.JacksonCodec.serialize:(Ljava/io/OutputStream;Ljava/lang/Object;Lcom/netflix/serialization/TypeDef;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        33,
+        34,
+        36,
+        37,
+        39
+      ]
+    },
+    "com.netflix.serialization.SerializationUtils.<init>:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T005",
+      "perMethodOutcome" : "T005",
+      "lineNumbers" : [
+        9
+      ]
+    },
+    "com.netflix.serialization.SerializationUtils.deserializeFromString:(Lcom/netflix/serialization/Deserializer;Ljava/lang/String;Lcom/netflix/serialization/TypeDef;)Ljava/lang/Object;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        13,
+        14,
+        15
+      ]
+    },
+    "com.netflix.serialization.SerializationUtils.serializeToBytes:(Lcom/netflix/serialization/Serializer;Ljava/lang/Object;Lcom/netflix/serialization/TypeDef;)[B" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        25,
+        26,
+        27
+      ]
+    },
+    "com.netflix.serialization.SerializationUtils.serializeToString:(Lcom/netflix/serialization/Serializer;Ljava/lang/Object;Lcom/netflix/serialization/TypeDef;)Ljava/lang/String;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        20
+      ]
+    },
+    "com.netflix.serialization.Serializer.serialize:(Ljava/io/OutputStream;Ljava/lang/Object;Lcom/netflix/serialization/TypeDef;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T010",
+      "perMethodOutcome" : "T010"
+    },
+    "com.netflix.serialization.StringDeserializer.<clinit>:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T023",
+      "perMethodOutcome" : "T023"
+    },
+    "com.netflix.serialization.StringDeserializer.<init>:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T003",
+      "perMethodOutcome" : "T003",
+      "lineNumbers" : [
+        15,
+        16
+      ]
+    },
+    "com.netflix.serialization.StringDeserializer.deserialize:(Ljava/io/InputStream;Lcom/netflix/serialization/TypeDef;)Ljava/lang/String;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        26,
+        27,
+        29,
+        27,
+        29,
+        30
+      ]
+    },
+    "com.netflix.serialization.StringDeserializer.getInstance:()Lcom/netflix/serialization/StringDeserializer;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T001",
+      "perMethodOutcome" : "T001",
+      "lineNumbers" : [
+        19
+      ]
+    },
+    "com.netflix.serialization.TypeDef$1.<init>:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T004",
+      "perMethodOutcome" : "T004",
+      "lineNumbers" : [
+        26
+      ]
+    },
+    "com.netflix.serialization.TypeDef$2.<init>:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T004",
+      "perMethodOutcome" : "T004",
+      "lineNumbers" : [
+        33
+      ]
+    },
+    "com.netflix.serialization.TypeDef.<init>:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T010",
+      "perMethodOutcome" : "T010",
+      "lineNumbers" : [
+        16,
+        17,
+        18,
+        20,
+        21,
+        22
+      ]
+    },
+    "com.netflix.serialization.TypeDef.fromClass:(Ljava/lang/Class;)Lcom/netflix/serialization/TypeDef;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        26,
+        28,
+        29
+      ]
+    },
+    "com.netflix.serialization.TypeDef.fromType:(Ljava/lang/reflect/Type;)Lcom/netflix/serialization/TypeDef;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        33,
+        35,
+        36
+      ]
+    },
+    "com.netflix.serialization.TypeDef.getRawType:()Ljava/lang/Class;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T009",
+      "perMethodOutcome" : "T009",
+      "lineNumbers" : [
+        40
+      ]
+    },
+    "com.netflix.serialization.TypeDef.getType:()Ljava/lang/reflect/Type;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T009",
+      "perMethodOutcome" : "T009",
+      "lineNumbers" : [
+        44
+      ]
+    },
+    "com.netflix.serialization.TypeTokenBasedReference.<init>:(Lcom/netflix/serialization/TypeDef;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        49,
+        50,
+        52
+      ]
+    },
+    "com.netflix.serialization.TypeTokenBasedReference.getType:()Ljava/lang/reflect/Type;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T001",
+      "perMethodOutcome" : "T001",
+      "lineNumbers" : [
+        56
+      ]
+    }
+  },
+  "validationMetrics" : { }
+}

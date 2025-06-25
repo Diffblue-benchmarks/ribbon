@@ -1,0 +1,3486 @@
+{
+  "meta" : {
+    "reportVersion" : "2.7"
+  },
+  "run" : {
+    "version" : "2025.06.02-fd4f1ca-licensed",
+    "creationTimestamp" : "2025-06-17T14:54:50.806+01:00",
+    "command" : "dcover coverage-reports ",
+    "totalTime" : 244.548,
+    "environmentDetectionTime" : 96.21,
+    "indexingTime" : 0.0,
+    "entryPointsTime" : 0.0,
+    "generationTime" : 0.0,
+    "timeToFirstTest" : 244.558,
+    "timeToLastTest" : 244.558,
+    "indexQueryTime" : 0.0,
+    "verificationTime" : 0.0,
+    "validationTime" : 0.0
+  },
+  "codes" : {
+    "T000" : "Method eligible for test creation",
+    "T001" : "Trivial getter",
+    "T002" : "Trivial setter",
+    "T003" : "Private method",
+    "T004" : "In anonymous inner class",
+    "T005" : "Trivial constructor",
+    "T006" : "Main method",
+    "T010" : "Abstract or interface method",
+    "T012" : "Synthetic method",
+    "T020" : "Other trivial method",
+    "T023" : "Testability unknown"
+  },
+  "summary" : {
+    "classesCount" : 31,
+    "methodsCount" : 263,
+    "cumulativeDiffblueTestCount" : 0,
+    "cumulativeManualTestCount" : 38,
+    "completeTestCount" : 0,
+    "incompleteTestCount" : 0,
+    "skeletonTestCount" : 0,
+    "totalPhysicalLineCount" : 1869,
+    "perMethodTestability" : {
+      "T000" : 140,
+      "T001" : 28,
+      "T002" : 12,
+      "T003" : 10,
+      "T004" : 15,
+      "T005" : 6,
+      "T006" : 1,
+      "T010" : 14,
+      "T012" : 27,
+      "T020" : 1,
+      "T023" : 9
+    },
+    "perMethodOutcome" : {
+      "T000" : 140,
+      "T001" : 28,
+      "T002" : 12,
+      "T003" : 10,
+      "T004" : 15,
+      "T005" : 6,
+      "T006" : 1,
+      "T010" : 14,
+      "T012" : 27,
+      "T020" : 1,
+      "T023" : 9
+    }
+  },
+  "classes" : {
+    "com.netflix.client.http.CaseInsensitiveMultiMap" : {
+      "methodsCount" : 7,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T000" : 7
+      },
+      "perMethodOutcome" : {
+        "T000" : 7
+      }
+    },
+    "com.netflix.client.http.HttpHeaders" : {
+      "methodsCount" : 4,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T010" : 4
+      },
+      "perMethodOutcome" : {
+        "T010" : 4
+      }
+    },
+    "com.netflix.client.http.HttpRequest" : {
+      "methodsCount" : 16,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T000" : 5,
+        "T001" : 3,
+        "T005" : 2,
+        "T012" : 6
+      },
+      "perMethodOutcome" : {
+        "T000" : 5,
+        "T001" : 3,
+        "T005" : 2,
+        "T012" : 6
+      }
+    },
+    "com.netflix.client.http.HttpRequest$Builder" : {
+      "methodsCount" : 15,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T000" : 12,
+        "T002" : 3
+      },
+      "perMethodOutcome" : {
+        "T000" : 12,
+        "T002" : 3
+      }
+    },
+    "com.netflix.client.http.HttpRequest$Verb" : {
+      "methodsCount" : 5,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T001" : 1,
+        "T003" : 1,
+        "T012" : 2,
+        "T023" : 1
+      },
+      "perMethodOutcome" : {
+        "T001" : 1,
+        "T003" : 1,
+        "T012" : 2,
+        "T023" : 1
+      }
+    },
+    "com.netflix.client.http.HttpResponse" : {
+      "methodsCount" : 10,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T010" : 10
+      },
+      "perMethodOutcome" : {
+        "T010" : 10
+      }
+    },
+    "com.netflix.http4.ConnectionPoolCleaner" : {
+      "methodsCount" : 16,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T000" : 4,
+        "T001" : 4,
+        "T002" : 4,
+        "T012" : 2,
+        "T020" : 1,
+        "T023" : 1
+      },
+      "perMethodOutcome" : {
+        "T000" : 4,
+        "T001" : 4,
+        "T002" : 4,
+        "T012" : 2,
+        "T020" : 1,
+        "T023" : 1
+      }
+    },
+    "com.netflix.http4.ConnectionPoolCleaner$1" : {
+      "methodsCount" : 2,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T004" : 2
+      },
+      "perMethodOutcome" : {
+        "T004" : 2
+      }
+    },
+    "com.netflix.http4.MonitoredConnectionManager" : {
+      "methodsCount" : 8,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T000" : 7,
+        "T001" : 1
+      },
+      "perMethodOutcome" : {
+        "T000" : 7,
+        "T001" : 1
+      }
+    },
+    "com.netflix.http4.NFHttpClient" : {
+      "methodsCount" : 25,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T000" : 17,
+        "T001" : 2,
+        "T002" : 1,
+        "T003" : 2,
+        "T012" : 2,
+        "T023" : 1
+      },
+      "perMethodOutcome" : {
+        "T000" : 17,
+        "T001" : 2,
+        "T002" : 1,
+        "T003" : 2,
+        "T012" : 2,
+        "T023" : 1
+      }
+    },
+    "com.netflix.http4.NFHttpClient$1" : {
+      "methodsCount" : 1,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T004" : 1
+      },
+      "perMethodOutcome" : {
+        "T004" : 1
+      }
+    },
+    "com.netflix.http4.NFHttpClient$2" : {
+      "methodsCount" : 1,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T004" : 1
+      },
+      "perMethodOutcome" : {
+        "T004" : 1
+      }
+    },
+    "com.netflix.http4.NFHttpClient$3" : {
+      "methodsCount" : 1,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T004" : 1
+      },
+      "perMethodOutcome" : {
+        "T004" : 1
+      }
+    },
+    "com.netflix.http4.NFHttpClientFactory" : {
+      "methodsCount" : 10,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T000" : 6,
+        "T001" : 1,
+        "T002" : 1,
+        "T005" : 1,
+        "T023" : 1
+      },
+      "perMethodOutcome" : {
+        "T000" : 6,
+        "T001" : 1,
+        "T002" : 1,
+        "T005" : 1,
+        "T023" : 1
+      }
+    },
+    "com.netflix.http4.NFHttpMethodRetryHandler" : {
+      "methodsCount" : 2,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T000" : 2
+      },
+      "perMethodOutcome" : {
+        "T000" : 2
+      }
+    },
+    "com.netflix.http4.NamedConnectionPool" : {
+      "methodsCount" : 20,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T000" : 20
+      },
+      "perMethodOutcome" : {
+        "T000" : 20
+      }
+    },
+    "com.netflix.http4.ssl.AcceptAllSocketFactory" : {
+      "methodsCount" : 2,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T000" : 2
+      },
+      "perMethodOutcome" : {
+        "T000" : 2
+      }
+    },
+    "com.netflix.http4.ssl.AcceptAllSocketFactory$1" : {
+      "methodsCount" : 2,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T004" : 2
+      },
+      "perMethodOutcome" : {
+        "T004" : 2
+      }
+    },
+    "com.netflix.http4.ssl.KeyStoreAwareSocketFactory" : {
+      "methodsCount" : 5,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T000" : 3,
+        "T001" : 2
+      },
+      "perMethodOutcome" : {
+        "T000" : 3,
+        "T001" : 2
+      }
+    },
+    "com.netflix.loadbalancer.PingUrl" : {
+      "methodsCount" : 11,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T000" : 3,
+        "T001" : 3,
+        "T002" : 2,
+        "T005" : 1,
+        "T006" : 1,
+        "T023" : 1
+      },
+      "perMethodOutcome" : {
+        "T000" : 3,
+        "T001" : 3,
+        "T002" : 2,
+        "T005" : 1,
+        "T006" : 1,
+        "T023" : 1
+      }
+    },
+    "com.netflix.niws.client.http.HttpClientLoadBalancerErrorHandler" : {
+      "methodsCount" : 7,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T000" : 5,
+        "T001" : 2
+      },
+      "perMethodOutcome" : {
+        "T000" : 5,
+        "T001" : 2
+      }
+    },
+    "com.netflix.niws.client.http.HttpClientRequest" : {
+      "methodsCount" : 17,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T000" : 2,
+        "T001" : 4,
+        "T003" : 1,
+        "T005" : 1,
+        "T012" : 9
+      },
+      "perMethodOutcome" : {
+        "T000" : 2,
+        "T001" : 4,
+        "T003" : 1,
+        "T005" : 1,
+        "T012" : 9
+      }
+    },
+    "com.netflix.niws.client.http.HttpClientRequest$Builder" : {
+      "methodsCount" : 10,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T000" : 10
+      },
+      "perMethodOutcome" : {
+        "T000" : 10
+      }
+    },
+    "com.netflix.niws.client.http.HttpClientRequest$Verb" : {
+      "methodsCount" : 5,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T001" : 1,
+        "T003" : 1,
+        "T012" : 2,
+        "T023" : 1
+      },
+      "perMethodOutcome" : {
+        "T001" : 1,
+        "T003" : 1,
+        "T012" : 2,
+        "T023" : 1
+      }
+    },
+    "com.netflix.niws.client.http.HttpClientResponse" : {
+      "methodsCount" : 18,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T000" : 14,
+        "T001" : 3,
+        "T012" : 1
+      },
+      "perMethodOutcome" : {
+        "T000" : 14,
+        "T001" : 3,
+        "T012" : 1
+      }
+    },
+    "com.netflix.niws.client.http.HttpClientResponse$1" : {
+      "methodsCount" : 5,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T004" : 5
+      },
+      "perMethodOutcome" : {
+        "T004" : 5
+      }
+    },
+    "com.netflix.niws.client.http.HttpPrimeConnection" : {
+      "methodsCount" : 4,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T000" : 2,
+        "T005" : 1,
+        "T023" : 1
+      },
+      "perMethodOutcome" : {
+        "T000" : 2,
+        "T005" : 1,
+        "T023" : 1
+      }
+    },
+    "com.netflix.niws.client.http.RestClient" : {
+      "methodsCount" : 30,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T000" : 19,
+        "T001" : 1,
+        "T002" : 1,
+        "T003" : 5,
+        "T012" : 3,
+        "T023" : 1
+      },
+      "perMethodOutcome" : {
+        "T000" : 19,
+        "T001" : 1,
+        "T002" : 1,
+        "T003" : 5,
+        "T012" : 3,
+        "T023" : 1
+      }
+    },
+    "com.netflix.niws.client.http.RestClient$1" : {
+      "methodsCount" : 1,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T004" : 1
+      },
+      "perMethodOutcome" : {
+        "T004" : 1
+      }
+    },
+    "com.netflix.niws.client.http.RestClient$2" : {
+      "methodsCount" : 2,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T004" : 2
+      },
+      "perMethodOutcome" : {
+        "T004" : 2
+      }
+    },
+    "com.netflix.niws.client.http.RestClient$3" : {
+      "methodsCount" : 1,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T023" : 1
+      },
+      "perMethodOutcome" : {
+        "T023" : 1
+      }
+    }
+  },
+  "methods" : {
+    "com.netflix.client.http.CaseInsensitiveMultiMap.<init>:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        14,
+        15
+      ]
+    },
+    "com.netflix.client.http.CaseInsensitiveMultiMap.addHeader:(Ljava/lang/String;Ljava/lang/String;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        50,
+        51,
+        53,
+        54,
+        55
+      ]
+    },
+    "com.netflix.client.http.CaseInsensitiveMultiMap.asMap:()Ljava/util/Map;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        58,
+        59,
+        60,
+        61,
+        62,
+        63
+      ]
+    },
+    "com.netflix.client.http.CaseInsensitiveMultiMap.containsHeader:(Ljava/lang/String;)Z" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        46
+      ]
+    },
+    "com.netflix.client.http.CaseInsensitiveMultiMap.getAllHeaders:()Ljava/util/List;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        40,
+        41
+      ]
+    },
+    "com.netflix.client.http.CaseInsensitiveMultiMap.getAllValues:(Ljava/lang/String;)Ljava/util/List;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        35
+      ]
+    },
+    "com.netflix.client.http.CaseInsensitiveMultiMap.getFirstValue:(Ljava/lang/String;)Ljava/lang/String;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        19,
+        20,
+        21,
+        23
+      ]
+    },
+    "com.netflix.client.http.HttpHeaders.containsHeader:(Ljava/lang/String;)Z" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T010",
+      "perMethodOutcome" : "T010"
+    },
+    "com.netflix.client.http.HttpHeaders.getAllHeaders:()Ljava/util/List;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T010",
+      "perMethodOutcome" : "T010"
+    },
+    "com.netflix.client.http.HttpHeaders.getAllValues:(Ljava/lang/String;)Ljava/util/List;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T010",
+      "perMethodOutcome" : "T010"
+    },
+    "com.netflix.client.http.HttpHeaders.getFirstValue:(Ljava/lang/String;)Ljava/lang/String;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T010",
+      "perMethodOutcome" : "T010"
+    },
+    "com.netflix.client.http.HttpRequest$Builder.<init>:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        71,
+        69,
+        72
+      ]
+    },
+    "com.netflix.client.http.HttpRequest$Builder.<init>:(Lcom/netflix/client/http/HttpRequest;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        74,
+        69,
+        75,
+        76
+      ]
+    },
+    "com.netflix.client.http.HttpRequest$Builder.build:()Lcom/netflix/client/http/HttpRequest;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        153
+      ]
+    },
+    "com.netflix.client.http.HttpRequest$Builder.entity:(Ljava/lang/Object;)Lcom/netflix/client/http/HttpRequest$Builder;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        137,
+        138
+      ]
+    },
+    "com.netflix.client.http.HttpRequest$Builder.header:(Ljava/lang/String;Ljava/lang/String;)Lcom/netflix/client/http/HttpRequest$Builder;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        93,
+        94
+      ]
+    },
+    "com.netflix.client.http.HttpRequest$Builder.headers:(Lcom/netflix/client/http/CaseInsensitiveMultiMap;)Lcom/netflix/client/http/HttpRequest$Builder;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T002",
+      "perMethodOutcome" : "T002",
+      "lineNumbers" : [
+        113,
+        114
+      ]
+    },
+    "com.netflix.client.http.HttpRequest$Builder.loadBalancerKey:(Ljava/lang/Object;)Lcom/netflix/client/http/HttpRequest$Builder;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        148,
+        149
+      ]
+    },
+    "com.netflix.client.http.HttpRequest$Builder.overrideConfig:(Lcom/netflix/client/config/IClientConfig;)Lcom/netflix/client/http/HttpRequest$Builder;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        108,
+        109
+      ]
+    },
+    "com.netflix.client.http.HttpRequest$Builder.queryParam:(Ljava/lang/String;Ljava/lang/String;)Lcom/netflix/client/http/HttpRequest$Builder;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        132,
+        133
+      ]
+    },
+    "com.netflix.client.http.HttpRequest$Builder.queryParams:(Lcom/google/common/collect/Multimap;)Lcom/netflix/client/http/HttpRequest$Builder;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T002",
+      "perMethodOutcome" : "T002",
+      "lineNumbers" : [
+        98,
+        99
+      ]
+    },
+    "com.netflix.client.http.HttpRequest$Builder.queryParams:(Ljava/lang/String;Ljava/lang/String;)Lcom/netflix/client/http/HttpRequest$Builder;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        127,
+        128
+      ]
+    },
+    "com.netflix.client.http.HttpRequest$Builder.setRetriable:(Z)Lcom/netflix/client/http/HttpRequest$Builder;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        118,
+        119
+      ]
+    },
+    "com.netflix.client.http.HttpRequest$Builder.uri:(Ljava/lang/String;)Lcom/netflix/client/http/HttpRequest$Builder;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        85,
+        88,
+        86,
+        87,
+        89
+      ]
+    },
+    "com.netflix.client.http.HttpRequest$Builder.uri:(Ljava/net/URI;)Lcom/netflix/client/http/HttpRequest$Builder;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        79,
+        80
+      ]
+    },
+    "com.netflix.client.http.HttpRequest$Builder.verb:(Lcom/netflix/client/http/HttpRequest$Verb;)Lcom/netflix/client/http/HttpRequest$Builder;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T002",
+      "perMethodOutcome" : "T002",
+      "lineNumbers" : [
+        143,
+        144
+      ]
+    },
+    "com.netflix.client.http.HttpRequest$Verb.<clinit>:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T023",
+      "perMethodOutcome" : "T023"
+    },
+    "com.netflix.client.http.HttpRequest$Verb.<init>:(Ljava/lang/String;ILjava/lang/String;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T003",
+      "perMethodOutcome" : "T003",
+      "lineNumbers" : [
+        49,
+        50,
+        51
+      ]
+    },
+    "com.netflix.client.http.HttpRequest$Verb.valueOf:(Ljava/lang/String;)Lcom/netflix/client/http/HttpRequest$Verb;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T012",
+      "perMethodOutcome" : "T012",
+      "lineNumbers" : [
+        39
+      ]
+    },
+    "com.netflix.client.http.HttpRequest$Verb.values:()[Lcom/netflix/client/http/HttpRequest$Verb;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T012",
+      "perMethodOutcome" : "T012",
+      "lineNumbers" : [
+        39
+      ]
+    },
+    "com.netflix.client.http.HttpRequest$Verb.verb:()Ljava/lang/String;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T001",
+      "perMethodOutcome" : "T001",
+      "lineNumbers" : [
+        54
+      ]
+    },
+    "com.netflix.client.http.HttpRequest.<init>:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        63,
+        58,
+        59,
+        64,
+        65
+      ]
+    },
+    "com.netflix.client.http.HttpRequest.access$000:(Lcom/netflix/client/http/HttpRequest;Ljava/net/URI;)Lcom/netflix/client/ClientRequest;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T012",
+      "perMethodOutcome" : "T012",
+      "lineNumbers" : [
+        37
+      ]
+    },
+    "com.netflix.client.http.HttpRequest.access$100:(Lcom/netflix/client/http/HttpRequest;Ljava/net/URI;)Lcom/netflix/client/ClientRequest;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T012",
+      "perMethodOutcome" : "T012",
+      "lineNumbers" : [
+        37
+      ]
+    },
+    "com.netflix.client.http.HttpRequest.access$200:(Lcom/netflix/client/http/HttpRequest;Lcom/netflix/client/config/IClientConfig;)Lcom/netflix/client/ClientRequest;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T012",
+      "perMethodOutcome" : "T012",
+      "lineNumbers" : [
+        37
+      ]
+    },
+    "com.netflix.client.http.HttpRequest.access$300:(Lcom/netflix/client/http/HttpRequest;Z)Lcom/netflix/client/ClientRequest;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T012",
+      "perMethodOutcome" : "T012",
+      "lineNumbers" : [
+        37
+      ]
+    },
+    "com.netflix.client.http.HttpRequest.access$402:(Lcom/netflix/client/http/HttpRequest;Ljava/lang/Object;)Ljava/lang/Object;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T012",
+      "perMethodOutcome" : "T012",
+      "lineNumbers" : [
+        37
+      ]
+    },
+    "com.netflix.client.http.HttpRequest.access$500:(Lcom/netflix/client/http/HttpRequest;Ljava/lang/Object;)Lcom/netflix/client/ClientRequest;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T012",
+      "perMethodOutcome" : "T012",
+      "lineNumbers" : [
+        37
+      ]
+    },
+    "com.netflix.client.http.HttpRequest.getEntity:()Ljava/lang/Object;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T001",
+      "perMethodOutcome" : "T001",
+      "lineNumbers" : [
+        178
+      ]
+    },
+    "com.netflix.client.http.HttpRequest.getHeaders:()Ljava/util/Map;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        170
+      ]
+    },
+    "com.netflix.client.http.HttpRequest.getHttpHeaders:()Lcom/netflix/client/http/HttpHeaders;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T001",
+      "perMethodOutcome" : "T001",
+      "lineNumbers" : [
+        174
+      ]
+    },
+    "com.netflix.client.http.HttpRequest.getQueryParams:()Ljava/util/Map;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        158
+      ]
+    },
+    "com.netflix.client.http.HttpRequest.getVerb:()Lcom/netflix/client/http/HttpRequest$Verb;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T001",
+      "perMethodOutcome" : "T001",
+      "lineNumbers" : [
+        162
+      ]
+    },
+    "com.netflix.client.http.HttpRequest.isRetriable:()Z" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        189,
+        190,
+        192
+      ]
+    },
+    "com.netflix.client.http.HttpRequest.newBuilder:()Lcom/netflix/client/http/HttpRequest$Builder;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T005",
+      "perMethodOutcome" : "T005",
+      "lineNumbers" : [
+        196
+      ]
+    },
+    "com.netflix.client.http.HttpRequest.newBuilder:(Lcom/netflix/client/http/HttpRequest;)Lcom/netflix/client/http/HttpRequest$Builder;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T005",
+      "perMethodOutcome" : "T005",
+      "lineNumbers" : [
+        200
+      ]
+    },
+    "com.netflix.client.http.HttpRequest.replaceUri:(Ljava/net/URI;)Lcom/netflix/client/http/HttpRequest;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        209,
+        210,
+        211,
+        212,
+        213,
+        214,
+        215,
+        216,
+        217,
+        209
+      ]
+    },
+    "com.netflix.client.http.HttpResponse.close:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T010",
+      "perMethodOutcome" : "T010"
+    },
+    "com.netflix.client.http.HttpResponse.getEntity:(Lcom/google/common/reflect/TypeToken;)Ljava/lang/Object;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T010",
+      "perMethodOutcome" : "T010"
+    },
+    "com.netflix.client.http.HttpResponse.getEntity:(Ljava/lang/Class;)Ljava/lang/Object;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T010",
+      "perMethodOutcome" : "T010"
+    },
+    "com.netflix.client.http.HttpResponse.getEntity:(Ljava/lang/reflect/Type;)Ljava/lang/Object;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T010",
+      "perMethodOutcome" : "T010"
+    },
+    "com.netflix.client.http.HttpResponse.getHeaders:()Ljava/util/Map;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T010",
+      "perMethodOutcome" : "T010"
+    },
+    "com.netflix.client.http.HttpResponse.getHttpHeaders:()Lcom/netflix/client/http/HttpHeaders;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T010",
+      "perMethodOutcome" : "T010"
+    },
+    "com.netflix.client.http.HttpResponse.getInputStream:()Ljava/io/InputStream;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T010",
+      "perMethodOutcome" : "T010"
+    },
+    "com.netflix.client.http.HttpResponse.getStatus:()I" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T010",
+      "perMethodOutcome" : "T010"
+    },
+    "com.netflix.client.http.HttpResponse.getStatusLine:()Ljava/lang/String;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T010",
+      "perMethodOutcome" : "T010"
+    },
+    "com.netflix.client.http.HttpResponse.hasEntity:()Z" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T010",
+      "perMethodOutcome" : "T010"
+    },
+    "com.netflix.http4.ConnectionPoolCleaner$1.<init>:(Lcom/netflix/http4/ConnectionPoolCleaner;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T004",
+      "perMethodOutcome" : "T004",
+      "lineNumbers" : [
+        93
+      ]
+    },
+    "com.netflix.http4.ConnectionPoolCleaner$1.run:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T004",
+      "perMethodOutcome" : "T004",
+      "lineNumbers" : [
+        96,
+        97,
+        98,
+        99,
+        100,
+        104,
+        102,
+        103,
+        105
+      ]
+    },
+    "com.netflix.http4.ConnectionPoolCleaner.<clinit>:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T023",
+      "perMethodOutcome" : "T023"
+    },
+    "com.netflix.http4.ConnectionPoolCleaner.<init>:(Ljava/lang/String;Lorg/apache/http/conn/ClientConnectionManager;Ljava/util/concurrent/ScheduledExecutorService;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        50,
+        39,
+        43,
+        45,
+        46,
+        47,
+        51,
+        52,
+        53,
+        54
+      ]
+    },
+    "com.netflix.http4.ConnectionPoolCleaner.access$000:()Lorg/slf4j/Logger;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T012",
+      "perMethodOutcome" : "T012",
+      "lineNumbers" : [
+        35
+      ]
+    },
+    "com.netflix.http4.ConnectionPoolCleaner.access$100:(Lcom/netflix/http4/ConnectionPoolCleaner;)Ljava/util/concurrent/ScheduledFuture;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T012",
+      "perMethodOutcome" : "T012",
+      "lineNumbers" : [
+        35
+      ]
+    },
+    "com.netflix.http4.ConnectionPoolCleaner.cleanupConnections:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        112,
+        113,
+        114
+      ]
+    },
+    "com.netflix.http4.ConnectionPoolCleaner.getConnIdleEvictTimeMilliSeconds:()Lcom/netflix/client/config/Property;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T001",
+      "perMethodOutcome" : "T001",
+      "lineNumbers" : [
+        57
+      ]
+    },
+    "com.netflix.http4.ConnectionPoolCleaner.getConnectionCleanerRepeatInterval:()J" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T001",
+      "perMethodOutcome" : "T001",
+      "lineNumbers" : [
+        83
+      ]
+    },
+    "com.netflix.http4.ConnectionPoolCleaner.getConnectionCleanerTimerDelay:()J" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T001",
+      "perMethodOutcome" : "T001",
+      "lineNumbers" : [
+        75
+      ]
+    },
+    "com.netflix.http4.ConnectionPoolCleaner.initTask:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        92,
+        93,
+        107,
+        109
+      ]
+    },
+    "com.netflix.http4.ConnectionPoolCleaner.isEnableConnectionPoolCleanerTask:()Z" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T001",
+      "perMethodOutcome" : "T001",
+      "lineNumbers" : [
+        66
+      ]
+    },
+    "com.netflix.http4.ConnectionPoolCleaner.setConnIdleEvictTimeMilliSeconds:(Lcom/netflix/client/config/Property;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T002",
+      "perMethodOutcome" : "T002",
+      "lineNumbers" : [
+        61,
+        62
+      ]
+    },
+    "com.netflix.http4.ConnectionPoolCleaner.setConnectionCleanerRepeatInterval:(J)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T002",
+      "perMethodOutcome" : "T002",
+      "lineNumbers" : [
+        88,
+        89
+      ]
+    },
+    "com.netflix.http4.ConnectionPoolCleaner.setConnectionCleanerTimerDelay:(J)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T002",
+      "perMethodOutcome" : "T002",
+      "lineNumbers" : [
+        79,
+        80
+      ]
+    },
+    "com.netflix.http4.ConnectionPoolCleaner.setEnableConnectionPoolCleanerTask:(Z)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T002",
+      "perMethodOutcome" : "T002",
+      "lineNumbers" : [
+        71,
+        72
+      ]
+    },
+    "com.netflix.http4.ConnectionPoolCleaner.shutdown:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        117,
+        118,
+        119,
+        121
+      ]
+    },
+    "com.netflix.http4.ConnectionPoolCleaner.toString:()Ljava/lang/String;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T020",
+      "perMethodOutcome" : "T020",
+      "lineNumbers" : [
+        124,
+        126,
+        127,
+        128,
+        129,
+        131
+      ]
+    },
+    "com.netflix.http4.MonitoredConnectionManager.<init>:(Ljava/lang/String;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        42,
+        43,
+        44
+      ]
+    },
+    "com.netflix.http4.MonitoredConnectionManager.<init>:(Ljava/lang/String;Lorg/apache/http/conn/scheme/SchemeRegistry;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        53,
+        54,
+        55
+      ]
+    },
+    "com.netflix.http4.MonitoredConnectionManager.<init>:(Ljava/lang/String;Lorg/apache/http/conn/scheme/SchemeRegistry;JLjava/util/concurrent/TimeUnit;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        48,
+        49,
+        50
+      ]
+    },
+    "com.netflix.http4.MonitoredConnectionManager.createConnectionPool:(JLjava/util/concurrent/TimeUnit;)Lorg/apache/http/impl/conn/tsccm/ConnPoolByRoute;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        72
+      ]
+    },
+    "com.netflix.http4.MonitoredConnectionManager.createConnectionPool:(Lorg/apache/http/params/HttpParams;)Lorg/apache/http/impl/conn/tsccm/AbstractConnPool;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        66
+      ]
+    },
+    "com.netflix.http4.MonitoredConnectionManager.getConnectionPool:()Lorg/apache/http/impl/conn/tsccm/ConnPoolByRoute;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T001",
+      "perMethodOutcome" : "T001",
+      "lineNumbers" : [
+        77
+      ]
+    },
+    "com.netflix.http4.MonitoredConnectionManager.initMonitors:(Ljava/lang/String;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        58,
+        59,
+        61
+      ]
+    },
+    "com.netflix.http4.MonitoredConnectionManager.requestConnection:(Lorg/apache/http/conn/routing/HttpRoute;Ljava/lang/Object;)Lorg/apache/http/conn/ClientConnectionRequest;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        84
+      ]
+    },
+    "com.netflix.http4.NFHttpClient$1.<init>:(Ljava/lang/String;Ljava/lang/Integer;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T004",
+      "perMethodOutcome" : "T004",
+      "lineNumbers" : [
+        72
+      ]
+    },
+    "com.netflix.http4.NFHttpClient$2.<init>:(Ljava/lang/String;Ljava/lang/Integer;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T004",
+      "perMethodOutcome" : "T004",
+      "lineNumbers" : [
+        73
+      ]
+    },
+    "com.netflix.http4.NFHttpClient$3.<init>:(Ljava/lang/String;Ljava/lang/Integer;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T004",
+      "perMethodOutcome" : "T004",
+      "lineNumbers" : [
+        74
+      ]
+    },
+    "com.netflix.http4.NFHttpClient.<clinit>:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T023",
+      "perMethodOutcome" : "T023"
+    },
+    "com.netflix.http4.NFHttpClient.<init>:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        116,
+        80,
+        81,
+        117,
+        119,
+        120
+      ]
+    },
+    "com.netflix.http4.NFHttpClient.<init>:(Ljava/lang/String;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        129,
+        130
+      ]
+    },
+    "com.netflix.http4.NFHttpClient.<init>:(Ljava/lang/String;I)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        107,
+        80,
+        81,
+        108,
+        109,
+        110,
+        112,
+        113
+      ]
+    },
+    "com.netflix.http4.NFHttpClient.<init>:(Ljava/lang/String;Lcom/netflix/client/config/IClientConfig;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        133,
+        134
+      ]
+    },
+    "com.netflix.http4.NFHttpClient.<init>:(Ljava/lang/String;Lcom/netflix/client/config/IClientConfig;Z)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        137,
+        80,
+        81,
+        138,
+        139,
+        140
+      ]
+    },
+    "com.netflix.http4.NFHttpClient.createDefaultConfig:()Lcom/netflix/client/config/IClientConfig;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T003",
+      "perMethodOutcome" : "T003",
+      "lineNumbers" : [
+        123,
+        124,
+        125
+      ]
+    },
+    "com.netflix.http4.NFHttpClient.determineTarget:(Lorg/apache/http/client/methods/HttpUriRequest;)Lorg/apache/http/HttpHost;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T003",
+      "perMethodOutcome" : "T003",
+      "lineNumbers" : [
+        252,
+        253,
+        254,
+        255,
+        256,
+        257,
+        261
+      ]
+    },
+    "com.netflix.http4.NFHttpClient.execute:(Lorg/apache/http/HttpHost;Lorg/apache/http/HttpRequest;Lorg/apache/http/client/ResponseHandler;)Ljava/lang/Object;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        292
+      ]
+    },
+    "com.netflix.http4.NFHttpClient.execute:(Lorg/apache/http/HttpHost;Lorg/apache/http/HttpRequest;Lorg/apache/http/client/ResponseHandler;Lorg/apache/http/protocol/HttpContext;)Ljava/lang/Object;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        302,
+        305,
+        306,
+        308,
+        306,
+        308,
+        309
+      ]
+    },
+    "com.netflix.http4.NFHttpClient.execute:(Lorg/apache/http/client/methods/HttpUriRequest;Lorg/apache/http/client/ResponseHandler;)Ljava/lang/Object;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        269
+      ]
+    },
+    "com.netflix.http4.NFHttpClient.execute:(Lorg/apache/http/client/methods/HttpUriRequest;Lorg/apache/http/client/ResponseHandler;Lorg/apache/http/protocol/HttpContext;)Ljava/lang/Object;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        278,
+        279,
+        280,
+        282,
+        283
+      ]
+    },
+    "com.netflix.http4.NFHttpClient.getConnIdleEvictTimeMilliSeconds:()Lcom/netflix/client/config/Property;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T001",
+      "perMethodOutcome" : "T001",
+      "lineNumbers" : [
+        198
+      ]
+    },
+    "com.netflix.http4.NFHttpClient.getConnPoolCleaner:()Lcom/netflix/http4/ConnectionPoolCleaner;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T001",
+      "perMethodOutcome" : "T001",
+      "lineNumbers" : [
+        193
+      ]
+    },
+    "com.netflix.http4.NFHttpClient.getConnectionsInPool:()I" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        203,
+        204,
+        205,
+        207
+      ]
+    },
+    "com.netflix.http4.NFHttpClient.getMaxConnectionsPerHost:()I" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        223,
+        224,
+        225,
+        226,
+        228,
+        230
+      ]
+    },
+    "com.netflix.http4.NFHttpClient.getMaxTotalConnnections:()I" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        213,
+        214,
+        215,
+        217
+      ]
+    },
+    "com.netflix.http4.NFHttpClient.getNumRetries:()I" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        236
+      ]
+    },
+    "com.netflix.http4.NFHttpClient.getSleepTimeFactorMs:()I" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        245
+      ]
+    },
+    "com.netflix.http4.NFHttpClient.init:(Lcom/netflix/client/config/IClientConfig;Z)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        143,
+        145,
+        146,
+        147,
+        146,
+        148,
+        150,
+        151,
+        152,
+        153,
+        155,
+        157,
+        159,
+        160,
+        161,
+        162,
+        160,
+        163,
+        164,
+        165,
+        167,
+        168,
+        172,
+        173,
+        177,
+        178
+      ]
+    },
+    "com.netflix.http4.NFHttpClient.initConnectionCleanerTask:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        183,
+        187,
+        189
+      ]
+    },
+    "com.netflix.http4.NFHttpClient.lambda$init$0:(Ljava/lang/Integer;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T012",
+      "perMethodOutcome" : "T012",
+      "lineNumbers" : [
+        169
+      ]
+    },
+    "com.netflix.http4.NFHttpClient.lambda$init$1:(Ljava/lang/Integer;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T012",
+      "perMethodOutcome" : "T012",
+      "lineNumbers" : [
+        174
+      ]
+    },
+    "com.netflix.http4.NFHttpClient.setConnIdleEvictTimeMilliSeconds:(Lcom/netflix/client/config/Property;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T002",
+      "perMethodOutcome" : "T002",
+      "lineNumbers" : [
+        240,
+        241
+      ]
+    },
+    "com.netflix.http4.NFHttpClient.shutdown:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        313,
+        314,
+        316,
+        317
+      ]
+    },
+    "com.netflix.http4.NFHttpClientFactory.<clinit>:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T023",
+      "perMethodOutcome" : "T023"
+    },
+    "com.netflix.http4.NFHttpClientFactory.<init>:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T005",
+      "perMethodOutcome" : "T005",
+      "lineNumbers" : [
+        34
+      ]
+    },
+    "com.netflix.http4.NFHttpClientFactory.getDefaultClient:()Lcom/netflix/http4/NFHttpClient;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T001",
+      "perMethodOutcome" : "T001",
+      "lineNumbers" : [
+        87
+      ]
+    },
+    "com.netflix.http4.NFHttpClientFactory.getNFHttpClient:(Ljava/lang/String;I)Lcom/netflix/http4/NFHttpClient;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        45,
+        46,
+        47,
+        48,
+        49,
+        51
+      ]
+    },
+    "com.netflix.http4.NFHttpClientFactory.getNamedNFHttpClient:(Ljava/lang/String;)Lcom/netflix/http4/NFHttpClient;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        55,
+        56,
+        57
+      ]
+    },
+    "com.netflix.http4.NFHttpClientFactory.getNamedNFHttpClient:(Ljava/lang/String;Lcom/netflix/client/config/IClientConfig;)Lcom/netflix/http4/NFHttpClient;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        61
+      ]
+    },
+    "com.netflix.http4.NFHttpClientFactory.getNamedNFHttpClient:(Ljava/lang/String;Lcom/netflix/client/config/IClientConfig;Z)Lcom/netflix/http4/NFHttpClient;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        71,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        80,
+        82
+      ]
+    },
+    "com.netflix.http4.NFHttpClientFactory.getNamedNFHttpClient:(Ljava/lang/String;Z)Lcom/netflix/http4/NFHttpClient;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        65,
+        66,
+        67
+      ]
+    },
+    "com.netflix.http4.NFHttpClientFactory.setDefaultClient:(Lcom/netflix/http4/NFHttpClient;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T002",
+      "perMethodOutcome" : "T002",
+      "lineNumbers" : [
+        91,
+        92
+      ]
+    },
+    "com.netflix.http4.NFHttpClientFactory.shutdownNFHttpClient:(Ljava/lang/String;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        95,
+        96,
+        97,
+        98,
+        99,
+        101
+      ]
+    },
+    "com.netflix.http4.NFHttpMethodRetryHandler.<init>:(Ljava/lang/String;IZI)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        52,
+        39,
+        53,
+        54,
+        55
+      ]
+    },
+    "com.netflix.http4.NFHttpMethodRetryHandler.retryRequest:(Ljava/io/IOException;ILorg/apache/http/protocol/HttpContext;)Z" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        74,
+        78,
+        76,
+        77,
+        79,
+        80,
+        82
+      ]
+    },
+    "com.netflix.http4.NamedConnectionPool.<init>:(Ljava/lang/String;Lorg/apache/http/conn/ClientConnectionOperator;Lorg/apache/http/conn/params/ConnPerRoute;I)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        69,
+        70,
+        71
+      ]
+    },
+    "com.netflix.http4.NamedConnectionPool.<init>:(Ljava/lang/String;Lorg/apache/http/conn/ClientConnectionOperator;Lorg/apache/http/conn/params/ConnPerRoute;IJLjava/util/concurrent/TimeUnit;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        63,
+        64,
+        65
+      ]
+    },
+    "com.netflix.http4.NamedConnectionPool.<init>:(Ljava/lang/String;Lorg/apache/http/conn/ClientConnectionOperator;Lorg/apache/http/params/HttpParams;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        75,
+        76,
+        77
+      ]
+    },
+    "com.netflix.http4.NamedConnectionPool.<init>:(Lorg/apache/http/conn/ClientConnectionOperator;Lorg/apache/http/conn/params/ConnPerRoute;I)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        87,
+        88
+      ]
+    },
+    "com.netflix.http4.NamedConnectionPool.<init>:(Lorg/apache/http/conn/ClientConnectionOperator;Lorg/apache/http/conn/params/ConnPerRoute;IJLjava/util/concurrent/TimeUnit;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        82,
+        83
+      ]
+    },
+    "com.netflix.http4.NamedConnectionPool.<init>:(Lorg/apache/http/conn/ClientConnectionOperator;Lorg/apache/http/params/HttpParams;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        92,
+        93
+      ]
+    },
+    "com.netflix.http4.NamedConnectionPool.createEntry:(Lorg/apache/http/impl/conn/tsccm/RouteSpecificPool;Lorg/apache/http/conn/ClientConnectionOperator;)Lorg/apache/http/impl/conn/tsccm/BasicPoolEntry;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        126,
+        127,
+        129,
+        131,
+        129,
+        131,
+        132
+      ]
+    },
+    "com.netflix.http4.NamedConnectionPool.deleteEntry:(Lorg/apache/http/impl/conn/tsccm/BasicPoolEntry;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        156,
+        157,
+        158
+      ]
+    },
+    "com.netflix.http4.NamedConnectionPool.freeEntry:(Lorg/apache/http/impl/conn/tsccm/BasicPoolEntry;ZJLjava/util/concurrent/TimeUnit;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        150,
+        151,
+        152
+      ]
+    },
+    "com.netflix.http4.NamedConnectionPool.getConnectionCount:()I" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        182
+      ]
+    },
+    "com.netflix.http4.NamedConnectionPool.getCreatedEntryCount:()J" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        165
+      ]
+    },
+    "com.netflix.http4.NamedConnectionPool.getDeleteCount:()J" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        177
+      ]
+    },
+    "com.netflix.http4.NamedConnectionPool.getEntryBlocking:(Lorg/apache/http/conn/routing/HttpRoute;Ljava/lang/Object;JLjava/util/concurrent/TimeUnit;Lorg/apache/http/impl/conn/tsccm/WaitingThreadAborter;)Lorg/apache/http/impl/conn/tsccm/BasicPoolEntry;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        139,
+        141,
+        143,
+        141,
+        143,
+        144
+      ]
+    },
+    "com.netflix.http4.NamedConnectionPool.getFreeEntry:(Lorg/apache/http/impl/conn/tsccm/RouteSpecificPool;Ljava/lang/Object;)Lorg/apache/http/impl/conn/tsccm/BasicPoolEntry;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        116,
+        117,
+        118,
+        120
+      ]
+    },
+    "com.netflix.http4.NamedConnectionPool.getFreeEntryCount:()J" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        161
+      ]
+    },
+    "com.netflix.http4.NamedConnectionPool.getReleaseCount:()J" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        173
+      ]
+    },
+    "com.netflix.http4.NamedConnectionPool.getRequestsCount:()J" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        169
+      ]
+    },
+    "com.netflix.http4.NamedConnectionPool.initMonitors:(Ljava/lang/String;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106
+      ]
+    },
+    "com.netflix.http4.NamedConnectionPool.requestPoolEntry:(Lorg/apache/http/conn/routing/HttpRoute;Ljava/lang/Object;)Lorg/apache/http/impl/conn/tsccm/PoolEntryRequest;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        110,
+        111
+      ]
+    },
+    "com.netflix.http4.NamedConnectionPool.shutdown:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        187,
+        188,
+        189
+      ]
+    },
+    "com.netflix.http4.ssl.AcceptAllSocketFactory$1.<init>:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T004",
+      "perMethodOutcome" : "T004",
+      "lineNumbers" : [
+        47
+      ]
+    },
+    "com.netflix.http4.ssl.AcceptAllSocketFactory$1.isTrusted:([Ljava/security/cert/X509Certificate;Ljava/lang/String;)Z" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T004",
+      "perMethodOutcome" : "T004",
+      "lineNumbers" : [
+        51
+      ]
+    },
+    "com.netflix.http4.ssl.AcceptAllSocketFactory.<init>:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        47,
+        55
+      ]
+    },
+    "com.netflix.http4.ssl.AcceptAllSocketFactory.initWithNiwsConfig:(Lcom/netflix/client/config/IClientConfig;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        63,
+        64,
+        67,
+        68,
+        70
+      ]
+    },
+    "com.netflix.http4.ssl.KeyStoreAwareSocketFactory.<init>:(Lcom/netflix/client/ssl/AbstractSslContextFactory;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        58,
+        60,
+        61,
+        62,
+        64,
+        65,
+        67
+      ]
+    },
+    "com.netflix.http4.ssl.KeyStoreAwareSocketFactory.<init>:(Lcom/netflix/client/ssl/AbstractSslContextFactory;Lorg/apache/http/conn/ssl/X509HostnameVerifier;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        71,
+        73,
+        74,
+        75,
+        77,
+        78,
+        80
+      ]
+    },
+    "com.netflix.http4.ssl.KeyStoreAwareSocketFactory.<init>:(Lorg/apache/http/conn/ssl/X509HostnameVerifier;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        49,
+        51,
+        52,
+        53
+      ]
+    },
+    "com.netflix.http4.ssl.KeyStoreAwareSocketFactory.getKeyStore:()Ljava/security/KeyStore;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T001",
+      "perMethodOutcome" : "T001",
+      "lineNumbers" : [
+        83
+      ]
+    },
+    "com.netflix.http4.ssl.KeyStoreAwareSocketFactory.getTrustStore:()Ljava/security/KeyStore;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T001",
+      "perMethodOutcome" : "T001",
+      "lineNumbers" : [
+        87
+      ]
+    },
+    "com.netflix.loadbalancer.PingUrl.<clinit>:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T023",
+      "perMethodOutcome" : "T023"
+    },
+    "com.netflix.loadbalancer.PingUrl.<init>:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T005",
+      "perMethodOutcome" : "T005",
+      "lineNumbers" : [
+        65,
+        51,
+        52,
+        54,
+        66
+      ]
+    },
+    "com.netflix.loadbalancer.PingUrl.<init>:(ZLjava/lang/String;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        68,
+        51,
+        52,
+        54,
+        69,
+        70,
+        71
+      ]
+    },
+    "com.netflix.loadbalancer.PingUrl.getExpectedContent:()Ljava/lang/String;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T001",
+      "perMethodOutcome" : "T001",
+      "lineNumbers" : [
+        95
+      ]
+    },
+    "com.netflix.loadbalancer.PingUrl.getPingAppendString:()Ljava/lang/String;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T001",
+      "perMethodOutcome" : "T001",
+      "lineNumbers" : [
+        78
+      ]
+    },
+    "com.netflix.loadbalancer.PingUrl.isAlive:(Lcom/netflix/loadbalancer/Server;)Z" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        111,
+        112,
+        113,
+        115,
+        117,
+        118,
+        120,
+        122,
+        123,
+        124,
+        126,
+        127,
+        128,
+        129,
+        130,
+        131,
+        132,
+        134,
+        135,
+        137,
+        145,
+        146,
+        141,
+        142,
+        145,
+        146,
+        145,
+        146,
+        148
+      ]
+    },
+    "com.netflix.loadbalancer.PingUrl.isSecure:()Z" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T001",
+      "perMethodOutcome" : "T001",
+      "lineNumbers" : [
+        82
+      ]
+    },
+    "com.netflix.loadbalancer.PingUrl.main:([Ljava/lang/String;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T006",
+      "perMethodOutcome" : "T006",
+      "lineNumbers" : [
+        152,
+        153,
+        154,
+        156,
+        157,
+        158
+      ]
+    },
+    "com.netflix.loadbalancer.PingUrl.setExpectedContent:(Ljava/lang/String;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T002",
+      "perMethodOutcome" : "T002",
+      "lineNumbers" : [
+        107,
+        108
+      ]
+    },
+    "com.netflix.loadbalancer.PingUrl.setPingAppendString:(Ljava/lang/String;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        74,
+        75
+      ]
+    },
+    "com.netflix.loadbalancer.PingUrl.setSecure:(Z)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T002",
+      "perMethodOutcome" : "T002",
+      "lineNumbers" : [
+        90,
+        91
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientLoadBalancerErrorHandler.<init>:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        33,
+        22,
+        24,
+        27,
+        29,
+        34
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientLoadBalancerErrorHandler.<init>:(IIZ)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        42,
+        22,
+        24,
+        27,
+        29,
+        43
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientLoadBalancerErrorHandler.<init>:(Lcom/netflix/client/config/IClientConfig;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        37,
+        22,
+        24,
+        27,
+        29,
+        38
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientLoadBalancerErrorHandler.getCircuitRelatedExceptions:()Ljava/util/List;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T001",
+      "perMethodOutcome" : "T001",
+      "lineNumbers" : [
+        77
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientLoadBalancerErrorHandler.getRetriableExceptions:()Ljava/util/List;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T001",
+      "perMethodOutcome" : "T001",
+      "lineNumbers" : [
+        72
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientLoadBalancerErrorHandler.isCircuitTrippingException:(Ljava/lang/Throwable;)Z" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        51,
+        52,
+        55
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientLoadBalancerErrorHandler.isRetriableException:(Ljava/lang/Throwable;Z)Z" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        61,
+        62,
+        63,
+        64,
+        67
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientRequest$Builder.<init>:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        64,
+        66
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientRequest$Builder.build:()Lcom/netflix/niws/client/http/HttpClientRequest;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        109
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientRequest$Builder.setEntity:(Ljava/lang/Object;)Lcom/netflix/niws/client/http/HttpClientRequest$Builder;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        94,
+        95
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientRequest$Builder.setHeaders:(Ljavax/ws/rs/core/MultivaluedMap;)Lcom/netflix/niws/client/http/HttpClientRequest$Builder;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        74,
+        75
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientRequest$Builder.setLoadBalancerKey:(Ljava/lang/Object;)Lcom/netflix/niws/client/http/HttpClientRequest$Builder;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        104,
+        105
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientRequest$Builder.setOverrideConfig:(Lcom/netflix/client/config/IClientConfig;)Lcom/netflix/niws/client/http/HttpClientRequest$Builder;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        79,
+        80
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientRequest$Builder.setQueryParams:(Ljavax/ws/rs/core/MultivaluedMap;)Lcom/netflix/niws/client/http/HttpClientRequest$Builder;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        89,
+        90
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientRequest$Builder.setRetriable:(Z)Lcom/netflix/niws/client/http/HttpClientRequest$Builder;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        84,
+        85
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientRequest$Builder.setUri:(Ljava/net/URI;)Lcom/netflix/niws/client/http/HttpClientRequest$Builder;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        69,
+        70
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientRequest$Builder.setVerb:(Lcom/netflix/niws/client/http/HttpClientRequest$Verb;)Lcom/netflix/niws/client/http/HttpClientRequest$Builder;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        99,
+        100
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientRequest$Verb.<clinit>:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T023",
+      "perMethodOutcome" : "T023"
+    },
+    "com.netflix.niws.client.http.HttpClientRequest$Verb.<init>:(Ljava/lang/String;ILjava/lang/String;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T003",
+      "perMethodOutcome" : "T003",
+      "lineNumbers" : [
+        46,
+        47,
+        48
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientRequest$Verb.valueOf:(Ljava/lang/String;)Lcom/netflix/niws/client/http/HttpClientRequest$Verb;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T012",
+      "perMethodOutcome" : "T012",
+      "lineNumbers" : [
+        36
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientRequest$Verb.values:()[Lcom/netflix/niws/client/http/HttpClientRequest$Verb;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T012",
+      "perMethodOutcome" : "T012",
+      "lineNumbers" : [
+        36
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientRequest$Verb.verb:()Ljava/lang/String;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T001",
+      "perMethodOutcome" : "T001",
+      "lineNumbers" : [
+        51
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientRequest.<init>:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T003",
+      "perMethodOutcome" : "T003",
+      "lineNumbers" : [
+        60,
+        61,
+        62
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientRequest.<init>:(Lcom/netflix/niws/client/http/HttpClientRequest$1;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T012",
+      "perMethodOutcome" : "T012",
+      "lineNumbers" : [
+        34
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientRequest.access$100:(Lcom/netflix/niws/client/http/HttpClientRequest;Ljava/net/URI;)Lcom/netflix/client/ClientRequest;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T012",
+      "perMethodOutcome" : "T012",
+      "lineNumbers" : [
+        34
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientRequest.access$202:(Lcom/netflix/niws/client/http/HttpClientRequest;Ljavax/ws/rs/core/MultivaluedMap;)Ljavax/ws/rs/core/MultivaluedMap;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T012",
+      "perMethodOutcome" : "T012",
+      "lineNumbers" : [
+        34
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientRequest.access$300:(Lcom/netflix/niws/client/http/HttpClientRequest;Lcom/netflix/client/config/IClientConfig;)Lcom/netflix/client/ClientRequest;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T012",
+      "perMethodOutcome" : "T012",
+      "lineNumbers" : [
+        34
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientRequest.access$400:(Lcom/netflix/niws/client/http/HttpClientRequest;Z)Lcom/netflix/client/ClientRequest;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T012",
+      "perMethodOutcome" : "T012",
+      "lineNumbers" : [
+        34
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientRequest.access$502:(Lcom/netflix/niws/client/http/HttpClientRequest;Ljavax/ws/rs/core/MultivaluedMap;)Ljavax/ws/rs/core/MultivaluedMap;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T012",
+      "perMethodOutcome" : "T012",
+      "lineNumbers" : [
+        34
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientRequest.access$602:(Lcom/netflix/niws/client/http/HttpClientRequest;Ljava/lang/Object;)Ljava/lang/Object;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T012",
+      "perMethodOutcome" : "T012",
+      "lineNumbers" : [
+        34
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientRequest.access$702:(Lcom/netflix/niws/client/http/HttpClientRequest;Lcom/netflix/niws/client/http/HttpClientRequest$Verb;)Lcom/netflix/niws/client/http/HttpClientRequest$Verb;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T012",
+      "perMethodOutcome" : "T012",
+      "lineNumbers" : [
+        34
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientRequest.access$800:(Lcom/netflix/niws/client/http/HttpClientRequest;Ljava/lang/Object;)Lcom/netflix/client/ClientRequest;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T012",
+      "perMethodOutcome" : "T012",
+      "lineNumbers" : [
+        34
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientRequest.getEntity:()Ljava/lang/Object;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T001",
+      "perMethodOutcome" : "T001",
+      "lineNumbers" : [
+        126
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientRequest.getHeaders:()Ljavax/ws/rs/core/MultivaluedMap;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T001",
+      "perMethodOutcome" : "T001",
+      "lineNumbers" : [
+        122
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientRequest.getQueryParams:()Ljavax/ws/rs/core/MultivaluedMap;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T001",
+      "perMethodOutcome" : "T001",
+      "lineNumbers" : [
+        114
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientRequest.getVerb:()Lcom/netflix/niws/client/http/HttpClientRequest$Verb;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T001",
+      "perMethodOutcome" : "T001",
+      "lineNumbers" : [
+        118
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientRequest.isRetriable:()Z" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        131,
+        132,
+        134
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientRequest.newBuilder:()Lcom/netflix/niws/client/http/HttpClientRequest$Builder;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T005",
+      "perMethodOutcome" : "T005",
+      "lineNumbers" : [
+        138
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientRequest.replaceUri:(Ljava/net/URI;)Lcom/netflix/niws/client/http/HttpClientRequest;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        143,
+        144,
+        145,
+        146,
+        147,
+        148,
+        149,
+        150,
+        143
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientResponse$1.<init>:(Lcom/netflix/niws/client/http/HttpClientResponse;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T004",
+      "perMethodOutcome" : "T004",
+      "lineNumbers" : [
+        65
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientResponse$1.containsHeader:(Ljava/lang/String;)Z" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T004",
+      "perMethodOutcome" : "T004",
+      "lineNumbers" : [
+        89
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientResponse$1.getAllHeaders:()Ljava/util/List;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T004",
+      "perMethodOutcome" : "T004",
+      "lineNumbers" : [
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientResponse$1.getAllValues:(Ljava/lang/String;)Ljava/util/List;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T004",
+      "perMethodOutcome" : "T004",
+      "lineNumbers" : [
+        72
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientResponse$1.getFirstValue:(Ljava/lang/String;)Ljava/lang/String;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T004",
+      "perMethodOutcome" : "T004",
+      "lineNumbers" : [
+        68
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientResponse.<init>:(Lcom/sun/jersey/api/client/ClientResponse;Ljava/net/URI;Lcom/netflix/client/config/IClientConfig;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        56,
+        51,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        64,
+        65,
+        93
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientResponse.access$000:(Lcom/netflix/niws/client/http/HttpClientResponse;)Lcom/sun/jersey/api/client/ClientResponse;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T012",
+      "perMethodOutcome" : "T012",
+      "lineNumbers" : [
+        47
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientResponse.close:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        157,
+        158
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientResponse.getEntity:(Lcom/google/common/reflect/TypeToken;)Ljava/lang/Object;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        177
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientResponse.getEntity:(Ljava/lang/Class;)Ljava/lang/Object;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        106
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientResponse.getEntity:(Ljava/lang/reflect/Type;)Ljava/lang/Object;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        182
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientResponse.getHeaders:()Ljava/util/Map;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        111
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientResponse.getHttpHeaders:()Lcom/netflix/client/http/HttpHeaders;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T001",
+      "perMethodOutcome" : "T001",
+      "lineNumbers" : [
+        172
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientResponse.getInputStream:()Ljava/io/InputStream;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        162
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientResponse.getJerseyClientResponse:()Lcom/sun/jersey/api/client/ClientResponse;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T001",
+      "perMethodOutcome" : "T001",
+      "lineNumbers" : [
+        152
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientResponse.getPayload:()Ljava/lang/Object;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        139,
+        140,
+        142
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientResponse.getRawEntity:()Ljava/io/InputStream;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        101
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientResponse.getRequestedURI:()Ljava/net/URI;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T001",
+      "perMethodOutcome" : "T001",
+      "lineNumbers" : [
+        134
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientResponse.getStatus:()I" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        116
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientResponse.getStatusLine:()Ljava/lang/String;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        167
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientResponse.hasEntity:()Z" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        129
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientResponse.hasPayload:()Z" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        148
+      ]
+    },
+    "com.netflix.niws.client.http.HttpClientResponse.isSuccess:()Z" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        121,
+        122,
+        123,
+        124
+      ]
+    },
+    "com.netflix.niws.client.http.HttpPrimeConnection.<clinit>:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T023",
+      "perMethodOutcome" : "T023"
+    },
+    "com.netflix.niws.client.http.HttpPrimeConnection.<init>:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T005",
+      "perMethodOutcome" : "T005",
+      "lineNumbers" : [
+        46,
+        47
+      ]
+    },
+    "com.netflix.niws.client.http.HttpPrimeConnection.connect:(Lcom/netflix/loadbalancer/Server;Ljava/lang/String;)Z" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        51,
+        52,
+        53,
+        54,
+        56,
+        57,
+        58,
+        61,
+        62,
+        61,
+        62,
+        63
+      ]
+    },
+    "com.netflix.niws.client.http.HttpPrimeConnection.initWithNiwsConfig:(Lcom/netflix/client/config/IClientConfig;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        68,
+        69,
+        70
+      ]
+    },
+    "com.netflix.niws.client.http.RestClient$1.<init>:(Ljava/lang/String;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T004",
+      "perMethodOutcome" : "T004",
+      "lineNumbers" : [
+        93
+      ]
+    },
+    "com.netflix.niws.client.http.RestClient$2.<init>:(Lcom/netflix/niws/client/http/RestClient;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T004",
+      "perMethodOutcome" : "T004",
+      "lineNumbers" : [
+        349
+      ]
+    },
+    "com.netflix.niws.client.http.RestClient$2.getUserToken:(Lorg/apache/http/protocol/HttpContext;)Ljava/lang/Object;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T004",
+      "perMethodOutcome" : "T004",
+      "lineNumbers" : [
+        352
+      ]
+    },
+    "com.netflix.niws.client.http.RestClient$3.<clinit>:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T023",
+      "perMethodOutcome" : "T023"
+    },
+    "com.netflix.niws.client.http.RestClient.<clinit>:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T023",
+      "perMethodOutcome" : "T023"
+    },
+    "com.netflix.niws.client.http.RestClient.<init>:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        121,
+        101,
+        116,
+        122
+      ]
+    },
+    "com.netflix.niws.client.http.RestClient.<init>:(Lcom/netflix/client/config/IClientConfig;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        135,
+        101,
+        116,
+        136,
+        137
+      ]
+    },
+    "com.netflix.niws.client.http.RestClient.<init>:(Lcom/netflix/loadbalancer/ILoadBalancer;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        125,
+        101,
+        116,
+        126,
+        127
+      ]
+    },
+    "com.netflix.niws.client.http.RestClient.<init>:(Lcom/netflix/loadbalancer/ILoadBalancer;Lcom/netflix/client/config/IClientConfig;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        130,
+        101,
+        116,
+        131,
+        132
+      ]
+    },
+    "com.netflix.niws.client.http.RestClient.<init>:(Lcom/netflix/loadbalancer/ILoadBalancer;Lcom/sun/jersey/api/client/Client;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        140,
+        101,
+        116,
+        141,
+        142,
+        143
+      ]
+    },
+    "com.netflix.niws.client.http.RestClient.apacheHttpClientSpecificInitialization:()Lcom/sun/jersey/api/client/Client;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        174,
+        176,
+        179,
+        181,
+        186,
+        188,
+        191,
+        192,
+        195,
+        193,
+        194,
+        196,
+        198,
+        199,
+        202,
+        200,
+        201,
+        205,
+        206,
+        209,
+        207,
+        208,
+        211,
+        215,
+        216,
+        217,
+        218,
+        219,
+        223,
+        221,
+        222,
+        226,
+        227,
+        228,
+        229,
+        230,
+        234,
+        232,
+        233,
+        237,
+        238,
+        242,
+        240,
+        241,
+        245,
+        246,
+        249,
+        247,
+        248,
+        254,
+        255,
+        257,
+        260,
+        258,
+        259,
+        261,
+        263,
+        264,
+        265,
+        269,
+        267,
+        268,
+        272,
+        273,
+        277,
+        279,
+        280,
+        279,
+        283,
+        281,
+        282,
+        286,
+        288,
+        291,
+        289,
+        290,
+        294,
+        296,
+        297,
+        298,
+        299,
+        300,
+        303,
+        301,
+        302,
+        306,
+        307,
+        308,
+        310,
+        312,
+        315,
+        322,
+        323,
+        325,
+        329,
+        327,
+        328,
+        334,
+        337,
+        342,
+        340,
+        341,
+        348,
+        349,
+        358,
+        360,
+        362,
+        364,
+        369,
+        367,
+        368,
+        372,
+        374
+      ]
+    },
+    "com.netflix.niws.client.http.RestClient.deriveHostAndPortFromVipAddress:(Ljava/lang/String;)Lcom/netflix/util/Pair;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        630,
+        631,
+        633
+      ]
+    },
+    "com.netflix.niws.client.http.RestClient.deriveSchemeAndPortFromPartialUri:(Ljava/net/URI;)Lcom/netflix/util/Pair;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        485,
+        486,
+        487,
+        488,
+        490,
+        491,
+        492,
+        493,
+        494,
+        496,
+        497,
+        498,
+        500,
+        503
+      ]
+    },
+    "com.netflix.niws.client.http.RestClient.execute:(Lcom/netflix/client/ClientRequest;Lcom/netflix/client/config/IClientConfig;)Lcom/netflix/client/IResponse;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T012",
+      "perMethodOutcome" : "T012",
+      "lineNumbers" : [
+        89
+      ]
+    },
+    "com.netflix.niws.client.http.RestClient.execute:(Lcom/netflix/client/http/HttpRequest$Verb;Ljava/net/URI;Ljava/util/Map;Ljava/util/Map;Lcom/netflix/client/config/IClientConfig;Ljava/lang/Object;)Lcom/netflix/client/http/HttpResponse;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T003",
+      "perMethodOutcome" : "T003",
+      "lineNumbers" : [
+        509,
+        511,
+        512,
+        513,
+        515,
+        517,
+        518,
+        523,
+        524,
+        525,
+        526,
+        527,
+        528,
+        529,
+        530,
+        534,
+        536,
+        537,
+        538,
+        539,
+        540,
+        541,
+        542,
+        544,
+        546,
+        548,
+        549,
+        551,
+        552,
+        554,
+        555,
+        557,
+        558,
+        560,
+        561,
+        563,
+        564,
+        566,
+        571,
+        572,
+        573,
+        574,
+        576
+      ]
+    },
+    "com.netflix.niws.client.http.RestClient.execute:(Lcom/netflix/client/http/HttpRequest;)Lcom/netflix/client/http/HttpResponse;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        463
+      ]
+    },
+    "com.netflix.niws.client.http.RestClient.execute:(Lcom/netflix/client/http/HttpRequest;Lcom/netflix/client/config/IClientConfig;)Lcom/netflix/client/http/HttpResponse;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        468,
+        469,
+        470,
+        469
+      ]
+    },
+    "com.netflix.niws.client.http.RestClient.getDefaultPortFromScheme:(Ljava/lang/String;)I" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        475,
+        476,
+        477,
+        479
+      ]
+    },
+    "com.netflix.niws.client.http.RestClient.getJerseyClient:()Lcom/sun/jersey/api/client/Client;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T001",
+      "perMethodOutcome" : "T001",
+      "lineNumbers" : [
+        441
+      ]
+    },
+    "com.netflix.niws.client.http.RestClient.getKeyStore:()Ljava/security/KeyStore;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        393,
+        395,
+        396,
+        399,
+        401,
+        402,
+        404
+      ]
+    },
+    "com.netflix.niws.client.http.RestClient.getRequestSpecificRetryHandler:(Lcom/netflix/client/ClientRequest;Lcom/netflix/client/config/IClientConfig;)Lcom/netflix/client/RequestSpecificRetryHandler;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T012",
+      "perMethodOutcome" : "T012",
+      "lineNumbers" : [
+        89
+      ]
+    },
+    "com.netflix.niws.client.http.RestClient.getRequestSpecificRetryHandler:(Lcom/netflix/client/http/HttpRequest;Lcom/netflix/client/config/IClientConfig;)Lcom/netflix/client/RequestSpecificRetryHandler;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        639,
+        640,
+        642,
+        643,
+        645,
+        646,
+        648
+      ]
+    },
+    "com.netflix.niws.client.http.RestClient.getResource:(Ljava/lang/String;)Ljava/net/URL;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        411,
+        413,
+        414,
+        415,
+        417,
+        419,
+        421,
+        423,
+        425,
+        427,
+        429,
+        431,
+        432,
+        435,
+        433,
+        434,
+        437
+      ]
+    },
+    "com.netflix.niws.client.http.RestClient.getResourceForOptionalProperty:(Lcom/netflix/client/config/IClientConfigKey;)Ljava/net/URL;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T003",
+      "perMethodOutcome" : "T003",
+      "lineNumbers" : [
+        449,
+        450,
+        452,
+        453,
+        454,
+        455,
+        459
+      ]
+    },
+    "com.netflix.niws.client.http.RestClient.initWithNiwsConfig:(Lcom/netflix/client/config/IClientConfig;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        147,
+        148,
+        149,
+        150,
+        151,
+        152,
+        153,
+        154,
+        156,
+        157,
+        159,
+        157,
+        160,
+        162,
+        160,
+        164,
+        165,
+        166
+      ]
+    },
+    "com.netflix.niws.client.http.RestClient.isCircuitBreakerException:(Ljava/lang/Throwable;)Z" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        591,
+        592,
+        593,
+        594,
+        597
+      ]
+    },
+    "com.netflix.niws.client.http.RestClient.isConnectException:(Ljava/lang/Throwable;)Z" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T003",
+      "perMethodOutcome" : "T003",
+      "lineNumbers" : [
+        614,
+        615,
+        616,
+        619,
+        621,
+        622,
+        624
+      ]
+    },
+    "com.netflix.niws.client.http.RestClient.isRetriableException:(Ljava/lang/Throwable;)Z" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        581,
+        582,
+        583,
+        585,
+        586
+      ]
+    },
+    "com.netflix.niws.client.http.RestClient.isSocketException:(Ljava/lang/Throwable;)Z" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T003",
+      "perMethodOutcome" : "T003",
+      "lineNumbers" : [
+        601,
+        602,
+        603,
+        604,
+        606,
+        607,
+        609
+      ]
+    },
+    "com.netflix.niws.client.http.RestClient.lambda$execute$0:(Lcom/netflix/client/config/IClientConfig;)Ljava/util/Optional;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T012",
+      "perMethodOutcome" : "T012",
+      "lineNumbers" : [
+        512
+      ]
+    },
+    "com.netflix.niws.client.http.RestClient.resetSSLSocketFactory:(Lcom/netflix/client/ssl/AbstractSslContextFactory;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        381,
+        383,
+        388,
+        386,
+        387,
+        389
+      ]
+    },
+    "com.netflix.niws.client.http.RestClient.setJerseyClient:(Lcom/sun/jersey/api/client/Client;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T002",
+      "perMethodOutcome" : "T002",
+      "lineNumbers" : [
+        445,
+        446
+      ]
+    },
+    "com.netflix.niws.client.http.RestClient.shutdown:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "T000",
+      "lineNumbers" : [
+        653,
+        654,
+        655,
+        657,
+        658
+      ]
+    },
+    "com.netflix.niws.client.http.RestClient.throwInvalidValue:(Lcom/netflix/client/config/IClientConfigKey;Ljava/lang/Exception;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T003",
+      "perMethodOutcome" : "T003",
+      "lineNumbers" : [
+        169
+      ]
+    }
+  },
+  "validationMetrics" : { }
+}
