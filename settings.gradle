@@ -1,4 +1,4 @@
-rootProject.name='ribbon'
+rootProject.name='ribbon-project'
 include 'ribbon-core'
 include 'ribbon-archaius'
 include 'ribbon-loadbalancer'
