@@ -3,21 +3,24 @@
     "reportVersion" : "2.7"
   },
   "run" : {
-    "version" : "2025.06.02-fd4f1ca-licensed",
-    "creationTimestamp" : "2025-06-17T14:58:55.44+01:00",
-    "command" : "dcover coverage-reports ",
-    "totalTime" : 237.129,
-    "environmentDetectionTime" : 110.519,
-    "indexingTime" : 0.0,
-    "entryPointsTime" : 0.0,
-    "generationTime" : 0.0,
-    "timeToFirstTest" : 237.149,
-    "timeToLastTest" : 237.149,
-    "indexQueryTime" : 0.0,
-    "verificationTime" : 0.0,
-    "validationTime" : 0.0
+    "version" : "2025.09.01-44e352d-licensed",
+    "creationTimestamp" : "2025-10-13T10:30:18.91Z",
+    "command" : "dcover create --exclude=com.netflix.ribbon.proxy.Utils --exclude=com.netflix.ribbon.proxy.RibbonDynamicProxy --coverage-reports --upload http://localhost:8080 --project-name ribbon --name with-diffblue-tests",
+    "totalTime" : 240.226,
+    "environmentDetectionTime" : 0.023,
+    "indexingTime" : 0.328,
+    "entryPointsTime" : 0.017,
+    "generationTime" : 5081.813,
+    "timeToFirstTest" : 8262.222,
+    "timeToLastTest" : 7075.786,
+    "indexQueryTime" : 5.8020000000000005,
+    "verificationTime" : 2228.09,
+    "validationTime" : 20.113
   },
   "codes" : {
+    "R000" : "Success",
+    "R002" : "Missing observers",
+    "R013" : "No inputs found that don't throw a trivial exception",
     "T000" : "Method eligible for test creation",
     "T001" : "Trivial getter",
     "T003" : "Private method",
@@ -26,14 +29,16 @@
     "T010" : "Abstract or interface method",
     "T012" : "Synthetic method",
     "T021" : "Empty method body",
-    "T023" : "Testability unknown"
+    "T023" : "Testability unknown",
+    "V000" : "Validated successfully",
+    "V003" : "Tests discarded during validation"
   },
   "summary" : {
     "classesCount" : 9,
     "methodsCount" : 35,
-    "cumulativeDiffblueTestCount" : 0,
+    "cumulativeDiffblueTestCount" : 6,
     "cumulativeManualTestCount" : 9,
-    "completeTestCount" : 0,
+    "completeTestCount" : 6,
     "incompleteTestCount" : 0,
     "skeletonTestCount" : 0,
     "totalPhysicalLineCount" : 254,
@@ -49,56 +54,70 @@
       "T023" : 1
     },
     "perMethodOutcome" : {
-      "T000" : 6,
-      "T001" : 6,
+      "R000" : 11,
+      "R002" : 3,
+      "R013" : 4,
       "T003" : 4,
       "T004" : 2,
-      "T005" : 5,
       "T010" : 6,
       "T012" : 4,
-      "T021" : 1,
       "T023" : 1
+    },
+    "perTestOutcome" : {
+      "R000" : 6
+    },
+    "perTestValidation" : {
+      "V000" : 6,
+      "V003" : 50
     }
   },
   "classes" : {
     "com.netflix.ribbon.evache.CacheFaultException" : {
       "methodsCount" : 2,
-      "completeTestCount" : 0,
+      "completeTestCount" : 2,
       "incompleteTestCount" : 0,
       "perMethodTestability" : {
         "T005" : 2
       },
       "perMethodOutcome" : {
-        "T005" : 2
+        "R000" : 2
+      },
+      "perTestOutcome" : {
+        "R000" : 2
       }
     },
     "com.netflix.ribbon.evache.CacheMissException" : {
       "methodsCount" : 1,
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : {
         "T005" : 1
       },
       "perMethodOutcome" : {
-        "T005" : 1
+        "R000" : 1
+      },
+      "perTestOutcome" : {
+        "R000" : 1
       }
     },
     "com.netflix.ribbon.evache.EvCacheOptions" : {
       "methodsCount" : 7,
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : {
         "T001" : 6,
         "T005" : 1
       },
       "perMethodOutcome" : {
-        "T001" : 6,
-        "T005" : 1
+        "R000" : 7
+      },
+      "perTestOutcome" : {
+        "R000" : 1
       }
     },
     "com.netflix.ribbon.evache.EvCacheProvider" : {
       "methodsCount" : 6,
-      "completeTestCount" : 0,
+      "completeTestCount" : 2,
       "incompleteTestCount" : 0,
       "perMethodTestability" : {
         "T000" : 2,
@@ -106,9 +125,13 @@
         "T023" : 1
       },
       "perMethodOutcome" : {
-        "T000" : 2,
+        "R000" : 1,
+        "R013" : 1,
         "T012" : 3,
         "T023" : 1
+      },
+      "perTestOutcome" : {
+        "R000" : 2
       }
     },
     "com.netflix.ribbon.evache.EvCacheProvider$1" : {
@@ -133,7 +156,8 @@
         "T003" : 1
       },
       "perMethodOutcome" : {
-        "T000" : 3,
+        "R002" : 1,
+        "R013" : 2,
         "T003" : 1
       }
     },
@@ -158,9 +182,8 @@
         "T021" : 1
       },
       "perMethodOutcome" : {
-        "T000" : 1,
-        "T005" : 1,
-        "T021" : 1
+        "R002" : 2,
+        "R013" : 1
       }
     },
     "com.netflix.ribbon.proxy.processor.EVCacheAnnotationProcessor$CacheId" : {
@@ -177,39 +200,51 @@
   },
   "methods" : {
     "com.netflix.ribbon.evache.CacheFaultException.<init>:(Ljava/lang/String;)V" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 2,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T005",
-      "perMethodOutcome" : "T005",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 2
+      },
       "lineNumbers" : [
         26,
         27
       ]
     },
     "com.netflix.ribbon.evache.CacheFaultException.<init>:(Ljava/lang/String;Ljava/lang/Throwable;)V" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 2,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T005",
-      "perMethodOutcome" : "T005",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 2
+      },
       "lineNumbers" : [
         30,
         31
       ]
     },
     "com.netflix.ribbon.evache.CacheMissException.<init>:()V" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T005",
-      "perMethodOutcome" : "T005",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         22
       ]
     },
     "com.netflix.ribbon.evache.EvCacheOptions.<init>:(Ljava/lang/String;Ljava/lang/String;ZILcom/netflix/evcache/EVCacheTranscoder;Ljava/lang/String;)V" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T005",
-      "perMethodOutcome" : "T005",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         33,
         34,
@@ -222,55 +257,73 @@
       ]
     },
     "com.netflix.ribbon.evache.EvCacheOptions.getAppName:()Ljava/lang/String;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T001",
-      "perMethodOutcome" : "T001",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         43
       ]
     },
     "com.netflix.ribbon.evache.EvCacheOptions.getCacheKeyTemplate:()Ljava/lang/String;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T001",
-      "perMethodOutcome" : "T001",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         63
       ]
     },
     "com.netflix.ribbon.evache.EvCacheOptions.getCacheName:()Ljava/lang/String;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T001",
-      "perMethodOutcome" : "T001",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         47
       ]
     },
     "com.netflix.ribbon.evache.EvCacheOptions.getTimeToLive:()I" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T001",
-      "perMethodOutcome" : "T001",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         55
       ]
     },
     "com.netflix.ribbon.evache.EvCacheOptions.getTranscoder:()Lcom/netflix/evcache/EVCacheTranscoder;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T001",
-      "perMethodOutcome" : "T001",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         59
       ]
     },
     "com.netflix.ribbon.evache.EvCacheOptions.isEnableZoneFallback:()Z" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T001",
-      "perMethodOutcome" : "T001",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         51
       ]
@@ -313,7 +366,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R002",
       "lineNumbers" : [
         92,
         89,
@@ -344,7 +397,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R013",
       "lineNumbers" : [
         99,
         100,
@@ -372,7 +425,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R013",
       "lineNumbers" : [
         144,
         145
@@ -385,10 +438,13 @@
       "perMethodOutcome" : "T023"
     },
     "com.netflix.ribbon.evache.EvCacheProvider.<init>:(Lcom/netflix/ribbon/evache/EvCacheOptions;)V" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 2,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 2
+      },
       "lineNumbers" : [
         54,
         55,
@@ -433,7 +489,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R013",
       "lineNumbers" : [
         69
       ]
@@ -517,7 +573,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T005",
-      "perMethodOutcome" : "T005",
+      "perMethodOutcome" : "R002",
       "lineNumbers" : [
         20,
         56
@@ -527,7 +583,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T021",
-      "perMethodOutcome" : "T021",
+      "perMethodOutcome" : "R002",
       "lineNumbers" : [
         96
       ]
@@ -536,7 +592,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R013",
       "lineNumbers" : [
         60,
         61,

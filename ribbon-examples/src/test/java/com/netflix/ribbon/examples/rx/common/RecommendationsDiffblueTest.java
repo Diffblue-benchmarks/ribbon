@@ -3,7 +3,8 @@ package com.netflix.ribbon.examples.rx.common;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
-import com.diffblue.cover.annotations.MaintainedByDiffblue;
+import com.diffblue.cover.annotations.ContributionFromDiffblue;
+import com.diffblue.cover.annotations.ManagedByDiffblue;
 import com.diffblue.cover.annotations.MethodsUnderTest;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,20 +14,21 @@ import org.junit.experimental.categories.Category;
 import org.junit.rules.ExpectedException;
 
 public class RecommendationsDiffblueTest {
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
+  @Rule public ExpectedException thrown = ExpectedException.none();
 
   /**
    * Test {@link Recommendations#Recommendations(List)}.
+   *
    * <ul>
-   *   <li>Given {@link Movie#BREAKING_BAD}.</li>
-   *   <li>Then return Movies is {@link ArrayList#ArrayList()}.</li>
+   *   <li>Given {@link Movie#BREAKING_BAD}.
+   *   <li>Then return Movies is {@link ArrayList#ArrayList()}.
    * </ul>
-   * <p>
-   * Method under test: {@link Recommendations#Recommendations(List)}
+   *
+   * <p>Method under test: {@link Recommendations#Recommendations(List)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"void Recommendations.<init>(List)"})
   public void testNewRecommendations_givenBreaking_bad_thenReturnMoviesIsArrayList() {
     // Arrange
@@ -34,20 +36,22 @@ public class RecommendationsDiffblueTest {
     movies.add(Movie.BREAKING_BAD);
 
     // Act and Assert
-    assertEquals(movies, (new Recommendations(movies)).getMovies());
+    assertEquals(movies, new Recommendations(movies).getMovies());
   }
 
   /**
    * Test {@link Recommendations#Recommendations(List)}.
+   *
    * <ul>
-   *   <li>Given {@link Movie#BREAKING_BAD}.</li>
-   *   <li>Then return Movies is {@link ArrayList#ArrayList()}.</li>
+   *   <li>Given {@link Movie#BREAKING_BAD}.
+   *   <li>Then return Movies is {@link ArrayList#ArrayList()}.
    * </ul>
-   * <p>
-   * Method under test: {@link Recommendations#Recommendations(List)}
+   *
+   * <p>Method under test: {@link Recommendations#Recommendations(List)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"void Recommendations.<init>(List)"})
   public void testNewRecommendations_givenBreaking_bad_thenReturnMoviesIsArrayList2() {
     // Arrange
@@ -56,37 +60,41 @@ public class RecommendationsDiffblueTest {
     movies.add(Movie.BREAKING_BAD);
 
     // Act and Assert
-    assertEquals(movies, (new Recommendations(movies)).getMovies());
+    assertEquals(movies, new Recommendations(movies).getMovies());
   }
 
   /**
    * Test {@link Recommendations#Recommendations(List)}.
+   *
    * <ul>
-   *   <li>When {@link ArrayList#ArrayList()}.</li>
-   *   <li>Then return Movies Empty.</li>
+   *   <li>When {@link ArrayList#ArrayList()}.
+   *   <li>Then return Movies Empty.
    * </ul>
-   * <p>
-   * Method under test: {@link Recommendations#Recommendations(List)}
+   *
+   * <p>Method under test: {@link Recommendations#Recommendations(List)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"void Recommendations.<init>(List)"})
   public void testNewRecommendations_whenArrayList_thenReturnMoviesEmpty() {
     // Arrange, Act and Assert
-    assertTrue((new Recommendations(new ArrayList<>())).getMovies().isEmpty());
+    assertTrue(new Recommendations(new ArrayList<>()).getMovies().isEmpty());
   }
 
   /**
    * Test {@link Recommendations#equals(Object)}.
+   *
    * <ul>
-   *   <li>When other is different.</li>
-   *   <li>Then return not equal.</li>
+   *   <li>When other is different.
+   *   <li>Then return not equal.
    * </ul>
-   * <p>
-   * Method under test: {@link Recommendations#equals(Object)}
+   *
+   * <p>Method under test: {@link Recommendations#equals(Object)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"boolean Recommendations.equals(Object)", "int Recommendations.hashCode()"})
   public void testEquals_whenOtherIsDifferent_thenReturnNotEqual() {
     // Arrange, Act and Assert
@@ -95,15 +103,17 @@ public class RecommendationsDiffblueTest {
 
   /**
    * Test {@link Recommendations#from(String)}.
+   *
    * <ul>
-   *   <li>When {@code Formatted}.</li>
-   *   <li>Then throw {@link IllegalArgumentException}.</li>
+   *   <li>When {@code Formatted}.
+   *   <li>Then throw {@link IllegalArgumentException}.
    * </ul>
-   * <p>
-   * Method under test: {@link Recommendations#from(String)}
+   *
+   * <p>Method under test: {@link Recommendations#from(String)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"Recommendations Recommendations.from(String)"})
   public void testFrom_whenFormatted_thenThrowIllegalArgumentException() {
     // Arrange, Act and Assert

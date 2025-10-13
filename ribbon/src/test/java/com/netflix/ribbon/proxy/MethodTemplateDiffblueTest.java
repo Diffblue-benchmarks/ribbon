@@ -3,7 +3,8 @@ package com.netflix.ribbon.proxy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.mock;
-import com.diffblue.cover.annotations.MaintainedByDiffblue;
+import com.diffblue.cover.annotations.ContributionFromDiffblue;
+import com.diffblue.cover.annotations.ManagedByDiffblue;
 import com.diffblue.cover.annotations.MethodsUnderTest;
 import com.netflix.ribbon.CacheProvider;
 import com.netflix.ribbon.proxy.MethodTemplate.CacheProviderEntry;
@@ -13,8 +14,9 @@ import org.junit.experimental.categories.Category;
 public class MethodTemplateDiffblueTest {
   /**
    * Test CacheProviderEntry getters and setters.
-   * <p>
-   * Methods under test:
+   *
+   * <p>Methods under test:
+   *
    * <ul>
    *   <li>{@link CacheProviderEntry#CacheProviderEntry(String, CacheProvider)}
    *   <li>{@link CacheProviderEntry#getCacheProvider()}
@@ -22,9 +24,13 @@ public class MethodTemplateDiffblueTest {
    * </ul>
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
-  @MethodsUnderTest({"void CacheProviderEntry.<init>(String, CacheProvider)",
-      "CacheProvider CacheProviderEntry.getCacheProvider()", "String CacheProviderEntry.getKey()"})
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "void CacheProviderEntry.<init>(String, CacheProvider)",
+    "CacheProvider CacheProviderEntry.getCacheProvider()",
+    "String CacheProviderEntry.getKey()"
+  })
   public void testCacheProviderEntryGettersAndSetters() {
     // Arrange
     CacheProvider cacheProvider = mock(CacheProvider.class);

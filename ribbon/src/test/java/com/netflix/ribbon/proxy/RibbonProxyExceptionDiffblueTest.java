@@ -3,7 +3,8 @@ package com.netflix.ribbon.proxy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
-import com.diffblue.cover.annotations.MaintainedByDiffblue;
+import com.diffblue.cover.annotations.ContributionFromDiffblue;
+import com.diffblue.cover.annotations.ManagedByDiffblue;
 import com.diffblue.cover.annotations.MethodsUnderTest;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -11,16 +12,21 @@ import org.junit.experimental.categories.Category;
 public class RibbonProxyExceptionDiffblueTest {
   /**
    * Test {@link RibbonProxyException#RibbonProxyException(String)}.
+   *
    * <ul>
-   *   <li>When {@code An error occurred}.</li>
-   *   <li>Then return Cause is {@code null}.</li>
+   *   <li>When {@code An error occurred}.
+   *   <li>Then return Cause is {@code null}.
    * </ul>
-   * <p>
-   * Method under test: {@link RibbonProxyException#RibbonProxyException(String)}
+   *
+   * <p>Method under test: {@link RibbonProxyException#RibbonProxyException(String)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
-  @MethodsUnderTest({"void RibbonProxyException.<init>(String)", "void RibbonProxyException.<init>(String, Throwable)"})
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "void RibbonProxyException.<init>(String)",
+    "void RibbonProxyException.<init>(String, Throwable)"
+  })
   public void testNewRibbonProxyException_whenAnErrorOccurred_thenReturnCauseIsNull() {
     // Arrange and Act
     RibbonProxyException actualRibbonProxyException = new RibbonProxyException("An error occurred");
@@ -33,22 +39,28 @@ public class RibbonProxyExceptionDiffblueTest {
 
   /**
    * Test {@link RibbonProxyException#RibbonProxyException(String, Throwable)}.
+   *
    * <ul>
-   *   <li>When {@link Throwable#Throwable()}.</li>
-   *   <li>Then return Cause is {@link Throwable#Throwable()}.</li>
+   *   <li>When {@link Throwable#Throwable()}.
+   *   <li>Then return Cause is {@link Throwable#Throwable()}.
    * </ul>
-   * <p>
-   * Method under test: {@link RibbonProxyException#RibbonProxyException(String, Throwable)}
+   *
+   * <p>Method under test: {@link RibbonProxyException#RibbonProxyException(String, Throwable)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
-  @MethodsUnderTest({"void RibbonProxyException.<init>(String)", "void RibbonProxyException.<init>(String, Throwable)"})
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "void RibbonProxyException.<init>(String)",
+    "void RibbonProxyException.<init>(String, Throwable)"
+  })
   public void testNewRibbonProxyException_whenThrowable_thenReturnCauseIsThrowable() {
     // Arrange
     Throwable cause = new Throwable();
 
     // Act
-    RibbonProxyException actualRibbonProxyException = new RibbonProxyException("An error occurred", cause);
+    RibbonProxyException actualRibbonProxyException =
+        new RibbonProxyException("An error occurred", cause);
 
     // Assert
     assertEquals("An error occurred", actualRibbonProxyException.getMessage());

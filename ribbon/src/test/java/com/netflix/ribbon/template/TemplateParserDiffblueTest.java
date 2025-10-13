@@ -2,7 +2,8 @@ package com.netflix.ribbon.template;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import com.diffblue.cover.annotations.MaintainedByDiffblue;
+import com.diffblue.cover.annotations.ContributionFromDiffblue;
+import com.diffblue.cover.annotations.ManagedByDiffblue;
 import com.diffblue.cover.annotations.MethodsUnderTest;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,20 +15,21 @@ import org.junit.experimental.categories.Category;
 import org.junit.rules.ExpectedException;
 
 public class TemplateParserDiffblueTest {
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
+  @Rule public ExpectedException thrown = ExpectedException.none();
 
   /**
    * Test {@link TemplateParser#parseTemplate(String)}.
+   *
    * <ul>
-   *   <li>When empty string.</li>
-   *   <li>Then return Empty.</li>
+   *   <li>When empty string.
+   *   <li>Then return Empty.
    * </ul>
-   * <p>
-   * Method under test: {@link TemplateParser#parseTemplate(String)}
+   *
+   * <p>Method under test: {@link TemplateParser#parseTemplate(String)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"List TemplateParser.parseTemplate(String)"})
   public void testParseTemplate_whenEmptyString_thenReturnEmpty() {
     // Arrange and Act
@@ -39,15 +41,17 @@ public class TemplateParserDiffblueTest {
 
   /**
    * Test {@link TemplateParser#parseTemplate(String)}.
+   *
    * <ul>
-   *   <li>When {@code null}.</li>
-   *   <li>Then return Empty.</li>
+   *   <li>When {@code null}.
+   *   <li>Then return Empty.
    * </ul>
-   * <p>
-   * Method under test: {@link TemplateParser#parseTemplate(String)}
+   *
+   * <p>Method under test: {@link TemplateParser#parseTemplate(String)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"List TemplateParser.parseTemplate(String)"})
   public void testParseTemplate_whenNull_thenReturnEmpty() {
     // Arrange and Act
@@ -59,15 +63,17 @@ public class TemplateParserDiffblueTest {
 
   /**
    * Test {@link TemplateParser#parseTemplate(String)}.
+   *
    * <ul>
-   *   <li>When {@code Template}.</li>
-   *   <li>Then return size is one.</li>
+   *   <li>When {@code Template}.
+   *   <li>Then return size is one.
    * </ul>
-   * <p>
-   * Method under test: {@link TemplateParser#parseTemplate(String)}
+   *
+   * <p>Method under test: {@link TemplateParser#parseTemplate(String)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"List TemplateParser.parseTemplate(String)"})
   public void testParseTemplate_whenTemplate_thenReturnSizeIsOne() {
     // Arrange and Act
@@ -79,18 +85,22 @@ public class TemplateParserDiffblueTest {
   }
 
   /**
-   * Test {@link TemplateParser#toData(Map, ParsedTemplate)} with {@code variables}, {@code parsedTemplate}.
+   * Test {@link TemplateParser#toData(Map, ParsedTemplate)} with {@code variables}, {@code
+   * parsedTemplate}.
+   *
    * <ul>
-   *   <li>Given {@code foo}.</li>
-   *   <li>When {@link HashMap#HashMap()} {@code foo} is {@code 42}.</li>
+   *   <li>Given {@code foo}.
+   *   <li>When {@link HashMap#HashMap()} {@code foo} is {@code 42}.
    * </ul>
-   * <p>
-   * Method under test: {@link TemplateParser#toData(Map, ParsedTemplate)}
+   *
+   * <p>Method under test: {@link TemplateParser#toData(Map, ParsedTemplate)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"String TemplateParser.toData(Map, ParsedTemplate)"})
-  public void testToDataWithVariablesParsedTemplate_givenFoo_whenHashMapFooIs42() throws TemplateParsingException {
+  public void testToDataWithVariablesParsedTemplate_givenFoo_whenHashMapFooIs42()
+      throws TemplateParsingException {
     // Arrange
     HashMap<String, Object> variables = new HashMap<>();
     variables.put("foo", "42");
@@ -100,17 +110,21 @@ public class TemplateParserDiffblueTest {
   }
 
   /**
-   * Test {@link TemplateParser#toData(Map, ParsedTemplate)} with {@code variables}, {@code parsedTemplate}.
+   * Test {@link TemplateParser#toData(Map, ParsedTemplate)} with {@code variables}, {@code
+   * parsedTemplate}.
+   *
    * <ul>
-   *   <li>Given {@link PathVar#PathVar(String)} with {@code Val}.</li>
+   *   <li>Given {@link PathVar#PathVar(String)} with {@code Val}.
    * </ul>
-   * <p>
-   * Method under test: {@link TemplateParser#toData(Map, ParsedTemplate)}
+   *
+   * <p>Method under test: {@link TemplateParser#toData(Map, ParsedTemplate)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"String TemplateParser.toData(Map, ParsedTemplate)"})
-  public void testToDataWithVariablesParsedTemplate_givenPathVarWithVal() throws TemplateParsingException {
+  public void testToDataWithVariablesParsedTemplate_givenPathVarWithVal()
+      throws TemplateParsingException {
     // Arrange
     HashMap<String, Object> variables = new HashMap<>();
 
@@ -123,17 +137,21 @@ public class TemplateParserDiffblueTest {
   }
 
   /**
-   * Test {@link TemplateParser#toData(Map, ParsedTemplate)} with {@code variables}, {@code parsedTemplate}.
+   * Test {@link TemplateParser#toData(Map, ParsedTemplate)} with {@code variables}, {@code
+   * parsedTemplate}.
+   *
    * <ul>
-   *   <li>Given {@link TemplateVar#TemplateVar(String)} with {@code Val}.</li>
+   *   <li>Given {@link TemplateVar#TemplateVar(String)} with {@code Val}.
    * </ul>
-   * <p>
-   * Method under test: {@link TemplateParser#toData(Map, ParsedTemplate)}
+   *
+   * <p>Method under test: {@link TemplateParser#toData(Map, ParsedTemplate)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"String TemplateParser.toData(Map, ParsedTemplate)"})
-  public void testToDataWithVariablesParsedTemplate_givenTemplateVarWithVal() throws TemplateParsingException {
+  public void testToDataWithVariablesParsedTemplate_givenTemplateVarWithVal()
+      throws TemplateParsingException {
     // Arrange
     HashMap<String, Object> variables = new HashMap<>();
 
@@ -146,38 +164,49 @@ public class TemplateParserDiffblueTest {
   }
 
   /**
-   * Test {@link TemplateParser#toData(Map, ParsedTemplate)} with {@code variables}, {@code parsedTemplate}.
+   * Test {@link TemplateParser#toData(Map, ParsedTemplate)} with {@code variables}, {@code
+   * parsedTemplate}.
+   *
    * <ul>
-   *   <li>Then return empty string.</li>
+   *   <li>Then return empty string.
    * </ul>
-   * <p>
-   * Method under test: {@link TemplateParser#toData(Map, ParsedTemplate)}
+   *
+   * <p>Method under test: {@link TemplateParser#toData(Map, ParsedTemplate)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"String TemplateParser.toData(Map, ParsedTemplate)"})
-  public void testToDataWithVariablesParsedTemplate_thenReturnEmptyString() throws TemplateParsingException {
+  public void testToDataWithVariablesParsedTemplate_thenReturnEmptyString()
+      throws TemplateParsingException {
     // Arrange
     HashMap<String, Object> variables = new HashMap<>();
 
     ArrayList<Object> parsed = new ArrayList<>();
     parsed.add(new MatrixVar("Val"));
 
-    // Act and Assert
-    assertEquals("", TemplateParser.toData(variables, new ParsedTemplate(parsed, "Template")));
+    // Act
+    String actualToDataResult =
+        TemplateParser.toData(variables, new ParsedTemplate(parsed, "Template"));
+
+    // Assert
+    assertEquals("", actualToDataResult);
   }
 
   /**
-   * Test {@link TemplateParser#toData(Map, ParsedTemplate)} with {@code variables}, {@code parsedTemplate}.
+   * Test {@link TemplateParser#toData(Map, ParsedTemplate)} with {@code variables}, {@code
+   * parsedTemplate}.
+   *
    * <ul>
-   *   <li>When create {@code Template}.</li>
-   *   <li>Then return {@code Template}.</li>
+   *   <li>When create {@code Template}.
+   *   <li>Then return {@code Template}.
    * </ul>
-   * <p>
-   * Method under test: {@link TemplateParser#toData(Map, ParsedTemplate)}
+   *
+   * <p>Method under test: {@link TemplateParser#toData(Map, ParsedTemplate)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"String TemplateParser.toData(Map, ParsedTemplate)"})
   public void testToDataWithVariablesParsedTemplate_whenCreateTemplate_thenReturnTemplate()
       throws TemplateParsingException {
@@ -189,60 +218,78 @@ public class TemplateParserDiffblueTest {
   }
 
   /**
-   * Test {@link TemplateParser#toData(Map, String, List)} with {@code variables}, {@code template}, {@code parsedList}.
+   * Test {@link TemplateParser#toData(Map, String, List)} with {@code variables}, {@code template},
+   * {@code parsedList}.
+   *
    * <ul>
-   *   <li>Given {@code foo}.</li>
-   *   <li>When {@link HashMap#HashMap()} {@code foo} is {@code 42}.</li>
+   *   <li>Given {@code foo}.
+   *   <li>When {@link HashMap#HashMap()} {@code foo} is {@code 42}.
    * </ul>
-   * <p>
-   * Method under test: {@link TemplateParser#toData(Map, String, List)}
+   *
+   * <p>Method under test: {@link TemplateParser#toData(Map, String, List)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"String TemplateParser.toData(Map, String, List)"})
-  public void testToDataWithVariablesTemplateParsedList_givenFoo_whenHashMapFooIs42() throws TemplateParsingException {
+  public void testToDataWithVariablesTemplateParsedList_givenFoo_whenHashMapFooIs42()
+      throws TemplateParsingException {
     // Arrange
     HashMap<String, Object> variables = new HashMap<>();
     variables.put("foo", "42");
 
-    // Act and Assert
-    assertEquals("", TemplateParser.toData(variables, "Template", new ArrayList<>()));
+    // Act
+    String actualToDataResult = TemplateParser.toData(variables, "Template", new ArrayList<>());
+
+    // Assert
+    assertEquals("", actualToDataResult);
   }
 
   /**
-   * Test {@link TemplateParser#toData(Map, String, List)} with {@code variables}, {@code template}, {@code parsedList}.
+   * Test {@link TemplateParser#toData(Map, String, List)} with {@code variables}, {@code template},
+   * {@code parsedList}.
+   *
    * <ul>
-   *   <li>Given {@link MatrixVar#MatrixVar(String)} with {@code Val}.</li>
+   *   <li>Given {@link MatrixVar#MatrixVar(String)} with {@code Val}.
    * </ul>
-   * <p>
-   * Method under test: {@link TemplateParser#toData(Map, String, List)}
+   *
+   * <p>Method under test: {@link TemplateParser#toData(Map, String, List)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"String TemplateParser.toData(Map, String, List)"})
-  public void testToDataWithVariablesTemplateParsedList_givenMatrixVarWithVal() throws TemplateParsingException {
+  public void testToDataWithVariablesTemplateParsedList_givenMatrixVarWithVal()
+      throws TemplateParsingException {
     // Arrange
     HashMap<String, Object> variables = new HashMap<>();
 
     ArrayList<Object> parsedList = new ArrayList<>();
     parsedList.add(new MatrixVar("Val"));
 
-    // Act and Assert
-    assertEquals("", TemplateParser.toData(variables, "Template", parsedList));
+    // Act
+    String actualToDataResult = TemplateParser.toData(variables, "Template", parsedList);
+
+    // Assert
+    assertEquals("", actualToDataResult);
   }
 
   /**
-   * Test {@link TemplateParser#toData(Map, String, List)} with {@code variables}, {@code template}, {@code parsedList}.
+   * Test {@link TemplateParser#toData(Map, String, List)} with {@code variables}, {@code template},
+   * {@code parsedList}.
+   *
    * <ul>
-   *   <li>Given {@link PathVar#PathVar(String)} with {@code Val}.</li>
+   *   <li>Given {@link PathVar#PathVar(String)} with {@code Val}.
    * </ul>
-   * <p>
-   * Method under test: {@link TemplateParser#toData(Map, String, List)}
+   *
+   * <p>Method under test: {@link TemplateParser#toData(Map, String, List)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"String TemplateParser.toData(Map, String, List)"})
-  public void testToDataWithVariablesTemplateParsedList_givenPathVarWithVal() throws TemplateParsingException {
+  public void testToDataWithVariablesTemplateParsedList_givenPathVarWithVal()
+      throws TemplateParsingException {
     // Arrange
     HashMap<String, Object> variables = new HashMap<>();
 
@@ -255,17 +302,21 @@ public class TemplateParserDiffblueTest {
   }
 
   /**
-   * Test {@link TemplateParser#toData(Map, String, List)} with {@code variables}, {@code template}, {@code parsedList}.
+   * Test {@link TemplateParser#toData(Map, String, List)} with {@code variables}, {@code template},
+   * {@code parsedList}.
+   *
    * <ul>
-   *   <li>Given {@link TemplateVar#TemplateVar(String)} with {@code Val}.</li>
+   *   <li>Given {@link TemplateVar#TemplateVar(String)} with {@code Val}.
    * </ul>
-   * <p>
-   * Method under test: {@link TemplateParser#toData(Map, String, List)}
+   *
+   * <p>Method under test: {@link TemplateParser#toData(Map, String, List)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"String TemplateParser.toData(Map, String, List)"})
-  public void testToDataWithVariablesTemplateParsedList_givenTemplateVarWithVal() throws TemplateParsingException {
+  public void testToDataWithVariablesTemplateParsedList_givenTemplateVarWithVal()
+      throws TemplateParsingException {
     // Arrange
     HashMap<String, Object> variables = new HashMap<>();
 
@@ -278,16 +329,19 @@ public class TemplateParserDiffblueTest {
   }
 
   /**
-   * Test {@link TemplateParser#toData(Map, String, List)} with {@code variables}, {@code template}, {@code parsedList}.
+   * Test {@link TemplateParser#toData(Map, String, List)} with {@code variables}, {@code template},
+   * {@code parsedList}.
+   *
    * <ul>
-   *   <li>When {@link ArrayList#ArrayList()} add {@code 42}.</li>
-   *   <li>Then return {@code 42}.</li>
+   *   <li>When {@link ArrayList#ArrayList()} add {@code 42}.
+   *   <li>Then return {@code 42}.
    * </ul>
-   * <p>
-   * Method under test: {@link TemplateParser#toData(Map, String, List)}
+   *
+   * <p>Method under test: {@link TemplateParser#toData(Map, String, List)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"String TemplateParser.toData(Map, String, List)"})
   public void testToDataWithVariablesTemplateParsedList_whenArrayListAdd42_thenReturn42()
       throws TemplateParsingException {
@@ -297,21 +351,27 @@ public class TemplateParserDiffblueTest {
     ArrayList<Object> parsedList = new ArrayList<>();
     parsedList.add("42");
 
-    // Act and Assert
-    assertEquals("42", TemplateParser.toData(variables, "Template", parsedList));
+    // Act
+    String actualToDataResult = TemplateParser.toData(variables, "Template", parsedList);
+
+    // Assert
+    assertEquals("42", actualToDataResult);
   }
 
   /**
-   * Test {@link TemplateParser#toData(Map, String, List)} with {@code variables}, {@code template}, {@code parsedList}.
+   * Test {@link TemplateParser#toData(Map, String, List)} with {@code variables}, {@code template},
+   * {@code parsedList}.
+   *
    * <ul>
-   *   <li>When {@link ArrayList#ArrayList()} add {@code 42}.</li>
-   *   <li>Then return {@code 4242}.</li>
+   *   <li>When {@link ArrayList#ArrayList()} add {@code 42}.
+   *   <li>Then return {@code 4242}.
    * </ul>
-   * <p>
-   * Method under test: {@link TemplateParser#toData(Map, String, List)}
+   *
+   * <p>Method under test: {@link TemplateParser#toData(Map, String, List)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"String TemplateParser.toData(Map, String, List)"})
   public void testToDataWithVariablesTemplateParsedList_whenArrayListAdd42_thenReturn4242()
       throws TemplateParsingException {
@@ -322,28 +382,37 @@ public class TemplateParserDiffblueTest {
     parsedList.add("42");
     parsedList.add("42");
 
-    // Act and Assert
-    assertEquals("4242", TemplateParser.toData(variables, "Template", parsedList));
+    // Act
+    String actualToDataResult = TemplateParser.toData(variables, "Template", parsedList);
+
+    // Assert
+    assertEquals("4242", actualToDataResult);
   }
 
   /**
-   * Test {@link TemplateParser#toData(Map, String, List)} with {@code variables}, {@code template}, {@code parsedList}.
+   * Test {@link TemplateParser#toData(Map, String, List)} with {@code variables}, {@code template},
+   * {@code parsedList}.
+   *
    * <ul>
-   *   <li>When {@link ArrayList#ArrayList()}.</li>
-   *   <li>Then return empty string.</li>
+   *   <li>When {@link ArrayList#ArrayList()}.
+   *   <li>Then return empty string.
    * </ul>
-   * <p>
-   * Method under test: {@link TemplateParser#toData(Map, String, List)}
+   *
+   * <p>Method under test: {@link TemplateParser#toData(Map, String, List)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"String TemplateParser.toData(Map, String, List)"})
   public void testToDataWithVariablesTemplateParsedList_whenArrayList_thenReturnEmptyString()
       throws TemplateParsingException {
     // Arrange
     HashMap<String, Object> variables = new HashMap<>();
 
-    // Act and Assert
-    assertEquals("", TemplateParser.toData(variables, "Template", new ArrayList<>()));
+    // Act
+    String actualToDataResult = TemplateParser.toData(variables, "Template", new ArrayList<>());
+
+    // Assert
+    assertEquals("", actualToDataResult);
   }
 }

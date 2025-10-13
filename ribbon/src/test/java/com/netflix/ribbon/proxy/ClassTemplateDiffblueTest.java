@@ -3,7 +3,8 @@ package com.netflix.ribbon.proxy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
-import com.diffblue.cover.annotations.MaintainedByDiffblue;
+import com.diffblue.cover.annotations.ContributionFromDiffblue;
+import com.diffblue.cover.annotations.ManagedByDiffblue;
 import com.diffblue.cover.annotations.MethodsUnderTest;
 import com.netflix.ribbon.http.HttpResourceGroup;
 import org.junit.Test;
@@ -12,15 +13,17 @@ import org.junit.experimental.categories.Category;
 public class ClassTemplateDiffblueTest {
   /**
    * Test {@link ClassTemplate#ClassTemplate(Class)}.
+   *
    * <ul>
-   *   <li>When {@code Object}.</li>
-   *   <li>Then return ResourceGroupClass is {@code null}.</li>
+   *   <li>When {@code Object}.
+   *   <li>Then return ResourceGroupClass is {@code null}.
    * </ul>
-   * <p>
-   * Method under test: {@link ClassTemplate#ClassTemplate(Class)}
+   *
+   * <p>Method under test: {@link ClassTemplate#ClassTemplate(Class)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"void ClassTemplate.<init>(Class)"})
   public void testNewClassTemplate_whenJavaLangObject_thenReturnResourceGroupClassIsNull() {
     // Arrange
@@ -38,8 +41,9 @@ public class ClassTemplateDiffblueTest {
 
   /**
    * Test getters and setters.
-   * <p>
-   * Methods under test:
+   *
+   * <p>Methods under test:
+   *
    * <ul>
    *   <li>{@link ClassTemplate#getClientInterface()}
    *   <li>{@link ClassTemplate#getResourceGroupClass()}
@@ -47,9 +51,13 @@ public class ClassTemplateDiffblueTest {
    * </ul>
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
-  @MethodsUnderTest({"Class ClassTemplate.getClientInterface()", "Class ClassTemplate.getResourceGroupClass()",
-      "java.lang.String ClassTemplate.getResourceGroupName()"})
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "Class ClassTemplate.getClientInterface()",
+    "Class ClassTemplate.getResourceGroupClass()",
+    "java.lang.String ClassTemplate.getResourceGroupName()"
+  })
   public void testGettersAndSetters() {
     // Arrange
     Class<Object> clientInterface = Object.class;
@@ -57,7 +65,8 @@ public class ClassTemplateDiffblueTest {
 
     // Act
     Class<Object> actualClientInterface = fromResult.getClientInterface();
-    Class<? extends HttpResourceGroup> actualResourceGroupClass = fromResult.getResourceGroupClass();
+    Class<? extends HttpResourceGroup> actualResourceGroupClass =
+        fromResult.getResourceGroupClass();
 
     // Assert
     assertNull(actualResourceGroupClass);
@@ -69,15 +78,17 @@ public class ClassTemplateDiffblueTest {
 
   /**
    * Test {@link ClassTemplate#from(Class)}.
+   *
    * <ul>
-   *   <li>When {@code Object}.</li>
-   *   <li>Then return ResourceGroupClass is {@code null}.</li>
+   *   <li>When {@code Object}.
+   *   <li>Then return ResourceGroupClass is {@code null}.
    * </ul>
-   * <p>
-   * Method under test: {@link ClassTemplate#from(Class)}
+   *
+   * <p>Method under test: {@link ClassTemplate#from(Class)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"ClassTemplate ClassTemplate.from(Class)"})
   public void testFrom_whenJavaLangObject_thenReturnResourceGroupClassIsNull() {
     // Arrange

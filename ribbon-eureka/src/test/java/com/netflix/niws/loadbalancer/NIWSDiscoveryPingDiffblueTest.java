@@ -2,7 +2,8 @@ package com.netflix.niws.loadbalancer;
 
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
-import com.diffblue.cover.annotations.MaintainedByDiffblue;
+import com.diffblue.cover.annotations.ContributionFromDiffblue;
+import com.diffblue.cover.annotations.ManagedByDiffblue;
 import com.diffblue.cover.annotations.MethodsUnderTest;
 import com.netflix.client.config.IClientConfig;
 import com.netflix.client.config.IClientConfig.Builder;
@@ -13,8 +14,9 @@ import org.junit.experimental.categories.Category;
 public class NIWSDiscoveryPingDiffblueTest {
   /**
    * Test getters and setters.
-   * <p>
-   * Methods under test:
+   *
+   * <p>Methods under test:
+   *
    * <ul>
    *   <li>default or parameterless constructor of {@link NIWSDiscoveryPing}
    *   <li>{@link NIWSDiscoveryPing#setLb(BaseLoadBalancer)}
@@ -23,16 +25,21 @@ public class NIWSDiscoveryPingDiffblueTest {
    * </ul>
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
-  @MethodsUnderTest({"void NIWSDiscoveryPing.<init>()", "BaseLoadBalancer NIWSDiscoveryPing.getLb()",
-      "void NIWSDiscoveryPing.initWithNiwsConfig(IClientConfig)", "void NIWSDiscoveryPing.setLb(BaseLoadBalancer)"})
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "void NIWSDiscoveryPing.<init>()",
+    "BaseLoadBalancer NIWSDiscoveryPing.getLb()",
+    "void NIWSDiscoveryPing.initWithNiwsConfig(IClientConfig)",
+    "void NIWSDiscoveryPing.setLb(BaseLoadBalancer)"
+  })
   public void testGettersAndSetters() {
     // Arrange and Act
     NIWSDiscoveryPing actualNiwsDiscoveryPing = new NIWSDiscoveryPing();
     BaseLoadBalancer lb = new BaseLoadBalancer();
     actualNiwsDiscoveryPing.setLb(lb);
-    IClientConfig clientConfig = Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build();
-    actualNiwsDiscoveryPing.initWithNiwsConfig(clientConfig);
+    actualNiwsDiscoveryPing.initWithNiwsConfig(
+        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build());
     BaseLoadBalancer actualLb = actualNiwsDiscoveryPing.getLb();
 
     // Assert

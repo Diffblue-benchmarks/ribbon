@@ -3,7 +3,8 @@ package com.netflix.client.config;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.mock;
-import com.diffblue.cover.annotations.MaintainedByDiffblue;
+import com.diffblue.cover.annotations.ContributionFromDiffblue;
+import com.diffblue.cover.annotations.ManagedByDiffblue;
 import com.diffblue.cover.annotations.MethodsUnderTest;
 import com.netflix.client.VipAddressResolver;
 import org.junit.Test;
@@ -12,12 +13,16 @@ import org.junit.experimental.categories.Category;
 public class AbstractDefaultClientConfigImplDiffblueTest {
   /**
    * Test {@link AbstractDefaultClientConfigImpl#setVipAddressResolver(VipAddressResolver)}.
-   * <p>
-   * Method under test: {@link AbstractDefaultClientConfigImpl#setVipAddressResolver(VipAddressResolver)}
+   *
+   * <p>Method under test: {@link
+   * AbstractDefaultClientConfigImpl#setVipAddressResolver(VipAddressResolver)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
-  @MethodsUnderTest({"void AbstractDefaultClientConfigImpl.setVipAddressResolver(VipAddressResolver)"})
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "void AbstractDefaultClientConfigImpl.setVipAddressResolver(VipAddressResolver)"
+  })
   public void testSetVipAddressResolver() {
     // Arrange
     DefaultClientConfigImpl emptyConfig = DefaultClientConfigImpl.getEmptyConfig();
@@ -32,14 +37,16 @@ public class AbstractDefaultClientConfigImplDiffblueTest {
 
   /**
    * Test {@link AbstractDefaultClientConfigImpl#getResolver()}.
+   *
    * <ul>
-   *   <li>Then return {@code null}.</li>
+   *   <li>Then return {@code null}.
    * </ul>
-   * <p>
-   * Method under test: {@link AbstractDefaultClientConfigImpl#getResolver()}
+   *
+   * <p>Method under test: {@link AbstractDefaultClientConfigImpl#getResolver()}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"VipAddressResolver AbstractDefaultClientConfigImpl.getResolver()"})
   public void testGetResolver_thenReturnNull() {
     // Arrange, Act and Assert
@@ -48,24 +55,30 @@ public class AbstractDefaultClientConfigImplDiffblueTest {
 
   /**
    * Test {@link AbstractDefaultClientConfigImpl#resolveDeploymentContextbasedVipAddresses()}.
-   * <p>
-   * Method under test: {@link AbstractDefaultClientConfigImpl#resolveDeploymentContextbasedVipAddresses()}
+   *
+   * <p>Method under test: {@link
+   * AbstractDefaultClientConfigImpl#resolveDeploymentContextbasedVipAddresses()}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
-  @MethodsUnderTest({"java.lang.String AbstractDefaultClientConfigImpl.resolveDeploymentContextbasedVipAddresses()"})
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "java.lang.String AbstractDefaultClientConfigImpl.resolveDeploymentContextbasedVipAddresses()"
+  })
   public void testResolveDeploymentContextbasedVipAddresses() {
     // Arrange, Act and Assert
-    assertNull(DefaultClientConfigImpl.getEmptyConfig().resolveDeploymentContextbasedVipAddresses());
+    assertNull(
+        DefaultClientConfigImpl.getEmptyConfig().resolveDeploymentContextbasedVipAddresses());
   }
 
   /**
    * Test {@link AbstractDefaultClientConfigImpl#getAppName()}.
-   * <p>
-   * Method under test: {@link AbstractDefaultClientConfigImpl#getAppName()}
+   *
+   * <p>Method under test: {@link AbstractDefaultClientConfigImpl#getAppName()}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"java.lang.String AbstractDefaultClientConfigImpl.getAppName()"})
   public void testGetAppName() {
     // Arrange, Act and Assert
@@ -74,11 +87,12 @@ public class AbstractDefaultClientConfigImplDiffblueTest {
 
   /**
    * Test {@link AbstractDefaultClientConfigImpl#getVersion()}.
-   * <p>
-   * Method under test: {@link AbstractDefaultClientConfigImpl#getVersion()}
+   *
+   * <p>Method under test: {@link AbstractDefaultClientConfigImpl#getVersion()}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"java.lang.String AbstractDefaultClientConfigImpl.getVersion()"})
   public void testGetVersion() {
     // Arrange, Act and Assert

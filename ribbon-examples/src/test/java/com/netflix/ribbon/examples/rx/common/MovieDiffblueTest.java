@@ -2,7 +2,8 @@ package com.netflix.ribbon.examples.rx.common;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import com.diffblue.cover.annotations.MaintainedByDiffblue;
+import com.diffblue.cover.annotations.ContributionFromDiffblue;
+import com.diffblue.cover.annotations.ManagedByDiffblue;
 import com.diffblue.cover.annotations.MethodsUnderTest;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.DuplicatedByteBuf;
@@ -14,13 +15,13 @@ import org.junit.experimental.categories.Category;
 import org.junit.rules.ExpectedException;
 
 public class MovieDiffblueTest {
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
+  @Rule public ExpectedException thrown = ExpectedException.none();
 
   /**
    * Test getters and setters.
-   * <p>
-   * Methods under test:
+   *
+   * <p>Methods under test:
+   *
    * <ul>
    *   <li>{@link Movie#Movie(String, String, String, String, String)}
    *   <li>{@link Movie#toString()}
@@ -32,13 +33,21 @@ public class MovieDiffblueTest {
    * </ul>
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
-  @MethodsUnderTest({"void Movie.<init>(String, String, String, String, String)", "String Movie.getAgeGroup()",
-      "String Movie.getCategory()", "String Movie.getContentURI()", "String Movie.getId()", "String Movie.getName()",
-      "String Movie.toString()"})
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "void Movie.<init>(String, String, String, String, String)",
+    "String Movie.getAgeGroup()",
+    "String Movie.getCategory()",
+    "String Movie.getContentURI()",
+    "String Movie.getId()",
+    "String Movie.getName()",
+    "String Movie.toString()"
+  })
   public void testGettersAndSetters() {
     // Arrange and Act
-    Movie actualMovie = new Movie("42", "Name", "Category", "Age Group", "Not all who wander are lost");
+    Movie actualMovie =
+        new Movie("42", "Name", "Category", "Age Group", "Not all who wander are lost");
     String actualToStringResult = actualMovie.toString();
     String actualAgeGroup = actualMovie.getAgeGroup();
     String actualCategory = actualMovie.getCategory();
@@ -51,25 +60,30 @@ public class MovieDiffblueTest {
     assertEquals("Category", actualCategory);
     assertEquals("Name", actualMovie.getName());
     assertEquals("Not all who wander are lost", actualContentURI);
-    assertEquals("{id='42', name='Name', category='Category', ageGroup='Age Group', contentURI='Not all who wander"
-        + " are lost'}", actualToStringResult);
+    assertEquals(
+        "{id='42', name='Name', category='Category', ageGroup='Age Group', contentURI='Not all who wander"
+            + " are lost'}",
+        actualToStringResult);
   }
 
   /**
    * Test {@link Movie#equals(Object)}, and {@link Movie#hashCode()}.
+   *
    * <ul>
-   *   <li>When other is equal.</li>
-   *   <li>Then return equal.</li>
+   *   <li>When other is equal.
+   *   <li>Then return equal.
    * </ul>
-   * <p>
-   * Methods under test:
+   *
+   * <p>Methods under test:
+   *
    * <ul>
    *   <li>{@link Movie#equals(Object)}
    *   <li>{@link Movie#hashCode()}
    * </ul>
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"boolean Movie.equals(Object)", "int Movie.hashCode()"})
   public void testEqualsAndHashCode_whenOtherIsEqual_thenReturnEqual() {
     // Arrange
@@ -78,25 +92,27 @@ public class MovieDiffblueTest {
 
     // Act and Assert
     assertEquals(movie, movie2);
-    int expectedHashCodeResult = movie.hashCode();
-    assertEquals(expectedHashCodeResult, movie2.hashCode());
+    assertEquals(movie.hashCode(), movie2.hashCode());
   }
 
   /**
    * Test {@link Movie#equals(Object)}, and {@link Movie#hashCode()}.
+   *
    * <ul>
-   *   <li>When other is same.</li>
-   *   <li>Then return equal.</li>
+   *   <li>When other is same.
+   *   <li>Then return equal.
    * </ul>
-   * <p>
-   * Methods under test:
+   *
+   * <p>Methods under test:
+   *
    * <ul>
    *   <li>{@link Movie#equals(Object)}
    *   <li>{@link Movie#hashCode()}
    * </ul>
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"boolean Movie.equals(Object)", "int Movie.hashCode()"})
   public void testEqualsAndHashCode_whenOtherIsSame_thenReturnEqual() {
     // Arrange
@@ -110,15 +126,17 @@ public class MovieDiffblueTest {
 
   /**
    * Test {@link Movie#equals(Object)}.
+   *
    * <ul>
-   *   <li>When other is different.</li>
-   *   <li>Then return not equal.</li>
+   *   <li>When other is different.
+   *   <li>Then return not equal.
    * </ul>
-   * <p>
-   * Method under test: {@link Movie#equals(Object)}
+   *
+   * <p>Method under test: {@link Movie#equals(Object)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"boolean Movie.equals(Object)", "int Movie.hashCode()"})
   public void testEquals_whenOtherIsDifferent_thenReturnNotEqual() {
     // Arrange, Act and Assert
@@ -127,50 +145,59 @@ public class MovieDiffblueTest {
 
   /**
    * Test {@link Movie#equals(Object)}.
+   *
    * <ul>
-   *   <li>When other is different.</li>
-   *   <li>Then return not equal.</li>
+   *   <li>When other is different.
+   *   <li>Then return not equal.
    * </ul>
-   * <p>
-   * Method under test: {@link Movie#equals(Object)}
+   *
+   * <p>Method under test: {@link Movie#equals(Object)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"boolean Movie.equals(Object)", "int Movie.hashCode()"})
   public void testEquals_whenOtherIsDifferent_thenReturnNotEqual2() {
     // Arrange, Act and Assert
-    assertNotEquals(new Movie("42", "Name", "Category", "Age Group", "Not all who wander are lost"),
+    assertNotEquals(
+        new Movie("42", "Name", "Category", "Age Group", "Not all who wander are lost"),
         Movie.BREAKING_BAD);
   }
 
   /**
    * Test {@link Movie#equals(Object)}.
+   *
    * <ul>
-   *   <li>When other is different.</li>
-   *   <li>Then return not equal.</li>
+   *   <li>When other is different.
+   *   <li>Then return not equal.
    * </ul>
-   * <p>
-   * Method under test: {@link Movie#equals(Object)}
+   *
+   * <p>Method under test: {@link Movie#equals(Object)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"boolean Movie.equals(Object)", "int Movie.hashCode()"})
   public void testEquals_whenOtherIsDifferent_thenReturnNotEqual3() {
     // Arrange, Act and Assert
-    assertNotEquals(new Movie("42", "Name", "Category", null, "Not all who wander are lost"), Movie.BREAKING_BAD);
+    assertNotEquals(
+        new Movie("42", "Name", "Category", null, "Not all who wander are lost"),
+        Movie.BREAKING_BAD);
   }
 
   /**
    * Test {@link Movie#equals(Object)}.
+   *
    * <ul>
-   *   <li>When other is {@code null}.</li>
-   *   <li>Then return not equal.</li>
+   *   <li>When other is {@code null}.
+   *   <li>Then return not equal.
    * </ul>
-   * <p>
-   * Method under test: {@link Movie#equals(Object)}
+   *
+   * <p>Method under test: {@link Movie#equals(Object)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"boolean Movie.equals(Object)", "int Movie.hashCode()"})
   public void testEquals_whenOtherIsNull_thenReturnNotEqual() {
     // Arrange, Act and Assert
@@ -179,15 +206,17 @@ public class MovieDiffblueTest {
 
   /**
    * Test {@link Movie#equals(Object)}.
+   *
    * <ul>
-   *   <li>When other is wrong type.</li>
-   *   <li>Then return not equal.</li>
+   *   <li>When other is wrong type.
+   *   <li>Then return not equal.
    * </ul>
-   * <p>
-   * Method under test: {@link Movie#equals(Object)}
+   *
+   * <p>Method under test: {@link Movie#equals(Object)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"boolean Movie.equals(Object)", "int Movie.hashCode()"})
   public void testEquals_whenOtherIsWrongType_thenReturnNotEqual() {
     // Arrange, Act and Assert
@@ -196,14 +225,16 @@ public class MovieDiffblueTest {
 
   /**
    * Test {@link Movie#from(ByteBuf)} with {@code byteBuf}.
+   *
    * <ul>
-   *   <li>Then throw {@link IllegalArgumentException}.</li>
+   *   <li>Then throw {@link IllegalArgumentException}.
    * </ul>
-   * <p>
-   * Method under test: {@link Movie#from(ByteBuf)}
+   *
+   * <p>Method under test: {@link Movie#from(ByteBuf)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"Movie Movie.from(ByteBuf)"})
   public void testFromWithByteBuf_thenThrowIllegalArgumentException() {
     // Arrange, Act and Assert
@@ -213,38 +244,43 @@ public class MovieDiffblueTest {
 
   /**
    * Test {@link Movie#from(String)} with {@code formatted}.
+   *
    * <ul>
-   *   <li>Then return AgeGroup is {@code U}.</li>
+   *   <li>Then return AgeGroup is {@code UU}.
    * </ul>
-   * <p>
-   * Method under test: {@link Movie#from(String)}
+   *
+   * <p>Method under test: {@link Movie#from(String)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"Movie Movie.from(String)"})
-  public void testFromWithFormatted_thenReturnAgeGroupIsU() {
+  public void testFromWithFormatted_thenReturnAgeGroupIsUu() {
     // Arrange and Act
-    Movie actualFromResult = Movie.from("{id='U', name='U', category='U', ageGroup='U', contentURI='U'}");
+    Movie actualFromResult =
+        Movie.from("{id='UU', name='UU', category='UU', ageGroup='UU', contentURI='UU'}");
 
     // Assert
-    assertEquals("U", actualFromResult.getAgeGroup());
-    assertEquals("U", actualFromResult.getCategory());
-    assertEquals("U", actualFromResult.getContentURI());
-    assertEquals("U", actualFromResult.getId());
-    assertEquals("U", actualFromResult.getName());
+    assertEquals("UU", actualFromResult.getAgeGroup());
+    assertEquals("UU", actualFromResult.getCategory());
+    assertEquals("UU", actualFromResult.getContentURI());
+    assertEquals("UU", actualFromResult.getId());
+    assertEquals("UU", actualFromResult.getName());
   }
 
   /**
    * Test {@link Movie#from(String)} with {@code formatted}.
+   *
    * <ul>
-   *   <li>When {@code Formatted}.</li>
-   *   <li>Then throw {@link IllegalArgumentException}.</li>
+   *   <li>When {@code Formatted}.
+   *   <li>Then throw {@link IllegalArgumentException}.
    * </ul>
-   * <p>
-   * Method under test: {@link Movie#from(String)}
+   *
+   * <p>Method under test: {@link Movie#from(String)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"Movie Movie.from(String)"})
   public void testFromWithFormatted_whenFormatted_thenThrowIllegalArgumentException() {
     // Arrange, Act and Assert

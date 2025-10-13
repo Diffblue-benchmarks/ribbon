@@ -4,7 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import com.diffblue.cover.annotations.MaintainedByDiffblue;
+import com.diffblue.cover.annotations.ContributionFromDiffblue;
+import com.diffblue.cover.annotations.ManagedByDiffblue;
 import com.diffblue.cover.annotations.MethodsUnderTest;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -12,15 +13,17 @@ import org.junit.experimental.categories.Category;
 public class DiscoveryEnabledNIWSServerListDiffblueTest {
   /**
    * Test {@link DiscoveryEnabledNIWSServerList#DiscoveryEnabledNIWSServerList()}.
-   * <p>
-   * Method under test: {@link DiscoveryEnabledNIWSServerList#DiscoveryEnabledNIWSServerList()}
+   *
+   * <p>Method under test: {@link DiscoveryEnabledNIWSServerList#DiscoveryEnabledNIWSServerList()}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"void DiscoveryEnabledNIWSServerList.<init>()"})
   public void testNewDiscoveryEnabledNIWSServerList() {
     // Arrange and Act
-    DiscoveryEnabledNIWSServerList actualDiscoveryEnabledNIWSServerList = new DiscoveryEnabledNIWSServerList();
+    DiscoveryEnabledNIWSServerList actualDiscoveryEnabledNIWSServerList =
+        new DiscoveryEnabledNIWSServerList();
 
     // Assert
     assertNull(actualDiscoveryEnabledNIWSServerList.getVipAddresses());
@@ -38,19 +41,22 @@ public class DiscoveryEnabledNIWSServerListDiffblueTest {
 
   /**
    * Test {@link DiscoveryEnabledNIWSServerList#DiscoveryEnabledNIWSServerList(String)}.
+   *
    * <ul>
-   *   <li>Then return VipAddresses is {@code 42 Main St}.</li>
+   *   <li>Then return VipAddresses is {@code 42 Main St}.
    * </ul>
-   * <p>
-   * Method under test: {@link DiscoveryEnabledNIWSServerList#DiscoveryEnabledNIWSServerList(String)}
+   *
+   * <p>Method under test: {@link
+   * DiscoveryEnabledNIWSServerList#DiscoveryEnabledNIWSServerList(String)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"void DiscoveryEnabledNIWSServerList.<init>(String)"})
   public void testNewDiscoveryEnabledNIWSServerList_thenReturnVipAddressesIs42MainSt() {
     // Arrange and Act
-    DiscoveryEnabledNIWSServerList actualDiscoveryEnabledNIWSServerList = new DiscoveryEnabledNIWSServerList(
-        "42 Main St");
+    DiscoveryEnabledNIWSServerList actualDiscoveryEnabledNIWSServerList =
+        new DiscoveryEnabledNIWSServerList("42 Main St");
 
     // Assert
     assertEquals("", actualDiscoveryEnabledNIWSServerList.clientName);
@@ -68,23 +74,27 @@ public class DiscoveryEnabledNIWSServerListDiffblueTest {
 
   /**
    * Test {@link DiscoveryEnabledNIWSServerList#DiscoveryEnabledNIWSServerList(String)}.
+   *
    * <ul>
-   *   <li>When {@code ${UU}}.</li>
-   *   <li>Then return VipAddresses is {@code ${UU}}.</li>
+   *   <li>When {@code ${xx}}.
+   *   <li>Then return VipAddresses is {@code ${xx}}.
    * </ul>
-   * <p>
-   * Method under test: {@link DiscoveryEnabledNIWSServerList#DiscoveryEnabledNIWSServerList(String)}
+   *
+   * <p>Method under test: {@link
+   * DiscoveryEnabledNIWSServerList#DiscoveryEnabledNIWSServerList(String)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"void DiscoveryEnabledNIWSServerList.<init>(String)"})
-  public void testNewDiscoveryEnabledNIWSServerList_whenUu_thenReturnVipAddressesIsUu() {
+  public void testNewDiscoveryEnabledNIWSServerList_whenXx_thenReturnVipAddressesIsXx() {
     // Arrange and Act
-    DiscoveryEnabledNIWSServerList actualDiscoveryEnabledNIWSServerList = new DiscoveryEnabledNIWSServerList("${UU}");
+    DiscoveryEnabledNIWSServerList actualDiscoveryEnabledNIWSServerList =
+        new DiscoveryEnabledNIWSServerList("${xx}");
 
     // Assert
     assertEquals("", actualDiscoveryEnabledNIWSServerList.clientName);
-    assertEquals("${UU}", actualDiscoveryEnabledNIWSServerList.getVipAddresses());
+    assertEquals("${xx}", actualDiscoveryEnabledNIWSServerList.getVipAddresses());
     assertNull(actualDiscoveryEnabledNIWSServerList.datacenter);
     assertNull(actualDiscoveryEnabledNIWSServerList.targetRegion);
     assertEquals(7001, actualDiscoveryEnabledNIWSServerList.overridePort);
@@ -98,34 +108,37 @@ public class DiscoveryEnabledNIWSServerListDiffblueTest {
 
   /**
    * Test {@link DiscoveryEnabledNIWSServerList#getInitialListOfServers()}.
-   * <p>
-   * Method under test: {@link DiscoveryEnabledNIWSServerList#getInitialListOfServers()}
+   *
+   * <p>Method under test: {@link DiscoveryEnabledNIWSServerList#getInitialListOfServers()}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"java.util.List DiscoveryEnabledNIWSServerList.getInitialListOfServers()"})
   public void testGetInitialListOfServers() {
     // Arrange, Act and Assert
-    assertTrue((new DiscoveryEnabledNIWSServerList()).getInitialListOfServers().isEmpty());
+    assertTrue(new DiscoveryEnabledNIWSServerList().getInitialListOfServers().isEmpty());
   }
 
   /**
    * Test {@link DiscoveryEnabledNIWSServerList#getUpdatedListOfServers()}.
-   * <p>
-   * Method under test: {@link DiscoveryEnabledNIWSServerList#getUpdatedListOfServers()}
+   *
+   * <p>Method under test: {@link DiscoveryEnabledNIWSServerList#getUpdatedListOfServers()}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"java.util.List DiscoveryEnabledNIWSServerList.getUpdatedListOfServers()"})
   public void testGetUpdatedListOfServers() {
     // Arrange, Act and Assert
-    assertTrue((new DiscoveryEnabledNIWSServerList()).getUpdatedListOfServers().isEmpty());
+    assertTrue(new DiscoveryEnabledNIWSServerList().getUpdatedListOfServers().isEmpty());
   }
 
   /**
    * Test getters and setters.
-   * <p>
-   * Methods under test:
+   *
+   * <p>Methods under test:
+   *
    * <ul>
    *   <li>{@link DiscoveryEnabledNIWSServerList#setVipAddresses(String)}
    *   <li>{@link DiscoveryEnabledNIWSServerList#toString()}
@@ -133,13 +146,17 @@ public class DiscoveryEnabledNIWSServerListDiffblueTest {
    * </ul>
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
-  @MethodsUnderTest({"String DiscoveryEnabledNIWSServerList.getVipAddresses()",
-      "void DiscoveryEnabledNIWSServerList.setVipAddresses(String)",
-      "String DiscoveryEnabledNIWSServerList.toString()"})
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "String DiscoveryEnabledNIWSServerList.getVipAddresses()",
+    "void DiscoveryEnabledNIWSServerList.setVipAddresses(String)",
+    "String DiscoveryEnabledNIWSServerList.toString()"
+  })
   public void testGettersAndSetters() {
     // Arrange
-    DiscoveryEnabledNIWSServerList discoveryEnabledNIWSServerList = new DiscoveryEnabledNIWSServerList();
+    DiscoveryEnabledNIWSServerList discoveryEnabledNIWSServerList =
+        new DiscoveryEnabledNIWSServerList();
 
     // Act
     discoveryEnabledNIWSServerList.setVipAddresses("42 Main St");
@@ -147,7 +164,9 @@ public class DiscoveryEnabledNIWSServerListDiffblueTest {
 
     // Assert
     assertEquals("42 Main St", discoveryEnabledNIWSServerList.getVipAddresses());
-    assertEquals("DiscoveryEnabledNIWSServerList:; clientName:null; Effective vipAddresses:42 Main St; isSecure:false;"
-        + " datacenter:null", actualToStringResult);
+    assertEquals(
+        "DiscoveryEnabledNIWSServerList:; clientName:null; Effective vipAddresses:42 Main St; isSecure:false;"
+            + " datacenter:null",
+        actualToStringResult);
   }
 }

@@ -4,7 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
-import com.diffblue.cover.annotations.MaintainedByDiffblue;
+import com.diffblue.cover.annotations.ContributionFromDiffblue;
+import com.diffblue.cover.annotations.ManagedByDiffblue;
 import com.diffblue.cover.annotations.MethodsUnderTest;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +15,9 @@ import org.junit.experimental.categories.Category;
 public class ParsedTemplateDiffblueTest {
   /**
    * Test getters and setters.
-   * <p>
-   * Methods under test:
+   *
+   * <p>Methods under test:
+   *
    * <ul>
    *   <li>{@link ParsedTemplate#ParsedTemplate(List, String)}
    *   <li>{@link ParsedTemplate#getParsed()}
@@ -23,9 +25,13 @@ public class ParsedTemplateDiffblueTest {
    * </ul>
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
-  @MethodsUnderTest({"void ParsedTemplate.<init>(List, String)", "List ParsedTemplate.getParsed()",
-      "String ParsedTemplate.getTemplate()"})
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "void ParsedTemplate.<init>(List, String)",
+    "List ParsedTemplate.getParsed()",
+    "String ParsedTemplate.getTemplate()"
+  })
   public void testGettersAndSetters() {
     // Arrange
     ArrayList<Object> parsed = new ArrayList<>();
@@ -42,15 +48,17 @@ public class ParsedTemplateDiffblueTest {
 
   /**
    * Test {@link ParsedTemplate#create(String)}.
+   *
    * <ul>
-   *   <li>When empty string.</li>
-   *   <li>Then return Template is empty string.</li>
+   *   <li>When empty string.
+   *   <li>Then return Template is empty string.
    * </ul>
-   * <p>
-   * Method under test: {@link ParsedTemplate#create(String)}
+   *
+   * <p>Method under test: {@link ParsedTemplate#create(String)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"ParsedTemplate ParsedTemplate.create(String)"})
   public void testCreate_whenEmptyString_thenReturnTemplateIsEmptyString() {
     // Arrange and Act
@@ -63,15 +71,17 @@ public class ParsedTemplateDiffblueTest {
 
   /**
    * Test {@link ParsedTemplate#create(String)}.
+   *
    * <ul>
-   *   <li>When {@code null}.</li>
-   *   <li>Then return Template is {@code null}.</li>
+   *   <li>When {@code null}.
+   *   <li>Then return Template is {@code null}.
    * </ul>
-   * <p>
-   * Method under test: {@link ParsedTemplate#create(String)}
+   *
+   * <p>Method under test: {@link ParsedTemplate#create(String)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"ParsedTemplate ParsedTemplate.create(String)"})
   public void testCreate_whenNull_thenReturnTemplateIsNull() {
     // Arrange and Act
@@ -84,15 +94,17 @@ public class ParsedTemplateDiffblueTest {
 
   /**
    * Test {@link ParsedTemplate#create(String)}.
+   *
    * <ul>
-   *   <li>When {@code Template}.</li>
-   *   <li>Then return {@code Template}.</li>
+   *   <li>When {@code Template}.
+   *   <li>Then return {@code Template}.
    * </ul>
-   * <p>
-   * Method under test: {@link ParsedTemplate#create(String)}
+   *
+   * <p>Method under test: {@link ParsedTemplate#create(String)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"ParsedTemplate ParsedTemplate.create(String)"})
   public void testCreate_whenTemplate_thenReturnTemplate() {
     // Arrange and Act

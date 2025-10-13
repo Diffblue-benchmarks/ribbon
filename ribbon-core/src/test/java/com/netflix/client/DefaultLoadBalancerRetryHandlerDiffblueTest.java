@@ -4,7 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
-import com.diffblue.cover.annotations.MaintainedByDiffblue;
+import com.diffblue.cover.annotations.ContributionFromDiffblue;
+import com.diffblue.cover.annotations.ManagedByDiffblue;
 import com.diffblue.cover.annotations.MethodsUnderTest;
 import com.netflix.client.config.DefaultClientConfigImpl;
 import com.netflix.client.config.IClientConfig;
@@ -18,24 +19,26 @@ import org.junit.experimental.categories.Category;
 public class DefaultLoadBalancerRetryHandlerDiffblueTest {
   /**
    * Test {@link DefaultLoadBalancerRetryHandler#DefaultLoadBalancerRetryHandler()}.
-   * <p>
-   * Method under test: {@link DefaultLoadBalancerRetryHandler#DefaultLoadBalancerRetryHandler()}
+   *
+   * <p>Method under test: {@link DefaultLoadBalancerRetryHandler#DefaultLoadBalancerRetryHandler()}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"void DefaultLoadBalancerRetryHandler.<init>()"})
   public void testNewDefaultLoadBalancerRetryHandler() {
     // Arrange and Act
-    DefaultLoadBalancerRetryHandler actualDefaultLoadBalancerRetryHandler = new DefaultLoadBalancerRetryHandler();
+    DefaultLoadBalancerRetryHandler actualDefaultLoadBalancerRetryHandler =
+        new DefaultLoadBalancerRetryHandler();
 
     // Assert
     assertEquals(0, actualDefaultLoadBalancerRetryHandler.getMaxRetriesOnNextServer());
     assertEquals(0, actualDefaultLoadBalancerRetryHandler.getMaxRetriesOnSameServer());
-    List<Class<? extends Throwable>> circuitRelatedExceptions = actualDefaultLoadBalancerRetryHandler
-        .getCircuitRelatedExceptions();
+    List<Class<? extends Throwable>> circuitRelatedExceptions =
+        actualDefaultLoadBalancerRetryHandler.getCircuitRelatedExceptions();
     assertEquals(2, circuitRelatedExceptions.size());
-    List<Class<? extends Throwable>> retriableExceptions = actualDefaultLoadBalancerRetryHandler
-        .getRetriableExceptions();
+    List<Class<? extends Throwable>> retriableExceptions =
+        actualDefaultLoadBalancerRetryHandler.getRetriableExceptions();
     assertEquals(2, retriableExceptions.size());
     assertFalse(actualDefaultLoadBalancerRetryHandler.retryEnabled);
     Class<ConnectException> expectedGetResult = ConnectException.class;
@@ -49,26 +52,29 @@ public class DefaultLoadBalancerRetryHandlerDiffblueTest {
   }
 
   /**
-   * Test {@link DefaultLoadBalancerRetryHandler#DefaultLoadBalancerRetryHandler(int, int, boolean)}.
-   * <p>
-   * Method under test: {@link DefaultLoadBalancerRetryHandler#DefaultLoadBalancerRetryHandler(int, int, boolean)}
+   * Test {@link DefaultLoadBalancerRetryHandler#DefaultLoadBalancerRetryHandler(int, int,
+   * boolean)}.
+   *
+   * <p>Method under test: {@link
+   * DefaultLoadBalancerRetryHandler#DefaultLoadBalancerRetryHandler(int, int, boolean)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"void DefaultLoadBalancerRetryHandler.<init>(int, int, boolean)"})
   public void testNewDefaultLoadBalancerRetryHandler2() {
     // Arrange and Act
-    DefaultLoadBalancerRetryHandler actualDefaultLoadBalancerRetryHandler = new DefaultLoadBalancerRetryHandler(1, 1,
-        true);
+    DefaultLoadBalancerRetryHandler actualDefaultLoadBalancerRetryHandler =
+        new DefaultLoadBalancerRetryHandler(1, 1, true);
 
     // Assert
     assertEquals(1, actualDefaultLoadBalancerRetryHandler.getMaxRetriesOnNextServer());
     assertEquals(1, actualDefaultLoadBalancerRetryHandler.getMaxRetriesOnSameServer());
-    List<Class<? extends Throwable>> circuitRelatedExceptions = actualDefaultLoadBalancerRetryHandler
-        .getCircuitRelatedExceptions();
+    List<Class<? extends Throwable>> circuitRelatedExceptions =
+        actualDefaultLoadBalancerRetryHandler.getCircuitRelatedExceptions();
     assertEquals(2, circuitRelatedExceptions.size());
-    List<Class<? extends Throwable>> retriableExceptions = actualDefaultLoadBalancerRetryHandler
-        .getRetriableExceptions();
+    List<Class<? extends Throwable>> retriableExceptions =
+        actualDefaultLoadBalancerRetryHandler.getRetriableExceptions();
     assertEquals(2, retriableExceptions.size());
     assertTrue(actualDefaultLoadBalancerRetryHandler.retryEnabled);
     Class<ConnectException> expectedGetResult = ConnectException.class;
@@ -83,24 +89,26 @@ public class DefaultLoadBalancerRetryHandlerDiffblueTest {
 
   /**
    * Test {@link DefaultLoadBalancerRetryHandler#DefaultLoadBalancerRetryHandler()}.
-   * <p>
-   * Method under test: {@link DefaultLoadBalancerRetryHandler#DefaultLoadBalancerRetryHandler()}
+   *
+   * <p>Method under test: {@link DefaultLoadBalancerRetryHandler#DefaultLoadBalancerRetryHandler()}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"void DefaultLoadBalancerRetryHandler.<init>()"})
   public void testNewDefaultLoadBalancerRetryHandler3() {
     // Arrange and Act
-    DefaultLoadBalancerRetryHandler actualDefaultLoadBalancerRetryHandler = new DefaultLoadBalancerRetryHandler();
+    DefaultLoadBalancerRetryHandler actualDefaultLoadBalancerRetryHandler =
+        new DefaultLoadBalancerRetryHandler();
 
     // Assert
     assertEquals(0, actualDefaultLoadBalancerRetryHandler.getMaxRetriesOnNextServer());
     assertEquals(0, actualDefaultLoadBalancerRetryHandler.getMaxRetriesOnSameServer());
-    List<Class<? extends Throwable>> circuitRelatedExceptions = actualDefaultLoadBalancerRetryHandler
-        .getCircuitRelatedExceptions();
+    List<Class<? extends Throwable>> circuitRelatedExceptions =
+        actualDefaultLoadBalancerRetryHandler.getCircuitRelatedExceptions();
     assertEquals(2, circuitRelatedExceptions.size());
-    List<Class<? extends Throwable>> retriableExceptions = actualDefaultLoadBalancerRetryHandler
-        .getRetriableExceptions();
+    List<Class<? extends Throwable>> retriableExceptions =
+        actualDefaultLoadBalancerRetryHandler.getRetriableExceptions();
     assertEquals(2, retriableExceptions.size());
     assertFalse(actualDefaultLoadBalancerRetryHandler.retryEnabled);
     Class<ConnectException> expectedGetResult = ConnectException.class;
@@ -114,26 +122,29 @@ public class DefaultLoadBalancerRetryHandlerDiffblueTest {
   }
 
   /**
-   * Test {@link DefaultLoadBalancerRetryHandler#DefaultLoadBalancerRetryHandler(int, int, boolean)}.
-   * <p>
-   * Method under test: {@link DefaultLoadBalancerRetryHandler#DefaultLoadBalancerRetryHandler(int, int, boolean)}
+   * Test {@link DefaultLoadBalancerRetryHandler#DefaultLoadBalancerRetryHandler(int, int,
+   * boolean)}.
+   *
+   * <p>Method under test: {@link
+   * DefaultLoadBalancerRetryHandler#DefaultLoadBalancerRetryHandler(int, int, boolean)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"void DefaultLoadBalancerRetryHandler.<init>(int, int, boolean)"})
   public void testNewDefaultLoadBalancerRetryHandler4() {
     // Arrange and Act
-    DefaultLoadBalancerRetryHandler actualDefaultLoadBalancerRetryHandler = new DefaultLoadBalancerRetryHandler(1, 1,
-        true);
+    DefaultLoadBalancerRetryHandler actualDefaultLoadBalancerRetryHandler =
+        new DefaultLoadBalancerRetryHandler(1, 1, true);
 
     // Assert
     assertEquals(1, actualDefaultLoadBalancerRetryHandler.getMaxRetriesOnNextServer());
     assertEquals(1, actualDefaultLoadBalancerRetryHandler.getMaxRetriesOnSameServer());
-    List<Class<? extends Throwable>> circuitRelatedExceptions = actualDefaultLoadBalancerRetryHandler
-        .getCircuitRelatedExceptions();
+    List<Class<? extends Throwable>> circuitRelatedExceptions =
+        actualDefaultLoadBalancerRetryHandler.getCircuitRelatedExceptions();
     assertEquals(2, circuitRelatedExceptions.size());
-    List<Class<? extends Throwable>> retriableExceptions = actualDefaultLoadBalancerRetryHandler
-        .getRetriableExceptions();
+    List<Class<? extends Throwable>> retriableExceptions =
+        actualDefaultLoadBalancerRetryHandler.getRetriableExceptions();
     assertEquals(2, retriableExceptions.size());
     assertTrue(actualDefaultLoadBalancerRetryHandler.retryEnabled);
     Class<ConnectException> expectedGetResult = ConnectException.class;
@@ -148,28 +159,31 @@ public class DefaultLoadBalancerRetryHandlerDiffblueTest {
 
   /**
    * Test {@link DefaultLoadBalancerRetryHandler#DefaultLoadBalancerRetryHandler(IClientConfig)}.
+   *
    * <ul>
-   *   <li>Then return MaxRetriesOnSameServer is zero.</li>
+   *   <li>Then return MaxRetriesOnSameServer is zero.
    * </ul>
-   * <p>
-   * Method under test: {@link DefaultLoadBalancerRetryHandler#DefaultLoadBalancerRetryHandler(IClientConfig)}
+   *
+   * <p>Method under test: {@link
+   * DefaultLoadBalancerRetryHandler#DefaultLoadBalancerRetryHandler(IClientConfig)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"void DefaultLoadBalancerRetryHandler.<init>(IClientConfig)"})
   public void testNewDefaultLoadBalancerRetryHandler_thenReturnMaxRetriesOnSameServerIsZero() {
     // Arrange and Act
-    DefaultLoadBalancerRetryHandler actualDefaultLoadBalancerRetryHandler = new DefaultLoadBalancerRetryHandler(
-        DefaultClientConfigImpl.getEmptyConfig());
+    DefaultLoadBalancerRetryHandler actualDefaultLoadBalancerRetryHandler =
+        new DefaultLoadBalancerRetryHandler(DefaultClientConfigImpl.getEmptyConfig());
 
     // Assert
     assertEquals(0, actualDefaultLoadBalancerRetryHandler.getMaxRetriesOnSameServer());
     assertEquals(1, actualDefaultLoadBalancerRetryHandler.getMaxRetriesOnNextServer());
-    List<Class<? extends Throwable>> circuitRelatedExceptions = actualDefaultLoadBalancerRetryHandler
-        .getCircuitRelatedExceptions();
+    List<Class<? extends Throwable>> circuitRelatedExceptions =
+        actualDefaultLoadBalancerRetryHandler.getCircuitRelatedExceptions();
     assertEquals(2, circuitRelatedExceptions.size());
-    List<Class<? extends Throwable>> retriableExceptions = actualDefaultLoadBalancerRetryHandler
-        .getRetriableExceptions();
+    List<Class<? extends Throwable>> retriableExceptions =
+        actualDefaultLoadBalancerRetryHandler.getRetriableExceptions();
     assertEquals(2, retriableExceptions.size());
     assertFalse(actualDefaultLoadBalancerRetryHandler.retryEnabled);
     Class<ConnectException> expectedGetResult = ConnectException.class;
@@ -184,28 +198,31 @@ public class DefaultLoadBalancerRetryHandlerDiffblueTest {
 
   /**
    * Test {@link DefaultLoadBalancerRetryHandler#DefaultLoadBalancerRetryHandler(IClientConfig)}.
+   *
    * <ul>
-   *   <li>Then return MaxRetriesOnSameServer is zero.</li>
+   *   <li>Then return MaxRetriesOnSameServer is zero.
    * </ul>
-   * <p>
-   * Method under test: {@link DefaultLoadBalancerRetryHandler#DefaultLoadBalancerRetryHandler(IClientConfig)}
+   *
+   * <p>Method under test: {@link
+   * DefaultLoadBalancerRetryHandler#DefaultLoadBalancerRetryHandler(IClientConfig)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"void DefaultLoadBalancerRetryHandler.<init>(IClientConfig)"})
   public void testNewDefaultLoadBalancerRetryHandler_thenReturnMaxRetriesOnSameServerIsZero2() {
     // Arrange and Act
-    DefaultLoadBalancerRetryHandler actualDefaultLoadBalancerRetryHandler = new DefaultLoadBalancerRetryHandler(
-        DefaultClientConfigImpl.getEmptyConfig());
+    DefaultLoadBalancerRetryHandler actualDefaultLoadBalancerRetryHandler =
+        new DefaultLoadBalancerRetryHandler(DefaultClientConfigImpl.getEmptyConfig());
 
     // Assert
     assertEquals(0, actualDefaultLoadBalancerRetryHandler.getMaxRetriesOnSameServer());
     assertEquals(1, actualDefaultLoadBalancerRetryHandler.getMaxRetriesOnNextServer());
-    List<Class<? extends Throwable>> circuitRelatedExceptions = actualDefaultLoadBalancerRetryHandler
-        .getCircuitRelatedExceptions();
+    List<Class<? extends Throwable>> circuitRelatedExceptions =
+        actualDefaultLoadBalancerRetryHandler.getCircuitRelatedExceptions();
     assertEquals(2, circuitRelatedExceptions.size());
-    List<Class<? extends Throwable>> retriableExceptions = actualDefaultLoadBalancerRetryHandler
-        .getRetriableExceptions();
+    List<Class<? extends Throwable>> retriableExceptions =
+        actualDefaultLoadBalancerRetryHandler.getRetriableExceptions();
     assertEquals(2, retriableExceptions.size());
     assertFalse(actualDefaultLoadBalancerRetryHandler.retryEnabled);
     Class<ConnectException> expectedGetResult = ConnectException.class;
@@ -220,8 +237,9 @@ public class DefaultLoadBalancerRetryHandlerDiffblueTest {
 
   /**
    * Test getters and setters.
-   * <p>
-   * Methods under test:
+   *
+   * <p>Methods under test:
+   *
    * <ul>
    *   <li>{@link DefaultLoadBalancerRetryHandler#getCircuitRelatedExceptions()}
    *   <li>{@link DefaultLoadBalancerRetryHandler#getMaxRetriesOnNextServer()}
@@ -230,22 +248,26 @@ public class DefaultLoadBalancerRetryHandlerDiffblueTest {
    * </ul>
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
-  @MethodsUnderTest({"List DefaultLoadBalancerRetryHandler.getCircuitRelatedExceptions()",
-      "int DefaultLoadBalancerRetryHandler.getMaxRetriesOnNextServer()",
-      "int DefaultLoadBalancerRetryHandler.getMaxRetriesOnSameServer()",
-      "List DefaultLoadBalancerRetryHandler.getRetriableExceptions()"})
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "List DefaultLoadBalancerRetryHandler.getCircuitRelatedExceptions()",
+    "int DefaultLoadBalancerRetryHandler.getMaxRetriesOnNextServer()",
+    "int DefaultLoadBalancerRetryHandler.getMaxRetriesOnSameServer()",
+    "List DefaultLoadBalancerRetryHandler.getRetriableExceptions()"
+  })
   public void testGettersAndSetters() {
     // Arrange
-    DefaultLoadBalancerRetryHandler defaultLoadBalancerRetryHandler = new DefaultLoadBalancerRetryHandler();
+    DefaultLoadBalancerRetryHandler defaultLoadBalancerRetryHandler =
+        new DefaultLoadBalancerRetryHandler();
 
     // Act
-    List<Class<? extends Throwable>> actualCircuitRelatedExceptions = defaultLoadBalancerRetryHandler
-        .getCircuitRelatedExceptions();
+    List<Class<? extends Throwable>> actualCircuitRelatedExceptions =
+        defaultLoadBalancerRetryHandler.getCircuitRelatedExceptions();
     int actualMaxRetriesOnNextServer = defaultLoadBalancerRetryHandler.getMaxRetriesOnNextServer();
     int actualMaxRetriesOnSameServer = defaultLoadBalancerRetryHandler.getMaxRetriesOnSameServer();
-    List<Class<? extends Throwable>> actualRetriableExceptions = defaultLoadBalancerRetryHandler
-        .getRetriableExceptions();
+    List<Class<? extends Throwable>> actualRetriableExceptions =
+        defaultLoadBalancerRetryHandler.getRetriableExceptions();
 
     // Assert
     assertEquals(0, actualMaxRetriesOnNextServer);
@@ -264,8 +286,9 @@ public class DefaultLoadBalancerRetryHandlerDiffblueTest {
 
   /**
    * Test getters and setters.
-   * <p>
-   * Methods under test:
+   *
+   * <p>Methods under test:
+   *
    * <ul>
    *   <li>{@link DefaultLoadBalancerRetryHandler#getCircuitRelatedExceptions()}
    *   <li>{@link DefaultLoadBalancerRetryHandler#getMaxRetriesOnNextServer()}
@@ -274,22 +297,26 @@ public class DefaultLoadBalancerRetryHandlerDiffblueTest {
    * </ul>
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
-  @MethodsUnderTest({"List DefaultLoadBalancerRetryHandler.getCircuitRelatedExceptions()",
-      "int DefaultLoadBalancerRetryHandler.getMaxRetriesOnNextServer()",
-      "int DefaultLoadBalancerRetryHandler.getMaxRetriesOnSameServer()",
-      "List DefaultLoadBalancerRetryHandler.getRetriableExceptions()"})
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "List DefaultLoadBalancerRetryHandler.getCircuitRelatedExceptions()",
+    "int DefaultLoadBalancerRetryHandler.getMaxRetriesOnNextServer()",
+    "int DefaultLoadBalancerRetryHandler.getMaxRetriesOnSameServer()",
+    "List DefaultLoadBalancerRetryHandler.getRetriableExceptions()"
+  })
   public void testGettersAndSetters2() {
     // Arrange
-    DefaultLoadBalancerRetryHandler defaultLoadBalancerRetryHandler = new DefaultLoadBalancerRetryHandler();
+    DefaultLoadBalancerRetryHandler defaultLoadBalancerRetryHandler =
+        new DefaultLoadBalancerRetryHandler();
 
     // Act
-    List<Class<? extends Throwable>> actualCircuitRelatedExceptions = defaultLoadBalancerRetryHandler
-        .getCircuitRelatedExceptions();
+    List<Class<? extends Throwable>> actualCircuitRelatedExceptions =
+        defaultLoadBalancerRetryHandler.getCircuitRelatedExceptions();
     int actualMaxRetriesOnNextServer = defaultLoadBalancerRetryHandler.getMaxRetriesOnNextServer();
     int actualMaxRetriesOnSameServer = defaultLoadBalancerRetryHandler.getMaxRetriesOnSameServer();
-    List<Class<? extends Throwable>> actualRetriableExceptions = defaultLoadBalancerRetryHandler
-        .getRetriableExceptions();
+    List<Class<? extends Throwable>> actualRetriableExceptions =
+        defaultLoadBalancerRetryHandler.getRetriableExceptions();
 
     // Assert
     assertEquals(0, actualMaxRetriesOnNextServer);

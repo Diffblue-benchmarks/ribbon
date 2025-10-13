@@ -9,7 +9,8 @@ import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import com.diffblue.cover.annotations.MaintainedByDiffblue;
+import com.diffblue.cover.annotations.ContributionFromDiffblue;
+import com.diffblue.cover.annotations.ManagedByDiffblue;
 import com.diffblue.cover.annotations.MethodsUnderTest;
 import com.netflix.client.config.DefaultClientConfigImplTest.NewConfigKey;
 import com.netflix.client.config.IClientConfig.Builder;
@@ -20,16 +21,16 @@ import org.junit.experimental.categories.Category;
 import org.junit.rules.ExpectedException;
 
 public class ReloadableClientConfigDiffblueTest {
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
+  @Rule public ExpectedException thrown = ExpectedException.none();
 
   /**
    * Test {@link ReloadableClientConfig#setClientName(String)}.
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#setClientName(String)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#setClientName(String)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"void ReloadableClientConfig.setClientName(String)"})
   public void testSetClientName() {
     // Arrange
@@ -44,11 +45,12 @@ public class ReloadableClientConfigDiffblueTest {
 
   /**
    * Test {@link ReloadableClientConfig#getClientName()}.
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#getClientName()}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#getClientName()}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"String ReloadableClientConfig.getClientName()"})
   public void testGetClientName() {
     // Arrange, Act and Assert
@@ -57,24 +59,28 @@ public class ReloadableClientConfigDiffblueTest {
 
   /**
    * Test {@link ReloadableClientConfig#getNameSpace()}.
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#getNameSpace()}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#getNameSpace()}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"String ReloadableClientConfig.getNameSpace()"})
   public void testGetNameSpace() {
     // Arrange, Act and Assert
-    assertEquals(CommonClientConfigKey.DEFAULT_NAME_SPACE, DefaultClientConfigImpl.getEmptyConfig().getNameSpace());
+    assertEquals(
+        CommonClientConfigKey.DEFAULT_NAME_SPACE,
+        DefaultClientConfigImpl.getEmptyConfig().getNameSpace());
   }
 
   /**
    * Test {@link ReloadableClientConfig#setNameSpace(String)}.
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#setNameSpace(String)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#setNameSpace(String)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"void ReloadableClientConfig.setNameSpace(String)"})
   public void testSetNameSpace() {
     // Arrange
@@ -89,16 +95,18 @@ public class ReloadableClientConfigDiffblueTest {
 
   /**
    * Test {@link ReloadableClientConfig#loadProperties(String)}.
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#loadProperties(String)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#loadProperties(String)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"void ReloadableClientConfig.loadProperties(String)"})
   public void testLoadProperties() {
     // Arrange
-    DefaultClientConfigImpl clientConfigWithDefaultValues = DefaultClientConfigImpl
-        .getClientConfigWithDefaultValues("Dr Jane Doe", "[{}] loading config");
+    DefaultClientConfigImpl clientConfigWithDefaultValues =
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues(
+            "Dr Jane Doe", "[{}] loading config");
 
     // Act
     clientConfigWithDefaultValues.loadProperties("Dr Jane Doe");
@@ -107,28 +115,31 @@ public class ReloadableClientConfigDiffblueTest {
     Map<String, Object> properties = clientConfigWithDefaultValues.getProperties();
     assertEquals(39, properties.size());
     assertEquals("", properties.get("listOfServers"));
-    String expectedString = Boolean.FALSE.toString();
-    assertEquals(expectedString, properties.get("EnableZoneAffinity"));
-    String expectedString2 = Boolean.FALSE.toString();
-    assertEquals(expectedString2, properties.get("FollowRedirects"));
-    String expectedString3 = Boolean.FALSE.toString();
-    assertEquals(expectedString3, properties.get("IsClientAuthRequired"));
-    assertEquals(AbstractDefaultClientConfigImpl.DEFAULT_CLIENT_CLASSNAME, properties.get("ClientClassName"));
-    assertEquals(AbstractDefaultClientConfigImpl.DEFAULT_PRIME_CONNECTIONS_URI, properties.get("PrimeConnectionsURI"));
+    assertEquals(Boolean.FALSE.toString(), properties.get("EnableZoneAffinity"));
+    assertEquals(Boolean.FALSE.toString(), properties.get("FollowRedirects"));
+    assertEquals(Boolean.FALSE.toString(), properties.get("IsClientAuthRequired"));
+    assertEquals(
+        AbstractDefaultClientConfigImpl.DEFAULT_CLIENT_CLASSNAME,
+        properties.get("ClientClassName"));
+    assertEquals(
+        AbstractDefaultClientConfigImpl.DEFAULT_PRIME_CONNECTIONS_URI,
+        properties.get("PrimeConnectionsURI"));
   }
 
   /**
    * Test {@link ReloadableClientConfig#loadProperties(String)}.
+   *
    * <ul>
-   *   <li>Given EmptyConfig.</li>
-   *   <li>When {@code null}.</li>
-   *   <li>Then EmptyConfig ClientName is {@code null}.</li>
+   *   <li>Given EmptyConfig.
+   *   <li>When {@code null}.
+   *   <li>Then EmptyConfig ClientName is {@code null}.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#loadProperties(String)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#loadProperties(String)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"void ReloadableClientConfig.loadProperties(String)"})
   public void testLoadProperties_givenEmptyConfig_whenNull_thenEmptyConfigClientNameIsNull() {
     // Arrange
@@ -142,27 +153,30 @@ public class ReloadableClientConfigDiffblueTest {
     assertEquals(39, properties.size());
     assertEquals("", properties.get("listOfServers"));
     assertNull(emptyConfig.getClientName());
-    String expectedString = Boolean.FALSE.toString();
-    assertEquals(expectedString, properties.get("EnableZoneAffinity"));
-    String expectedString2 = Boolean.FALSE.toString();
-    assertEquals(expectedString2, properties.get("FollowRedirects"));
-    String expectedString3 = Boolean.FALSE.toString();
-    assertEquals(expectedString3, properties.get("IsClientAuthRequired"));
-    assertEquals(AbstractDefaultClientConfigImpl.DEFAULT_CLIENT_CLASSNAME, properties.get("ClientClassName"));
-    assertEquals(AbstractDefaultClientConfigImpl.DEFAULT_PRIME_CONNECTIONS_URI, properties.get("PrimeConnectionsURI"));
+    assertEquals(Boolean.FALSE.toString(), properties.get("EnableZoneAffinity"));
+    assertEquals(Boolean.FALSE.toString(), properties.get("FollowRedirects"));
+    assertEquals(Boolean.FALSE.toString(), properties.get("IsClientAuthRequired"));
+    assertEquals(
+        AbstractDefaultClientConfigImpl.DEFAULT_CLIENT_CLASSNAME,
+        properties.get("ClientClassName"));
+    assertEquals(
+        AbstractDefaultClientConfigImpl.DEFAULT_PRIME_CONNECTIONS_URI,
+        properties.get("PrimeConnectionsURI"));
   }
 
   /**
    * Test {@link ReloadableClientConfig#loadProperties(String)}.
+   *
    * <ul>
-   *   <li>When {@code Dr Jane Doe}.</li>
-   *   <li>Then EmptyConfig ClientName is {@code Dr Jane Doe}.</li>
+   *   <li>When {@code Dr Jane Doe}.
+   *   <li>Then EmptyConfig ClientName is {@code Dr Jane Doe}.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#loadProperties(String)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#loadProperties(String)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"void ReloadableClientConfig.loadProperties(String)"})
   public void testLoadProperties_whenDrJaneDoe_thenEmptyConfigClientNameIsDrJaneDoe() {
     // Arrange
@@ -176,27 +190,30 @@ public class ReloadableClientConfigDiffblueTest {
     assertEquals(39, properties.size());
     assertEquals("", properties.get("listOfServers"));
     assertEquals("Dr Jane Doe", emptyConfig.getClientName());
-    String expectedString = Boolean.FALSE.toString();
-    assertEquals(expectedString, properties.get("EnableZoneAffinity"));
-    String expectedString2 = Boolean.FALSE.toString();
-    assertEquals(expectedString2, properties.get("FollowRedirects"));
-    String expectedString3 = Boolean.FALSE.toString();
-    assertEquals(expectedString3, properties.get("IsClientAuthRequired"));
-    assertEquals(AbstractDefaultClientConfigImpl.DEFAULT_CLIENT_CLASSNAME, properties.get("ClientClassName"));
-    assertEquals(AbstractDefaultClientConfigImpl.DEFAULT_PRIME_CONNECTIONS_URI, properties.get("PrimeConnectionsURI"));
+    assertEquals(Boolean.FALSE.toString(), properties.get("EnableZoneAffinity"));
+    assertEquals(Boolean.FALSE.toString(), properties.get("FollowRedirects"));
+    assertEquals(Boolean.FALSE.toString(), properties.get("IsClientAuthRequired"));
+    assertEquals(
+        AbstractDefaultClientConfigImpl.DEFAULT_CLIENT_CLASSNAME,
+        properties.get("ClientClassName"));
+    assertEquals(
+        AbstractDefaultClientConfigImpl.DEFAULT_PRIME_CONNECTIONS_URI,
+        properties.get("PrimeConnectionsURI"));
   }
 
   /**
    * Test {@link ReloadableClientConfig#loadProperties(String)}.
+   *
    * <ul>
-   *   <li>When empty string.</li>
-   *   <li>Then EmptyConfig ClientName is empty string.</li>
+   *   <li>When empty string.
+   *   <li>Then EmptyConfig ClientName is empty string.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#loadProperties(String)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#loadProperties(String)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"void ReloadableClientConfig.loadProperties(String)"})
   public void testLoadProperties_whenEmptyString_thenEmptyConfigClientNameIsEmptyString() {
     // Arrange
@@ -210,27 +227,30 @@ public class ReloadableClientConfigDiffblueTest {
     Map<String, Object> properties = emptyConfig.getProperties();
     assertEquals(39, properties.size());
     assertEquals("", properties.get("listOfServers"));
-    String expectedString = Boolean.FALSE.toString();
-    assertEquals(expectedString, properties.get("EnableZoneAffinity"));
-    String expectedString2 = Boolean.FALSE.toString();
-    assertEquals(expectedString2, properties.get("FollowRedirects"));
-    String expectedString3 = Boolean.FALSE.toString();
-    assertEquals(expectedString3, properties.get("IsClientAuthRequired"));
-    assertEquals(AbstractDefaultClientConfigImpl.DEFAULT_CLIENT_CLASSNAME, properties.get("ClientClassName"));
-    assertEquals(AbstractDefaultClientConfigImpl.DEFAULT_PRIME_CONNECTIONS_URI, properties.get("PrimeConnectionsURI"));
+    assertEquals(Boolean.FALSE.toString(), properties.get("EnableZoneAffinity"));
+    assertEquals(Boolean.FALSE.toString(), properties.get("FollowRedirects"));
+    assertEquals(Boolean.FALSE.toString(), properties.get("IsClientAuthRequired"));
+    assertEquals(
+        AbstractDefaultClientConfigImpl.DEFAULT_CLIENT_CLASSNAME,
+        properties.get("ClientClassName"));
+    assertEquals(
+        AbstractDefaultClientConfigImpl.DEFAULT_PRIME_CONNECTIONS_URI,
+        properties.get("PrimeConnectionsURI"));
   }
 
   /**
    * Test {@link ReloadableClientConfig#getProperties()}.
+   *
    * <ul>
-   *   <li>Given EmptyConfig.</li>
-   *   <li>Then return Empty.</li>
+   *   <li>Given EmptyConfig.
+   *   <li>Then return Empty.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#getProperties()}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#getProperties()}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"Map ReloadableClientConfig.getProperties()"})
   public void testGetProperties_givenEmptyConfig_thenReturnEmpty() {
     // Arrange, Act and Assert
@@ -239,55 +259,59 @@ public class ReloadableClientConfigDiffblueTest {
 
   /**
    * Test {@link ReloadableClientConfig#getProperties()}.
+   *
    * <ul>
-   *   <li>Then return size is thirty-nine.</li>
+   *   <li>Then return size is thirty-nine.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#getProperties()}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#getProperties()}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"Map ReloadableClientConfig.getProperties()"})
   public void testGetProperties_thenReturnSizeIsThirtyNine() {
     // Arrange and Act
-    Map<String, Object> actualProperties = DefaultClientConfigImpl
-        .getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space")
-        .getProperties();
+    Map<String, Object> actualProperties =
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space")
+            .getProperties();
 
     // Assert
     assertEquals(39, actualProperties.size());
     assertEquals("", actualProperties.get("listOfServers"));
     assertEquals("5000", actualProperties.get("ReadTimeout"));
     assertEquals("7001", actualProperties.get("Port"));
-    String expectedString = Boolean.FALSE.toString();
-    assertEquals(expectedString, actualProperties.get("EnableZoneAffinity"));
-    String expectedString2 = Boolean.FALSE.toString();
-    assertEquals(expectedString2, actualProperties.get("FollowRedirects"));
-    String expectedString3 = Boolean.FALSE.toString();
-    assertEquals(expectedString3, actualProperties.get("IsClientAuthRequired"));
-    String expectedString4 = Boolean.FALSE.toString();
-    assertEquals(expectedString4, actualProperties.get("OkToRetryOnAllOperations"));
-    String expectedString5 = Boolean.TRUE.toString();
-    assertEquals(expectedString5, actualProperties.get("PrioritizeVipAddressBasedServers"));
-    assertEquals(AbstractDefaultClientConfigImpl.DEFAULT_CLIENT_CLASSNAME, actualProperties.get("ClientClassName"));
-    assertEquals(AbstractDefaultClientConfigImpl.DEFAULT_NFLOADBALANCER_CLASSNAME,
+    assertEquals(Boolean.FALSE.toString(), actualProperties.get("EnableZoneAffinity"));
+    assertEquals(Boolean.FALSE.toString(), actualProperties.get("FollowRedirects"));
+    assertEquals(Boolean.FALSE.toString(), actualProperties.get("IsClientAuthRequired"));
+    assertEquals(Boolean.FALSE.toString(), actualProperties.get("OkToRetryOnAllOperations"));
+    assertEquals(Boolean.TRUE.toString(), actualProperties.get("PrioritizeVipAddressBasedServers"));
+    assertEquals(
+        AbstractDefaultClientConfigImpl.DEFAULT_CLIENT_CLASSNAME,
+        actualProperties.get("ClientClassName"));
+    assertEquals(
+        AbstractDefaultClientConfigImpl.DEFAULT_NFLOADBALANCER_CLASSNAME,
         actualProperties.get("NFLoadBalancerClassName"));
-    assertEquals(AbstractDefaultClientConfigImpl.DEFAULT_PRIME_CONNECTIONS_URI,
+    assertEquals(
+        AbstractDefaultClientConfigImpl.DEFAULT_PRIME_CONNECTIONS_URI,
         actualProperties.get("PrimeConnectionsURI"));
   }
 
   /**
-   * Test {@link ReloadableClientConfig#get(IClientConfigKey, Object)} with {@code key}, {@code defaultValue}.
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#get(IClientConfigKey, Object)}
+   * Test {@link ReloadableClientConfig#get(IClientConfigKey, Object)} with {@code key}, {@code
+   * defaultValue}.
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#get(IClientConfigKey, Object)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"Object ReloadableClientConfig.get(IClientConfigKey, Object)"})
   public void testGetWithKeyDefaultValue() {
     // Arrange
-    DefaultClientConfigImpl clientConfigWithDefaultValues = DefaultClientConfigImpl.getClientConfigWithDefaultValues("",
-        "Name Space");
+    DefaultClientConfigImpl clientConfigWithDefaultValues =
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues("", "Name Space");
+
     NewConfigKey<Object> key = mock(NewConfigKey.class);
     Class<Object> forNameResult = Object.class;
     when(key.type()).thenReturn(forNameResult);
@@ -303,20 +327,24 @@ public class ReloadableClientConfigDiffblueTest {
   }
 
   /**
-   * Test {@link ReloadableClientConfig#get(IClientConfigKey, Object)} with {@code key}, {@code defaultValue}.
+   * Test {@link ReloadableClientConfig#get(IClientConfigKey, Object)} with {@code key}, {@code
+   * defaultValue}.
+   *
    * <ul>
-   *   <li>Given ClientConfigWithDefaultValues {@code null} is {@code Name Space}.</li>
+   *   <li>Given ClientConfigWithDefaultValues {@code null} is {@code Name Space}.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#get(IClientConfigKey, Object)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#get(IClientConfigKey, Object)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"Object ReloadableClientConfig.get(IClientConfigKey, Object)"})
   public void testGetWithKeyDefaultValue_givenClientConfigWithDefaultValuesNullIsNameSpace() {
     // Arrange
-    DefaultClientConfigImpl clientConfigWithDefaultValues = DefaultClientConfigImpl
-        .getClientConfigWithDefaultValues(null, "Name Space");
+    DefaultClientConfigImpl clientConfigWithDefaultValues =
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues(null, "Name Space");
+
     NewConfigKey<Object> key = mock(NewConfigKey.class);
     Class<Object> forNameResult = Object.class;
     when(key.type()).thenReturn(forNameResult);
@@ -332,38 +360,46 @@ public class ReloadableClientConfigDiffblueTest {
   }
 
   /**
-   * Test {@link ReloadableClientConfig#get(IClientConfigKey, Object)} with {@code key}, {@code defaultValue}.
+   * Test {@link ReloadableClientConfig#get(IClientConfigKey, Object)} with {@code key}, {@code
+   * defaultValue}.
+   *
    * <ul>
-   *   <li>Given EmptyConfig.</li>
-   *   <li>When {@link NewConfigKey}.</li>
+   *   <li>Given EmptyConfig.
+   *   <li>When {@link NewConfigKey}.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#get(IClientConfigKey, Object)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#get(IClientConfigKey, Object)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"Object ReloadableClientConfig.get(IClientConfigKey, Object)"})
   public void testGetWithKeyDefaultValue_givenEmptyConfig_whenNewConfigKey() {
     // Arrange, Act and Assert
-    assertEquals("Default Value",
+    assertEquals(
+        "Default Value",
         DefaultClientConfigImpl.getEmptyConfig().get(mock(NewConfigKey.class), "Default Value"));
   }
 
   /**
-   * Test {@link ReloadableClientConfig#get(IClientConfigKey, Object)} with {@code key}, {@code defaultValue}.
+   * Test {@link ReloadableClientConfig#get(IClientConfigKey, Object)} with {@code key}, {@code
+   * defaultValue}.
+   *
    * <ul>
-   *   <li>Then calls {@link CommonClientConfigKey#type()}.</li>
+   *   <li>Then calls {@link NewConfigKey#type()}.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#get(IClientConfigKey, Object)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#get(IClientConfigKey, Object)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"Object ReloadableClientConfig.get(IClientConfigKey, Object)"})
   public void testGetWithKeyDefaultValue_thenCallsType() {
     // Arrange
-    DefaultClientConfigImpl clientConfigWithDefaultValues = DefaultClientConfigImpl
-        .getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space");
+    DefaultClientConfigImpl clientConfigWithDefaultValues =
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space");
+
     NewConfigKey<Object> key = mock(NewConfigKey.class);
     Class<Object> forNameResult = Object.class;
     when(key.type()).thenReturn(forNameResult);
@@ -380,19 +416,22 @@ public class ReloadableClientConfigDiffblueTest {
 
   /**
    * Test {@link ReloadableClientConfig#get(IClientConfigKey)} with {@code key}.
+   *
    * <ul>
-   *   <li>Given ClientConfigWithDefaultValues empty string is {@code Name Space}.</li>
+   *   <li>Given ClientConfigWithDefaultValues empty string is {@code Name Space}.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#get(IClientConfigKey)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#get(IClientConfigKey)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"Object ReloadableClientConfig.get(IClientConfigKey)"})
   public void testGetWithKey_givenClientConfigWithDefaultValuesEmptyStringIsNameSpace() {
     // Arrange
-    DefaultClientConfigImpl clientConfigWithDefaultValues = DefaultClientConfigImpl.getClientConfigWithDefaultValues("",
-        "Name Space");
+    DefaultClientConfigImpl clientConfigWithDefaultValues =
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues("", "Name Space");
+
     NewConfigKey<Object> key = mock(NewConfigKey.class);
     Class<Object> forNameResult = Object.class;
     when(key.type()).thenReturn(forNameResult);
@@ -409,20 +448,23 @@ public class ReloadableClientConfigDiffblueTest {
 
   /**
    * Test {@link ReloadableClientConfig#get(IClientConfigKey)} with {@code key}.
+   *
    * <ul>
-   *   <li>Given ClientConfigWithDefaultValues {@code null} is {@code Name Space}.</li>
-   *   <li>Then calls {@link CommonClientConfigKey#type()}.</li>
+   *   <li>Given ClientConfigWithDefaultValues {@code null} is {@code Name Space}.
+   *   <li>Then calls {@link NewConfigKey#type()}.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#get(IClientConfigKey)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#get(IClientConfigKey)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"Object ReloadableClientConfig.get(IClientConfigKey)"})
   public void testGetWithKey_givenClientConfigWithDefaultValuesNullIsNameSpace_thenCallsType() {
     // Arrange
-    DefaultClientConfigImpl clientConfigWithDefaultValues = DefaultClientConfigImpl
-        .getClientConfigWithDefaultValues(null, "Name Space");
+    DefaultClientConfigImpl clientConfigWithDefaultValues =
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues(null, "Name Space");
+
     NewConfigKey<Object> key = mock(NewConfigKey.class);
     Class<Object> forNameResult = Object.class;
     when(key.type()).thenReturn(forNameResult);
@@ -439,37 +481,42 @@ public class ReloadableClientConfigDiffblueTest {
 
   /**
    * Test {@link ReloadableClientConfig#get(IClientConfigKey)} with {@code key}.
+   *
    * <ul>
-   *   <li>Given EmptyConfig.</li>
-   *   <li>When {@link NewConfigKey}.</li>
-   *   <li>Then return {@code null}.</li>
+   *   <li>Given EmptyConfig.
+   *   <li>When {@link NewConfigKey}.
+   *   <li>Then return {@code null}.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#get(IClientConfigKey)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#get(IClientConfigKey)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"Object ReloadableClientConfig.get(IClientConfigKey)"})
   public void testGetWithKey_givenEmptyConfig_whenNewConfigKey_thenReturnNull() {
     // Arrange, Act and Assert
-    assertNull(DefaultClientConfigImpl.getEmptyConfig().<Object>get(mock(NewConfigKey.class)));
+    assertNull(DefaultClientConfigImpl.getEmptyConfig().get(mock(NewConfigKey.class)));
   }
 
   /**
    * Test {@link ReloadableClientConfig#get(IClientConfigKey)} with {@code key}.
+   *
    * <ul>
-   *   <li>Then calls {@link CommonClientConfigKey#type()}.</li>
+   *   <li>Then calls {@link NewConfigKey#type()}.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#get(IClientConfigKey)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#get(IClientConfigKey)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"Object ReloadableClientConfig.get(IClientConfigKey)"})
   public void testGetWithKey_thenCallsType() {
     // Arrange
-    DefaultClientConfigImpl clientConfigWithDefaultValues = DefaultClientConfigImpl
-        .getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space");
+    DefaultClientConfigImpl clientConfigWithDefaultValues =
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space");
+
     NewConfigKey<Object> key = mock(NewConfigKey.class);
     Class<Object> forNameResult = Object.class;
     when(key.type()).thenReturn(forNameResult);
@@ -486,16 +533,18 @@ public class ReloadableClientConfigDiffblueTest {
 
   /**
    * Test {@link ReloadableClientConfig#setDefault(IClientConfigKey)} with {@code key}.
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#setDefault(IClientConfigKey)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#setDefault(IClientConfigKey)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"void ReloadableClientConfig.setDefault(IClientConfigKey)"})
   public void testSetDefaultWithKey() {
     // Arrange
-    DefaultClientConfigImpl clientConfigWithDefaultValues = DefaultClientConfigImpl
-        .getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space");
+    DefaultClientConfigImpl clientConfigWithDefaultValues =
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space");
+
     NewConfigKey<Object> key = mock(NewConfigKey.class);
     Class<Object> forNameResult = Object.class;
     when(key.type()).thenReturn(forNameResult);
@@ -521,16 +570,18 @@ public class ReloadableClientConfigDiffblueTest {
 
   /**
    * Test {@link ReloadableClientConfig#setDefault(IClientConfigKey)} with {@code key}.
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#setDefault(IClientConfigKey)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#setDefault(IClientConfigKey)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"void ReloadableClientConfig.setDefault(IClientConfigKey)"})
   public void testSetDefaultWithKey2() {
     // Arrange
-    DefaultClientConfigImpl clientConfigWithDefaultValues = DefaultClientConfigImpl
-        .getClientConfigWithDefaultValues(null, "Name Space");
+    DefaultClientConfigImpl clientConfigWithDefaultValues =
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues(null, "Name Space");
+
     NewConfigKey<Object> key = mock(NewConfigKey.class);
     Class<Object> forNameResult = Object.class;
     when(key.type()).thenReturn(forNameResult);
@@ -555,17 +606,21 @@ public class ReloadableClientConfigDiffblueTest {
   }
 
   /**
-   * Test {@link ReloadableClientConfig#setDefault(IClientConfigKey, Object)} with {@code key}, {@code value}.
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#setDefault(IClientConfigKey, Object)}
+   * Test {@link ReloadableClientConfig#setDefault(IClientConfigKey, Object)} with {@code key},
+   * {@code value}.
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#setDefault(IClientConfigKey, Object)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"void ReloadableClientConfig.setDefault(IClientConfigKey, Object)"})
   public void testSetDefaultWithKeyValue() {
     // Arrange
-    DefaultClientConfigImpl clientConfigWithDefaultValues = DefaultClientConfigImpl
-        .getClientConfigWithDefaultValues("Dr Jane Doe", "key cannot be null");
+    DefaultClientConfigImpl clientConfigWithDefaultValues =
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues(
+            "Dr Jane Doe", "key cannot be null");
+
     NewConfigKey<Object> key = mock(NewConfigKey.class);
     Class<Object> forNameResult = Object.class;
     when(key.type()).thenReturn(forNameResult);
@@ -588,17 +643,20 @@ public class ReloadableClientConfigDiffblueTest {
   }
 
   /**
-   * Test {@link ReloadableClientConfig#setDefault(IClientConfigKey, Object)} with {@code key}, {@code value}.
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#setDefault(IClientConfigKey, Object)}
+   * Test {@link ReloadableClientConfig#setDefault(IClientConfigKey, Object)} with {@code key},
+   * {@code value}.
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#setDefault(IClientConfigKey, Object)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"void ReloadableClientConfig.setDefault(IClientConfigKey, Object)"})
   public void testSetDefaultWithKeyValue2() {
     // Arrange
-    DefaultClientConfigImpl clientConfigWithDefaultValues = DefaultClientConfigImpl
-        .getClientConfigWithDefaultValues(null, "key cannot be null");
+    DefaultClientConfigImpl clientConfigWithDefaultValues =
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues(null, "key cannot be null");
+
     NewConfigKey<Object> key = mock(NewConfigKey.class);
     Class<Object> forNameResult = Object.class;
     when(key.type()).thenReturn(forNameResult);
@@ -621,19 +679,23 @@ public class ReloadableClientConfigDiffblueTest {
   }
 
   /**
-   * Test {@link ReloadableClientConfig#setDefault(IClientConfigKey, Object)} with {@code key}, {@code value}.
+   * Test {@link ReloadableClientConfig#setDefault(IClientConfigKey, Object)} with {@code key},
+   * {@code value}.
+   *
    * <ul>
-   *   <li>Then EmptyConfig Properties size is one.</li>
+   *   <li>Then EmptyConfig Properties size is one.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#setDefault(IClientConfigKey, Object)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#setDefault(IClientConfigKey, Object)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"void ReloadableClientConfig.setDefault(IClientConfigKey, Object)"})
   public void testSetDefaultWithKeyValue_thenEmptyConfigPropertiesSizeIsOne() {
     // Arrange
     DefaultClientConfigImpl emptyConfig = DefaultClientConfigImpl.getEmptyConfig();
+
     NewConfigKey<Object> key = mock(NewConfigKey.class);
     Class<Object> forNameResult = Object.class;
     when(key.type()).thenReturn(forNameResult);
@@ -652,19 +714,22 @@ public class ReloadableClientConfigDiffblueTest {
 
   /**
    * Test {@link ReloadableClientConfig#setDefault(IClientConfigKey)} with {@code key}.
+   *
    * <ul>
-   *   <li>Given EmptyConfig.</li>
-   *   <li>Then EmptyConfig Properties size is one.</li>
+   *   <li>Given EmptyConfig.
+   *   <li>Then EmptyConfig Properties size is one.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#setDefault(IClientConfigKey)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#setDefault(IClientConfigKey)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"void ReloadableClientConfig.setDefault(IClientConfigKey)"})
   public void testSetDefaultWithKey_givenEmptyConfig_thenEmptyConfigPropertiesSizeIsOne() {
     // Arrange
     DefaultClientConfigImpl emptyConfig = DefaultClientConfigImpl.getEmptyConfig();
+
     NewConfigKey<Object> key = mock(NewConfigKey.class);
     Class<Object> forNameResult = Object.class;
     when(key.type()).thenReturn(forNameResult);
@@ -685,16 +750,18 @@ public class ReloadableClientConfigDiffblueTest {
 
   /**
    * Test {@link ReloadableClientConfig#set(IClientConfigKey, Object)}.
+   *
    * <ul>
-   *   <li>Given EmptyConfig.</li>
-   *   <li>When {@link NewConfigKey}.</li>
-   *   <li>Then return EmptyConfig.</li>
+   *   <li>Given EmptyConfig.
+   *   <li>When {@link NewConfigKey}.
+   *   <li>Then return EmptyConfig.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#set(IClientConfigKey, Object)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#set(IClientConfigKey, Object)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"IClientConfig ReloadableClientConfig.set(IClientConfigKey, Object)"})
   public void testSet_givenEmptyConfig_whenNewConfigKey_thenReturnEmptyConfig() {
     // Arrange
@@ -710,20 +777,23 @@ public class ReloadableClientConfigDiffblueTest {
 
   /**
    * Test {@link ReloadableClientConfig#set(IClientConfigKey, Object)}.
+   *
    * <ul>
-   *   <li>Given {@code Object}.</li>
-   *   <li>When forty-two.</li>
-   *   <li>Then throw {@link IllegalArgumentException}.</li>
+   *   <li>Given {@code Object}.
+   *   <li>When forty-two.
+   *   <li>Then throw {@link IllegalArgumentException}.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#set(IClientConfigKey, Object)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#set(IClientConfigKey, Object)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"IClientConfig ReloadableClientConfig.set(IClientConfigKey, Object)"})
   public void testSet_givenJavaLangObject_whenFortyTwo_thenThrowIllegalArgumentException() {
     // Arrange
     DefaultClientConfigImpl emptyConfig = DefaultClientConfigImpl.getEmptyConfig();
+
     NewConfigKey<Object> key = mock(NewConfigKey.class);
     Class<Object> forNameResult = Object.class;
     when(key.type()).thenReturn(forNameResult);
@@ -738,19 +808,22 @@ public class ReloadableClientConfigDiffblueTest {
 
   /**
    * Test {@link ReloadableClientConfig#set(IClientConfigKey, Object)}.
+   *
    * <ul>
-   *   <li>Given {@code Object}.</li>
-   *   <li>When {@link NewConfigKey} {@link CommonClientConfigKey#type()} return {@link Object}.</li>
+   *   <li>Given {@code Object}.
+   *   <li>When {@link NewConfigKey} {@link NewConfigKey#type()} return {@link Object}.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#set(IClientConfigKey, Object)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#set(IClientConfigKey, Object)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"IClientConfig ReloadableClientConfig.set(IClientConfigKey, Object)"})
   public void testSet_givenJavaLangObject_whenNewConfigKeyTypeReturnObject() {
     // Arrange
     DefaultClientConfigImpl emptyConfig = DefaultClientConfigImpl.getEmptyConfig();
+
     NewConfigKey<Object> key = mock(NewConfigKey.class);
     Class<Object> forNameResult = Object.class;
     when(key.type()).thenReturn(forNameResult);
@@ -765,19 +838,24 @@ public class ReloadableClientConfigDiffblueTest {
 
   /**
    * Test {@link ReloadableClientConfig#set(IClientConfigKey, Object)}.
+   *
    * <ul>
-   *   <li>Then return ClientConfigWithDefaultValues {@code Dr Jane Doe} is {@code key cannot be null}.</li>
+   *   <li>Then return ClientConfigWithDefaultValues {@code Dr Jane Doe} is {@code key cannot be
+   *       null}.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#set(IClientConfigKey, Object)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#set(IClientConfigKey, Object)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"IClientConfig ReloadableClientConfig.set(IClientConfigKey, Object)"})
   public void testSet_thenReturnClientConfigWithDefaultValuesDrJaneDoeIsKeyCannotBeNull() {
     // Arrange
-    DefaultClientConfigImpl clientConfigWithDefaultValues = DefaultClientConfigImpl
-        .getClientConfigWithDefaultValues("Dr Jane Doe", "key cannot be null");
+    DefaultClientConfigImpl clientConfigWithDefaultValues =
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues(
+            "Dr Jane Doe", "key cannot be null");
+
     NewConfigKey<Object> key = mock(NewConfigKey.class);
     Class<Object> forNameResult = Object.class;
     when(key.type()).thenReturn(forNameResult);
@@ -794,19 +872,22 @@ public class ReloadableClientConfigDiffblueTest {
 
   /**
    * Test {@link ReloadableClientConfig#set(IClientConfigKey, Object)}.
+   *
    * <ul>
-   *   <li>Then return ClientConfigWithDefaultValues empty string is {@code key cannot be null}.</li>
+   *   <li>Then return ClientConfigWithDefaultValues empty string is {@code key cannot be null}.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#set(IClientConfigKey, Object)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#set(IClientConfigKey, Object)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"IClientConfig ReloadableClientConfig.set(IClientConfigKey, Object)"})
   public void testSet_thenReturnClientConfigWithDefaultValuesEmptyStringIsKeyCannotBeNull() {
     // Arrange
-    DefaultClientConfigImpl clientConfigWithDefaultValues = DefaultClientConfigImpl.getClientConfigWithDefaultValues("",
-        "key cannot be null");
+    DefaultClientConfigImpl clientConfigWithDefaultValues =
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues("", "key cannot be null");
+
     NewConfigKey<Object> key = mock(NewConfigKey.class);
     Class<Object> forNameResult = Object.class;
     when(key.type()).thenReturn(forNameResult);
@@ -823,19 +904,22 @@ public class ReloadableClientConfigDiffblueTest {
 
   /**
    * Test {@link ReloadableClientConfig#set(IClientConfigKey, Object)}.
+   *
    * <ul>
-   *   <li>Then return ClientConfigWithDefaultValues {@code null} is {@code key cannot be null}.</li>
+   *   <li>Then return ClientConfigWithDefaultValues {@code null} is {@code key cannot be null}.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#set(IClientConfigKey, Object)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#set(IClientConfigKey, Object)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"IClientConfig ReloadableClientConfig.set(IClientConfigKey, Object)"})
   public void testSet_thenReturnClientConfigWithDefaultValuesNullIsKeyCannotBeNull() {
     // Arrange
-    DefaultClientConfigImpl clientConfigWithDefaultValues = DefaultClientConfigImpl
-        .getClientConfigWithDefaultValues(null, "key cannot be null");
+    DefaultClientConfigImpl clientConfigWithDefaultValues =
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues(null, "key cannot be null");
+
     NewConfigKey<Object> key = mock(NewConfigKey.class);
     Class<Object> forNameResult = Object.class;
     when(key.type()).thenReturn(forNameResult);
@@ -852,16 +936,18 @@ public class ReloadableClientConfigDiffblueTest {
 
   /**
    * Test {@link ReloadableClientConfig#setProperty(IClientConfigKey, Object)}.
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#setProperty(IClientConfigKey, Object)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#setProperty(IClientConfigKey, Object)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"void ReloadableClientConfig.setProperty(IClientConfigKey, Object)"})
   public void testSetProperty() {
     // Arrange
-    DefaultClientConfigImpl clientConfigWithDefaultValues = DefaultClientConfigImpl
-        .getClientConfigWithDefaultValues("Dr Jane Doe", "Value may not be null");
+    DefaultClientConfigImpl clientConfigWithDefaultValues =
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues(
+            "Dr Jane Doe", "Value may not be null");
 
     // Act
     clientConfigWithDefaultValues.setProperty(CommonClientConfigKey.AppName, "Value");
@@ -875,16 +961,19 @@ public class ReloadableClientConfigDiffblueTest {
     assertTrue(properties.containsKey("IsClientAuthRequired"));
     assertTrue(properties.containsKey("PrimeConnectionsURI"));
     assertTrue(properties.containsKey("listOfServers"));
-    assertEquals(AbstractDefaultClientConfigImpl.DEFAULT_CLIENT_CLASSNAME, properties.get("ClientClassName"));
+    assertEquals(
+        AbstractDefaultClientConfigImpl.DEFAULT_CLIENT_CLASSNAME,
+        properties.get("ClientClassName"));
   }
 
   /**
    * Test {@link ReloadableClientConfig#setProperty(IClientConfigKey, Object)}.
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#setProperty(IClientConfigKey, Object)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#setProperty(IClientConfigKey, Object)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"void ReloadableClientConfig.setProperty(IClientConfigKey, Object)"})
   public void testSetProperty2() {
     // Arrange
@@ -897,78 +986,23 @@ public class ReloadableClientConfigDiffblueTest {
     assertNull(emptyConfig.getAppName());
     Map<String, Object> properties = emptyConfig.getProperties();
     assertEquals(1, properties.size());
-    String expectedString = Boolean.FALSE.toString();
-    assertEquals(expectedString, properties.get("ConnectionPoolCleanerTaskEnabled"));
+    assertEquals(Boolean.FALSE.toString(), properties.get("ConnectionPoolCleanerTaskEnabled"));
   }
 
   /**
    * Test {@link ReloadableClientConfig#setProperty(IClientConfigKey, Object)}.
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#setProperty(IClientConfigKey, Object)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#setProperty(IClientConfigKey, Object)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"void ReloadableClientConfig.setProperty(IClientConfigKey, Object)"})
   public void testSetProperty3() {
     // Arrange
-    DefaultClientConfigImpl clientConfigWithDefaultValues = DefaultClientConfigImpl
-        .getClientConfigWithDefaultValues(null, "Value may not be null");
-
-    // Act
-    clientConfigWithDefaultValues.setProperty(CommonClientConfigKey.AppName, "Value");
-
-    // Assert
-    assertEquals("Value", clientConfigWithDefaultValues.getAppName());
-    Map<String, Object> properties = clientConfigWithDefaultValues.getProperties();
-    assertEquals(40, properties.size());
-    assertTrue(properties.containsKey("EnableZoneAffinity"));
-    assertTrue(properties.containsKey("FollowRedirects"));
-    assertTrue(properties.containsKey("IsClientAuthRequired"));
-    assertTrue(properties.containsKey("PrimeConnectionsURI"));
-    assertTrue(properties.containsKey("listOfServers"));
-    assertEquals(AbstractDefaultClientConfigImpl.DEFAULT_CLIENT_CLASSNAME, properties.get("ClientClassName"));
-  }
-
-  /**
-   * Test {@link ReloadableClientConfig#setProperty(IClientConfigKey, Object)}.
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#setProperty(IClientConfigKey, Object)}
-   */
-  @Test
-  @Category(MaintainedByDiffblue.class)
-  @MethodsUnderTest({"void ReloadableClientConfig.setProperty(IClientConfigKey, Object)"})
-  public void testSetProperty4() {
-    // Arrange
-    DefaultClientConfigImpl clientConfigWithDefaultValues = DefaultClientConfigImpl.getClientConfigWithDefaultValues("",
-        "Value may not be null");
-
-    // Act
-    clientConfigWithDefaultValues.setProperty(CommonClientConfigKey.AppName, "Value");
-
-    // Assert
-    assertEquals("Value", clientConfigWithDefaultValues.getAppName());
-    Map<String, Object> properties = clientConfigWithDefaultValues.getProperties();
-    assertEquals(40, properties.size());
-    assertTrue(properties.containsKey("EnableZoneAffinity"));
-    assertTrue(properties.containsKey("FollowRedirects"));
-    assertTrue(properties.containsKey("IsClientAuthRequired"));
-    assertTrue(properties.containsKey("PrimeConnectionsURI"));
-    assertTrue(properties.containsKey("listOfServers"));
-    assertEquals(AbstractDefaultClientConfigImpl.DEFAULT_CLIENT_CLASSNAME, properties.get("ClientClassName"));
-  }
-
-  /**
-   * Test {@link ReloadableClientConfig#setProperty(IClientConfigKey, Object)}.
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#setProperty(IClientConfigKey, Object)}
-   */
-  @Test
-  @Category(MaintainedByDiffblue.class)
-  @MethodsUnderTest({"void ReloadableClientConfig.setProperty(IClientConfigKey, Object)"})
-  public void testSetProperty5() {
-    // Arrange
-    DefaultClientConfigImpl clientConfigWithDefaultValues = DefaultClientConfigImpl
-        .getClientConfigWithDefaultValues("Dr Jane Doe", "Value may not be null");
+    DefaultClientConfigImpl clientConfigWithDefaultValues =
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues(
+            "Dr Jane Doe", "Value may not be null");
 
     // Act
     clientConfigWithDefaultValues.setProperty(CommonClientConfigKey.ClientClassName, "Value");
@@ -987,13 +1021,14 @@ public class ReloadableClientConfigDiffblueTest {
 
   /**
    * Test {@link ReloadableClientConfig#setProperty(IClientConfigKey, Object)}.
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#setProperty(IClientConfigKey, Object)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#setProperty(IClientConfigKey, Object)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"void ReloadableClientConfig.setProperty(IClientConfigKey, Object)"})
-  public void testSetProperty6() {
+  public void testSetProperty4() {
     // Arrange
     DefaultClientConfigImpl emptyConfig = DefaultClientConfigImpl.getEmptyConfig();
 
@@ -1004,22 +1039,85 @@ public class ReloadableClientConfigDiffblueTest {
     assertNull(emptyConfig.getAppName());
     Map<String, Object> properties = emptyConfig.getProperties();
     assertEquals(1, properties.size());
-    String expectedString = Boolean.FALSE.toString();
-    assertEquals(expectedString, properties.get("ConnectionPoolCleanerTaskEnabled"));
+    assertEquals(Boolean.FALSE.toString(), properties.get("ConnectionPoolCleanerTaskEnabled"));
   }
 
   /**
    * Test {@link ReloadableClientConfig#setProperty(IClientConfigKey, Object)}.
-   * <ul>
-   *   <li>Given EmptyConfig.</li>
-   *   <li>When {@link CommonClientConfigKey#AppName}.</li>
-   *   <li>Then EmptyConfig AppName is {@code Value}.</li>
-   * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#setProperty(IClientConfigKey, Object)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#setProperty(IClientConfigKey, Object)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void ReloadableClientConfig.setProperty(IClientConfigKey, Object)"})
+  public void testSetProperty5() {
+    // Arrange
+    DefaultClientConfigImpl clientConfigWithDefaultValues =
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues(null, "Value may not be null");
+
+    // Act
+    clientConfigWithDefaultValues.setProperty(CommonClientConfigKey.AppName, "Value");
+
+    // Assert
+    assertEquals("Value", clientConfigWithDefaultValues.getAppName());
+    Map<String, Object> properties = clientConfigWithDefaultValues.getProperties();
+    assertEquals(40, properties.size());
+    assertTrue(properties.containsKey("EnableZoneAffinity"));
+    assertTrue(properties.containsKey("FollowRedirects"));
+    assertTrue(properties.containsKey("IsClientAuthRequired"));
+    assertTrue(properties.containsKey("PrimeConnectionsURI"));
+    assertTrue(properties.containsKey("listOfServers"));
+    assertEquals(
+        AbstractDefaultClientConfigImpl.DEFAULT_CLIENT_CLASSNAME,
+        properties.get("ClientClassName"));
+  }
+
+  /**
+   * Test {@link ReloadableClientConfig#setProperty(IClientConfigKey, Object)}.
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#setProperty(IClientConfigKey, Object)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void ReloadableClientConfig.setProperty(IClientConfigKey, Object)"})
+  public void testSetProperty6() {
+    // Arrange
+    DefaultClientConfigImpl clientConfigWithDefaultValues =
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues("", "Value may not be null");
+
+    // Act
+    clientConfigWithDefaultValues.setProperty(CommonClientConfigKey.AppName, "Value");
+
+    // Assert
+    assertEquals("Value", clientConfigWithDefaultValues.getAppName());
+    Map<String, Object> properties = clientConfigWithDefaultValues.getProperties();
+    assertEquals(40, properties.size());
+    assertTrue(properties.containsKey("EnableZoneAffinity"));
+    assertTrue(properties.containsKey("FollowRedirects"));
+    assertTrue(properties.containsKey("IsClientAuthRequired"));
+    assertTrue(properties.containsKey("PrimeConnectionsURI"));
+    assertTrue(properties.containsKey("listOfServers"));
+    assertEquals(
+        AbstractDefaultClientConfigImpl.DEFAULT_CLIENT_CLASSNAME,
+        properties.get("ClientClassName"));
+  }
+
+  /**
+   * Test {@link ReloadableClientConfig#setProperty(IClientConfigKey, Object)}.
+   *
+   * <ul>
+   *   <li>Given EmptyConfig.
+   *   <li>When {@link CommonClientConfigKey#AppName}.
+   *   <li>Then EmptyConfig AppName is {@code Value}.
+   * </ul>
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#setProperty(IClientConfigKey, Object)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"void ReloadableClientConfig.setProperty(IClientConfigKey, Object)"})
   public void testSetProperty_givenEmptyConfig_whenAppName_thenEmptyConfigAppNameIsValue() {
     // Arrange
@@ -1037,16 +1135,18 @@ public class ReloadableClientConfigDiffblueTest {
 
   /**
    * Test {@link ReloadableClientConfig#setProperty(IClientConfigKey, Object)}.
+   *
    * <ul>
-   *   <li>Given EmptyConfig.</li>
-   *   <li>When forty-two.</li>
-   *   <li>Then EmptyConfig AppName is {@code 42}.</li>
+   *   <li>Given EmptyConfig.
+   *   <li>When forty-two.
+   *   <li>Then EmptyConfig AppName is {@code 42}.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#setProperty(IClientConfigKey, Object)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#setProperty(IClientConfigKey, Object)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"void ReloadableClientConfig.setProperty(IClientConfigKey, Object)"})
   public void testSetProperty_givenEmptyConfig_whenFortyTwo_thenEmptyConfigAppNameIs42() {
     // Arrange
@@ -1064,15 +1164,17 @@ public class ReloadableClientConfigDiffblueTest {
 
   /**
    * Test {@link ReloadableClientConfig#setProperty(IClientConfigKey, Object)}.
+   *
    * <ul>
-   *   <li>When {@code 42}.</li>
-   *   <li>Then EmptyConfig Properties {@code BackoffTimeout} is {@code 42}.</li>
+   *   <li>When {@code 42}.
+   *   <li>Then EmptyConfig Properties {@code BackoffTimeout} is {@code 42}.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#setProperty(IClientConfigKey, Object)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#setProperty(IClientConfigKey, Object)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"void ReloadableClientConfig.setProperty(IClientConfigKey, Object)"})
   public void testSetProperty_when42_thenEmptyConfigPropertiesBackoffTimeoutIs42() {
     // Arrange
@@ -1090,183 +1192,232 @@ public class ReloadableClientConfigDiffblueTest {
 
   /**
    * Test {@link ReloadableClientConfig#setProperty(IClientConfigKey, Object)}.
+   *
    * <ul>
-   *   <li>When {@link CommonClientConfigKey#BackoffInterval}.</li>
-   *   <li>Then throw {@link IllegalArgumentException}.</li>
+   *   <li>When {@link CommonClientConfigKey#BackoffInterval}.
+   *   <li>Then throw {@link IllegalArgumentException}.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#setProperty(IClientConfigKey, Object)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#setProperty(IClientConfigKey, Object)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"void ReloadableClientConfig.setProperty(IClientConfigKey, Object)"})
   public void testSetProperty_whenBackoffInterval_thenThrowIllegalArgumentException() {
     // Arrange, Act and Assert
     thrown.expect(IllegalArgumentException.class);
-    DefaultClientConfigImpl.getEmptyConfig().setProperty(CommonClientConfigKey.BackoffInterval, "Value");
+    DefaultClientConfigImpl.getEmptyConfig()
+        .setProperty(CommonClientConfigKey.BackoffInterval, "Value");
   }
 
   /**
-   * Test {@link ReloadableClientConfig#getProperty(IClientConfigKey, Object)} with {@code key}, {@code defaultVal}.
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#getProperty(IClientConfigKey, Object)}
+   * Test {@link ReloadableClientConfig#getProperty(IClientConfigKey, Object)} with {@code key},
+   * {@code defaultVal}.
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#getProperty(IClientConfigKey, Object)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"Object ReloadableClientConfig.getProperty(IClientConfigKey, Object)"})
   public void testGetPropertyWithKeyDefaultVal() {
-    // Arrange, Act and Assert
-    assertEquals("Default Val", DefaultClientConfigImpl.getClientConfigWithDefaultValues(null, "Name Space")
-        .getProperty(CommonClientConfigKey.AppName, "Default Val"));
+    // Arrange
+    DefaultClientConfigImpl clientConfigWithDefaultValues =
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues(null, "Name Space");
+
+    // Act and Assert
+    assertEquals(
+        "Default Val",
+        clientConfigWithDefaultValues.getProperty(CommonClientConfigKey.AppName, "Default Val"));
   }
 
   /**
-   * Test {@link ReloadableClientConfig#getProperty(IClientConfigKey, Object)} with {@code key}, {@code defaultVal}.
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#getProperty(IClientConfigKey, Object)}
+   * Test {@link ReloadableClientConfig#getProperty(IClientConfigKey, Object)} with {@code key},
+   * {@code defaultVal}.
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#getProperty(IClientConfigKey, Object)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"Object ReloadableClientConfig.getProperty(IClientConfigKey, Object)"})
   public void testGetPropertyWithKeyDefaultVal2() {
     // Arrange, Act and Assert
-    assertEquals("Default Val", DefaultClientConfigImpl.getClientConfigWithDefaultValues("", "Name Space")
-        .getProperty(CommonClientConfigKey.AppName, "Default Val"));
+    assertEquals(
+        "Default Val",
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues("", "Name Space")
+            .getProperty(CommonClientConfigKey.AppName, "Default Val"));
   }
 
   /**
-   * Test {@link ReloadableClientConfig#getProperty(IClientConfigKey, Object)} with {@code key}, {@code defaultVal}.
+   * Test {@link ReloadableClientConfig#getProperty(IClientConfigKey, Object)} with {@code key},
+   * {@code defaultVal}.
+   *
    * <ul>
-   *   <li>Given EmptyConfig.</li>
-   *   <li>Then return {@code Default Val}.</li>
+   *   <li>Given EmptyConfig.
+   *   <li>Then return {@code Default Val}.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#getProperty(IClientConfigKey, Object)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#getProperty(IClientConfigKey, Object)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"Object ReloadableClientConfig.getProperty(IClientConfigKey, Object)"})
   public void testGetPropertyWithKeyDefaultVal_givenEmptyConfig_thenReturnDefaultVal() {
     // Arrange, Act and Assert
-    assertEquals("Default Val",
-        DefaultClientConfigImpl.getEmptyConfig().getProperty(CommonClientConfigKey.AppName, "Default Val"));
+    assertEquals(
+        "Default Val",
+        DefaultClientConfigImpl.getEmptyConfig()
+            .getProperty(CommonClientConfigKey.AppName, "Default Val"));
   }
 
   /**
-   * Test {@link ReloadableClientConfig#getProperty(IClientConfigKey, Object)} with {@code key}, {@code defaultVal}.
+   * Test {@link ReloadableClientConfig#getProperty(IClientConfigKey, Object)} with {@code key},
+   * {@code defaultVal}.
+   *
    * <ul>
-   *   <li>Then return {@code Default Val}.</li>
+   *   <li>Then return {@code Default Val}.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#getProperty(IClientConfigKey, Object)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#getProperty(IClientConfigKey, Object)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"Object ReloadableClientConfig.getProperty(IClientConfigKey, Object)"})
   public void testGetPropertyWithKeyDefaultVal_thenReturnDefaultVal() {
     // Arrange, Act and Assert
-    assertEquals("Default Val", DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space")
-        .getProperty(CommonClientConfigKey.AppName, "Default Val"));
+    assertEquals(
+        "Default Val",
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space")
+            .getProperty(CommonClientConfigKey.AppName, "Default Val"));
   }
 
   /**
-   * Test {@link ReloadableClientConfig#getProperty(IClientConfigKey, Object)} with {@code key}, {@code defaultVal}.
+   * Test {@link ReloadableClientConfig#getProperty(IClientConfigKey, Object)} with {@code key},
+   * {@code defaultVal}.
+   *
    * <ul>
-   *   <li>Then return {@link AbstractDefaultClientConfigImpl#DEFAULT_CLIENT_CLASSNAME}.</li>
+   *   <li>Then return {@link AbstractDefaultClientConfigImpl#DEFAULT_CLIENT_CLASSNAME}.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#getProperty(IClientConfigKey, Object)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#getProperty(IClientConfigKey, Object)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"Object ReloadableClientConfig.getProperty(IClientConfigKey, Object)"})
   public void testGetPropertyWithKeyDefaultVal_thenReturnDefault_client_classname() {
     // Arrange, Act and Assert
-    assertEquals(AbstractDefaultClientConfigImpl.DEFAULT_CLIENT_CLASSNAME,
+    assertEquals(
+        AbstractDefaultClientConfigImpl.DEFAULT_CLIENT_CLASSNAME,
         DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space")
             .getProperty(CommonClientConfigKey.ClientClassName, "Default Val"));
   }
 
   /**
-   * Test {@link ReloadableClientConfig#getProperty(IClientConfigKey, Object)} with {@code key}, {@code defaultVal}.
+   * Test {@link ReloadableClientConfig#getProperty(IClientConfigKey, Object)} with {@code key},
+   * {@code defaultVal}.
+   *
    * <ul>
-   *   <li>Then return {@code false}.</li>
+   *   <li>Then return {@code false}.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#getProperty(IClientConfigKey, Object)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#getProperty(IClientConfigKey, Object)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"Object ReloadableClientConfig.getProperty(IClientConfigKey, Object)"})
   public void testGetPropertyWithKeyDefaultVal_thenReturnFalse() {
     // Arrange, Act and Assert
-    assertFalse((Boolean) DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space")
-        .getProperty(CommonClientConfigKey.EnableGZIPContentEncodingFilter, "Default Val"));
+    assertFalse(
+        (Boolean)
+            DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space")
+                .getProperty(CommonClientConfigKey.EnableGZIPContentEncodingFilter, "Default Val"));
   }
 
   /**
-   * Test {@link ReloadableClientConfig#getProperty(IClientConfigKey, Object)} with {@code key}, {@code defaultVal}.
+   * Test {@link ReloadableClientConfig#getProperty(IClientConfigKey, Object)} with {@code key},
+   * {@code defaultVal}.
+   *
    * <ul>
-   *   <li>Then return {@code true}.</li>
+   *   <li>Then return {@code true}.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#getProperty(IClientConfigKey, Object)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#getProperty(IClientConfigKey, Object)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"Object ReloadableClientConfig.getProperty(IClientConfigKey, Object)"})
   public void testGetPropertyWithKeyDefaultVal_thenReturnTrue() {
     // Arrange, Act and Assert
-    assertTrue((Boolean) DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space")
-        .getProperty(CommonClientConfigKey.ConnectionPoolCleanerTaskEnabled, "Default Val"));
+    assertTrue(
+        (Boolean)
+            DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space")
+                .getProperty(
+                    CommonClientConfigKey.ConnectionPoolCleanerTaskEnabled, "Default Val"));
   }
 
   /**
    * Test {@link ReloadableClientConfig#getProperty(IClientConfigKey)} with {@code key}.
+   *
    * <ul>
-   *   <li>Given ClientConfigWithDefaultValues empty string is {@code Name Space}.</li>
+   *   <li>Given ClientConfigWithDefaultValues empty string is {@code Name Space}.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#getProperty(IClientConfigKey)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#getProperty(IClientConfigKey)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"Object ReloadableClientConfig.getProperty(IClientConfigKey)"})
   public void testGetPropertyWithKey_givenClientConfigWithDefaultValuesEmptyStringIsNameSpace() {
     // Arrange, Act and Assert
-    assertNull(DefaultClientConfigImpl.getClientConfigWithDefaultValues("", "Name Space")
-        .getProperty(CommonClientConfigKey.AppName));
+    assertNull(
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues("", "Name Space")
+            .getProperty(CommonClientConfigKey.AppName));
   }
 
   /**
    * Test {@link ReloadableClientConfig#getProperty(IClientConfigKey)} with {@code key}.
+   *
    * <ul>
-   *   <li>Given ClientConfigWithDefaultValues {@code null} is {@code Name Space}.</li>
+   *   <li>Given ClientConfigWithDefaultValues {@code null} is {@code Name Space}.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#getProperty(IClientConfigKey)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#getProperty(IClientConfigKey)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"Object ReloadableClientConfig.getProperty(IClientConfigKey)"})
   public void testGetPropertyWithKey_givenClientConfigWithDefaultValuesNullIsNameSpace() {
-    // Arrange, Act and Assert
-    assertNull(DefaultClientConfigImpl.getClientConfigWithDefaultValues(null, "Name Space")
-        .getProperty(CommonClientConfigKey.AppName));
+    // Arrange
+    DefaultClientConfigImpl clientConfigWithDefaultValues =
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues(null, "Name Space");
+
+    // Act and Assert
+    assertNull(clientConfigWithDefaultValues.getProperty(CommonClientConfigKey.AppName));
   }
 
   /**
    * Test {@link ReloadableClientConfig#getProperty(IClientConfigKey)} with {@code key}.
+   *
    * <ul>
-   *   <li>Given EmptyConfig.</li>
-   *   <li>When {@link CommonClientConfigKey#AppName}.</li>
-   *   <li>Then return {@code null}.</li>
+   *   <li>Given EmptyConfig.
+   *   <li>When {@link CommonClientConfigKey#AppName}.
+   *   <li>Then return {@code null}.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#getProperty(IClientConfigKey)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#getProperty(IClientConfigKey)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"Object ReloadableClientConfig.getProperty(IClientConfigKey)"})
   public void testGetPropertyWithKey_givenEmptyConfig_whenAppName_thenReturnNull() {
     // Arrange, Act and Assert
@@ -1275,91 +1426,109 @@ public class ReloadableClientConfigDiffblueTest {
 
   /**
    * Test {@link ReloadableClientConfig#getProperty(IClientConfigKey)} with {@code key}.
+   *
    * <ul>
-   *   <li>Then return {@code null}.</li>
+   *   <li>Then return {@code null}.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#getProperty(IClientConfigKey)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#getProperty(IClientConfigKey)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"Object ReloadableClientConfig.getProperty(IClientConfigKey)"})
   public void testGetPropertyWithKey_thenReturnNull() {
     // Arrange, Act and Assert
-    assertNull(DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space")
-        .getProperty(CommonClientConfigKey.AppName));
+    assertNull(
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space")
+            .getProperty(CommonClientConfigKey.AppName));
   }
 
   /**
    * Test {@link ReloadableClientConfig#getProperty(IClientConfigKey)} with {@code key}.
+   *
    * <ul>
-   *   <li>When {@link CommonClientConfigKey#ClientClassName}.</li>
-   *   <li>Then return {@link AbstractDefaultClientConfigImpl#DEFAULT_CLIENT_CLASSNAME}.</li>
+   *   <li>When {@link CommonClientConfigKey#ClientClassName}.
+   *   <li>Then return {@link AbstractDefaultClientConfigImpl#DEFAULT_CLIENT_CLASSNAME}.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#getProperty(IClientConfigKey)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#getProperty(IClientConfigKey)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"Object ReloadableClientConfig.getProperty(IClientConfigKey)"})
   public void testGetPropertyWithKey_whenClientClassName_thenReturnDefault_client_classname() {
     // Arrange, Act and Assert
-    assertEquals(AbstractDefaultClientConfigImpl.DEFAULT_CLIENT_CLASSNAME,
+    assertEquals(
+        AbstractDefaultClientConfigImpl.DEFAULT_CLIENT_CLASSNAME,
         DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space")
             .getProperty(CommonClientConfigKey.ClientClassName));
   }
 
   /**
    * Test {@link ReloadableClientConfig#getProperty(IClientConfigKey)} with {@code key}.
+   *
    * <ul>
-   *   <li>When {@link CommonClientConfigKey#ConnectionPoolCleanerTaskEnabled}.</li>
-   *   <li>Then return {@code true}.</li>
+   *   <li>When {@link CommonClientConfigKey#ConnectionPoolCleanerTaskEnabled}.
+   *   <li>Then return {@code true}.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#getProperty(IClientConfigKey)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#getProperty(IClientConfigKey)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"Object ReloadableClientConfig.getProperty(IClientConfigKey)"})
   public void testGetPropertyWithKey_whenConnectionPoolCleanerTaskEnabled_thenReturnTrue() {
     // Arrange, Act and Assert
-    assertTrue((Boolean) DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space")
-        .getProperty(CommonClientConfigKey.ConnectionPoolCleanerTaskEnabled));
+    assertTrue(
+        (Boolean)
+            DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space")
+                .getProperty(CommonClientConfigKey.ConnectionPoolCleanerTaskEnabled));
   }
 
   /**
    * Test {@link ReloadableClientConfig#getProperty(IClientConfigKey)} with {@code key}.
+   *
    * <ul>
-   *   <li>When {@link CommonClientConfigKey#EnableGZIPContentEncodingFilter}.</li>
-   *   <li>Then return {@code false}.</li>
+   *   <li>When {@link CommonClientConfigKey#EnableGZIPContentEncodingFilter}.
+   *   <li>Then return {@code false}.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#getProperty(IClientConfigKey)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#getProperty(IClientConfigKey)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"Object ReloadableClientConfig.getProperty(IClientConfigKey)"})
   public void testGetPropertyWithKey_whenEnableGZIPContentEncodingFilter_thenReturnFalse() {
     // Arrange, Act and Assert
-    assertFalse((Boolean) DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space")
-        .getProperty(CommonClientConfigKey.EnableGZIPContentEncodingFilter));
+    assertFalse(
+        (Boolean)
+            DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space")
+                .getProperty(CommonClientConfigKey.EnableGZIPContentEncodingFilter));
   }
 
   /**
    * Test {@link ReloadableClientConfig#getPrefixMappedProperty(IClientConfigKey)}.
+   *
    * <ul>
-   *   <li>Then throw {@link UnsupportedOperationException}.</li>
+   *   <li>Then throw {@link UnsupportedOperationException}.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#getPrefixMappedProperty(IClientConfigKey)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#getPrefixMappedProperty(IClientConfigKey)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({
-      "com.netflix.client.config.Property ReloadableClientConfig.getPrefixMappedProperty(IClientConfigKey)"})
+    "com.netflix.client.config.Property ReloadableClientConfig.getPrefixMappedProperty(IClientConfigKey)"
+  })
   public void testGetPrefixMappedProperty_thenThrowUnsupportedOperationException() {
     // Arrange
     DefaultClientConfigImpl emptyConfig = DefaultClientConfigImpl.getEmptyConfig();
+
     NewConfigKey<Object> key = mock(NewConfigKey.class);
     Class<Object> forNameResult = Object.class;
     when(key.type()).thenReturn(forNameResult);
@@ -1374,346 +1543,432 @@ public class ReloadableClientConfigDiffblueTest {
 
   /**
    * Test {@link ReloadableClientConfig#getIfSet(IClientConfigKey)}.
+   *
    * <ul>
-   *   <li>When {@link NewConfigKey}.</li>
-   *   <li>Then return not Present.</li>
+   *   <li>When {@link NewConfigKey}.
+   *   <li>Then return not Present.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#getIfSet(IClientConfigKey)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#getIfSet(IClientConfigKey)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"java.util.Optional ReloadableClientConfig.getIfSet(IClientConfigKey)"})
   public void testGetIfSet_whenNewConfigKey_thenReturnNotPresent() {
     // Arrange, Act and Assert
-    assertFalse(DefaultClientConfigImpl.getEmptyConfig().<Object>getIfSet(mock(NewConfigKey.class)).isPresent());
+    assertFalse(
+        DefaultClientConfigImpl.getEmptyConfig().getIfSet(mock(NewConfigKey.class)).isPresent());
   }
 
   /**
    * Test {@link ReloadableClientConfig#containsProperty(IClientConfigKey)}.
+   *
    * <ul>
-   *   <li>Given EmptyConfig.</li>
-   *   <li>When {@link CommonClientConfigKey#AppName}.</li>
-   *   <li>Then return {@code false}.</li>
+   *   <li>Given EmptyConfig.
+   *   <li>When {@link CommonClientConfigKey#AppName}.
+   *   <li>Then return {@code false}.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#containsProperty(IClientConfigKey)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#containsProperty(IClientConfigKey)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"boolean ReloadableClientConfig.containsProperty(IClientConfigKey)"})
   public void testContainsProperty_givenEmptyConfig_whenAppName_thenReturnFalse() {
     // Arrange, Act and Assert
-    assertFalse(DefaultClientConfigImpl.getEmptyConfig().containsProperty(CommonClientConfigKey.AppName));
+    assertFalse(
+        DefaultClientConfigImpl.getEmptyConfig().containsProperty(CommonClientConfigKey.AppName));
   }
 
   /**
    * Test {@link ReloadableClientConfig#containsProperty(IClientConfigKey)}.
+   *
    * <ul>
-   *   <li>Then return {@code true}.</li>
+   *   <li>Then return {@code true}.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#containsProperty(IClientConfigKey)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#containsProperty(IClientConfigKey)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"boolean ReloadableClientConfig.containsProperty(IClientConfigKey)"})
   public void testContainsProperty_thenReturnTrue() {
     // Arrange, Act and Assert
-    assertTrue(DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space")
-        .containsProperty(CommonClientConfigKey.ClientClassName));
+    assertTrue(
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space")
+            .containsProperty(CommonClientConfigKey.ClientClassName));
   }
 
   /**
    * Test {@link ReloadableClientConfig#getPropertyAsInteger(IClientConfigKey, int)}.
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#getPropertyAsInteger(IClientConfigKey, int)}
-   */
-  @Test
-  @Category(MaintainedByDiffblue.class)
-  @MethodsUnderTest({"int ReloadableClientConfig.getPropertyAsInteger(IClientConfigKey, int)"})
-  public void testGetPropertyAsInteger() {
-    // Arrange, Act and Assert
-    assertEquals(42, DefaultClientConfigImpl.getClientConfigWithDefaultValues("", "Name Space")
-        .getPropertyAsInteger(CommonClientConfigKey.AppName, 42));
-  }
-
-  /**
-   * Test {@link ReloadableClientConfig#getPropertyAsInteger(IClientConfigKey, int)}.
+   *
    * <ul>
-   *   <li>Given ClientConfigWithDefaultValues {@code Dr Jane Doe} is {@code Name Space}.</li>
+   *   <li>Given EmptyConfig.
+   *   <li>When {@link CommonClientConfigKey#AppName}.
+   *   <li>Then return forty-two.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#getPropertyAsInteger(IClientConfigKey, int)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#getPropertyAsInteger(IClientConfigKey,
+   * int)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
-  @MethodsUnderTest({"int ReloadableClientConfig.getPropertyAsInteger(IClientConfigKey, int)"})
-  public void testGetPropertyAsInteger_givenClientConfigWithDefaultValuesDrJaneDoeIsNameSpace() {
-    // Arrange, Act and Assert
-    assertEquals(42, DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space")
-        .getPropertyAsInteger(CommonClientConfigKey.AppName, 42));
-  }
-
-  /**
-   * Test {@link ReloadableClientConfig#getPropertyAsInteger(IClientConfigKey, int)}.
-   * <ul>
-   *   <li>Given ClientConfigWithDefaultValues {@code null} is {@code Name Space}.</li>
-   * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#getPropertyAsInteger(IClientConfigKey, int)}
-   */
-  @Test
-  @Category(MaintainedByDiffblue.class)
-  @MethodsUnderTest({"int ReloadableClientConfig.getPropertyAsInteger(IClientConfigKey, int)"})
-  public void testGetPropertyAsInteger_givenClientConfigWithDefaultValuesNullIsNameSpace() {
-    // Arrange, Act and Assert
-    assertEquals(42, DefaultClientConfigImpl.getClientConfigWithDefaultValues(null, "Name Space")
-        .getPropertyAsInteger(CommonClientConfigKey.AppName, 42));
-  }
-
-  /**
-   * Test {@link ReloadableClientConfig#getPropertyAsInteger(IClientConfigKey, int)}.
-   * <ul>
-   *   <li>Given EmptyConfig.</li>
-   *   <li>When {@link CommonClientConfigKey#AppName}.</li>
-   *   <li>Then return forty-two.</li>
-   * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#getPropertyAsInteger(IClientConfigKey, int)}
-   */
-  @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"int ReloadableClientConfig.getPropertyAsInteger(IClientConfigKey, int)"})
   public void testGetPropertyAsInteger_givenEmptyConfig_whenAppName_thenReturnFortyTwo() {
     // Arrange, Act and Assert
-    assertEquals(42, DefaultClientConfigImpl.getEmptyConfig().getPropertyAsInteger(CommonClientConfigKey.AppName, 42));
+    assertEquals(
+        42,
+        DefaultClientConfigImpl.getEmptyConfig()
+            .getPropertyAsInteger(CommonClientConfigKey.AppName, 42));
   }
 
   /**
    * Test {@link ReloadableClientConfig#getPropertyAsInteger(IClientConfigKey, int)}.
+   *
    * <ul>
-   *   <li>Then return {@link AbstractDefaultClientConfigImpl#DEFAULT_CONNECTIONIDLE_TIME_IN_MSECS}.</li>
+   *   <li>Then return {@link AbstractDefaultClientConfigImpl#DEFAULT_CONNECTIONIDLE_TIME_IN_MSECS}.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#getPropertyAsInteger(IClientConfigKey, int)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#getPropertyAsInteger(IClientConfigKey,
+   * int)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"int ReloadableClientConfig.getPropertyAsInteger(IClientConfigKey, int)"})
   public void testGetPropertyAsInteger_thenReturnDefault_connectionidle_time_in_msecs() {
     // Arrange, Act and Assert
-    assertEquals(AbstractDefaultClientConfigImpl.DEFAULT_CONNECTIONIDLE_TIME_IN_MSECS,
+    assertEquals(
+        AbstractDefaultClientConfigImpl.DEFAULT_CONNECTIONIDLE_TIME_IN_MSECS,
         DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space")
             .getPropertyAsInteger(CommonClientConfigKey.ConnIdleEvictTimeMilliSeconds, 42));
   }
 
   /**
-   * Test {@link ReloadableClientConfig#getPropertyAsString(IClientConfigKey, String)}.
+   * Test {@link ReloadableClientConfig#getPropertyAsInteger(IClientConfigKey, int)}.
+   *
    * <ul>
-   *   <li>Given ClientConfigWithDefaultValues {@code Dr Jane Doe} is {@code Name Space}.</li>
+   *   <li>Then return forty-two.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#getPropertyAsString(IClientConfigKey, String)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#getPropertyAsInteger(IClientConfigKey,
+   * int)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"int ReloadableClientConfig.getPropertyAsInteger(IClientConfigKey, int)"})
+  public void testGetPropertyAsInteger_thenReturnFortyTwo() {
+    // Arrange, Act and Assert
+    assertEquals(
+        42,
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space")
+            .getPropertyAsInteger(CommonClientConfigKey.AppName, 42));
+  }
+
+  /**
+   * Test {@link ReloadableClientConfig#getPropertyAsString(IClientConfigKey, String)}.
+   *
+   * <ul>
+   *   <li>Given ClientConfigWithDefaultValues {@code Dr Jane Doe} is {@code Name Space}.
+   * </ul>
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#getPropertyAsString(IClientConfigKey,
+   * String)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"String ReloadableClientConfig.getPropertyAsString(IClientConfigKey, String)"})
   public void testGetPropertyAsString_givenClientConfigWithDefaultValuesDrJaneDoeIsNameSpace() {
     // Arrange, Act and Assert
-    assertEquals("42", DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space")
-        .getPropertyAsString(CommonClientConfigKey.AppName, "42"));
+    assertEquals(
+        "42",
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space")
+            .getPropertyAsString(CommonClientConfigKey.AppName, "42"));
   }
 
   /**
    * Test {@link ReloadableClientConfig#getPropertyAsString(IClientConfigKey, String)}.
+   *
    * <ul>
-   *   <li>Given ClientConfigWithDefaultValues empty string is {@code Name Space}.</li>
+   *   <li>Given ClientConfigWithDefaultValues empty string is {@code Name Space}.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#getPropertyAsString(IClientConfigKey, String)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#getPropertyAsString(IClientConfigKey,
+   * String)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"String ReloadableClientConfig.getPropertyAsString(IClientConfigKey, String)"})
   public void testGetPropertyAsString_givenClientConfigWithDefaultValuesEmptyStringIsNameSpace() {
     // Arrange, Act and Assert
-    assertEquals("42", DefaultClientConfigImpl.getClientConfigWithDefaultValues("", "Name Space")
-        .getPropertyAsString(CommonClientConfigKey.AppName, "42"));
+    assertEquals(
+        "42",
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues("", "Name Space")
+            .getPropertyAsString(CommonClientConfigKey.AppName, "42"));
   }
 
   /**
    * Test {@link ReloadableClientConfig#getPropertyAsString(IClientConfigKey, String)}.
+   *
    * <ul>
-   *   <li>Given ClientConfigWithDefaultValues {@code null} is {@code Name Space}.</li>
+   *   <li>Given ClientConfigWithDefaultValues {@code null} is {@code Name Space}.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#getPropertyAsString(IClientConfigKey, String)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#getPropertyAsString(IClientConfigKey,
+   * String)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"String ReloadableClientConfig.getPropertyAsString(IClientConfigKey, String)"})
   public void testGetPropertyAsString_givenClientConfigWithDefaultValuesNullIsNameSpace() {
-    // Arrange, Act and Assert
-    assertEquals("42", DefaultClientConfigImpl.getClientConfigWithDefaultValues(null, "Name Space")
-        .getPropertyAsString(CommonClientConfigKey.AppName, "42"));
+    // Arrange
+    DefaultClientConfigImpl clientConfigWithDefaultValues =
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues(null, "Name Space");
+
+    // Act and Assert
+    assertEquals(
+        "42",
+        clientConfigWithDefaultValues.getPropertyAsString(CommonClientConfigKey.AppName, "42"));
   }
 
   /**
    * Test {@link ReloadableClientConfig#getPropertyAsString(IClientConfigKey, String)}.
+   *
    * <ul>
-   *   <li>Given EmptyConfig.</li>
-   *   <li>When {@link CommonClientConfigKey#AppName}.</li>
-   *   <li>Then return {@code 42}.</li>
+   *   <li>Given EmptyConfig.
+   *   <li>When {@link CommonClientConfigKey#AppName}.
+   *   <li>Then return {@code 42}.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#getPropertyAsString(IClientConfigKey, String)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#getPropertyAsString(IClientConfigKey,
+   * String)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"String ReloadableClientConfig.getPropertyAsString(IClientConfigKey, String)"})
   public void testGetPropertyAsString_givenEmptyConfig_whenAppName_thenReturn42() {
     // Arrange, Act and Assert
-    assertEquals("42",
-        DefaultClientConfigImpl.getEmptyConfig().getPropertyAsString(CommonClientConfigKey.AppName, "42"));
+    assertEquals(
+        "42",
+        DefaultClientConfigImpl.getEmptyConfig()
+            .getPropertyAsString(CommonClientConfigKey.AppName, "42"));
   }
 
   /**
    * Test {@link ReloadableClientConfig#getPropertyAsString(IClientConfigKey, String)}.
+   *
    * <ul>
-   *   <li>When {@link CommonClientConfigKey#ClientClassName}.</li>
-   *   <li>Then return {@link AbstractDefaultClientConfigImpl#DEFAULT_CLIENT_CLASSNAME}.</li>
+   *   <li>When {@link CommonClientConfigKey#ClientClassName}.
+   *   <li>Then return {@link AbstractDefaultClientConfigImpl#DEFAULT_CLIENT_CLASSNAME}.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#getPropertyAsString(IClientConfigKey, String)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#getPropertyAsString(IClientConfigKey,
+   * String)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"String ReloadableClientConfig.getPropertyAsString(IClientConfigKey, String)"})
   public void testGetPropertyAsString_whenClientClassName_thenReturnDefault_client_classname() {
     // Arrange, Act and Assert
-    assertEquals(AbstractDefaultClientConfigImpl.DEFAULT_CLIENT_CLASSNAME,
+    assertEquals(
+        AbstractDefaultClientConfigImpl.DEFAULT_CLIENT_CLASSNAME,
         DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space")
             .getPropertyAsString(CommonClientConfigKey.ClientClassName, "42"));
   }
 
   /**
    * Test {@link ReloadableClientConfig#getPropertyAsBoolean(IClientConfigKey, boolean)}.
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#getPropertyAsBoolean(IClientConfigKey, boolean)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#getPropertyAsBoolean(IClientConfigKey,
+   * boolean)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
-  @MethodsUnderTest({"boolean ReloadableClientConfig.getPropertyAsBoolean(IClientConfigKey, boolean)"})
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "boolean ReloadableClientConfig.getPropertyAsBoolean(IClientConfigKey, boolean)"
+  })
   public void testGetPropertyAsBoolean() {
     // Arrange, Act and Assert
-    assertTrue(DefaultClientConfigImpl.getClientConfigWithDefaultValues("", "Name Space")
-        .getPropertyAsBoolean(CommonClientConfigKey.AppName, true));
+    assertTrue(
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues("", "Name Space")
+            .getPropertyAsBoolean(CommonClientConfigKey.AppName, true));
   }
 
   /**
    * Test {@link ReloadableClientConfig#getPropertyAsBoolean(IClientConfigKey, boolean)}.
+   *
    * <ul>
-   *   <li>Given ClientConfigWithDefaultValues {@code Dr Jane Doe} is {@code Name Space}.</li>
+   *   <li>Given ClientConfigWithDefaultValues {@code Dr Jane Doe} is {@code Name Space}.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#getPropertyAsBoolean(IClientConfigKey, boolean)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#getPropertyAsBoolean(IClientConfigKey,
+   * boolean)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
-  @MethodsUnderTest({"boolean ReloadableClientConfig.getPropertyAsBoolean(IClientConfigKey, boolean)"})
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "boolean ReloadableClientConfig.getPropertyAsBoolean(IClientConfigKey, boolean)"
+  })
   public void testGetPropertyAsBoolean_givenClientConfigWithDefaultValuesDrJaneDoeIsNameSpace() {
     // Arrange, Act and Assert
-    assertTrue(DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space")
-        .getPropertyAsBoolean(CommonClientConfigKey.AppName, true));
+    assertTrue(
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space")
+            .getPropertyAsBoolean(CommonClientConfigKey.AppName, true));
   }
 
   /**
    * Test {@link ReloadableClientConfig#getPropertyAsBoolean(IClientConfigKey, boolean)}.
+   *
    * <ul>
-   *   <li>Given ClientConfigWithDefaultValues {@code null} is {@code Name Space}.</li>
+   *   <li>Given ClientConfigWithDefaultValues {@code null} is {@code Name Space}.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#getPropertyAsBoolean(IClientConfigKey, boolean)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#getPropertyAsBoolean(IClientConfigKey,
+   * boolean)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
-  @MethodsUnderTest({"boolean ReloadableClientConfig.getPropertyAsBoolean(IClientConfigKey, boolean)"})
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "boolean ReloadableClientConfig.getPropertyAsBoolean(IClientConfigKey, boolean)"
+  })
   public void testGetPropertyAsBoolean_givenClientConfigWithDefaultValuesNullIsNameSpace() {
-    // Arrange, Act and Assert
-    assertTrue(DefaultClientConfigImpl.getClientConfigWithDefaultValues(null, "Name Space")
-        .getPropertyAsBoolean(CommonClientConfigKey.AppName, true));
+    // Arrange
+    DefaultClientConfigImpl clientConfigWithDefaultValues =
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues(null, "Name Space");
+
+    // Act and Assert
+    assertTrue(
+        clientConfigWithDefaultValues.getPropertyAsBoolean(CommonClientConfigKey.AppName, true));
   }
 
   /**
    * Test {@link ReloadableClientConfig#getPropertyAsBoolean(IClientConfigKey, boolean)}.
+   *
    * <ul>
-   *   <li>Given EmptyConfig.</li>
-   *   <li>When {@link CommonClientConfigKey#AppName}.</li>
-   *   <li>Then return {@code true}.</li>
+   *   <li>Given EmptyConfig.
+   *   <li>When {@link CommonClientConfigKey#AppName}.
+   *   <li>Then return {@code true}.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#getPropertyAsBoolean(IClientConfigKey, boolean)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#getPropertyAsBoolean(IClientConfigKey,
+   * boolean)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
-  @MethodsUnderTest({"boolean ReloadableClientConfig.getPropertyAsBoolean(IClientConfigKey, boolean)"})
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "boolean ReloadableClientConfig.getPropertyAsBoolean(IClientConfigKey, boolean)"
+  })
   public void testGetPropertyAsBoolean_givenEmptyConfig_whenAppName_thenReturnTrue() {
     // Arrange, Act and Assert
-    assertTrue(DefaultClientConfigImpl.getEmptyConfig().getPropertyAsBoolean(CommonClientConfigKey.AppName, true));
+    assertTrue(
+        DefaultClientConfigImpl.getEmptyConfig()
+            .getPropertyAsBoolean(CommonClientConfigKey.AppName, true));
   }
 
   /**
    * Test {@link ReloadableClientConfig#getPropertyAsBoolean(IClientConfigKey, boolean)}.
+   *
    * <ul>
-   *   <li>Given EmptyConfig.</li>
-   *   <li>When {@code false}.</li>
-   *   <li>Then return {@code false}.</li>
+   *   <li>When {@link CommonClientConfigKey#ConnectionPoolCleanerTaskEnabled}.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#getPropertyAsBoolean(IClientConfigKey, boolean)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#getPropertyAsBoolean(IClientConfigKey,
+   * boolean)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
-  @MethodsUnderTest({"boolean ReloadableClientConfig.getPropertyAsBoolean(IClientConfigKey, boolean)"})
-  public void testGetPropertyAsBoolean_givenEmptyConfig_whenFalse_thenReturnFalse() {
-    // Arrange, Act and Assert
-    assertFalse(DefaultClientConfigImpl.getEmptyConfig().getPropertyAsBoolean(CommonClientConfigKey.AppName, false));
-  }
-
-  /**
-   * Test {@link ReloadableClientConfig#getPropertyAsBoolean(IClientConfigKey, boolean)}.
-   * <ul>
-   *   <li>When {@link CommonClientConfigKey#ConnectionPoolCleanerTaskEnabled}.</li>
-   * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#getPropertyAsBoolean(IClientConfigKey, boolean)}
-   */
-  @Test
-  @Category(MaintainedByDiffblue.class)
-  @MethodsUnderTest({"boolean ReloadableClientConfig.getPropertyAsBoolean(IClientConfigKey, boolean)"})
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "boolean ReloadableClientConfig.getPropertyAsBoolean(IClientConfigKey, boolean)"
+  })
   public void testGetPropertyAsBoolean_whenConnectionPoolCleanerTaskEnabled() {
     // Arrange, Act and Assert
-    assertTrue(DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space")
-        .getPropertyAsBoolean(CommonClientConfigKey.ConnectionPoolCleanerTaskEnabled, true));
+    assertTrue(
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space")
+            .getPropertyAsBoolean(CommonClientConfigKey.ConnectionPoolCleanerTaskEnabled, true));
+  }
+
+  /**
+   * Test {@link ReloadableClientConfig#getPropertyAsBoolean(IClientConfigKey, boolean)}.
+   *
+   * <ul>
+   *   <li>When {@link CommonClientConfigKey#EnableGZIPContentEncodingFilter}.
+   *   <li>Then return {@code false}.
+   * </ul>
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#getPropertyAsBoolean(IClientConfigKey,
+   * boolean)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "boolean ReloadableClientConfig.getPropertyAsBoolean(IClientConfigKey, boolean)"
+  })
+  public void testGetPropertyAsBoolean_whenEnableGZIPContentEncodingFilter_thenReturnFalse() {
+    // Arrange, Act and Assert
+    assertFalse(
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space")
+            .getPropertyAsBoolean(CommonClientConfigKey.EnableGZIPContentEncodingFilter, true));
   }
 
   /**
    * Test {@link ReloadableClientConfig#applyOverride(IClientConfig)}.
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#applyOverride(IClientConfig)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#applyOverride(IClientConfig)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"IClientConfig ReloadableClientConfig.applyOverride(IClientConfig)"})
   public void testApplyOverride() {
     // Arrange
-    DefaultClientConfigImpl clientConfigWithDefaultValues = DefaultClientConfigImpl
-        .getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space");
-    IClientConfig override = Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build();
+    DefaultClientConfigImpl clientConfigWithDefaultValues =
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues(
+            "Dr Jane Doe", "Value may not be null");
 
     // Act
-    IClientConfig actualApplyOverrideResult = clientConfigWithDefaultValues.applyOverride(override);
+    IClientConfig actualApplyOverrideResult =
+        clientConfigWithDefaultValues.applyOverride(
+            DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space"));
+
+    // Assert
+    assertSame(clientConfigWithDefaultValues, actualApplyOverrideResult);
+  }
+
+  /**
+   * Test {@link ReloadableClientConfig#applyOverride(IClientConfig)}.
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#applyOverride(IClientConfig)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"IClientConfig ReloadableClientConfig.applyOverride(IClientConfig)"})
+  public void testApplyOverride2() {
+    // Arrange
+    DefaultClientConfigImpl clientConfigWithDefaultValues =
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues(
+            "Dr Jane Doe", "Value may not be null");
+
+    // Act
+    IClientConfig actualApplyOverrideResult =
+        clientConfigWithDefaultValues.applyOverride(
+            Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build());
 
     // Assert
     Map<String, Object> properties = clientConfigWithDefaultValues.getProperties();
@@ -1729,160 +1984,165 @@ public class ReloadableClientConfigDiffblueTest {
 
   /**
    * Test {@link ReloadableClientConfig#applyOverride(IClientConfig)}.
-   * <ul>
-   *   <li>Given EmptyConfig.</li>
-   *   <li>Then EmptyConfig Properties size is thirty-nine.</li>
-   * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#applyOverride(IClientConfig)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#applyOverride(IClientConfig)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"IClientConfig ReloadableClientConfig.applyOverride(IClientConfig)"})
+  public void testApplyOverride3() {
+    // Arrange
+    DefaultClientConfigImpl clientConfigWithDefaultValues =
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues("", "Value may not be null");
+
+    // Act
+    IClientConfig actualApplyOverrideResult =
+        clientConfigWithDefaultValues.applyOverride(
+            DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space"));
+
+    // Assert
+    assertSame(clientConfigWithDefaultValues, actualApplyOverrideResult);
+  }
+
+  /**
+   * Test {@link ReloadableClientConfig#applyOverride(IClientConfig)}.
+   *
+   * <ul>
+   *   <li>Given EmptyConfig.
+   *   <li>Then EmptyConfig Properties size is thirty-nine.
+   * </ul>
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#applyOverride(IClientConfig)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"IClientConfig ReloadableClientConfig.applyOverride(IClientConfig)"})
   public void testApplyOverride_givenEmptyConfig_thenEmptyConfigPropertiesSizeIsThirtyNine() {
     // Arrange
     DefaultClientConfigImpl emptyConfig = DefaultClientConfigImpl.getEmptyConfig();
 
     // Act
-    emptyConfig.applyOverride(DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space"));
+    emptyConfig.applyOverride(
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space"));
 
     // Assert
     Map<String, Object> properties = emptyConfig.getProperties();
     assertEquals(39, properties.size());
     assertEquals("", properties.get("listOfServers"));
-    String expectedString = Boolean.FALSE.toString();
-    assertEquals(expectedString, properties.get("EnableZoneAffinity"));
-    String expectedString2 = Boolean.FALSE.toString();
-    assertEquals(expectedString2, properties.get("FollowRedirects"));
-    String expectedString3 = Boolean.FALSE.toString();
-    assertEquals(expectedString3, properties.get("IsClientAuthRequired"));
-    assertEquals(AbstractDefaultClientConfigImpl.DEFAULT_CLIENT_CLASSNAME, properties.get("ClientClassName"));
-    assertEquals(AbstractDefaultClientConfigImpl.DEFAULT_PRIME_CONNECTIONS_URI, properties.get("PrimeConnectionsURI"));
+    assertEquals(Boolean.FALSE.toString(), properties.get("EnableZoneAffinity"));
+    assertEquals(Boolean.FALSE.toString(), properties.get("FollowRedirects"));
+    assertEquals(Boolean.FALSE.toString(), properties.get("IsClientAuthRequired"));
+    assertEquals(
+        AbstractDefaultClientConfigImpl.DEFAULT_CLIENT_CLASSNAME,
+        properties.get("ClientClassName"));
+    assertEquals(
+        AbstractDefaultClientConfigImpl.DEFAULT_PRIME_CONNECTIONS_URI,
+        properties.get("PrimeConnectionsURI"));
   }
 
   /**
    * Test {@link ReloadableClientConfig#applyOverride(IClientConfig)}.
+   *
    * <ul>
-   *   <li>Given EmptyConfig.</li>
-   *   <li>When EmptyConfig.</li>
-   *   <li>Then return EmptyConfig.</li>
+   *   <li>Given EmptyConfig.
+   *   <li>When EmptyConfig.
+   *   <li>Then return EmptyConfig.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#applyOverride(IClientConfig)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#applyOverride(IClientConfig)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"IClientConfig ReloadableClientConfig.applyOverride(IClientConfig)"})
   public void testApplyOverride_givenEmptyConfig_whenEmptyConfig_thenReturnEmptyConfig() {
     // Arrange
     DefaultClientConfigImpl emptyConfig = DefaultClientConfigImpl.getEmptyConfig();
 
-    // Act and Assert
-    assertSame(emptyConfig, emptyConfig.applyOverride(DefaultClientConfigImpl.getEmptyConfig()));
+    // Act
+    IClientConfig actualApplyOverrideResult =
+        emptyConfig.applyOverride(DefaultClientConfigImpl.getEmptyConfig());
+
+    // Assert
+    assertSame(emptyConfig, actualApplyOverrideResult);
   }
 
   /**
    * Test {@link ReloadableClientConfig#applyOverride(IClientConfig)}.
+   *
    * <ul>
-   *   <li>Given EmptyConfig.</li>
-   *   <li>When {@code null}.</li>
-   *   <li>Then return EmptyConfig.</li>
+   *   <li>Given EmptyConfig.
+   *   <li>When {@code null}.
+   *   <li>Then return EmptyConfig.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#applyOverride(IClientConfig)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#applyOverride(IClientConfig)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"IClientConfig ReloadableClientConfig.applyOverride(IClientConfig)"})
   public void testApplyOverride_givenEmptyConfig_whenNull_thenReturnEmptyConfig() {
     // Arrange
     DefaultClientConfigImpl emptyConfig = DefaultClientConfigImpl.getEmptyConfig();
 
-    // Act and Assert
-    assertSame(emptyConfig, emptyConfig.applyOverride(null));
+    // Act
+    IClientConfig actualApplyOverrideResult = emptyConfig.applyOverride(null);
+
+    // Assert
+    assertSame(emptyConfig, actualApplyOverrideResult);
   }
 
   /**
    * Test {@link ReloadableClientConfig#applyOverride(IClientConfig)}.
+   *
    * <ul>
-   *   <li>Then return ClientConfigWithDefaultValues {@code Dr Jane Doe} is {@code Name Space}.</li>
+   *   <li>Then return ClientConfigWithDefaultValues {@code null} is {@code Value may not be null}.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#applyOverride(IClientConfig)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#applyOverride(IClientConfig)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"IClientConfig ReloadableClientConfig.applyOverride(IClientConfig)"})
-  public void testApplyOverride_thenReturnClientConfigWithDefaultValuesDrJaneDoeIsNameSpace() {
+  public void testApplyOverride_thenReturnClientConfigWithDefaultValuesNullIsValueMayNotBeNull() {
     // Arrange
-    DefaultClientConfigImpl clientConfigWithDefaultValues = DefaultClientConfigImpl
-        .getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space");
+    DefaultClientConfigImpl clientConfigWithDefaultValues =
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues(null, "Value may not be null");
 
-    // Act and Assert
-    assertSame(clientConfigWithDefaultValues, clientConfigWithDefaultValues
-        .applyOverride(DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space")));
+    // Act
+    IClientConfig actualApplyOverrideResult =
+        clientConfigWithDefaultValues.applyOverride(
+            DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space"));
+
+    // Assert
+    assertSame(clientConfigWithDefaultValues, actualApplyOverrideResult);
   }
 
   /**
    * Test {@link ReloadableClientConfig#applyOverride(IClientConfig)}.
+   *
    * <ul>
-   *   <li>Then return ClientConfigWithDefaultValues empty string is {@code Name Space}.</li>
+   *   <li>Then return {@link DefaultClientConfigImpl}.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#applyOverride(IClientConfig)}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#applyOverride(IClientConfig)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
-  @MethodsUnderTest({"IClientConfig ReloadableClientConfig.applyOverride(IClientConfig)"})
-  public void testApplyOverride_thenReturnClientConfigWithDefaultValuesEmptyStringIsNameSpace() {
-    // Arrange
-    DefaultClientConfigImpl clientConfigWithDefaultValues = DefaultClientConfigImpl.getClientConfigWithDefaultValues("",
-        "Name Space");
-
-    // Act and Assert
-    assertSame(clientConfigWithDefaultValues, clientConfigWithDefaultValues
-        .applyOverride(DefaultClientConfigImpl.getClientConfigWithDefaultValues(null, "Name Space")));
-  }
-
-  /**
-   * Test {@link ReloadableClientConfig#applyOverride(IClientConfig)}.
-   * <ul>
-   *   <li>Then return ClientConfigWithDefaultValues {@code null} is {@code Name Space}.</li>
-   * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#applyOverride(IClientConfig)}
-   */
-  @Test
-  @Category(MaintainedByDiffblue.class)
-  @MethodsUnderTest({"IClientConfig ReloadableClientConfig.applyOverride(IClientConfig)"})
-  public void testApplyOverride_thenReturnClientConfigWithDefaultValuesNullIsNameSpace() {
-    // Arrange
-    DefaultClientConfigImpl clientConfigWithDefaultValues = DefaultClientConfigImpl
-        .getClientConfigWithDefaultValues(null, "Name Space");
-
-    // Act and Assert
-    assertSame(clientConfigWithDefaultValues, clientConfigWithDefaultValues
-        .applyOverride(DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space")));
-  }
-
-  /**
-   * Test {@link ReloadableClientConfig#applyOverride(IClientConfig)}.
-   * <ul>
-   *   <li>Then return {@link DefaultClientConfigImpl}.</li>
-   * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#applyOverride(IClientConfig)}
-   */
-  @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"IClientConfig ReloadableClientConfig.applyOverride(IClientConfig)"})
   public void testApplyOverride_thenReturnDefaultClientConfigImpl() {
     // Arrange
     DefaultClientConfigImpl emptyConfig = DefaultClientConfigImpl.getEmptyConfig();
-    IClientConfig override = Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build();
 
     // Act
-    IClientConfig actualApplyOverrideResult = emptyConfig.applyOverride(override);
+    IClientConfig actualApplyOverrideResult =
+        emptyConfig.applyOverride(
+            Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build());
 
     // Assert
     assertTrue(actualApplyOverrideResult instanceof DefaultClientConfigImpl);
@@ -1890,23 +2150,25 @@ public class ReloadableClientConfigDiffblueTest {
     assertEquals(1, properties.size());
     Map<String, Object> properties2 = emptyConfig.getProperties();
     assertEquals(1, properties2.size());
-    String expectedString = Boolean.TRUE.toString();
-    assertEquals(expectedString, properties.get("IgnoreUserTokenInConnectionPoolForSecureClient"));
-    String expectedString2 = Boolean.TRUE.toString();
-    assertEquals(expectedString2, properties2.get("IgnoreUserTokenInConnectionPoolForSecureClient"));
+    assertEquals(
+        Boolean.TRUE.toString(), properties.get("IgnoreUserTokenInConnectionPoolForSecureClient"));
+    assertEquals(
+        Boolean.TRUE.toString(), properties2.get("IgnoreUserTokenInConnectionPoolForSecureClient"));
   }
 
   /**
    * Test {@link ReloadableClientConfig#toString()}.
+   *
    * <ul>
-   *   <li>Given EmptyConfig.</li>
-   *   <li>Then return {@code ClientConfig:}.</li>
+   *   <li>Given EmptyConfig.
+   *   <li>Then return {@code ClientConfig:}.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#toString()}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#toString()}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"String ReloadableClientConfig.toString()"})
   public void testToString_givenEmptyConfig_thenReturnClientConfig() {
     // Arrange, Act and Assert
@@ -1915,42 +2177,47 @@ public class ReloadableClientConfigDiffblueTest {
 
   /**
    * Test {@link ReloadableClientConfig#toString()}.
+   *
    * <ul>
-   *   <li>Then return a string.</li>
+   *   <li>Then return a string.
    * </ul>
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#toString()}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#toString()}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"String ReloadableClientConfig.toString()"})
   public void testToString_thenReturnAString() {
     // Arrange, Act and Assert
-    assertEquals("ClientConfig:ConnectTimeout:2000, MaxConnectionsPerHost:50, MaxRetriesPerServerPrimeConnection:9,"
-        + " MaxAutoRetries:0, MaxTotalConnections:200, PoolKeepAliveTime:900, ConnectionManagerTimeout:2000,"
-        + " UseIPAddrForServer:false, VipAddressResolverClassName:com.netflix.client.SimpleVipAddressResolver,"
-        + " MaxTotalHttpConnections:200, EnableConnectionPool:true, PoolMaxThreads:200, EnablePrimeConnections:false,"
-        + " MinPrimeConnectionsRatio:1.0, PoolKeepAliveTimeUnits:SECONDS, EnableGZIPContentEncodingFilter:false,"
-        + " NFLoadBalancerPingClassName:com.netflix.loadbalancer.DummyPing, EnableZoneExclusivity:false,"
-        + " MaxAutoRetriesNextServer:1, NFLoadBalancerRuleClassName:com.netflix.loadbalancer.AvailabilityFilteringRule,"
-        + " ProxyPort:null, PrimeConnectionsURI:/, IsClientAuthRequired:false, listOfServers:, ConnectionPoolCl"
-        + "eanerTaskEnabled:true, EnableZoneAffinity:false, FollowRedirects:false, Port:7001, PrioritizeVipAddr"
-        + "essBasedServers:true, ReadTimeout:5000, OkToRetryOnAllOperations:false, NFLoadBalancerClassName:com"
-        + ".netflix.loadbalancer.ZoneAwareLoadBalancer, ClientClassName:com.netflix.niws.client.http.RestClient,"
-        + " MaxHttpConnectionsPerHost:50, ConnectionCleanerRepeatInterval:30000, PoolMinThreads:1, PrimeConnect"
-        + "ionsClassName:com.netflix.niws.client.http.HttpPrimeConnection, ProxyHost:null, ConnIdleEvictTimeMilliSeconds"
-        + ":30000, MaxTotalTimeToPrimeConnections:30000, NIWSServerListClassName:com.netflix.loadbalancer"
-        + ".ConfigurationBasedServerList",
-        DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe", "ClientConfig:").toString());
+    assertEquals(
+        "ClientConfig:ConnectTimeout:2000, MaxConnectionsPerHost:50, MaxRetriesPerServerPrimeConnection:9,"
+            + " MaxAutoRetries:0, MaxTotalConnections:200, PoolKeepAliveTime:900, ConnectionManagerTimeout:2000,"
+            + " UseIPAddrForServer:false, VipAddressResolverClassName:com.netflix.client.SimpleVipAddressResolver,"
+            + " MaxTotalHttpConnections:200, EnableConnectionPool:true, PoolMaxThreads:200, EnablePrimeConnections:false,"
+            + " MinPrimeConnectionsRatio:1.0, PoolKeepAliveTimeUnits:SECONDS, EnableGZIPContentEncodingFilter:false,"
+            + " NFLoadBalancerPingClassName:com.netflix.loadbalancer.DummyPing, EnableZoneExclusivity:false,"
+            + " MaxAutoRetriesNextServer:1, NFLoadBalancerRuleClassName:com.netflix.loadbalancer.AvailabilityFilteringRule,"
+            + " ProxyPort:null, PrimeConnectionsURI:/, IsClientAuthRequired:false, listOfServers:, ConnectionPoolCl"
+            + "eanerTaskEnabled:true, EnableZoneAffinity:false, FollowRedirects:false, Port:7001, PrioritizeVipAddr"
+            + "essBasedServers:true, ReadTimeout:5000, OkToRetryOnAllOperations:false, NFLoadBalancerClassName:com"
+            + ".netflix.loadbalancer.ZoneAwareLoadBalancer, ClientClassName:com.netflix.niws.client.http.RestClient,"
+            + " MaxHttpConnectionsPerHost:50, ConnectionCleanerRepeatInterval:30000, PoolMinThreads:1, PrimeConnect"
+            + "ionsClassName:com.netflix.niws.client.http.HttpPrimeConnection, ProxyHost:null, ConnIdleEvictTimeMilliSeconds"
+            + ":30000, MaxTotalTimeToPrimeConnections:30000, NIWSServerListClassName:com.netflix.loadbalancer"
+            + ".ConfigurationBasedServerList",
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe", "ClientConfig:")
+            .toString());
   }
 
   /**
    * Test {@link ReloadableClientConfig#getRefreshCount()}.
-   * <p>
-   * Method under test: {@link ReloadableClientConfig#getRefreshCount()}
+   *
+   * <p>Method under test: {@link ReloadableClientConfig#getRefreshCount()}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"long ReloadableClientConfig.getRefreshCount()"})
   public void testGetRefreshCount() {
     // Arrange, Act and Assert

@@ -3,21 +3,24 @@
     "reportVersion" : "2.7"
   },
   "run" : {
-    "version" : "2025.06.02-fd4f1ca-licensed",
-    "creationTimestamp" : "2025-06-17T14:26:50.822+01:00",
-    "command" : "dcover coverage-reports ",
-    "totalTime" : 195.802,
-    "environmentDetectionTime" : 86.097,
-    "indexingTime" : 0.0,
-    "entryPointsTime" : 0.0,
-    "generationTime" : 0.0,
-    "timeToFirstTest" : 195.819,
-    "timeToLastTest" : 195.819,
-    "indexQueryTime" : 0.0,
-    "verificationTime" : 0.0,
-    "validationTime" : 0.0
+    "version" : "2025.09.01-44e352d-licensed",
+    "creationTimestamp" : "2025-10-13T10:30:18.91Z",
+    "command" : "dcover create --exclude=com.netflix.ribbon.proxy.Utils --exclude=com.netflix.ribbon.proxy.RibbonDynamicProxy --coverage-reports --upload http://localhost:8080 --project-name ribbon --name with-diffblue-tests",
+    "totalTime" : 150.322,
+    "environmentDetectionTime" : 0.06,
+    "indexingTime" : 0.299,
+    "entryPointsTime" : 0.042,
+    "generationTime" : 489.708,
+    "timeToFirstTest" : 726.511,
+    "timeToLastTest" : 622.021,
+    "indexQueryTime" : 4.989,
+    "verificationTime" : 6.267,
+    "validationTime" : 21.431
   },
   "codes" : {
+    "F009" : "Internal error",
+    "R000" : "Success",
+    "R081" : "Exception in arrange section",
     "T000" : "Method eligible for test creation",
     "T001" : "Trivial getter",
     "T002" : "Trivial setter",
@@ -27,19 +30,21 @@
     "T012" : "Synthetic method",
     "T020" : "Other trivial method",
     "T021" : "Empty method body",
-    "T023" : "Testability unknown"
+    "T023" : "Testability unknown",
+    "V000" : "Validated successfully",
+    "W002" : "Test compiled, but did not pass"
   },
   "summary" : {
     "classesCount" : 11,
-    "methodsCount" : 59,
+    "methodsCount" : 60,
     "cumulativeDiffblueTestCount" : 11,
     "cumulativeManualTestCount" : 25,
-    "completeTestCount" : 0,
+    "completeTestCount" : 11,
     "incompleteTestCount" : 0,
     "skeletonTestCount" : 0,
     "totalPhysicalLineCount" : 416,
     "perMethodTestability" : {
-      "T000" : 21,
+      "T000" : 22,
       "T001" : 5,
       "T002" : 2,
       "T003" : 4,
@@ -51,22 +56,29 @@
       "T023" : 3
     },
     "perMethodOutcome" : {
-      "T000" : 21,
-      "T001" : 5,
-      "T002" : 2,
+      "F009" : 15,
+      "R000" : 15,
+      "R081" : 2,
       "T003" : 4,
       "T004" : 13,
-      "T005" : 2,
       "T012" : 7,
-      "T020" : 1,
-      "T021" : 1,
-      "T023" : 3
+      "T023" : 3,
+      "W002" : 1
+    },
+    "perTestOutcome" : {
+      "R000" : 11
+    },
+    "perTestValidation" : {
+      "V000" : 11
+    },
+    "warnings" : {
+      "W002" : 1
     }
   },
   "classes" : {
     "com.netflix.niws.loadbalancer.DiscoveryEnabledNIWSServerList" : {
       "methodsCount" : 15,
-      "completeTestCount" : 0,
+      "completeTestCount" : 6,
       "incompleteTestCount" : 0,
       "perMethodTestability" : {
         "T000" : 9,
@@ -77,12 +89,13 @@
         "T023" : 1
       },
       "perMethodOutcome" : {
-        "T000" : 9,
-        "T001" : 1,
-        "T002" : 1,
+        "F009" : 5,
+        "R000" : 7,
         "T003" : 2,
-        "T020" : 1,
         "T023" : 1
+      },
+      "perTestOutcome" : {
+        "R000" : 6
       }
     },
     "com.netflix.niws.loadbalancer.DiscoveryEnabledServer" : {
@@ -94,8 +107,8 @@
         "T001" : 2
       },
       "perMethodOutcome" : {
-        "T000" : 2,
-        "T001" : 2
+        "F009" : 2,
+        "R081" : 2
       }
     },
     "com.netflix.niws.loadbalancer.DiscoveryEnabledServer$1" : {
@@ -111,7 +124,7 @@
     },
     "com.netflix.niws.loadbalancer.EurekaNotificationServerListUpdater" : {
       "methodsCount" : 14,
-      "completeTestCount" : 0,
+      "completeTestCount" : 2,
       "incompleteTestCount" : 0,
       "perMethodTestability" : {
         "T000" : 9,
@@ -120,10 +133,17 @@
         "T023" : 1
       },
       "perMethodOutcome" : {
-        "T000" : 9,
-        "T001" : 1,
+        "F009" : 7,
+        "R000" : 2,
         "T012" : 3,
-        "T023" : 1
+        "T023" : 1,
+        "W002" : 1
+      },
+      "perTestOutcome" : {
+        "R000" : 2
+      },
+      "warnings" : {
+        "W002" : 1
       }
     },
     "com.netflix.niws.loadbalancer.EurekaNotificationServerListUpdater$1" : {
@@ -186,19 +206,23 @@
       }
     },
     "com.netflix.niws.loadbalancer.LegacyEurekaClientProvider" : {
-      "methodsCount" : 1,
-      "completeTestCount" : 0,
+      "methodsCount" : 2,
+      "completeTestCount" : 2,
       "incompleteTestCount" : 0,
       "perMethodTestability" : {
+        "T000" : 1,
         "T005" : 1
       },
       "perMethodOutcome" : {
-        "T005" : 1
+        "R000" : 2
+      },
+      "perTestOutcome" : {
+        "R000" : 2
       }
     },
     "com.netflix.niws.loadbalancer.NIWSDiscoveryPing" : {
       "methodsCount" : 5,
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : {
         "T000" : 1,
@@ -208,11 +232,11 @@
         "T021" : 1
       },
       "perMethodOutcome" : {
-        "T000" : 1,
-        "T001" : 1,
-        "T002" : 1,
-        "T005" : 1,
-        "T021" : 1
+        "F009" : 1,
+        "R000" : 4
+      },
+      "perTestOutcome" : {
+        "R000" : 1
       }
     }
   },
@@ -224,10 +248,13 @@
       "perMethodOutcome" : "T023"
     },
     "com.netflix.niws.loadbalancer.DiscoveryEnabledNIWSServerList.<init>:()V" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         71,
         53,
@@ -243,7 +270,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "F009",
       "lineNumbers" : [
         92,
         93
@@ -253,7 +280,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "F009",
       "lineNumbers" : [
         99,
         53,
@@ -267,10 +294,13 @@
       ]
     },
     "com.netflix.niws.loadbalancer.DiscoveryEnabledNIWSServerList.<init>:(Ljava/lang/String;)V" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 2,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 2
+      },
       "lineNumbers" : [
         82,
         83
@@ -280,7 +310,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "F009",
       "lineNumbers" : [
         96,
         97
@@ -301,7 +331,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "F009",
       "lineNumbers" : [
         197,
         200,
@@ -312,28 +342,37 @@
       ]
     },
     "com.netflix.niws.loadbalancer.DiscoveryEnabledNIWSServerList.getInitialListOfServers:()Ljava/util/List;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         143
       ]
     },
     "com.netflix.niws.loadbalancer.DiscoveryEnabledNIWSServerList.getUpdatedListOfServers:()Ljava/util/List;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         148
       ]
     },
     "com.netflix.niws.loadbalancer.DiscoveryEnabledNIWSServerList.getVipAddresses:()Ljava/lang/String;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T001",
-      "perMethodOutcome" : "T001",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         209
       ]
@@ -342,7 +381,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "F009",
       "lineNumbers" : [
         106,
         107,
@@ -403,20 +442,26 @@
       ]
     },
     "com.netflix.niws.loadbalancer.DiscoveryEnabledNIWSServerList.setVipAddresses:(Ljava/lang/String;)V" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T002",
-      "perMethodOutcome" : "T002",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         213,
         214
       ]
     },
     "com.netflix.niws.loadbalancer.DiscoveryEnabledNIWSServerList.toString:()Ljava/lang/String;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T020",
-      "perMethodOutcome" : "T020",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         217,
         218,
@@ -475,7 +520,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "F009",
       "lineNumbers" : [
         38,
         39
@@ -485,7 +530,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "F009",
       "lineNumbers" : [
         42,
         43,
@@ -499,7 +544,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T001",
-      "perMethodOutcome" : "T001",
+      "perMethodOutcome" : "R081",
       "lineNumbers" : [
         70
       ]
@@ -508,7 +553,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T001",
-      "perMethodOutcome" : "T001",
+      "perMethodOutcome" : "R081",
       "lineNumbers" : [
         75
       ]
@@ -698,10 +743,13 @@
       "perMethodOutcome" : "T023"
     },
     "com.netflix.niws.loadbalancer.EurekaNotificationServerListUpdater.<init>:()V" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         107,
         108
@@ -711,7 +759,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "F009",
       "lineNumbers" : [
         111,
         112
@@ -721,7 +769,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "F009",
       "lineNumbers" : [
         114,
         97,
@@ -763,7 +811,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "F009",
       "lineNumbers" : [
         200,
         201,
@@ -775,7 +823,10 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "W002",
+      "warnings" : {
+        "W002" : 1
+      },
       "lineNumbers" : [
         94
       ]
@@ -784,7 +835,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "F009",
       "lineNumbers" : [
         190
       ]
@@ -793,16 +844,19 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "F009",
       "lineNumbers" : [
         185
       ]
     },
     "com.netflix.niws.loadbalancer.EurekaNotificationServerListUpdater.getNumberMissedCycles:()I" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T001",
-      "perMethodOutcome" : "T001",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         195
       ]
@@ -811,7 +865,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "F009",
       "lineNumbers" : [
         121,
         122,
@@ -829,7 +883,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "F009",
       "lineNumbers" : [
         174,
         175,
@@ -839,19 +893,39 @@
       ]
     },
     "com.netflix.niws.loadbalancer.LegacyEurekaClientProvider.<init>:()V" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T005",
-      "perMethodOutcome" : "T005",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         11
       ]
     },
+    "com.netflix.niws.loadbalancer.LegacyEurekaClientProvider.get:()Lcom/netflix/discovery/EurekaClient;" : {
+      "completeTestCount" : 1,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
+      "lineNumbers" : [
+        17,
+        18,
+        21
+      ]
+    },
     "com.netflix.niws.loadbalancer.NIWSDiscoveryPing.<init>:()V" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T005",
-      "perMethodOutcome" : "T005",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         41,
         38,
@@ -859,19 +933,25 @@
       ]
     },
     "com.netflix.niws.loadbalancer.NIWSDiscoveryPing.getLb:()Lcom/netflix/loadbalancer/BaseLoadBalancer;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T001",
-      "perMethodOutcome" : "T001",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         45
       ]
     },
     "com.netflix.niws.loadbalancer.NIWSDiscoveryPing.initWithNiwsConfig:(Lcom/netflix/client/config/IClientConfig;)V" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T021",
-      "perMethodOutcome" : "T021",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         74
       ]
@@ -880,7 +960,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "F009",
       "lineNumbers" : [
         57,
         58,
@@ -894,10 +974,13 @@
       ]
     },
     "com.netflix.niws.loadbalancer.NIWSDiscoveryPing.setLb:(Lcom/netflix/loadbalancer/BaseLoadBalancer;)V" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T002",
-      "perMethodOutcome" : "T002",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         53,
         54

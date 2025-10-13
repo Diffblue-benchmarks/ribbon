@@ -1,7 +1,8 @@
 package com.netflix.ribbon.transport.netty;
 
 import static org.junit.Assert.assertEquals;
-import com.diffblue.cover.annotations.MaintainedByDiffblue;
+import com.diffblue.cover.annotations.ContributionFromDiffblue;
+import com.diffblue.cover.annotations.ManagedByDiffblue;
 import com.diffblue.cover.annotations.MethodsUnderTest;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -9,19 +10,22 @@ import org.junit.experimental.categories.Category;
 public class DynamicPropertyBasedPoolStrategyDiffblueTest {
   /**
    * Test {@link DynamicPropertyBasedPoolStrategy#DynamicPropertyBasedPoolStrategy(int, String)}.
+   *
    * <ul>
-   *   <li>Then return AvailablePermits is five.</li>
+   *   <li>Then return AvailablePermits is five.
    * </ul>
-   * <p>
-   * Method under test: {@link DynamicPropertyBasedPoolStrategy#DynamicPropertyBasedPoolStrategy(int, String)}
+   *
+   * <p>Method under test: {@link
+   * DynamicPropertyBasedPoolStrategy#DynamicPropertyBasedPoolStrategy(int, String)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"void DynamicPropertyBasedPoolStrategy.<init>(int, String)"})
   public void testNewDynamicPropertyBasedPoolStrategy_thenReturnAvailablePermitsIsFive() {
     // Arrange and Act
-    DynamicPropertyBasedPoolStrategy actualDynamicPropertyBasedPoolStrategy = new DynamicPropertyBasedPoolStrategy(5,
-        "Property Name");
+    DynamicPropertyBasedPoolStrategy actualDynamicPropertyBasedPoolStrategy =
+        new DynamicPropertyBasedPoolStrategy(5, "Property Name");
 
     // Assert
     assertEquals(5, actualDynamicPropertyBasedPoolStrategy.getAvailablePermits());
@@ -30,19 +34,22 @@ public class DynamicPropertyBasedPoolStrategyDiffblueTest {
 
   /**
    * Test {@link DynamicPropertyBasedPoolStrategy#DynamicPropertyBasedPoolStrategy(int, String)}.
+   *
    * <ul>
-   *   <li>Then return AvailablePermits is three.</li>
+   *   <li>Then return AvailablePermits is three.
    * </ul>
-   * <p>
-   * Method under test: {@link DynamicPropertyBasedPoolStrategy#DynamicPropertyBasedPoolStrategy(int, String)}
+   *
+   * <p>Method under test: {@link
+   * DynamicPropertyBasedPoolStrategy#DynamicPropertyBasedPoolStrategy(int, String)}
    */
   @Test
-  @Category(MaintainedByDiffblue.class)
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
   @MethodsUnderTest({"void DynamicPropertyBasedPoolStrategy.<init>(int, String)"})
   public void testNewDynamicPropertyBasedPoolStrategy_thenReturnAvailablePermitsIsThree() {
     // Arrange and Act
-    DynamicPropertyBasedPoolStrategy actualDynamicPropertyBasedPoolStrategy = new DynamicPropertyBasedPoolStrategy(3,
-        "Property Name");
+    DynamicPropertyBasedPoolStrategy actualDynamicPropertyBasedPoolStrategy =
+        new DynamicPropertyBasedPoolStrategy(3, "Property Name");
 
     // Assert
     assertEquals(3, actualDynamicPropertyBasedPoolStrategy.getAvailablePermits());

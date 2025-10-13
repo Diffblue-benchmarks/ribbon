@@ -3,21 +3,27 @@
     "reportVersion" : "2.7"
   },
   "run" : {
-    "version" : "2025.06.02-fd4f1ca-licensed",
-    "creationTimestamp" : "2025-06-17T14:33:17.826+01:00",
-    "command" : "dcover coverage-reports ",
-    "totalTime" : 244.499,
-    "environmentDetectionTime" : 101.202,
-    "indexingTime" : 0.0,
-    "entryPointsTime" : 0.0,
-    "generationTime" : 0.0,
-    "timeToFirstTest" : 244.512,
-    "timeToLastTest" : 244.512,
-    "indexQueryTime" : 0.0,
-    "verificationTime" : 0.0,
-    "validationTime" : 0.0
+    "version" : "2025.09.01-44e352d-licensed",
+    "creationTimestamp" : "2025-10-13T10:30:18.91Z",
+    "command" : "dcover create --exclude=com.netflix.ribbon.proxy.Utils --exclude=com.netflix.ribbon.proxy.RibbonDynamicProxy --coverage-reports --upload http://localhost:8080 --project-name ribbon --name with-diffblue-tests",
+    "totalTime" : 853.554,
+    "environmentDetectionTime" : 0.116,
+    "indexingTime" : 0.306,
+    "entryPointsTime" : 0.106,
+    "generationTime" : 1274.735,
+    "timeToFirstTest" : 1715.292,
+    "timeToLastTest" : 1501.359,
+    "indexQueryTime" : 5.295,
+    "verificationTime" : 16.214,
+    "validationTime" : 25.445
   },
   "codes" : {
+    "R000" : "Success",
+    "R002" : "Missing observers",
+    "R004" : "No meaningful assertions found",
+    "R013" : "No inputs found that don't throw a trivial exception",
+    "R024" : "Analysis service shutdown unexpectedly",
+    "R083" : "Can't find a suitable constructor",
     "T000" : "Method eligible for test creation",
     "T001" : "Trivial getter",
     "T002" : "Trivial setter",
@@ -28,14 +34,16 @@
     "T010" : "Abstract or interface method",
     "T012" : "Synthetic method",
     "T021" : "Empty method body",
-    "T023" : "Testability unknown"
+    "T023" : "Testability unknown",
+    "V000" : "Validated successfully",
+    "W002" : "Test compiled, but did not pass"
   },
   "summary" : {
     "classesCount" : 23,
     "methodsCount" : 147,
-    "cumulativeDiffblueTestCount" : 64,
+    "cumulativeDiffblueTestCount" : 121,
     "cumulativeManualTestCount" : 34,
-    "completeTestCount" : 0,
+    "completeTestCount" : 121,
     "incompleteTestCount" : 0,
     "skeletonTestCount" : 0,
     "totalPhysicalLineCount" : 1124,
@@ -53,17 +61,28 @@
       "T023" : 4
     },
     "perMethodOutcome" : {
-      "T000" : 76,
-      "T001" : 3,
-      "T002" : 8,
+      "R000" : 59,
+      "R002" : 2,
+      "R004" : 1,
+      "R013" : 20,
+      "R024" : 2,
+      "R083" : 2,
       "T003" : 10,
       "T004" : 20,
-      "T005" : 4,
       "T008" : 1,
       "T010" : 7,
       "T012" : 13,
-      "T021" : 1,
-      "T023" : 4
+      "T023" : 4,
+      "W002" : 2
+    },
+    "perTestOutcome" : {
+      "R000" : 121
+    },
+    "perTestValidation" : {
+      "V000" : 121
+    },
+    "warnings" : {
+      "W002" : 2
     }
   },
   "classes" : {
@@ -77,9 +96,13 @@
         "T023" : 1
       },
       "perMethodOutcome" : {
-        "T000" : 6,
+        "R013" : 5,
         "T010" : 1,
-        "T023" : 1
+        "T023" : 1,
+        "W002" : 1
+      },
+      "warnings" : {
+        "W002" : 1
       }
     },
     "com.netflix.ribbon.RibbonTransportFactory$DefaultRibbonTransportFactory" : {
@@ -90,20 +113,24 @@
         "T005" : 1
       },
       "perMethodOutcome" : {
-        "T005" : 1
+        "R002" : 1
       }
     },
     "com.netflix.ribbon.transport.netty.DynamicPropertyBasedPoolStrategy" : {
       "methodsCount" : 3,
-      "completeTestCount" : 0,
+      "completeTestCount" : 2,
       "incompleteTestCount" : 0,
       "perMethodTestability" : {
         "T000" : 2,
         "T012" : 1
       },
       "perMethodOutcome" : {
-        "T000" : 2,
+        "R000" : 1,
+        "R004" : 1,
         "T012" : 1
+      },
+      "perTestOutcome" : {
+        "R000" : 2
       }
     },
     "com.netflix.ribbon.transport.netty.DynamicPropertyBasedPoolStrategy$1" : {
@@ -119,7 +146,7 @@
     },
     "com.netflix.ribbon.transport.netty.LoadBalancingRxClient" : {
       "methodsCount" : 18,
-      "completeTestCount" : 0,
+      "completeTestCount" : 21,
       "incompleteTestCount" : 0,
       "perMethodTestability" : {
         "T000" : 12,
@@ -128,10 +155,14 @@
         "T023" : 1
       },
       "perMethodOutcome" : {
-        "T000" : 12,
+        "R000" : 10,
+        "R013" : 2,
         "T003" : 1,
         "T010" : 4,
         "T023" : 1
+      },
+      "perTestOutcome" : {
+        "R000" : 21
       }
     },
     "com.netflix.ribbon.transport.netty.LoadBalancingRxClient$1" : {
@@ -160,20 +191,23 @@
     },
     "com.netflix.ribbon.transport.netty.LoadBalancingRxClientWithPoolOptions" : {
       "methodsCount" : 6,
-      "completeTestCount" : 0,
+      "completeTestCount" : 4,
       "incompleteTestCount" : 0,
       "perMethodTestability" : {
         "T000" : 4,
         "T010" : 2
       },
       "perMethodOutcome" : {
-        "T000" : 4,
+        "R000" : 4,
         "T010" : 2
+      },
+      "perTestOutcome" : {
+        "R000" : 4
       }
     },
     "com.netflix.ribbon.transport.netty.RibbonTransport" : {
       "methodsCount" : 27,
-      "completeTestCount" : 0,
+      "completeTestCount" : 49,
       "incompleteTestCount" : 0,
       "perMethodTestability" : {
         "T000" : 23,
@@ -182,10 +216,14 @@
         "T023" : 1
       },
       "perMethodOutcome" : {
-        "T000" : 23,
+        "R000" : 12,
+        "R013" : 11,
         "T003" : 2,
         "T008" : 1,
         "T023" : 1
+      },
+      "perTestOutcome" : {
+        "R000" : 49
       }
     },
     "com.netflix.ribbon.transport.netty.http.DefaultResponseToErrorPolicy" : {
@@ -198,8 +236,8 @@
         "T012" : 1
       },
       "perMethodOutcome" : {
-        "T000" : 1,
-        "T005" : 1,
+        "R002" : 1,
+        "R013" : 1,
         "T012" : 1
       }
     },
@@ -217,8 +255,8 @@
       }
     },
     "com.netflix.ribbon.transport.netty.http.LoadBalancingHttpClient" : {
-      "methodsCount" : 24,
-      "completeTestCount" : 0,
+      "methodsCount" : 22,
+      "completeTestCount" : 28,
       "incompleteTestCount" : 0,
       "perMethodTestability" : {
         "T000" : 12,
@@ -229,12 +267,14 @@
         "T023" : 1
       },
       "perMethodOutcome" : {
-        "T000" : 12,
-        "T001" : 1,
+        "R000" : 11,
+        "R024" : 1,
         "T003" : 6,
-        "T005" : 1,
         "T012" : 3,
         "T023" : 1
+      },
+      "perTestOutcome" : {
+        "R000" : 28
       }
     },
     "com.netflix.ribbon.transport.netty.http.LoadBalancingHttpClient$1" : {
@@ -289,7 +329,7 @@
     },
     "com.netflix.ribbon.transport.netty.http.LoadBalancingHttpClient$Builder" : {
       "methodsCount" : 10,
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : {
         "T000" : 1,
@@ -297,9 +337,10 @@
         "T005" : 1
       },
       "perMethodOutcome" : {
-        "T000" : 1,
-        "T002" : 8,
-        "T005" : 1
+        "R000" : 10
+      },
+      "perTestOutcome" : {
+        "R000" : 1
       }
     },
     "com.netflix.ribbon.transport.netty.http.LoadBalancingHttpClient$Builder$1" : {
@@ -316,21 +357,24 @@
       }
     },
     "com.netflix.ribbon.transport.netty.http.NettyHttpLoadBalancerErrorHandler" : {
-      "methodsCount" : 7,
-      "completeTestCount" : 0,
+      "methodsCount" : 5,
+      "completeTestCount" : 4,
       "incompleteTestCount" : 0,
       "perMethodTestability" : {
         "T000" : 5,
         "T001" : 2
       },
       "perMethodOutcome" : {
-        "T000" : 5,
-        "T001" : 2
+        "R000" : 4,
+        "R024" : 1
+      },
+      "perTestOutcome" : {
+        "R000" : 4
       }
     },
     "com.netflix.ribbon.transport.netty.http.SSEClient" : {
       "methodsCount" : 5,
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : {
         "T000" : 2,
@@ -339,10 +383,13 @@
         "T021" : 1
       },
       "perMethodOutcome" : {
-        "T000" : 2,
+        "R000" : 1,
+        "R083" : 2,
         "T003" : 1,
-        "T012" : 1,
-        "T021" : 1
+        "T012" : 1
+      },
+      "perTestOutcome" : {
+        "R000" : 1
       }
     },
     "com.netflix.ribbon.transport.netty.http.SSEClient$1" : {
@@ -360,24 +407,35 @@
     },
     "com.netflix.ribbon.transport.netty.tcp.LoadBalancingTcpClient" : {
       "methodsCount" : 4,
-      "completeTestCount" : 0,
+      "completeTestCount" : 5,
       "incompleteTestCount" : 0,
       "perMethodTestability" : {
         "T000" : 4
       },
       "perMethodOutcome" : {
-        "T000" : 4
+        "R000" : 3,
+        "W002" : 1
+      },
+      "perTestOutcome" : {
+        "R000" : 5
+      },
+      "warnings" : {
+        "W002" : 1
       }
     },
     "com.netflix.ribbon.transport.netty.udp.LoadBalancingUdpClient" : {
       "methodsCount" : 4,
-      "completeTestCount" : 0,
+      "completeTestCount" : 6,
       "incompleteTestCount" : 0,
       "perMethodTestability" : {
         "T000" : 4
       },
       "perMethodOutcome" : {
-        "T000" : 4
+        "R000" : 3,
+        "R013" : 1
+      },
+      "perTestOutcome" : {
+        "R000" : 6
       }
     }
   },
@@ -386,7 +444,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T005",
-      "perMethodOutcome" : "T005",
+      "perMethodOutcome" : "R002",
       "lineNumbers" : [
         40,
         41
@@ -413,7 +471,10 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "W002",
+      "warnings" : {
+        "W002" : 1
+      },
       "lineNumbers" : [
         51
       ]
@@ -422,7 +483,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R013",
       "lineNumbers" : [
         63,
         64,
@@ -433,7 +494,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R013",
       "lineNumbers" : [
         55
       ]
@@ -442,7 +503,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R013",
       "lineNumbers" : [
         69,
         70,
@@ -453,7 +514,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R013",
       "lineNumbers" : [
         59
       ]
@@ -462,7 +523,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R013",
       "lineNumbers" : [
         75,
         76,
@@ -489,10 +550,13 @@
       ]
     },
     "com.netflix.ribbon.transport.netty.DynamicPropertyBasedPoolStrategy.<init>:(ILjava/lang/String;)V" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 2,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 2
+      },
       "lineNumbers" : [
         36,
         37,
@@ -514,7 +578,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R004",
       "lineNumbers" : [
         48,
         49,
@@ -637,7 +701,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R013",
       "lineNumbers" : [
         258,
         259,
@@ -659,37 +723,49 @@
       "perMethodOutcome" : "T010"
     },
     "com.netflix.ribbon.transport.netty.LoadBalancingRxClient.getClientConfig:()Lcom/netflix/client/config/IClientConfig;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         132
       ]
     },
     "com.netflix.ribbon.transport.netty.LoadBalancingRxClient.getLoadBalancerContext:()Lcom/netflix/loadbalancer/LoadBalancerContext;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         289
       ]
     },
     "com.netflix.ribbon.transport.netty.LoadBalancingRxClient.getMaxConcurrentRequests:()I" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         151
       ]
     },
     "com.netflix.ribbon.transport.netty.LoadBalancingRxClient.getOrCreateRxClient:(Lcom/netflix/loadbalancer/Server;)Lio/reactivex/netty/client/RxClient;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 4,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 4
+      },
       "lineNumbers" : [
         226,
         227,
@@ -704,10 +780,13 @@
       ]
     },
     "com.netflix.ribbon.transport.netty.LoadBalancingRxClient.getProperty:(Lcom/netflix/client/config/IClientConfigKey;Lcom/netflix/client/config/IClientConfig;Ljava/lang/Object;)Ljava/lang/Object;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 5,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 5
+      },
       "lineNumbers" : [
         166,
         167,
@@ -715,10 +794,13 @@
       ]
     },
     "com.netflix.ribbon.transport.netty.LoadBalancingRxClient.getResourceForOptionalProperty:(Lcom/netflix/client/config/IClientConfigKey;)Ljava/net/URL;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         174,
         175,
@@ -730,10 +812,13 @@
       ]
     },
     "com.netflix.ribbon.transport.netty.LoadBalancingRxClient.getResponseTimeOut:()I" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 2,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 2
+      },
       "lineNumbers" : [
         136,
         137,
@@ -748,19 +833,25 @@
       ]
     },
     "com.netflix.ribbon.transport.netty.LoadBalancingRxClient.name:()Ljava/lang/String;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         280
       ]
     },
     "com.netflix.ribbon.transport.netty.LoadBalancingRxClient.removeClient:(Lcom/netflix/loadbalancer/Server;)Lio/reactivex/netty/client/RxClient;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 2,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 2
+      },
       "lineNumbers" : [
         249,
         250,
@@ -772,7 +863,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R013",
       "lineNumbers" : [
         273,
         274,
@@ -781,10 +872,13 @@
       ]
     },
     "com.netflix.ribbon.transport.netty.LoadBalancingRxClient.subscribe:(Lio/reactivex/netty/metrics/MetricEventsListener;)Lrx/Subscription;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 3,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 3
+      },
       "lineNumbers" : [
         285
       ]
@@ -824,19 +918,25 @@
       ]
     },
     "com.netflix.ribbon.transport.netty.LoadBalancingRxClientWithPoolOptions.getConnectionIdleTimeoutMillis:()I" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         79
       ]
     },
     "com.netflix.ribbon.transport.netty.LoadBalancingRxClientWithPoolOptions.getMaxConcurrentRequests:()I" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         88,
         89,
@@ -844,19 +944,25 @@
       ]
     },
     "com.netflix.ribbon.transport.netty.LoadBalancingRxClientWithPoolOptions.getPoolStrategy:()Lio/reactivex/netty/client/PoolLimitDeterminationStrategy;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         75
       ]
     },
     "com.netflix.ribbon.transport.netty.LoadBalancingRxClientWithPoolOptions.isPoolEnabled:()Z" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         83
       ]
@@ -899,7 +1005,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R013",
       "lineNumbers" : [
         113,
         114
@@ -909,7 +1015,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R013",
       "lineNumbers" : [
         151,
         152,
@@ -921,20 +1027,26 @@
       ]
     },
     "com.netflix.ribbon.transport.netty.RibbonTransport.newHttpClient:(Lcom/netflix/loadbalancer/ILoadBalancer;)Lcom/netflix/ribbon/transport/netty/http/LoadBalancingHttpClient;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 2,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 2
+      },
       "lineNumbers" : [
         160,
         161
       ]
     },
     "com.netflix.ribbon.transport.netty.RibbonTransport.newHttpClient:(Lcom/netflix/loadbalancer/ILoadBalancer;Lcom/netflix/client/config/IClientConfig;)Lcom/netflix/ribbon/transport/netty/http/LoadBalancingHttpClient;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 4,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 4
+      },
       "lineNumbers" : [
         118,
         119,
@@ -947,10 +1059,13 @@
       ]
     },
     "com.netflix.ribbon.transport.netty.RibbonTransport.newHttpClient:(Lcom/netflix/loadbalancer/ILoadBalancer;Lcom/netflix/client/config/IClientConfig;Lcom/netflix/client/RetryHandler;)Lcom/netflix/ribbon/transport/netty/http/LoadBalancingHttpClient;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 5,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 5
+      },
       "lineNumbers" : [
         128,
         129,
@@ -963,10 +1078,13 @@
       ]
     },
     "com.netflix.ribbon.transport.netty.RibbonTransport.newHttpClient:(Lcom/netflix/loadbalancer/ILoadBalancer;Lcom/netflix/client/config/IClientConfig;Lcom/netflix/client/RetryHandler;Ljava/util/List;)Lcom/netflix/ribbon/transport/netty/http/LoadBalancingHttpClient;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 7,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 7
+      },
       "lineNumbers" : [
         139,
         140,
@@ -983,7 +1101,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R013",
       "lineNumbers" : [
         178,
         179,
@@ -998,7 +1116,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R013",
       "lineNumbers" : [
         188,
         189,
@@ -1010,10 +1128,13 @@
       ]
     },
     "com.netflix.ribbon.transport.netty.RibbonTransport.newHttpClient:(Lio/reactivex/netty/pipeline/PipelineConfigurator;Lcom/netflix/loadbalancer/ILoadBalancer;Lcom/netflix/client/config/IClientConfig;)Lcom/netflix/ribbon/transport/netty/http/LoadBalancingHttpClient;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 3,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 3
+      },
       "lineNumbers" : [
         167,
         168,
@@ -1026,10 +1147,13 @@
       ]
     },
     "com.netflix.ribbon.transport.netty.RibbonTransport.newHttpClient:(Lio/reactivex/netty/pipeline/PipelineConfigurator;Lcom/netflix/loadbalancer/ILoadBalancer;Lcom/netflix/client/config/IClientConfig;Lcom/netflix/client/RetryHandler;Ljava/util/List;)Lcom/netflix/ribbon/transport/netty/http/LoadBalancingHttpClient;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 7,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 7
+      },
       "lineNumbers" : [
         199,
         200,
@@ -1046,7 +1170,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R013",
       "lineNumbers" : [
         246,
         247
@@ -1056,7 +1180,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R013",
       "lineNumbers" : [
         219,
         220,
@@ -1067,10 +1191,13 @@
       ]
     },
     "com.netflix.ribbon.transport.netty.RibbonTransport.newSSEClient:(Lcom/netflix/loadbalancer/ILoadBalancer;Lcom/netflix/client/config/IClientConfig;)Lcom/netflix/ribbon/transport/netty/http/LoadBalancingHttpClient;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 3,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 3
+      },
       "lineNumbers" : [
         210,
         211,
@@ -1085,7 +1212,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R013",
       "lineNumbers" : [
         238,
         239,
@@ -1096,10 +1223,13 @@
       ]
     },
     "com.netflix.ribbon.transport.netty.RibbonTransport.newSSEClient:(Lio/reactivex/netty/pipeline/PipelineConfigurator;Lcom/netflix/loadbalancer/ILoadBalancer;Lcom/netflix/client/config/IClientConfig;)Lcom/netflix/ribbon/transport/netty/http/LoadBalancingHttpClient;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 3,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 3
+      },
       "lineNumbers" : [
         228,
         229,
@@ -1114,25 +1244,31 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R013",
       "lineNumbers" : [
         92
       ]
     },
     "com.netflix.ribbon.transport.netty.RibbonTransport.newTcpClient:(Lcom/netflix/loadbalancer/ILoadBalancer;Lcom/netflix/client/config/IClientConfig;)Lio/reactivex/netty/client/RxClient;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 3,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 3
+      },
       "lineNumbers" : [
         78
       ]
     },
     "com.netflix.ribbon.transport.netty.RibbonTransport.newTcpClient:(Lcom/netflix/loadbalancer/ILoadBalancer;Lio/reactivex/netty/pipeline/PipelineConfigurator;Lcom/netflix/client/config/IClientConfig;Lcom/netflix/client/RetryHandler;)Lio/reactivex/netty/client/RxClient;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 3,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 3
+      },
       "lineNumbers" : [
         83
       ]
@@ -1141,7 +1277,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R013",
       "lineNumbers" : [
         88
       ]
@@ -1150,25 +1286,31 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R013",
       "lineNumbers" : [
         100
       ]
     },
     "com.netflix.ribbon.transport.netty.RibbonTransport.newUdpClient:(Lcom/netflix/loadbalancer/ILoadBalancer;Lcom/netflix/client/config/IClientConfig;)Lio/reactivex/netty/client/RxClient;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 6,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 6
+      },
       "lineNumbers" : [
         96
       ]
     },
     "com.netflix.ribbon.transport.netty.RibbonTransport.newUdpClient:(Lcom/netflix/loadbalancer/ILoadBalancer;Lio/reactivex/netty/pipeline/PipelineConfigurator;Lcom/netflix/client/config/IClientConfig;Lcom/netflix/client/RetryHandler;)Lio/reactivex/netty/client/RxClient;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 3,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 3
+      },
       "lineNumbers" : [
         105
       ]
@@ -1177,7 +1319,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R013",
       "lineNumbers" : [
         109
       ]
@@ -1213,7 +1355,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T005",
-      "perMethodOutcome" : "T005",
+      "perMethodOutcome" : "R002",
       "lineNumbers" : [
         14
       ]
@@ -1222,7 +1364,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R013",
       "lineNumbers" : [
         17,
         18,
@@ -1388,10 +1530,13 @@
       ]
     },
     "com.netflix.ribbon.transport.netty.http.LoadBalancingHttpClient$Builder.<init>:(Lrx/functions/Func1;)V" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T005",
-      "perMethodOutcome" : "T005",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         105,
         106,
@@ -1399,10 +1544,13 @@
       ]
     },
     "com.netflix.ribbon.transport.netty.http.LoadBalancingHttpClient$Builder.build:()Lcom/netflix/ribbon/transport/netty/http/LoadBalancingHttpClient;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         172,
         173,
@@ -1420,80 +1568,104 @@
       ]
     },
     "com.netflix.ribbon.transport.netty.http.LoadBalancingHttpClient$Builder.withBackoffStrategy:(Lrx/functions/Func1;)Lcom/netflix/ribbon/transport/netty/http/LoadBalancingHttpClient$Builder;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T002",
-      "perMethodOutcome" : "T002",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         167,
         168
       ]
     },
     "com.netflix.ribbon.transport.netty.http.LoadBalancingHttpClient$Builder.withClientConfig:(Lcom/netflix/client/config/IClientConfig;)Lcom/netflix/ribbon/transport/netty/http/LoadBalancingHttpClient$Builder;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T002",
-      "perMethodOutcome" : "T002",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         115,
         116
       ]
     },
     "com.netflix.ribbon.transport.netty.http.LoadBalancingHttpClient$Builder.withExecutorListeners:(Ljava/util/List;)Lcom/netflix/ribbon/transport/netty/http/LoadBalancingHttpClient$Builder;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T002",
-      "perMethodOutcome" : "T002",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         135,
         136
       ]
     },
     "com.netflix.ribbon.transport.netty.http.LoadBalancingHttpClient$Builder.withLoadBalancer:(Lcom/netflix/loadbalancer/ILoadBalancer;)Lcom/netflix/ribbon/transport/netty/http/LoadBalancingHttpClient$Builder;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T002",
-      "perMethodOutcome" : "T002",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         110,
         111
       ]
     },
     "com.netflix.ribbon.transport.netty.http.LoadBalancingHttpClient$Builder.withPipelineConfigurator:(Lio/reactivex/netty/pipeline/PipelineConfigurator;)Lcom/netflix/ribbon/transport/netty/http/LoadBalancingHttpClient$Builder;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T002",
-      "perMethodOutcome" : "T002",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         125,
         126
       ]
     },
     "com.netflix.ribbon.transport.netty.http.LoadBalancingHttpClient$Builder.withPoolCleanerScheduler:(Ljava/util/concurrent/ScheduledExecutorService;)Lcom/netflix/ribbon/transport/netty/http/LoadBalancingHttpClient$Builder;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T002",
-      "perMethodOutcome" : "T002",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         130,
         131
       ]
     },
     "com.netflix.ribbon.transport.netty.http.LoadBalancingHttpClient$Builder.withResponseToErrorPolicy:(Lrx/functions/Func2;)Lcom/netflix/ribbon/transport/netty/http/LoadBalancingHttpClient$Builder;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T002",
-      "perMethodOutcome" : "T002",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         154,
         155
       ]
     },
     "com.netflix.ribbon.transport.netty.http.LoadBalancingHttpClient$Builder.withRetryHandler:(Lcom/netflix/client/RetryHandler;)Lcom/netflix/ribbon/transport/netty/http/LoadBalancingHttpClient$Builder;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T002",
-      "perMethodOutcome" : "T002",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         120,
         121
@@ -1506,10 +1678,13 @@
       "perMethodOutcome" : "T023"
     },
     "com.netflix.ribbon.transport.netty.http.LoadBalancingHttpClient.<init>:(Lcom/netflix/ribbon/transport/netty/http/LoadBalancingHttpClient$Builder;)V" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 14,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 14
+      },
       "lineNumbers" : [
         216,
         217,
@@ -1557,25 +1732,31 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T005",
-      "perMethodOutcome" : "T005",
+      "perMethodOutcome" : "F009",
       "lineNumbers" : [
         207
       ]
     },
     "com.netflix.ribbon.transport.netty.http.LoadBalancingHttpClient.createListener:(Ljava/lang/String;)Lio/reactivex/netty/metrics/MetricEventsListener;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 2,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 2
+      },
       "lineNumbers" : [
         537
       ]
     },
     "com.netflix.ribbon.transport.netty.http.LoadBalancingHttpClient.createRxClient:(Lcom/netflix/loadbalancer/Server;)Lio/reactivex/netty/protocol/http/client/HttpClient;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 6,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 6
+      },
       "lineNumbers" : [
         478,
         479,
@@ -1606,10 +1787,13 @@
       ]
     },
     "com.netflix.ribbon.transport.netty.http.LoadBalancingHttpClient.getListener:()Lio/reactivex/netty/servo/http/HttpClientListener;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 2,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 2
+      },
       "lineNumbers" : [
         527
       ]
@@ -1678,19 +1862,25 @@
       ]
     },
     "com.netflix.ribbon.transport.netty.http.LoadBalancingHttpClient.getRxClients:()Ljava/util/Map;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 2,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T001",
-      "perMethodOutcome" : "T001",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 2
+      },
       "lineNumbers" : [
         532
       ]
     },
     "com.netflix.ribbon.transport.netty.http.LoadBalancingHttpClient.getServerStats:(Lcom/netflix/loadbalancer/Server;)Lcom/netflix/loadbalancer/ServerStats;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 2,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 2
+      },
       "lineNumbers" : [
         430
       ]
@@ -1699,7 +1889,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "F009",
       "lineNumbers" : [
         301,
         303
@@ -1709,7 +1899,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "F009",
       "lineNumbers" : [
         241,
         242
@@ -1719,7 +1909,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "F009",
       "lineNumbers" : [
         290
       ]
@@ -1755,7 +1945,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "F009",
       "lineNumbers" : [
         274
       ]
@@ -1764,7 +1954,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "F009",
       "lineNumbers" : [
         250
       ]
@@ -1773,7 +1963,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "F009",
       "lineNumbers" : [
         286
       ]
@@ -1782,7 +1972,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "F009",
       "lineNumbers" : [
         262
       ]
@@ -1817,10 +2007,13 @@
       ]
     },
     "com.netflix.ribbon.transport.netty.http.NettyHttpLoadBalancerErrorHandler.<init>:()V" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         47,
         34,
@@ -1831,10 +2024,13 @@
       ]
     },
     "com.netflix.ribbon.transport.netty.http.NettyHttpLoadBalancerErrorHandler.<init>:(IIZ)V" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         55,
         34,
@@ -1845,10 +2041,13 @@
       ]
     },
     "com.netflix.ribbon.transport.netty.http.NettyHttpLoadBalancerErrorHandler.<init>:(Lcom/netflix/client/config/IClientConfig;)V" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R024",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         51,
         34,
@@ -1859,19 +2058,25 @@
       ]
     },
     "com.netflix.ribbon.transport.netty.http.NettyHttpLoadBalancerErrorHandler.getCircuitRelatedExceptions:()Ljava/util/List;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T001",
-      "perMethodOutcome" : "T001",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         90
       ]
     },
     "com.netflix.ribbon.transport.netty.http.NettyHttpLoadBalancerErrorHandler.getRetriableExceptions:()Ljava/util/List;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T001",
-      "perMethodOutcome" : "T001",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         85
       ]
@@ -1880,7 +2085,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "F009",
       "lineNumbers" : [
         64,
         65,
@@ -1893,7 +2098,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "F009",
       "lineNumbers" : [
         74,
         75,
@@ -1952,7 +2157,7 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R083",
       "lineNumbers" : [
         49,
         50,
@@ -1969,16 +2174,19 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T021",
-      "perMethodOutcome" : "T021",
+      "perMethodOutcome" : "R083",
       "lineNumbers" : [
         61
       ]
     },
     "com.netflix.ribbon.transport.netty.http.SSEClient.sseClientBuilder:()Lcom/netflix/ribbon/transport/netty/http/LoadBalancingHttpClient$Builder;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         34
       ]
@@ -1987,36 +2195,48 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "W002",
+      "warnings" : {
+        "W002" : 1
+      },
       "lineNumbers" : [
         51,
         52
       ]
     },
     "com.netflix.ribbon.transport.netty.tcp.LoadBalancingTcpClient.<init>:(Lcom/netflix/loadbalancer/ILoadBalancer;Lcom/netflix/client/config/IClientConfig;Lcom/netflix/client/RetryHandler;Lio/reactivex/netty/pipeline/PipelineConfigurator;Ljava/util/concurrent/ScheduledExecutorService;)V" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 2,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 2
+      },
       "lineNumbers" : [
         44,
         45
       ]
     },
     "com.netflix.ribbon.transport.netty.tcp.LoadBalancingTcpClient.createListener:(Ljava/lang/String;)Lio/reactivex/netty/metrics/MetricEventsListener;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         76
       ]
     },
     "com.netflix.ribbon.transport.netty.tcp.LoadBalancingTcpClient.createRxClient:(Lcom/netflix/loadbalancer/Server;)Lio/reactivex/netty/client/RxClient;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 2,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 2
+      },
       "lineNumbers" : [
         56,
         57,
@@ -2036,36 +2256,45 @@
       "completeTestCount" : 0,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R013",
       "lineNumbers" : [
         38,
         39
       ]
     },
     "com.netflix.ribbon.transport.netty.udp.LoadBalancingUdpClient.<init>:(Lcom/netflix/loadbalancer/ILoadBalancer;Lcom/netflix/client/config/IClientConfig;Lcom/netflix/client/RetryHandler;Lio/reactivex/netty/pipeline/PipelineConfigurator;)V" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 3,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 3
+      },
       "lineNumbers" : [
         45,
         46
       ]
     },
     "com.netflix.ribbon.transport.netty.udp.LoadBalancingUdpClient.createListener:(Ljava/lang/String;)Lio/reactivex/netty/metrics/MetricEventsListener;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         60
       ]
     },
     "com.netflix.ribbon.transport.netty.udp.LoadBalancingUdpClient.createRxClient:(Lcom/netflix/loadbalancer/Server;)Lio/reactivex/netty/client/RxClient;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 2,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 2
+      },
       "lineNumbers" : [
         50,
         51,
