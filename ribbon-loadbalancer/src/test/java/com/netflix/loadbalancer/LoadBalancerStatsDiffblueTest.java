@@ -7,6 +7,9 @@ import static org.junit.Assert.assertTrue;
 import com.diffblue.cover.annotations.ContributionFromDiffblue;
 import com.diffblue.cover.annotations.ManagedByDiffblue;
 import com.diffblue.cover.annotations.MethodsUnderTest;
+import com.netflix.client.config.DefaultClientConfigImpl;
+import com.netflix.client.config.IClientConfig;
+import com.netflix.client.config.UnboxedIntProperty;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -102,6 +105,88 @@ public class LoadBalancerStatsDiffblueTest {
     assertTrue(actualLoadBalancerStats.getZoneStats().isEmpty());
     assertTrue(actualLoadBalancerStats.upServerListZoneMap.isEmpty());
     assertTrue(actualLoadBalancerStats.getAvailableZones().isEmpty());
+  }
+
+  /**
+   * Test {@link LoadBalancerStats#initWithNiwsConfig(IClientConfig)} with {@code clientConfig}.
+   *
+   * <ul>
+   *   <li>Then {@link LoadBalancerStats#LoadBalancerStats()} Name is empty string.
+   * </ul>
+   *
+   * <p>Method under test: {@link LoadBalancerStats#initWithNiwsConfig(IClientConfig)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void LoadBalancerStats.initWithNiwsConfig(IClientConfig)"})
+  public void testInitWithNiwsConfigWithClientConfig_thenLoadBalancerStatsNameIsEmptyString() {
+    // Arrange
+    LoadBalancerStats loadBalancerStats = new LoadBalancerStats();
+    DefaultClientConfigImpl clientConfig = DefaultClientConfigImpl.getEmptyConfig();
+
+    // Act
+    loadBalancerStats.initWithNiwsConfig(clientConfig);
+
+    // Assert
+    assertEquals("", loadBalancerStats.getName());
+    assertEquals(7L, clientConfig.getRefreshCount());
+  }
+
+  /**
+   * Test getters and setters.
+   *
+   * <p>Methods under test:
+   *
+   * <ul>
+   *   <li>{@link LoadBalancerStats#setName(String)}
+   *   <li>{@link LoadBalancerStats#toString()}
+   *   <li>{@link LoadBalancerStats#getActiveRequestsCountTimeout()}
+   *   <li>{@link LoadBalancerStats#getCircuitTripMaxTimeoutSeconds()}
+   *   <li>{@link LoadBalancerStats#getCircuitTrippedTimeoutFactor()}
+   *   <li>{@link LoadBalancerStats#getConnectionFailureCountThreshold()}
+   *   <li>{@link LoadBalancerStats#getName()}
+   *   <li>{@link LoadBalancerStats#getZoneStats()}
+   * </ul>
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "UnboxedIntProperty LoadBalancerStats.getActiveRequestsCountTimeout()",
+    "UnboxedIntProperty LoadBalancerStats.getCircuitTripMaxTimeoutSeconds()",
+    "UnboxedIntProperty LoadBalancerStats.getCircuitTrippedTimeoutFactor()",
+    "UnboxedIntProperty LoadBalancerStats.getConnectionFailureCountThreshold()",
+    "String LoadBalancerStats.getName()",
+    "Map LoadBalancerStats.getZoneStats()",
+    "void LoadBalancerStats.setName(String)",
+    "String LoadBalancerStats.toString()"
+  })
+  public void testGettersAndSetters() {
+    // Arrange
+    LoadBalancerStats loadBalancerStats = new LoadBalancerStats();
+
+    // Act
+    loadBalancerStats.setName("Name");
+    String actualToStringResult = loadBalancerStats.toString();
+    UnboxedIntProperty actualActiveRequestsCountTimeout =
+        loadBalancerStats.getActiveRequestsCountTimeout();
+    UnboxedIntProperty actualCircuitTripMaxTimeoutSeconds =
+        loadBalancerStats.getCircuitTripMaxTimeoutSeconds();
+    UnboxedIntProperty actualCircuitTrippedTimeoutFactor =
+        loadBalancerStats.getCircuitTrippedTimeoutFactor();
+    UnboxedIntProperty actualConnectionFailureCountThreshold =
+        loadBalancerStats.getConnectionFailureCountThreshold();
+    String actualName = loadBalancerStats.getName();
+
+    // Assert
+    assertEquals("Name", actualName);
+    assertEquals("Zone stats: {},Server stats: []", actualToStringResult);
+    assertEquals(10, actualCircuitTrippedTimeoutFactor.get());
+    assertEquals(3, actualConnectionFailureCountThreshold.get());
+    assertEquals(30, actualCircuitTripMaxTimeoutSeconds.get());
+    assertEquals(600, actualActiveRequestsCountTimeout.get());
+    assertTrue(loadBalancerStats.getZoneStats().isEmpty());
   }
 
   /**

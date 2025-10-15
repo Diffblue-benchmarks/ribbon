@@ -418,6 +418,27 @@ public class RetryRuleDiffblueTest {
    * Test {@link RetryRule#choose(ILoadBalancer, Object)} with {@code lb}, {@code key}.
    *
    * <ul>
+   *   <li>Then return {@code null}.
+   * </ul>
+   *
+   * <p>Method under test: {@link RetryRule#choose(ILoadBalancer, Object)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"Server RetryRule.choose(ILoadBalancer, Object)"})
+  public void testChooseWithLbKey_thenReturnNull() {
+    // Arrange
+    RetryRule retryRule = new RetryRule(new RandomRule(), 1L);
+
+    // Act and Assert
+    assertNull(retryRule.choose(new BaseLoadBalancer(), "Key"));
+  }
+
+  /**
+   * Test {@link RetryRule#choose(ILoadBalancer, Object)} with {@code lb}, {@code key}.
+   *
+   * <ul>
    *   <li>Then return {@link Server#Server(String)} with id is {@code 42}.
    * </ul>
    *

@@ -4,18 +4,18 @@
   },
   "run" : {
     "version" : "2025.09.01-44e352d-licensed",
-    "creationTimestamp" : "2025-10-13T10:30:18.91Z",
+    "creationTimestamp" : "2025-10-15T15:52:22.961Z",
     "command" : "dcover create --exclude=com.netflix.ribbon.proxy.Utils --exclude=com.netflix.ribbon.proxy.RibbonDynamicProxy --coverage-reports --upload http://localhost:8080 --project-name ribbon --name with-diffblue-tests",
-    "totalTime" : 240.226,
-    "environmentDetectionTime" : 0.023,
-    "indexingTime" : 0.328,
+    "totalTime" : 239.025,
+    "environmentDetectionTime" : 0.024,
+    "indexingTime" : 0.402,
     "entryPointsTime" : 0.017,
-    "generationTime" : 5081.813,
-    "timeToFirstTest" : 8262.222,
-    "timeToLastTest" : 7075.786,
-    "indexQueryTime" : 5.8020000000000005,
-    "verificationTime" : 2228.09,
-    "validationTime" : 20.113
+    "generationTime" : 6849.706,
+    "timeToFirstTest" : 8835.137,
+    "timeToLastTest" : 7393.636,
+    "indexQueryTime" : 5.79,
+    "verificationTime" : 66.678,
+    "validationTime" : 20.313
   },
   "codes" : {
     "R000" : "Success",
@@ -68,7 +68,7 @@
     },
     "perTestValidation" : {
       "V000" : 6,
-      "V003" : 50
+      "V003" : 85
     }
   },
   "classes" : {

@@ -4,18 +4,18 @@
   },
   "run" : {
     "version" : "2025.09.01-44e352d-licensed",
-    "creationTimestamp" : "2025-10-13T10:30:18.91Z",
+    "creationTimestamp" : "2025-10-15T15:52:22.961Z",
     "command" : "dcover create --exclude=com.netflix.ribbon.proxy.Utils --exclude=com.netflix.ribbon.proxy.RibbonDynamicProxy --coverage-reports --upload http://localhost:8080 --project-name ribbon --name with-diffblue-tests",
-    "totalTime" : 853.554,
-    "environmentDetectionTime" : 0.116,
-    "indexingTime" : 0.306,
-    "entryPointsTime" : 0.106,
-    "generationTime" : 1274.735,
-    "timeToFirstTest" : 1715.292,
-    "timeToLastTest" : 1501.359,
-    "indexQueryTime" : 5.295,
-    "verificationTime" : 16.214,
-    "validationTime" : 25.445
+    "totalTime" : 865.712,
+    "environmentDetectionTime" : 0.117,
+    "indexingTime" : 0.382,
+    "entryPointsTime" : 0.107,
+    "generationTime" : 1282.644,
+    "timeToFirstTest" : 1730.483,
+    "timeToLastTest" : 1513.476,
+    "indexQueryTime" : 5.502,
+    "verificationTime" : 16.669,
+    "validationTime" : 24.486
   },
   "codes" : {
     "R000" : "Success",
@@ -41,9 +41,9 @@
   "summary" : {
     "classesCount" : 23,
     "methodsCount" : 147,
-    "cumulativeDiffblueTestCount" : 121,
+    "cumulativeDiffblueTestCount" : 129,
     "cumulativeManualTestCount" : 34,
-    "completeTestCount" : 121,
+    "completeTestCount" : 129,
     "incompleteTestCount" : 0,
     "skeletonTestCount" : 0,
     "totalPhysicalLineCount" : 1124,
@@ -76,10 +76,10 @@
       "W002" : 2
     },
     "perTestOutcome" : {
-      "R000" : 121
+      "R000" : 129
     },
     "perTestValidation" : {
-      "V000" : 121
+      "V000" : 129
     },
     "warnings" : {
       "W002" : 2
@@ -207,7 +207,7 @@
     },
     "com.netflix.ribbon.transport.netty.RibbonTransport" : {
       "methodsCount" : 27,
-      "completeTestCount" : 49,
+      "completeTestCount" : 57,
       "incompleteTestCount" : 0,
       "perMethodTestability" : {
         "T000" : 23,
@@ -223,7 +223,7 @@
         "T023" : 1
       },
       "perTestOutcome" : {
-        "R000" : 49
+        "R000" : 57
       }
     },
     "com.netflix.ribbon.transport.netty.http.DefaultResponseToErrorPolicy" : {
@@ -1040,12 +1040,12 @@
       ]
     },
     "com.netflix.ribbon.transport.netty.RibbonTransport.newHttpClient:(Lcom/netflix/loadbalancer/ILoadBalancer;Lcom/netflix/client/config/IClientConfig;)Lcom/netflix/ribbon/transport/netty/http/LoadBalancingHttpClient;" : {
-      "completeTestCount" : 4,
+      "completeTestCount" : 8,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
       "perMethodOutcome" : "R000",
       "perTestOutcome" : {
-        "R000" : 4
+        "R000" : 8
       },
       "lineNumbers" : [
         118,
@@ -1250,12 +1250,12 @@
       ]
     },
     "com.netflix.ribbon.transport.netty.RibbonTransport.newTcpClient:(Lcom/netflix/loadbalancer/ILoadBalancer;Lcom/netflix/client/config/IClientConfig;)Lio/reactivex/netty/client/RxClient;" : {
-      "completeTestCount" : 3,
+      "completeTestCount" : 7,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
       "perMethodOutcome" : "R000",
       "perTestOutcome" : {
-        "R000" : 3
+        "R000" : 7
       },
       "lineNumbers" : [
         78

@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.doNothing;
@@ -15,19 +16,27 @@ import static org.mockito.Mockito.when;
 import com.diffblue.cover.annotations.ContributionFromDiffblue;
 import com.diffblue.cover.annotations.ManagedByDiffblue;
 import com.diffblue.cover.annotations.MethodsUnderTest;
+import com.netflix.client.IClientConfigAware;
+import com.netflix.client.IClientConfigAware.Factory;
+import com.netflix.client.config.DefaultClientConfigImpl;
+import com.netflix.client.config.IClientConfig;
+import com.netflix.client.config.IClientConfig.Builder;
 import com.netflix.loadbalancer.ServerListUpdater.UpdateAction;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.junit.rules.ExpectedException;
 import org.mockito.Mockito;
 
 public class DynamicServerListLoadBalancerDiffblueTest {
+  @Rule public ExpectedException thrown = ExpectedException.none();
+
   /**
    * Test {@link DynamicServerListLoadBalancer#DynamicServerListLoadBalancer()}.
    *
@@ -65,6 +74,466 @@ public class DynamicServerListLoadBalancerDiffblueTest {
     assertTrue(actualDynamicServerListLoadBalancer.getReachableServers().isEmpty());
     assertTrue(actualDynamicServerListLoadBalancer.allServerList.isEmpty());
     assertTrue(actualDynamicServerListLoadBalancer.upServerList.isEmpty());
+  }
+
+  /**
+   * Test {@link DynamicServerListLoadBalancer#DynamicServerListLoadBalancer(IClientConfig, IRule,
+   * IPing, ServerList, ServerListFilter)}.
+   *
+   * <ul>
+   *   <li>Given {@code null}.
+   *   <li>Then throw {@link RuntimeException}.
+   * </ul>
+   *
+   * <p>Method under test: {@link
+   * DynamicServerListLoadBalancer#DynamicServerListLoadBalancer(IClientConfig, IRule, IPing,
+   * ServerList, ServerListFilter)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "void DynamicServerListLoadBalancer.<init>(IClientConfig, IRule, IPing, ServerList, ServerListFilter)"
+  })
+  public void testNewDynamicServerListLoadBalancer_givenNull_thenThrowRuntimeException() {
+    // Arrange
+    DefaultClientConfigImpl clientConfig = DefaultClientConfigImpl.getEmptyConfig();
+    clientConfig.setClientName(null);
+    AvailabilityFilteringRule rule = new AvailabilityFilteringRule();
+    IPing ping = mock(IPing.class);
+
+    // Act and Assert
+    thrown.expect(RuntimeException.class);
+    new DynamicServerListLoadBalancer<>(
+        clientConfig, rule, ping, new ConfigurationBasedServerList(), mock(ServerListFilter.class));
+  }
+
+  /**
+   * Test {@link DynamicServerListLoadBalancer#DynamicServerListLoadBalancer(IClientConfig, IRule,
+   * IPing, ServerList, ServerListFilter, ServerListUpdater)}.
+   *
+   * <ul>
+   *   <li>Given {@code null}.
+   *   <li>Then throw {@link RuntimeException}.
+   * </ul>
+   *
+   * <p>Method under test: {@link
+   * DynamicServerListLoadBalancer#DynamicServerListLoadBalancer(IClientConfig, IRule, IPing,
+   * ServerList, ServerListFilter, ServerListUpdater)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "void DynamicServerListLoadBalancer.<init>(IClientConfig, IRule, IPing, ServerList, ServerListFilter, ServerListUpdater)"
+  })
+  public void testNewDynamicServerListLoadBalancer_givenNull_thenThrowRuntimeException2() {
+    // Arrange
+    DefaultClientConfigImpl clientConfig = DefaultClientConfigImpl.getEmptyConfig();
+    clientConfig.setClientName(null);
+    AvailabilityFilteringRule rule = new AvailabilityFilteringRule();
+    IPing ping = mock(IPing.class);
+    ConfigurationBasedServerList serverList = new ConfigurationBasedServerList();
+    ServerListFilter<Server> filter = mock(ServerListFilter.class);
+
+    // Act and Assert
+    thrown.expect(RuntimeException.class);
+    new DynamicServerListLoadBalancer<>(
+        clientConfig, rule, ping, serverList, filter, new PollingServerListUpdater());
+  }
+
+  /**
+   * Test {@link DynamicServerListLoadBalancer#DynamicServerListLoadBalancer(IClientConfig)}.
+   *
+   * <ul>
+   *   <li>Given {@code null}.
+   *   <li>When EmptyConfig ClientName is {@code null}.
+   * </ul>
+   *
+   * <p>Method under test: {@link
+   * DynamicServerListLoadBalancer#DynamicServerListLoadBalancer(IClientConfig)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void DynamicServerListLoadBalancer.<init>(IClientConfig)"})
+  public void testNewDynamicServerListLoadBalancer_givenNull_whenEmptyConfigClientNameIsNull() {
+    // Arrange
+    DefaultClientConfigImpl clientConfig = DefaultClientConfigImpl.getEmptyConfig();
+    clientConfig.setClientName(null);
+
+    // Act and Assert
+    thrown.expect(RuntimeException.class);
+    new DynamicServerListLoadBalancer<>(clientConfig);
+  }
+
+  /**
+   * Test {@link DynamicServerListLoadBalancer#DynamicServerListLoadBalancer(IClientConfig)}.
+   *
+   * <ul>
+   *   <li>Given {@code true}.
+   * </ul>
+   *
+   * <p>Method under test: {@link
+   * DynamicServerListLoadBalancer#DynamicServerListLoadBalancer(IClientConfig)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void DynamicServerListLoadBalancer.<init>(IClientConfig)"})
+  public void testNewDynamicServerListLoadBalancer_givenTrue() {
+    // Arrange
+    Builder newBuilderResult = Builder.newBuilder();
+    newBuilderResult.withEnablePrimeConnections(true);
+    IClientConfig clientConfig =
+        newBuilderResult.ignoreUserTokenInConnectionPoolForSecureClient(true).build();
+
+    // Act and Assert
+    thrown.expect(RuntimeException.class);
+    new DynamicServerListLoadBalancer<>(clientConfig);
+  }
+
+  /**
+   * Test {@link DynamicServerListLoadBalancer#initWithNiwsConfig(IClientConfig, Factory)} with
+   * {@code clientConfig}, {@code factory}.
+   *
+   * <ul>
+   *   <li>Then throw {@link RuntimeException}.
+   * </ul>
+   *
+   * <p>Method under test: {@link DynamicServerListLoadBalancer#initWithNiwsConfig(IClientConfig,
+   * Factory)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "void DynamicServerListLoadBalancer.initWithNiwsConfig(IClientConfig, Factory)"
+  })
+  public void testInitWithNiwsConfigWithClientConfigFactory_thenThrowRuntimeException()
+      throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+    // Arrange
+    DynamicServerListLoadBalancer<Server> dynamicServerListLoadBalancer =
+        new DynamicServerListLoadBalancer<>();
+    DefaultClientConfigImpl clientConfig = DefaultClientConfigImpl.getEmptyConfig();
+
+    Factory factory = mock(Factory.class);
+    when(factory.create(Mockito.<String>any(), Mockito.<IClientConfig>any()))
+        .thenThrow(new RuntimeException());
+
+    // Act and Assert
+    thrown.expect(RuntimeException.class);
+    dynamicServerListLoadBalancer.initWithNiwsConfig(clientConfig, factory);
+    verify(factory)
+        .create(eq("com.netflix.loadbalancer.AvailabilityFilteringRule"), isA(IClientConfig.class));
+  }
+
+  /**
+   * Test {@link DynamicServerListLoadBalancer#restOfInit(IClientConfig)}.
+   *
+   * <p>Method under test: {@link DynamicServerListLoadBalancer#restOfInit(IClientConfig)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void DynamicServerListLoadBalancer.restOfInit(IClientConfig)"})
+  public void testRestOfInit() {
+    // Arrange
+    PollingServerListUpdater serverListUpdater = mock(PollingServerListUpdater.class);
+    doNothing().when(serverListUpdater).start(Mockito.<UpdateAction>any());
+
+    ServerListChangeListener listener = mock(ServerListChangeListener.class);
+    doThrow(new RuntimeException())
+        .when(listener)
+        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
+
+    DynamicServerListLoadBalancer<Server> dynamicServerListLoadBalancer =
+        new DynamicServerListLoadBalancer<>();
+    dynamicServerListLoadBalancer.addServerListChangeListener(listener);
+    dynamicServerListLoadBalancer.addServer(new Server("42"));
+    dynamicServerListLoadBalancer.setServerListUpdater(serverListUpdater);
+
+    // Act
+    dynamicServerListLoadBalancer.restOfInit(DefaultClientConfigImpl.getEmptyConfig());
+
+    // Assert
+    verify(serverListUpdater).start(isA(UpdateAction.class));
+    verify(listener, atLeast(1))
+        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
+    assertTrue(dynamicServerListLoadBalancer.getAllServers().isEmpty());
+    assertTrue(dynamicServerListLoadBalancer.getReachableServers().isEmpty());
+    assertTrue(dynamicServerListLoadBalancer.allServerList.isEmpty());
+    assertTrue(dynamicServerListLoadBalancer.upServerList.isEmpty());
+  }
+
+  /**
+   * Test {@link DynamicServerListLoadBalancer#restOfInit(IClientConfig)}.
+   *
+   * <ul>
+   *   <li>Given {@link DynamicServerListLoadBalancer#DynamicServerListLoadBalancer()} addServer
+   *       {@link Server#Server(String)} with id is {@code 42}.
+   * </ul>
+   *
+   * <p>Method under test: {@link DynamicServerListLoadBalancer#restOfInit(IClientConfig)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void DynamicServerListLoadBalancer.restOfInit(IClientConfig)"})
+  public void testRestOfInit_givenDynamicServerListLoadBalancerAddServerServerWithIdIs42() {
+    // Arrange
+    PollingServerListUpdater serverListUpdater = mock(PollingServerListUpdater.class);
+    doNothing().when(serverListUpdater).start(Mockito.<UpdateAction>any());
+
+    DynamicServerListLoadBalancer<Server> dynamicServerListLoadBalancer =
+        new DynamicServerListLoadBalancer<>();
+    dynamicServerListLoadBalancer.addServer(new Server("42"));
+    dynamicServerListLoadBalancer.setServerListUpdater(serverListUpdater);
+
+    // Act
+    dynamicServerListLoadBalancer.restOfInit(DefaultClientConfigImpl.getEmptyConfig());
+
+    // Assert
+    verify(serverListUpdater).start(isA(UpdateAction.class));
+    assertTrue(dynamicServerListLoadBalancer.getAllServers().isEmpty());
+    assertTrue(dynamicServerListLoadBalancer.getReachableServers().isEmpty());
+    assertTrue(dynamicServerListLoadBalancer.allServerList.isEmpty());
+    assertTrue(dynamicServerListLoadBalancer.upServerList.isEmpty());
+  }
+
+  /**
+   * Test {@link DynamicServerListLoadBalancer#restOfInit(IClientConfig)}.
+   *
+   * <ul>
+   *   <li>Given {@link DynamicServerListLoadBalancer#DynamicServerListLoadBalancer()}
+   *       EnablePrimingConnections is {@code true}.
+   * </ul>
+   *
+   * <p>Method under test: {@link DynamicServerListLoadBalancer#restOfInit(IClientConfig)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void DynamicServerListLoadBalancer.restOfInit(IClientConfig)"})
+  public void testRestOfInit_givenDynamicServerListLoadBalancerEnablePrimingConnectionsIsTrue() {
+    // Arrange
+    PollingServerListUpdater serverListUpdater = mock(PollingServerListUpdater.class);
+    doNothing().when(serverListUpdater).start(Mockito.<UpdateAction>any());
+
+    DynamicServerListLoadBalancer<Server> dynamicServerListLoadBalancer =
+        new DynamicServerListLoadBalancer<>();
+    dynamicServerListLoadBalancer.setEnablePrimingConnections(true);
+    dynamicServerListLoadBalancer.setServerListUpdater(serverListUpdater);
+
+    // Act
+    dynamicServerListLoadBalancer.restOfInit(DefaultClientConfigImpl.getEmptyConfig());
+
+    // Assert that nothing has changed
+    verify(serverListUpdater).start(isA(UpdateAction.class));
+    assertTrue(dynamicServerListLoadBalancer.getAllServers().isEmpty());
+    assertTrue(dynamicServerListLoadBalancer.getReachableServers().isEmpty());
+    assertTrue(dynamicServerListLoadBalancer.allServerList.isEmpty());
+    assertTrue(dynamicServerListLoadBalancer.upServerList.isEmpty());
+  }
+
+  /**
+   * Test {@link DynamicServerListLoadBalancer#restOfInit(IClientConfig)}.
+   *
+   * <ul>
+   *   <li>Given {@link DynamicServerListLoadBalancer#DynamicServerListLoadBalancer()} Ping is
+   *       {@link IPing}.
+   * </ul>
+   *
+   * <p>Method under test: {@link DynamicServerListLoadBalancer#restOfInit(IClientConfig)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void DynamicServerListLoadBalancer.restOfInit(IClientConfig)"})
+  public void testRestOfInit_givenDynamicServerListLoadBalancerPingIsIPing() {
+    // Arrange
+    PollingServerListUpdater serverListUpdater = mock(PollingServerListUpdater.class);
+    doNothing().when(serverListUpdater).start(Mockito.<UpdateAction>any());
+
+    DynamicServerListLoadBalancer<Server> dynamicServerListLoadBalancer =
+        new DynamicServerListLoadBalancer<>();
+    dynamicServerListLoadBalancer.setPing(mock(IPing.class));
+    dynamicServerListLoadBalancer.setServerListUpdater(serverListUpdater);
+
+    // Act
+    dynamicServerListLoadBalancer.restOfInit(DefaultClientConfigImpl.getEmptyConfig());
+
+    // Assert that nothing has changed
+    verify(serverListUpdater).start(isA(UpdateAction.class));
+    assertTrue(dynamicServerListLoadBalancer.getAllServers().isEmpty());
+    assertTrue(dynamicServerListLoadBalancer.getReachableServers().isEmpty());
+    assertTrue(dynamicServerListLoadBalancer.allServerList.isEmpty());
+    assertTrue(dynamicServerListLoadBalancer.upServerList.isEmpty());
+  }
+
+  /**
+   * Test {@link DynamicServerListLoadBalancer#restOfInit(IClientConfig)}.
+   *
+   * <ul>
+   *   <li>Given {@link DynamicServerListLoadBalancer#DynamicServerListLoadBalancer()} Ping is
+   *       {@link IPing}.
+   * </ul>
+   *
+   * <p>Method under test: {@link DynamicServerListLoadBalancer#restOfInit(IClientConfig)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void DynamicServerListLoadBalancer.restOfInit(IClientConfig)"})
+  public void testRestOfInit_givenDynamicServerListLoadBalancerPingIsIPing2() {
+    // Arrange
+    PollingServerListUpdater serverListUpdater = mock(PollingServerListUpdater.class);
+    doNothing().when(serverListUpdater).start(Mockito.<UpdateAction>any());
+
+    ServerListChangeListener listener = mock(ServerListChangeListener.class);
+    doNothing()
+        .when(listener)
+        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
+
+    DynamicServerListLoadBalancer<Server> dynamicServerListLoadBalancer =
+        new DynamicServerListLoadBalancer<>();
+    dynamicServerListLoadBalancer.setPing(mock(IPing.class));
+    dynamicServerListLoadBalancer.addServerListChangeListener(listener);
+    dynamicServerListLoadBalancer.addServer(new Server("42"));
+    dynamicServerListLoadBalancer.setServerListUpdater(serverListUpdater);
+
+    // Act
+    dynamicServerListLoadBalancer.restOfInit(DefaultClientConfigImpl.getEmptyConfig());
+
+    // Assert
+    verify(serverListUpdater).start(isA(UpdateAction.class));
+    verify(listener, atLeast(1))
+        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
+    assertTrue(dynamicServerListLoadBalancer.getAllServers().isEmpty());
+    assertTrue(dynamicServerListLoadBalancer.getReachableServers().isEmpty());
+    assertTrue(dynamicServerListLoadBalancer.allServerList.isEmpty());
+    assertTrue(dynamicServerListLoadBalancer.upServerList.isEmpty());
+  }
+
+  /**
+   * Test {@link DynamicServerListLoadBalancer#restOfInit(IClientConfig)}.
+   *
+   * <ul>
+   *   <li>Given {@link ServerListChangeListener} {@link
+   *       ServerListChangeListener#serverListChanged(List, List)} does nothing.
+   * </ul>
+   *
+   * <p>Method under test: {@link DynamicServerListLoadBalancer#restOfInit(IClientConfig)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void DynamicServerListLoadBalancer.restOfInit(IClientConfig)"})
+  public void testRestOfInit_givenServerListChangeListenerServerListChangedDoesNothing() {
+    // Arrange
+    PollingServerListUpdater serverListUpdater = mock(PollingServerListUpdater.class);
+    doNothing().when(serverListUpdater).start(Mockito.<UpdateAction>any());
+
+    ServerListChangeListener listener = mock(ServerListChangeListener.class);
+    doNothing()
+        .when(listener)
+        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
+
+    DynamicServerListLoadBalancer<Server> dynamicServerListLoadBalancer =
+        new DynamicServerListLoadBalancer<>();
+    dynamicServerListLoadBalancer.addServerListChangeListener(listener);
+    dynamicServerListLoadBalancer.addServer(new Server("42"));
+    dynamicServerListLoadBalancer.setServerListUpdater(serverListUpdater);
+
+    // Act
+    dynamicServerListLoadBalancer.restOfInit(DefaultClientConfigImpl.getEmptyConfig());
+
+    // Assert
+    verify(serverListUpdater).start(isA(UpdateAction.class));
+    verify(listener, atLeast(1))
+        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
+    assertTrue(dynamicServerListLoadBalancer.getAllServers().isEmpty());
+    assertTrue(dynamicServerListLoadBalancer.getReachableServers().isEmpty());
+    assertTrue(dynamicServerListLoadBalancer.allServerList.isEmpty());
+    assertTrue(dynamicServerListLoadBalancer.upServerList.isEmpty());
+  }
+
+  /**
+   * Test {@link DynamicServerListLoadBalancer#restOfInit(IClientConfig)}.
+   *
+   * <ul>
+   *   <li>Given {@link ServerListChangeListener} {@link
+   *       ServerListChangeListener#serverListChanged(List, List)} does nothing.
+   * </ul>
+   *
+   * <p>Method under test: {@link DynamicServerListLoadBalancer#restOfInit(IClientConfig)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void DynamicServerListLoadBalancer.restOfInit(IClientConfig)"})
+  public void testRestOfInit_givenServerListChangeListenerServerListChangedDoesNothing2() {
+    // Arrange
+    PollingServerListUpdater serverListUpdater = mock(PollingServerListUpdater.class);
+    doNothing().when(serverListUpdater).start(Mockito.<UpdateAction>any());
+
+    ServerListChangeListener listener = mock(ServerListChangeListener.class);
+    doNothing()
+        .when(listener)
+        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
+
+    DynamicServerListLoadBalancer<Server> dynamicServerListLoadBalancer =
+        new DynamicServerListLoadBalancer<>();
+    dynamicServerListLoadBalancer.addServer(new Server("42"));
+    dynamicServerListLoadBalancer.addServerListChangeListener(listener);
+    dynamicServerListLoadBalancer.addServer(new Server("42"));
+    dynamicServerListLoadBalancer.setServerListUpdater(serverListUpdater);
+
+    // Act
+    dynamicServerListLoadBalancer.restOfInit(DefaultClientConfigImpl.getEmptyConfig());
+
+    // Assert
+    verify(serverListUpdater).start(isA(UpdateAction.class));
+    verify(listener, atLeast(1))
+        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
+    assertTrue(dynamicServerListLoadBalancer.getAllServers().isEmpty());
+    assertTrue(dynamicServerListLoadBalancer.getReachableServers().isEmpty());
+    assertTrue(dynamicServerListLoadBalancer.allServerList.isEmpty());
+    assertTrue(dynamicServerListLoadBalancer.upServerList.isEmpty());
+  }
+
+  /**
+   * Test {@link DynamicServerListLoadBalancer#restOfInit(IClientConfig)}.
+   *
+   * <ul>
+   *   <li>Then {@link DynamicServerListLoadBalancer#DynamicServerListLoadBalancer()} AllServers
+   *       Empty.
+   * </ul>
+   *
+   * <p>Method under test: {@link DynamicServerListLoadBalancer#restOfInit(IClientConfig)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void DynamicServerListLoadBalancer.restOfInit(IClientConfig)"})
+  public void testRestOfInit_thenDynamicServerListLoadBalancerAllServersEmpty() {
+    // Arrange
+    PollingServerListUpdater serverListUpdater = mock(PollingServerListUpdater.class);
+    doNothing().when(serverListUpdater).start(Mockito.<UpdateAction>any());
+
+    DynamicServerListLoadBalancer<Server> dynamicServerListLoadBalancer =
+        new DynamicServerListLoadBalancer<>();
+    dynamicServerListLoadBalancer.setServerListUpdater(serverListUpdater);
+
+    // Act
+    dynamicServerListLoadBalancer.restOfInit(DefaultClientConfigImpl.getEmptyConfig());
+
+    // Assert that nothing has changed
+    verify(serverListUpdater).start(isA(UpdateAction.class));
+    assertTrue(dynamicServerListLoadBalancer.getAllServers().isEmpty());
+    assertTrue(dynamicServerListLoadBalancer.getReachableServers().isEmpty());
+    assertTrue(dynamicServerListLoadBalancer.allServerList.isEmpty());
+    assertTrue(dynamicServerListLoadBalancer.upServerList.isEmpty());
   }
 
   /**
@@ -751,10 +1220,8 @@ public class DynamicServerListLoadBalancerDiffblueTest {
     // Act
     dynamicServerListLoadBalancer.enableAndInitLearnNewServersFeature();
 
-    // Assert that nothing has changed
+    // Assert
     verify(serverListUpdater).start(isA(UpdateAction.class));
-    assertTrue(dynamicServerListLoadBalancer.getReachableServers().isEmpty());
-    assertTrue(dynamicServerListLoadBalancer.upServerList.isEmpty());
   }
 
   /**
@@ -775,7 +1242,7 @@ public class DynamicServerListLoadBalancerDiffblueTest {
     DynamicServerListLoadBalancer<Server> dynamicServerListLoadBalancer =
         new DynamicServerListLoadBalancer<>();
     dynamicServerListLoadBalancer.setPing(mock(IPing.class));
-    dynamicServerListLoadBalancer.addServers(new Object[] {"New Servers"});
+    dynamicServerListLoadBalancer.addServer(new Server("42"));
     dynamicServerListLoadBalancer.setServerListUpdater(serverListUpdater);
 
     // Act
@@ -783,183 +1250,6 @@ public class DynamicServerListLoadBalancerDiffblueTest {
 
     // Assert
     verify(serverListUpdater).start(isA(UpdateAction.class));
-  }
-
-  /**
-   * Test {@link DynamicServerListLoadBalancer#enableAndInitLearnNewServersFeature()}.
-   *
-   * <p>Method under test: {@link
-   * DynamicServerListLoadBalancer#enableAndInitLearnNewServersFeature()}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void DynamicServerListLoadBalancer.enableAndInitLearnNewServersFeature()"})
-  public void testEnableAndInitLearnNewServersFeature3() {
-    // Arrange
-    PollingServerListUpdater serverListUpdater = mock(PollingServerListUpdater.class);
-    doNothing().when(serverListUpdater).start(Mockito.<UpdateAction>any());
-
-    DynamicServerListLoadBalancer<Server> dynamicServerListLoadBalancer =
-        new DynamicServerListLoadBalancer<>();
-    dynamicServerListLoadBalancer.setPing(mock(IPing.class));
-    dynamicServerListLoadBalancer.addServers(new Object[] {"New Servers"});
-    dynamicServerListLoadBalancer.setServerListUpdater(serverListUpdater);
-
-    // Act
-    dynamicServerListLoadBalancer.enableAndInitLearnNewServersFeature();
-
-    // Assert that nothing has changed
-    verify(serverListUpdater).start(isA(UpdateAction.class));
-    List<Server> allServers = dynamicServerListLoadBalancer.getAllServers();
-    assertEquals(1, allServers.size());
-    assertFalse(allServers.get(0).isAlive());
-    assertTrue(dynamicServerListLoadBalancer.getReachableServers().isEmpty());
-    assertTrue(dynamicServerListLoadBalancer.upServerList.isEmpty());
-  }
-
-  /**
-   * Test {@link DynamicServerListLoadBalancer#enableAndInitLearnNewServersFeature()}.
-   *
-   * <p>Method under test: {@link
-   * DynamicServerListLoadBalancer#enableAndInitLearnNewServersFeature()}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void DynamicServerListLoadBalancer.enableAndInitLearnNewServersFeature()"})
-  public void testEnableAndInitLearnNewServersFeature4() {
-    // Arrange
-    PollingServerListUpdater serverListUpdater = mock(PollingServerListUpdater.class);
-    doNothing().when(serverListUpdater).start(Mockito.<UpdateAction>any());
-
-    DynamicServerListLoadBalancer<Server> dynamicServerListLoadBalancer =
-        new DynamicServerListLoadBalancer<>();
-    dynamicServerListLoadBalancer.addServerStatusChangeListener(
-        mock(ServerStatusChangeListener.class));
-    dynamicServerListLoadBalancer.setPing(mock(IPing.class));
-    dynamicServerListLoadBalancer.addServers(new Object[] {"New Servers"});
-    dynamicServerListLoadBalancer.setServerListUpdater(serverListUpdater);
-
-    // Act
-    dynamicServerListLoadBalancer.enableAndInitLearnNewServersFeature();
-
-    // Assert
-    verify(serverListUpdater).start(isA(UpdateAction.class));
-    List<Server> allServers = dynamicServerListLoadBalancer.getAllServers();
-    assertEquals(1, allServers.size());
-    assertFalse(allServers.get(0).isAlive());
-    assertTrue(dynamicServerListLoadBalancer.getReachableServers().isEmpty());
-    assertTrue(dynamicServerListLoadBalancer.upServerList.isEmpty());
-  }
-
-  /**
-   * Test {@link DynamicServerListLoadBalancer#enableAndInitLearnNewServersFeature()}.
-   *
-   * <p>Method under test: {@link
-   * DynamicServerListLoadBalancer#enableAndInitLearnNewServersFeature()}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void DynamicServerListLoadBalancer.enableAndInitLearnNewServersFeature()"})
-  public void testEnableAndInitLearnNewServersFeature5() {
-    // Arrange
-    PollingServerListUpdater serverListUpdater = mock(PollingServerListUpdater.class);
-    doNothing().when(serverListUpdater).start(Mockito.<UpdateAction>any());
-
-    DynamicServerListLoadBalancer<Server> dynamicServerListLoadBalancer =
-        new DynamicServerListLoadBalancer<>();
-    dynamicServerListLoadBalancer.addServers(new ArrayList<>());
-    dynamicServerListLoadBalancer.addServerStatusChangeListener(
-        mock(ServerStatusChangeListener.class));
-    dynamicServerListLoadBalancer.setPing(mock(IPing.class));
-    dynamicServerListLoadBalancer.addServers(new Object[] {"New Servers"});
-    dynamicServerListLoadBalancer.setServerListUpdater(serverListUpdater);
-
-    // Act
-    dynamicServerListLoadBalancer.enableAndInitLearnNewServersFeature();
-
-    // Assert that nothing has changed
-    verify(serverListUpdater).start(isA(UpdateAction.class));
-    List<Server> allServers = dynamicServerListLoadBalancer.getAllServers();
-    assertEquals(1, allServers.size());
-    assertFalse(allServers.get(0).isAlive());
-    assertTrue(dynamicServerListLoadBalancer.getReachableServers().isEmpty());
-    assertTrue(dynamicServerListLoadBalancer.upServerList.isEmpty());
-  }
-
-  /**
-   * Test {@link DynamicServerListLoadBalancer#enableAndInitLearnNewServersFeature()}.
-   *
-   * <p>Method under test: {@link
-   * DynamicServerListLoadBalancer#enableAndInitLearnNewServersFeature()}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void DynamicServerListLoadBalancer.enableAndInitLearnNewServersFeature()"})
-  public void testEnableAndInitLearnNewServersFeature6() {
-    // Arrange
-    PollingServerListUpdater serverListUpdater = mock(PollingServerListUpdater.class);
-    doNothing().when(serverListUpdater).start(Mockito.<UpdateAction>any());
-
-    ZoneAwareLoadBalancer<Server> zoneAwareLoadBalancer = new ZoneAwareLoadBalancer<>();
-    zoneAwareLoadBalancer.setPingInterval(42);
-    zoneAwareLoadBalancer.addServerStatusChangeListener(mock(ServerStatusChangeListener.class));
-    zoneAwareLoadBalancer.setPing(mock(IPing.class));
-    zoneAwareLoadBalancer.addServers(new Object[] {"New Servers"});
-    zoneAwareLoadBalancer.setServerListUpdater(serverListUpdater);
-
-    // Act
-    zoneAwareLoadBalancer.enableAndInitLearnNewServersFeature();
-
-    // Assert that nothing has changed
-    verify(serverListUpdater).start(isA(UpdateAction.class));
-    assertTrue(zoneAwareLoadBalancer.getReachableServers().isEmpty());
-    assertTrue(zoneAwareLoadBalancer.upServerList.isEmpty());
-  }
-
-  /**
-   * Test {@link DynamicServerListLoadBalancer#enableAndInitLearnNewServersFeature()}.
-   *
-   * <p>Method under test: {@link
-   * DynamicServerListLoadBalancer#enableAndInitLearnNewServersFeature()}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void DynamicServerListLoadBalancer.enableAndInitLearnNewServersFeature()"})
-  public void testEnableAndInitLearnNewServersFeature7() {
-    // Arrange
-    PollingServerListUpdater serverListUpdater = mock(PollingServerListUpdater.class);
-    doNothing().when(serverListUpdater).start(Mockito.<UpdateAction>any());
-
-    IPing ping = mock(IPing.class);
-    when(ping.isAlive(Mockito.<Server>any())).thenReturn(true);
-
-    ServerStatusChangeListener listener = mock(ServerStatusChangeListener.class);
-    doNothing().when(listener).serverStatusChanged(Mockito.<Collection<Server>>any());
-
-    DynamicServerListLoadBalancer<Server> dynamicServerListLoadBalancer =
-        new DynamicServerListLoadBalancer<>();
-    dynamicServerListLoadBalancer.addServer(new Server("42"));
-    dynamicServerListLoadBalancer.setServerListImpl(new ConfigurationBasedServerList());
-    dynamicServerListLoadBalancer.addServer(new Server("42"));
-    dynamicServerListLoadBalancer.addServerStatusChangeListener(listener);
-    dynamicServerListLoadBalancer.setPing(ping);
-    dynamicServerListLoadBalancer.addServers(new Object[] {"New Servers"});
-    dynamicServerListLoadBalancer.setServerListUpdater(serverListUpdater);
-
-    // Act
-    dynamicServerListLoadBalancer.enableAndInitLearnNewServersFeature();
-
-    // Assert that nothing has changed
-    verify(ping, atLeast(1)).isAlive(isA(Server.class));
-    verify(serverListUpdater).start(isA(UpdateAction.class));
-    List<Server> allServers = dynamicServerListLoadBalancer.getAllServers();
-    assertEquals(3, allServers.size());
-    assertTrue(allServers.get(0).isAlive());
   }
 
   /**
@@ -1061,6 +1351,77 @@ public class DynamicServerListLoadBalancerDiffblueTest {
    * Test {@link DynamicServerListLoadBalancer#updateListOfServers()}.
    *
    * <ul>
+   *   <li>Given {@link DynamicServerListLoadBalancer#DynamicServerListLoadBalancer()} addServer
+   *       {@code null}.
+   * </ul>
+   *
+   * <p>Method under test: {@link DynamicServerListLoadBalancer#updateListOfServers()}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void DynamicServerListLoadBalancer.updateListOfServers()"})
+  public void testUpdateListOfServers_givenDynamicServerListLoadBalancerAddServerNull() {
+    // Arrange
+    DynamicServerListLoadBalancer<Server> dynamicServerListLoadBalancer =
+        new DynamicServerListLoadBalancer<>();
+    dynamicServerListLoadBalancer.setPing(mock(IPing.class));
+    dynamicServerListLoadBalancer.addServerListChangeListener(mock(ServerListChangeListener.class));
+    dynamicServerListLoadBalancer.addServer(null);
+
+    // Act
+    dynamicServerListLoadBalancer.updateListOfServers();
+
+    // Assert that nothing has changed
+    assertTrue(dynamicServerListLoadBalancer.getAllServers().isEmpty());
+    assertTrue(dynamicServerListLoadBalancer.getReachableServers().isEmpty());
+    assertTrue(dynamicServerListLoadBalancer.allServerList.isEmpty());
+    assertTrue(dynamicServerListLoadBalancer.upServerList.isEmpty());
+  }
+
+  /**
+   * Test {@link DynamicServerListLoadBalancer#updateListOfServers()}.
+   *
+   * <ul>
+   *   <li>Given {@link DynamicServerListLoadBalancer#DynamicServerListLoadBalancer()} Ping is
+   *       {@link IPing}.
+   * </ul>
+   *
+   * <p>Method under test: {@link DynamicServerListLoadBalancer#updateListOfServers()}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void DynamicServerListLoadBalancer.updateListOfServers()"})
+  public void testUpdateListOfServers_givenDynamicServerListLoadBalancerPingIsIPing() {
+    // Arrange
+    ServerListChangeListener listener = mock(ServerListChangeListener.class);
+    doNothing()
+        .when(listener)
+        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
+
+    DynamicServerListLoadBalancer<Server> dynamicServerListLoadBalancer =
+        new DynamicServerListLoadBalancer<>();
+    dynamicServerListLoadBalancer.setPing(mock(IPing.class));
+    dynamicServerListLoadBalancer.addServerListChangeListener(listener);
+    dynamicServerListLoadBalancer.addServer(new Server("42"));
+
+    // Act
+    dynamicServerListLoadBalancer.updateListOfServers();
+
+    // Assert
+    verify(listener, atLeast(1))
+        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
+    assertTrue(dynamicServerListLoadBalancer.getAllServers().isEmpty());
+    assertTrue(dynamicServerListLoadBalancer.getReachableServers().isEmpty());
+    assertTrue(dynamicServerListLoadBalancer.allServerList.isEmpty());
+    assertTrue(dynamicServerListLoadBalancer.upServerList.isEmpty());
+  }
+
+  /**
+   * Test {@link DynamicServerListLoadBalancer#updateListOfServers()}.
+   *
+   * <ul>
    *   <li>Then calls {@link ServerListChangeListener#serverListChanged(List, List)}.
    * </ul>
    *
@@ -1136,44 +1497,6 @@ public class DynamicServerListLoadBalancerDiffblueTest {
    * Test {@link DynamicServerListLoadBalancer#updateListOfServers()}.
    *
    * <ul>
-   *   <li>Then calls {@link ServerListChangeListener#serverListChanged(List, List)}.
-   * </ul>
-   *
-   * <p>Method under test: {@link DynamicServerListLoadBalancer#updateListOfServers()}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void DynamicServerListLoadBalancer.updateListOfServers()"})
-  public void testUpdateListOfServers_thenCallsServerListChanged3() {
-    // Arrange
-    ServerListChangeListener listener = mock(ServerListChangeListener.class);
-    doNothing()
-        .when(listener)
-        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
-
-    DynamicServerListLoadBalancer<Server> dynamicServerListLoadBalancer =
-        new DynamicServerListLoadBalancer<>();
-    dynamicServerListLoadBalancer.setPing(mock(IPing.class));
-    dynamicServerListLoadBalancer.addServerListChangeListener(listener);
-    dynamicServerListLoadBalancer.addServer(new Server("42"));
-
-    // Act
-    dynamicServerListLoadBalancer.updateListOfServers();
-
-    // Assert
-    verify(listener, atLeast(1))
-        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
-    assertTrue(dynamicServerListLoadBalancer.getAllServers().isEmpty());
-    assertTrue(dynamicServerListLoadBalancer.getReachableServers().isEmpty());
-    assertTrue(dynamicServerListLoadBalancer.allServerList.isEmpty());
-    assertTrue(dynamicServerListLoadBalancer.upServerList.isEmpty());
-  }
-
-  /**
-   * Test {@link DynamicServerListLoadBalancer#updateListOfServers()}.
-   *
-   * <ul>
    *   <li>Then {@link DynamicServerListLoadBalancer#DynamicServerListLoadBalancer()} AllServers
    *       Empty.
    * </ul>
@@ -1218,79 +1541,6 @@ public class DynamicServerListLoadBalancerDiffblueTest {
 
     DynamicServerListLoadBalancer<Server> dynamicServerListLoadBalancer =
         new DynamicServerListLoadBalancer<>();
-    dynamicServerListLoadBalancer.addServerListChangeListener(listener);
-    dynamicServerListLoadBalancer.addServer(new Server("42"));
-    ArrayList<Server> ls = new ArrayList<>();
-
-    // Act
-    dynamicServerListLoadBalancer.updateAllServerList(ls);
-
-    // Assert
-    verify(listener, atLeast(1))
-        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
-    assertTrue(dynamicServerListLoadBalancer.getAllServers().isEmpty());
-    assertTrue(dynamicServerListLoadBalancer.getReachableServers().isEmpty());
-    assertTrue(dynamicServerListLoadBalancer.allServerList.isEmpty());
-    assertTrue(dynamicServerListLoadBalancer.upServerList.isEmpty());
-    assertEquals(dynamicServerListLoadBalancer.upServerList, ls);
-  }
-
-  /**
-   * Test {@link DynamicServerListLoadBalancer#updateAllServerList(List)}.
-   *
-   * <p>Method under test: {@link DynamicServerListLoadBalancer#updateAllServerList(List)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void DynamicServerListLoadBalancer.updateAllServerList(List)"})
-  public void testUpdateAllServerList2() {
-    // Arrange
-    ServerListChangeListener listener = mock(ServerListChangeListener.class);
-    doNothing()
-        .when(listener)
-        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
-
-    DynamicServerListLoadBalancer<Server> dynamicServerListLoadBalancer =
-        new DynamicServerListLoadBalancer<>();
-    dynamicServerListLoadBalancer.setEnablePrimingConnections(true);
-    dynamicServerListLoadBalancer.addServerListChangeListener(listener);
-    dynamicServerListLoadBalancer.addServer(new Server("42"));
-    ArrayList<Server> ls = new ArrayList<>();
-
-    // Act
-    dynamicServerListLoadBalancer.updateAllServerList(ls);
-
-    // Assert
-    verify(listener, atLeast(1))
-        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
-    assertTrue(dynamicServerListLoadBalancer.getAllServers().isEmpty());
-    assertTrue(dynamicServerListLoadBalancer.getReachableServers().isEmpty());
-    assertTrue(dynamicServerListLoadBalancer.allServerList.isEmpty());
-    assertTrue(dynamicServerListLoadBalancer.upServerList.isEmpty());
-    assertEquals(dynamicServerListLoadBalancer.upServerList, ls);
-  }
-
-  /**
-   * Test {@link DynamicServerListLoadBalancer#updateAllServerList(List)}.
-   *
-   * <p>Method under test: {@link DynamicServerListLoadBalancer#updateAllServerList(List)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void DynamicServerListLoadBalancer.updateAllServerList(List)"})
-  public void testUpdateAllServerList3() {
-    // Arrange
-    ServerListChangeListener listener = mock(ServerListChangeListener.class);
-    doNothing()
-        .when(listener)
-        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
-
-    DynamicServerListLoadBalancer<Server> dynamicServerListLoadBalancer =
-        new DynamicServerListLoadBalancer<>();
-    dynamicServerListLoadBalancer.setServerListUpdater(new PollingServerListUpdater());
-    dynamicServerListLoadBalancer.addServer(new Server("42"));
     dynamicServerListLoadBalancer.addServerListChangeListener(listener);
     dynamicServerListLoadBalancer.addServer(new Server("42"));
     ArrayList<Server> ls = new ArrayList<>();
@@ -1456,6 +1706,48 @@ public class DynamicServerListLoadBalancerDiffblueTest {
    * Test {@link DynamicServerListLoadBalancer#updateAllServerList(List)}.
    *
    * <ul>
+   *   <li>Then {@link ArrayList#ArrayList()} is {@link
+   *       DynamicServerListLoadBalancer#DynamicServerListLoadBalancer()} {@link
+   *       BaseLoadBalancer#upServerList}.
+   * </ul>
+   *
+   * <p>Method under test: {@link DynamicServerListLoadBalancer#updateAllServerList(List)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void DynamicServerListLoadBalancer.updateAllServerList(List)"})
+  public void testUpdateAllServerList_thenArrayListIsDynamicServerListLoadBalancerUpServerList4() {
+    // Arrange
+    ServerListChangeListener listener = mock(ServerListChangeListener.class);
+    doNothing()
+        .when(listener)
+        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
+
+    DynamicServerListLoadBalancer<Server> dynamicServerListLoadBalancer =
+        new DynamicServerListLoadBalancer<>();
+    dynamicServerListLoadBalancer.setEnablePrimingConnections(true);
+    dynamicServerListLoadBalancer.addServerListChangeListener(listener);
+    dynamicServerListLoadBalancer.addServer(new Server("42"));
+    ArrayList<Server> ls = new ArrayList<>();
+
+    // Act
+    dynamicServerListLoadBalancer.updateAllServerList(ls);
+
+    // Assert
+    verify(listener, atLeast(1))
+        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
+    assertTrue(dynamicServerListLoadBalancer.getAllServers().isEmpty());
+    assertTrue(dynamicServerListLoadBalancer.getReachableServers().isEmpty());
+    assertTrue(dynamicServerListLoadBalancer.allServerList.isEmpty());
+    assertTrue(dynamicServerListLoadBalancer.upServerList.isEmpty());
+    assertEquals(dynamicServerListLoadBalancer.upServerList, ls);
+  }
+
+  /**
+   * Test {@link DynamicServerListLoadBalancer#updateAllServerList(List)}.
+   *
+   * <ul>
    *   <li>When {@link ArrayList#ArrayList()}.
    *   <li>Then calls {@link ServerListChangeListener#serverListChanged(List, List)}.
    * </ul>
@@ -1492,138 +1784,6 @@ public class DynamicServerListLoadBalancerDiffblueTest {
   }
 
   /**
-   * Test {@link DynamicServerListLoadBalancer#getLastUpdate()}.
-   *
-   * <ul>
-   *   <li>Then {@link DynamicServerListLoadBalancer#DynamicServerListLoadBalancer()}
-   *       ReachableServers Empty.
-   * </ul>
-   *
-   * <p>Method under test: {@link DynamicServerListLoadBalancer#getLastUpdate()}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"String DynamicServerListLoadBalancer.getLastUpdate()"})
-  public void testGetLastUpdate_thenDynamicServerListLoadBalancerReachableServersEmpty() {
-    // Arrange
-    DynamicServerListLoadBalancer<Server> dynamicServerListLoadBalancer =
-        new DynamicServerListLoadBalancer<>();
-    dynamicServerListLoadBalancer.setServerListUpdater(new PollingServerListUpdater());
-
-    // Act
-    dynamicServerListLoadBalancer.getLastUpdate();
-
-    // Assert
-    assertTrue(dynamicServerListLoadBalancer.getReachableServers().isEmpty());
-    assertTrue(dynamicServerListLoadBalancer.upServerList.isEmpty());
-  }
-
-  /**
-   * Test {@link DynamicServerListLoadBalancer#getLastUpdate()}.
-   *
-   * <ul>
-   *   <li>Then {@link ZoneAwareLoadBalancer#ZoneAwareLoadBalancer()} ReachableServers Empty.
-   * </ul>
-   *
-   * <p>Method under test: {@link DynamicServerListLoadBalancer#getLastUpdate()}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"String DynamicServerListLoadBalancer.getLastUpdate()"})
-  public void testGetLastUpdate_thenZoneAwareLoadBalancerReachableServersEmpty() {
-    // Arrange
-    IPing ping = mock(IPing.class);
-    when(ping.isAlive(Mockito.<Server>any())).thenReturn(false);
-
-    ServerListChangeListener listener = mock(ServerListChangeListener.class);
-    doNothing()
-        .when(listener)
-        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
-
-    ServerStatusChangeListener listener2 = mock(ServerStatusChangeListener.class);
-    doNothing().when(listener2).serverStatusChanged(Mockito.<Collection<Server>>any());
-
-    ServerListChangeListener listener3 = mock(ServerListChangeListener.class);
-    doThrow(new RuntimeException())
-        .when(listener3)
-        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
-
-    ZoneAwareLoadBalancer<Server> zoneAwareLoadBalancer = new ZoneAwareLoadBalancer<>();
-    zoneAwareLoadBalancer.setServerListUpdater(new PollingServerListUpdater());
-    zoneAwareLoadBalancer.chooseServer("Key");
-    zoneAwareLoadBalancer.addServerListChangeListener(listener3);
-    zoneAwareLoadBalancer.addServer(new Server("42"));
-    zoneAwareLoadBalancer.addServerStatusChangeListener(listener2);
-    zoneAwareLoadBalancer.addServerListChangeListener(listener);
-    zoneAwareLoadBalancer.addServer(new Server("42"));
-    zoneAwareLoadBalancer.setPing(ping);
-    zoneAwareLoadBalancer.addServers(new Object[] {"New Servers"});
-
-    // Act
-    zoneAwareLoadBalancer.getLastUpdate();
-
-    // Assert
-    verify(ping, atLeast(1)).isAlive(isA(Server.class));
-    verify(listener, atLeast(1))
-        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
-    verify(listener3, atLeast(1))
-        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
-    verify(listener2).serverStatusChanged(isA(Collection.class));
-    assertTrue(zoneAwareLoadBalancer.getReachableServers().isEmpty());
-    assertTrue(zoneAwareLoadBalancer.upServerList.isEmpty());
-  }
-
-  /**
-   * Test {@link DynamicServerListLoadBalancer#getDurationSinceLastUpdateMs()}.
-   *
-   * <p>Method under test: {@link DynamicServerListLoadBalancer#getDurationSinceLastUpdateMs()}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"long DynamicServerListLoadBalancer.getDurationSinceLastUpdateMs()"})
-  public void testGetDurationSinceLastUpdateMs() {
-    // Arrange
-    DynamicServerListLoadBalancer<Server> dynamicServerListLoadBalancer =
-        new DynamicServerListLoadBalancer<>();
-    dynamicServerListLoadBalancer.setServerListUpdater(new PollingServerListUpdater());
-
-    // Act
-    dynamicServerListLoadBalancer.getDurationSinceLastUpdateMs();
-
-    // Assert
-    assertTrue(dynamicServerListLoadBalancer.getReachableServers().isEmpty());
-    assertTrue(dynamicServerListLoadBalancer.upServerList.isEmpty());
-  }
-
-  /**
-   * Test {@link DynamicServerListLoadBalancer#getDurationSinceLastUpdateMs()}.
-   *
-   * <p>Method under test: {@link DynamicServerListLoadBalancer#getDurationSinceLastUpdateMs()}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"long DynamicServerListLoadBalancer.getDurationSinceLastUpdateMs()"})
-  public void testGetDurationSinceLastUpdateMs2() {
-    // Arrange
-    DynamicServerListLoadBalancer<Server> dynamicServerListLoadBalancer =
-        new DynamicServerListLoadBalancer<>();
-    dynamicServerListLoadBalancer.setServerListUpdater(new PollingServerListUpdater());
-    dynamicServerListLoadBalancer.setPing(mock(IPing.class));
-    dynamicServerListLoadBalancer.addServers(new Object[] {"New Servers"});
-
-    // Act
-    dynamicServerListLoadBalancer.getDurationSinceLastUpdateMs();
-
-    // Assert that nothing has changed
-    assertTrue(dynamicServerListLoadBalancer.getReachableServers().isEmpty());
-    assertTrue(dynamicServerListLoadBalancer.upServerList.isEmpty());
-  }
-
-  /**
    * Test {@link DynamicServerListLoadBalancer#getNumberMissedCycles()}.
    *
    * <ul>
@@ -1650,7 +1810,8 @@ public class DynamicServerListLoadBalancerDiffblueTest {
    * Test {@link DynamicServerListLoadBalancer#getCoreThreads()}.
    *
    * <ul>
-   *   <li>Then return two.
+   *   <li>Then {@link DynamicServerListLoadBalancer#DynamicServerListLoadBalancer()}
+   *       ReachableServers Empty.
    * </ul>
    *
    * <p>Method under test: {@link DynamicServerListLoadBalancer#getCoreThreads()}
@@ -1659,7 +1820,7 @@ public class DynamicServerListLoadBalancerDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"int DynamicServerListLoadBalancer.getCoreThreads()"})
-  public void testGetCoreThreads_thenReturnTwo() {
+  public void testGetCoreThreads_thenDynamicServerListLoadBalancerReachableServersEmpty() {
     // Arrange
     DynamicServerListLoadBalancer<Server> dynamicServerListLoadBalancer =
         new DynamicServerListLoadBalancer<>();

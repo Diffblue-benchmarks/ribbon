@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.doNothing;
@@ -14,6 +15,8 @@ import static org.mockito.Mockito.when;
 import com.diffblue.cover.annotations.ContributionFromDiffblue;
 import com.diffblue.cover.annotations.ManagedByDiffblue;
 import com.diffblue.cover.annotations.MethodsUnderTest;
+import com.netflix.client.config.IClientConfig;
+import com.netflix.client.config.IClientConfigKey;
 import com.netflix.loadbalancer.ResponseTimeWeightedRule.DynamicServerWeightTask;
 import java.util.ArrayList;
 import java.util.List;
@@ -352,149 +355,6 @@ public class ResponseTimeWeightedRuleDiffblueTest {
    * Test {@link ResponseTimeWeightedRule#choose(ILoadBalancer, Object)} with {@code lb}, {@code
    * key}.
    *
-   * <p>Method under test: {@link ResponseTimeWeightedRule#choose(ILoadBalancer, Object)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"Server ResponseTimeWeightedRule.choose(ILoadBalancer, Object)"})
-  public void testChooseWithLbKey() {
-    // Arrange
-    IPing ping = mock(IPing.class);
-    when(ping.isAlive(Mockito.<Server>any())).thenReturn(true);
-
-    ServerListChangeListener listener = mock(ServerListChangeListener.class);
-    doNothing()
-        .when(listener)
-        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
-
-    ServerListChangeListener listener2 = mock(ServerListChangeListener.class);
-    doNothing()
-        .when(listener2)
-        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
-
-    IPing ping2 = mock(IPing.class);
-    when(ping2.isAlive(Mockito.<Server>any())).thenReturn(true);
-
-    BaseLoadBalancer lb = new BaseLoadBalancer(ping2, new AvailabilityFilteringRule());
-    lb.addServers(new Object[] {"New Servers"});
-    lb.addServerListChangeListener(listener2);
-    lb.addServerListChangeListener(listener);
-    lb.setEnablePrimingConnections(true);
-    lb.setPing(ping);
-    lb.addServer(new Server("42"));
-
-    ResponseTimeWeightedRule responseTimeWeightedRule = new ResponseTimeWeightedRule();
-    responseTimeWeightedRule.setLoadBalancer(lb);
-
-    ServerListChangeListener listener3 = mock(ServerListChangeListener.class);
-    doNothing()
-        .when(listener3)
-        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
-
-    IPing ping3 = mock(IPing.class);
-    when(ping3.isAlive(Mockito.<Server>any())).thenReturn(true);
-
-    BaseLoadBalancer lb2 = new BaseLoadBalancer(ping3, new AvailabilityFilteringRule());
-    lb2.addServerListChangeListener(listener3);
-    lb2.addServer(new Server("42"));
-
-    // Act
-    Server actualChooseResult = responseTimeWeightedRule.choose(lb2, "Key");
-
-    // Assert
-    verify(ping2).isAlive(isA(Server.class));
-    verify(ping3).isAlive(isA(Server.class));
-    verify(ping, atLeast(1)).isAlive(Mockito.<Server>any());
-    verify(listener2).serverListChanged(isA(List.class), isA(List.class));
-    verify(listener).serverListChanged(isA(List.class), isA(List.class));
-    verify(listener3).serverListChanged(isA(List.class), isA(List.class));
-    assertEquals("New Servers", actualChooseResult.getHost());
-    assertEquals("New Servers:80", actualChooseResult.getHostPort());
-    assertEquals("New Servers:80", actualChooseResult.getId());
-    assertNull(actualChooseResult.getScheme());
-    assertEquals(80, actualChooseResult.getPort());
-    assertTrue(actualChooseResult.isAlive());
-    assertTrue(actualChooseResult.isReadyToServe());
-    assertEquals(Server.UNKNOWN_ZONE, actualChooseResult.getZone());
-  }
-
-  /**
-   * Test {@link ResponseTimeWeightedRule#choose(ILoadBalancer, Object)} with {@code lb}, {@code
-   * key}.
-   *
-   * <ul>
-   *   <li>Given {@link BaseLoadBalancer#BaseLoadBalancer()} addServers array of {@link Object} with
-   *       {@code New Servers}.
-   * </ul>
-   *
-   * <p>Method under test: {@link ResponseTimeWeightedRule#choose(ILoadBalancer, Object)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"Server ResponseTimeWeightedRule.choose(ILoadBalancer, Object)"})
-  public void testChooseWithLbKey_givenBaseLoadBalancerAddServersArrayOfObjectWithNewServers() {
-    // Arrange
-    IPing ping = mock(IPing.class);
-    when(ping.isAlive(Mockito.<Server>any())).thenReturn(true);
-
-    ServerListChangeListener listener = mock(ServerListChangeListener.class);
-    doNothing()
-        .when(listener)
-        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
-
-    ServerListChangeListener listener2 = mock(ServerListChangeListener.class);
-    doNothing()
-        .when(listener2)
-        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
-
-    BaseLoadBalancer lb = new BaseLoadBalancer();
-    lb.addServers(new Object[] {"New Servers"});
-    lb.addServerListChangeListener(listener2);
-    lb.addServerListChangeListener(listener);
-    lb.setEnablePrimingConnections(true);
-    lb.setPing(ping);
-    lb.addServer(new Server("42"));
-
-    ResponseTimeWeightedRule responseTimeWeightedRule = new ResponseTimeWeightedRule();
-    responseTimeWeightedRule.setLoadBalancer(lb);
-
-    ServerListChangeListener listener3 = mock(ServerListChangeListener.class);
-    doNothing()
-        .when(listener3)
-        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
-
-    IPing ping2 = mock(IPing.class);
-    when(ping2.isAlive(Mockito.<Server>any())).thenReturn(true);
-
-    BaseLoadBalancer lb2 = new BaseLoadBalancer(ping2, new AvailabilityFilteringRule());
-    lb2.addServerListChangeListener(listener3);
-    lb2.addServer(new Server("42"));
-
-    // Act
-    Server actualChooseResult = responseTimeWeightedRule.choose(lb2, "Key");
-
-    // Assert
-    verify(ping2).isAlive(isA(Server.class));
-    verify(ping, atLeast(1)).isAlive(Mockito.<Server>any());
-    verify(listener2).serverListChanged(isA(List.class), isA(List.class));
-    verify(listener).serverListChanged(isA(List.class), isA(List.class));
-    verify(listener3).serverListChanged(isA(List.class), isA(List.class));
-    assertEquals("New Servers", actualChooseResult.getHost());
-    assertEquals("New Servers:80", actualChooseResult.getHostPort());
-    assertEquals("New Servers:80", actualChooseResult.getId());
-    assertNull(actualChooseResult.getScheme());
-    assertEquals(80, actualChooseResult.getPort());
-    assertTrue(actualChooseResult.isAlive());
-    assertTrue(actualChooseResult.isReadyToServe());
-    assertEquals(Server.UNKNOWN_ZONE, actualChooseResult.getZone());
-  }
-
-  /**
-   * Test {@link ResponseTimeWeightedRule#choose(ILoadBalancer, Object)} with {@code lb}, {@code
-   * key}.
-   *
    * <ul>
    *   <li>Given {@link ResponseTimeWeightedRule#ResponseTimeWeightedRule()}.
    *   <li>When {@code null}.
@@ -510,6 +370,57 @@ public class ResponseTimeWeightedRuleDiffblueTest {
   public void testChooseWithLbKey_givenResponseTimeWeightedRule_whenNull_thenReturnNull() {
     // Arrange, Act and Assert
     assertNull(new ResponseTimeWeightedRule().choose(null, "Key"));
+  }
+
+  /**
+   * Test {@link ResponseTimeWeightedRule#choose(ILoadBalancer, Object)} with {@code lb}, {@code
+   * key}.
+   *
+   * <ul>
+   *   <li>Then {@link BaseLoadBalancer#BaseLoadBalancer()} AllServers size is one.
+   * </ul>
+   *
+   * <p>Method under test: {@link ResponseTimeWeightedRule#choose(ILoadBalancer, Object)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"Server ResponseTimeWeightedRule.choose(ILoadBalancer, Object)"})
+  public void testChooseWithLbKey_thenBaseLoadBalancerAllServersSizeIsOne() {
+    // Arrange
+    IPing ping = mock(IPing.class);
+    when(ping.isAlive(Mockito.<Server>any())).thenReturn(true);
+
+    BaseLoadBalancer lb = new BaseLoadBalancer();
+    Server newServer = new Server("42");
+    lb.addServer(newServer);
+    lb.setPing(ping);
+    lb.addServer(new Server("42"));
+
+    ResponseTimeWeightedRule responseTimeWeightedRule = new ResponseTimeWeightedRule();
+    responseTimeWeightedRule.setLoadBalancer(lb);
+
+    ServerListChangeListener listener = mock(ServerListChangeListener.class);
+    doNothing()
+        .when(listener)
+        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
+
+    BaseLoadBalancer lb2 = new BaseLoadBalancer();
+    lb2.addServerListChangeListener(listener);
+    lb2.addServer(new Server("42"));
+
+    // Act
+    Server actualChooseResult = responseTimeWeightedRule.choose(lb2, "Key");
+
+    // Assert
+    verify(ping, atLeast(1)).isAlive(isA(Server.class));
+    verify(listener).serverListChanged(isA(List.class), isA(List.class));
+    ILoadBalancer loadBalancer = responseTimeWeightedRule.getLoadBalancer();
+    assertTrue(loadBalancer instanceof BaseLoadBalancer);
+    assertEquals(1, lb2.getAllServers().size());
+    assertEquals(1, lb2.getReachableServers().size());
+    assertEquals(newServer, actualChooseResult);
+    assertEquals(lb.allServerList, loadBalancer.getReachableServers());
   }
 
   /**
@@ -558,7 +469,7 @@ public class ResponseTimeWeightedRuleDiffblueTest {
    *
    * <ul>
    *   <li>When {@link BaseLoadBalancer#BaseLoadBalancer()}.
-   *   <li>Then return {@code null}.
+   *   <li>Then {@link BaseLoadBalancer#BaseLoadBalancer()} AllServers Empty.
    * </ul>
    *
    * <p>Method under test: {@link ResponseTimeWeightedRule#choose(ILoadBalancer, Object)}
@@ -567,11 +478,49 @@ public class ResponseTimeWeightedRuleDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"Server ResponseTimeWeightedRule.choose(ILoadBalancer, Object)"})
-  public void testChooseWithLbKey_whenBaseLoadBalancer_thenReturnNull() {
+  public void testChooseWithLbKey_whenBaseLoadBalancer_thenBaseLoadBalancerAllServersEmpty() {
     // Arrange
     ResponseTimeWeightedRule responseTimeWeightedRule = new ResponseTimeWeightedRule();
+    BaseLoadBalancer lb = new BaseLoadBalancer();
 
     // Act and Assert
-    assertNull(responseTimeWeightedRule.choose(new BaseLoadBalancer(), "Key"));
+    assertNull(responseTimeWeightedRule.choose(lb, "Key"));
+    assertTrue(lb.getAllServers().isEmpty());
+    assertTrue(lb.getReachableServers().isEmpty());
+  }
+
+  /**
+   * Test {@link ResponseTimeWeightedRule#initWithNiwsConfig(IClientConfig)} with {@code
+   * clientConfig}.
+   *
+   * <p>Method under test: {@link ResponseTimeWeightedRule#initWithNiwsConfig(IClientConfig)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void ResponseTimeWeightedRule.initWithNiwsConfig(IClientConfig)"})
+  public void testInitWithNiwsConfigWithClientConfig() {
+    // Arrange
+    BaseLoadBalancer lb = mock(BaseLoadBalancer.class);
+    when(lb.getLoadBalancerStats()).thenReturn(null);
+    when(lb.getName()).thenReturn("Name");
+    doNothing().when(lb).addServerListChangeListener(Mockito.<ServerListChangeListener>any());
+    lb.addServerListChangeListener(mock(ServerListChangeListener.class));
+
+    ResponseTimeWeightedRule responseTimeWeightedRule = new ResponseTimeWeightedRule();
+    responseTimeWeightedRule.setLoadBalancer(lb);
+
+    IClientConfig clientConfig = mock(IClientConfig.class);
+    when(clientConfig.get(Mockito.<IClientConfigKey<Integer>>any(), Mockito.<Integer>any()))
+        .thenReturn(1);
+
+    // Act
+    responseTimeWeightedRule.initWithNiwsConfig(clientConfig);
+
+    // Assert
+    verify(clientConfig).get(isA(IClientConfigKey.class), eq(30000));
+    verify(lb).addServerListChangeListener(isA(ServerListChangeListener.class));
+    verify(lb, atLeast(1)).getLoadBalancerStats();
+    verify(lb).getName();
   }
 }

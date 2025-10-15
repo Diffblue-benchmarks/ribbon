@@ -7,16 +7,16 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.atLeast;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import com.diffblue.cover.annotations.ContributionFromDiffblue;
 import com.diffblue.cover.annotations.ManagedByDiffblue;
 import com.diffblue.cover.annotations.MethodsUnderTest;
+import com.netflix.client.config.IClientConfig;
+import com.netflix.client.config.IClientConfig.Builder;
 import com.netflix.loadbalancer.WeightedResponseTimeRule.DynamicServerWeightTask;
 import java.util.ArrayList;
-import java.util.Collection;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.mockito.Mockito;
@@ -281,6 +281,42 @@ public class WeightedResponseTimeRuleDiffblueTest {
    * Test {@link WeightedResponseTimeRule#initialize(ILoadBalancer)}.
    *
    * <ul>
+   *   <li>Given {@link ArrayList#ArrayList()} add {@link Server}.
+   *   <li>Then calls {@link BaseLoadBalancer#getAllServers()}.
+   * </ul>
+   *
+   * <p>Method under test: {@link WeightedResponseTimeRule#initialize(ILoadBalancer)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void WeightedResponseTimeRule.initialize(ILoadBalancer)"})
+  public void testInitialize_givenArrayListAddServer_thenCallsGetAllServers() {
+    // Arrange
+    ArrayList<Server> serverList = new ArrayList<>();
+    serverList.add(mock(Server.class));
+
+    BaseLoadBalancer lb = mock(BaseLoadBalancer.class);
+    when(lb.getAllServers()).thenReturn(serverList);
+    when(lb.getLoadBalancerStats()).thenReturn(new LoadBalancerStats());
+    when(lb.getName()).thenReturn("Name");
+
+    WeightedResponseTimeRule weightedResponseTimeRule = new WeightedResponseTimeRule();
+    weightedResponseTimeRule.setLoadBalancer(lb);
+
+    // Act
+    weightedResponseTimeRule.initialize(new BaseLoadBalancer());
+
+    // Assert
+    verify(lb, atLeast(1)).getAllServers();
+    verify(lb, atLeast(1)).getLoadBalancerStats();
+    verify(lb).getName();
+  }
+
+  /**
+   * Test {@link WeightedResponseTimeRule#initialize(ILoadBalancer)}.
+   *
+   * <ul>
    *   <li>Given {@link BaseLoadBalancer} {@link BaseLoadBalancer#getLoadBalancerStats()} return
    *       {@link LoadBalancerStats#LoadBalancerStats()}.
    * </ul>
@@ -314,7 +350,8 @@ public class WeightedResponseTimeRuleDiffblueTest {
    * Test {@link WeightedResponseTimeRule#initialize(ILoadBalancer)}.
    *
    * <ul>
-   *   <li>Given {@link ServerStatusChangeListener}.
+   *   <li>Given {@link BaseLoadBalancer} {@link BaseLoadBalancer#getName()} return {@code foo}.
+   *   <li>When {@code null}.
    * </ul>
    *
    * <p>Method under test: {@link WeightedResponseTimeRule#initialize(ILoadBalancer)}
@@ -323,26 +360,32 @@ public class WeightedResponseTimeRuleDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void WeightedResponseTimeRule.initialize(ILoadBalancer)"})
-  public void testInitialize_givenServerStatusChangeListener() {
+  public void testInitialize_givenBaseLoadBalancerGetNameReturnFoo_whenNull() {
     // Arrange
+    LoadBalancerStats loadBalancerStats = mock(LoadBalancerStats.class);
+    when(loadBalancerStats.getSingleServerStat(Mockito.<Server>any()))
+        .thenReturn(new ServerStats());
+
+    ArrayList<Server> serverList = new ArrayList<>();
+    serverList.add(new Server("42"));
+    serverList.add(new Server("42"));
+
     BaseLoadBalancer lb = mock(BaseLoadBalancer.class);
-    when(lb.getAllServers()).thenReturn(new ArrayList<>());
-    when(lb.getLoadBalancerStats()).thenReturn(new LoadBalancerStats());
-    when(lb.getName()).thenReturn("Name");
+    when(lb.getAllServers()).thenReturn(serverList);
+    when(lb.getLoadBalancerStats()).thenReturn(loadBalancerStats);
+    when(lb.getName()).thenReturn("foo");
 
     WeightedResponseTimeRule weightedResponseTimeRule = new WeightedResponseTimeRule();
     weightedResponseTimeRule.setLoadBalancer(lb);
 
-    BaseLoadBalancer lb2 = new BaseLoadBalancer();
-    lb2.addServerStatusChangeListener(mock(ServerStatusChangeListener.class));
-
     // Act
-    weightedResponseTimeRule.initialize(lb2);
+    weightedResponseTimeRule.initialize(null);
 
     // Assert
     verify(lb, atLeast(1)).getAllServers();
     verify(lb, atLeast(1)).getLoadBalancerStats();
     verify(lb).getName();
+    verify(loadBalancerStats, atLeast(1)).getSingleServerStat(isA(Server.class));
   }
 
   /**
@@ -386,6 +429,48 @@ public class WeightedResponseTimeRuleDiffblueTest {
   }
 
   /**
+   * Test {@link WeightedResponseTimeRule#initialize(ILoadBalancer)}.
+   *
+   * <ul>
+   *   <li>When {@code null}.
+   *   <li>Then calls {@link LoadBalancerStats#getSingleServerStat(Server)}.
+   * </ul>
+   *
+   * <p>Method under test: {@link WeightedResponseTimeRule#initialize(ILoadBalancer)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void WeightedResponseTimeRule.initialize(ILoadBalancer)"})
+  public void testInitialize_whenNull_thenCallsGetSingleServerStat() {
+    // Arrange
+    LoadBalancerStats loadBalancerStats = mock(LoadBalancerStats.class);
+    when(loadBalancerStats.getSingleServerStat(Mockito.<Server>any()))
+        .thenReturn(new ServerStats());
+
+    ArrayList<Server> serverList = new ArrayList<>();
+    serverList.add(new Server("42"));
+    serverList.add(new Server("42"));
+
+    BaseLoadBalancer lb = mock(BaseLoadBalancer.class);
+    when(lb.getAllServers()).thenReturn(serverList);
+    when(lb.getLoadBalancerStats()).thenReturn(loadBalancerStats);
+    when(lb.getName()).thenReturn("Name");
+
+    WeightedResponseTimeRule weightedResponseTimeRule = new WeightedResponseTimeRule();
+    weightedResponseTimeRule.setLoadBalancer(lb);
+
+    // Act
+    weightedResponseTimeRule.initialize(null);
+
+    // Assert
+    verify(lb, atLeast(1)).getAllServers();
+    verify(lb, atLeast(1)).getLoadBalancerStats();
+    verify(lb).getName();
+    verify(loadBalancerStats, atLeast(1)).getSingleServerStat(isA(Server.class));
+  }
+
+  /**
    * Test {@link WeightedResponseTimeRule#shutdown()}.
    *
    * <ul>
@@ -400,11 +485,12 @@ public class WeightedResponseTimeRuleDiffblueTest {
   @MethodsUnderTest({"void WeightedResponseTimeRule.shutdown()"})
   public void testShutdown_thenCallsGetLoadBalancerStats() {
     // Arrange
+    WeightedResponseTimeRule weightedResponseTimeRule = new WeightedResponseTimeRule();
+    weightedResponseTimeRule.initialize(new DynamicServerListLoadBalancer<>());
+
     DynamicServerListLoadBalancer<Server> lb = mock(DynamicServerListLoadBalancer.class);
     when(lb.getLoadBalancerStats()).thenReturn(null);
     when(lb.getName()).thenReturn("Name");
-
-    WeightedResponseTimeRule weightedResponseTimeRule = new WeightedResponseTimeRule();
     weightedResponseTimeRule.setLoadBalancer(lb);
 
     // Act
@@ -428,7 +514,6 @@ public class WeightedResponseTimeRuleDiffblueTest {
     // Arrange
     WeightedResponseTimeRule weightedResponseTimeRule = new WeightedResponseTimeRule();
     weightedResponseTimeRule.initialize(new BaseLoadBalancer());
-    weightedResponseTimeRule.setLoadBalancer(new BaseLoadBalancer());
 
     // Act and Assert
     assertTrue(weightedResponseTimeRule.getAccumulatedWeights().isEmpty());
@@ -445,9 +530,11 @@ public class WeightedResponseTimeRuleDiffblueTest {
   @MethodsUnderTest({"java.util.List WeightedResponseTimeRule.getAccumulatedWeights()"})
   public void testGetAccumulatedWeights2() {
     // Arrange
+    BaseLoadBalancer lb = new BaseLoadBalancer();
+    lb.addServers(new Object[] {-1});
+
     WeightedResponseTimeRule weightedResponseTimeRule = new WeightedResponseTimeRule();
-    weightedResponseTimeRule.initialize(new DynamicServerListLoadBalancer<>());
-    weightedResponseTimeRule.setLoadBalancer(new BaseLoadBalancer());
+    weightedResponseTimeRule.initialize(lb);
 
     // Act and Assert
     assertTrue(weightedResponseTimeRule.getAccumulatedWeights().isEmpty());
@@ -465,11 +552,10 @@ public class WeightedResponseTimeRuleDiffblueTest {
   public void testGetAccumulatedWeights3() {
     // Arrange
     BaseLoadBalancer lb = new BaseLoadBalancer();
-    lb.addServers(new Object[] {""});
+    lb.addServers(new Object[] {"LoadBalancer_ChooseServer"});
 
     WeightedResponseTimeRule weightedResponseTimeRule = new WeightedResponseTimeRule();
     weightedResponseTimeRule.initialize(lb);
-    weightedResponseTimeRule.setLoadBalancer(new BaseLoadBalancer());
 
     // Act and Assert
     assertTrue(weightedResponseTimeRule.getAccumulatedWeights().isEmpty());
@@ -486,9 +572,85 @@ public class WeightedResponseTimeRuleDiffblueTest {
   @MethodsUnderTest({"java.util.List WeightedResponseTimeRule.getAccumulatedWeights()"})
   public void testGetAccumulatedWeights4() {
     // Arrange
+    BaseLoadBalancer lb = new BaseLoadBalancer();
+    lb.addServers(new Object[] {"LoadBalancer_ChooseServer"});
+
     WeightedResponseTimeRule weightedResponseTimeRule = new WeightedResponseTimeRule();
-    weightedResponseTimeRule.initialize(new BaseLoadBalancer());
+    weightedResponseTimeRule.setLoadBalancer(new BaseLoadBalancer());
+    weightedResponseTimeRule.initialize(lb);
+
+    // Act and Assert
+    assertTrue(weightedResponseTimeRule.getAccumulatedWeights().isEmpty());
+  }
+
+  /**
+   * Test {@link WeightedResponseTimeRule#getAccumulatedWeights()}.
+   *
+   * <p>Method under test: {@link WeightedResponseTimeRule#getAccumulatedWeights()}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"java.util.List WeightedResponseTimeRule.getAccumulatedWeights()"})
+  public void testGetAccumulatedWeights5() {
+    // Arrange
+    BaseLoadBalancer lb = new BaseLoadBalancer();
+    lb.addServers(new Object[] {"LoadBalancer_ChooseServer"});
+
+    WeightedResponseTimeRule weightedResponseTimeRule = new WeightedResponseTimeRule();
+    IClientConfig config =
+        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build();
+    weightedResponseTimeRule.setLoadBalancer(new BaseLoadBalancer(config));
+    weightedResponseTimeRule.initialize(lb);
+
+    // Act and Assert
+    assertTrue(weightedResponseTimeRule.getAccumulatedWeights().isEmpty());
+  }
+
+  /**
+   * Test {@link WeightedResponseTimeRule#getAccumulatedWeights()}.
+   *
+   * <p>Method under test: {@link WeightedResponseTimeRule#getAccumulatedWeights()}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"java.util.List WeightedResponseTimeRule.getAccumulatedWeights()"})
+  public void testGetAccumulatedWeights6() {
+    // Arrange
+    BaseLoadBalancer lb = new BaseLoadBalancer();
+    lb.addServers(new Object[] {"LoadBalancer_ChooseServer"});
+
+    WeightedResponseTimeRule weightedResponseTimeRule = new WeightedResponseTimeRule();
     weightedResponseTimeRule.setLoadBalancer(new NoOpLoadBalancer());
+    weightedResponseTimeRule.initialize(lb);
+
+    // Act and Assert
+    assertTrue(weightedResponseTimeRule.getAccumulatedWeights().isEmpty());
+  }
+
+  /**
+   * Test {@link WeightedResponseTimeRule#getAccumulatedWeights()}.
+   *
+   * <p>Method under test: {@link WeightedResponseTimeRule#getAccumulatedWeights()}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"java.util.List WeightedResponseTimeRule.getAccumulatedWeights()"})
+  public void testGetAccumulatedWeights7() {
+    // Arrange
+    BaseLoadBalancer lb = new BaseLoadBalancer();
+    lb.addServers(new Object[] {"LoadBalancer_ChooseServer"});
+    IPing ping = mock(IPing.class);
+
+    BaseLoadBalancer lb2 = new BaseLoadBalancer(ping, new AvailabilityFilteringRule());
+    lb2.addServerListChangeListener(mock(ServerListChangeListener.class));
+    lb2.addServer(null);
+
+    WeightedResponseTimeRule weightedResponseTimeRule = new WeightedResponseTimeRule();
+    weightedResponseTimeRule.setLoadBalancer(lb2);
+    weightedResponseTimeRule.initialize(lb);
 
     // Act and Assert
     assertTrue(weightedResponseTimeRule.getAccumulatedWeights().isEmpty());
@@ -498,8 +660,8 @@ public class WeightedResponseTimeRuleDiffblueTest {
    * Test {@link WeightedResponseTimeRule#getAccumulatedWeights()}.
    *
    * <ul>
-   *   <li>Given {@link BaseLoadBalancer#BaseLoadBalancer()} addServer {@link Server#Server(String)}
-   *       with id is {@code 42}.
+   *   <li>Given {@link DynamicServerListLoadBalancer#DynamicServerListLoadBalancer()} addServer
+   *       {@code null}.
    * </ul>
    *
    * <p>Method under test: {@link WeightedResponseTimeRule#getAccumulatedWeights()}
@@ -508,41 +670,18 @@ public class WeightedResponseTimeRuleDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"java.util.List WeightedResponseTimeRule.getAccumulatedWeights()"})
-  public void testGetAccumulatedWeights_givenBaseLoadBalancerAddServerServerWithIdIs42() {
+  public void testGetAccumulatedWeights_givenDynamicServerListLoadBalancerAddServerNull() {
     // Arrange
     BaseLoadBalancer lb = new BaseLoadBalancer();
-    lb.addServer(new Server("42"));
+    lb.addServers(new Object[] {"LoadBalancer_ChooseServer"});
+
+    DynamicServerListLoadBalancer<Server> lb2 = new DynamicServerListLoadBalancer<>();
+    lb2.addServerListChangeListener(mock(ServerListChangeListener.class));
+    lb2.addServer(null);
 
     WeightedResponseTimeRule weightedResponseTimeRule = new WeightedResponseTimeRule();
+    weightedResponseTimeRule.setLoadBalancer(lb2);
     weightedResponseTimeRule.initialize(lb);
-    weightedResponseTimeRule.setLoadBalancer(new BaseLoadBalancer());
-
-    // Act and Assert
-    assertTrue(weightedResponseTimeRule.getAccumulatedWeights().isEmpty());
-  }
-
-  /**
-   * Test {@link WeightedResponseTimeRule#getAccumulatedWeights()}.
-   *
-   * <ul>
-   *   <li>Given {@link BaseLoadBalancer#BaseLoadBalancer()} addServer {@link Server#Server(String)}
-   *       with id is {@code /}.
-   * </ul>
-   *
-   * <p>Method under test: {@link WeightedResponseTimeRule#getAccumulatedWeights()}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"java.util.List WeightedResponseTimeRule.getAccumulatedWeights()"})
-  public void testGetAccumulatedWeights_givenBaseLoadBalancerAddServerServerWithIdIsSlash() {
-    // Arrange
-    BaseLoadBalancer lb = new BaseLoadBalancer();
-    lb.addServer(new Server("/"));
-
-    WeightedResponseTimeRule weightedResponseTimeRule = new WeightedResponseTimeRule();
-    weightedResponseTimeRule.initialize(lb);
-    weightedResponseTimeRule.setLoadBalancer(new BaseLoadBalancer());
 
     // Act and Assert
     assertTrue(weightedResponseTimeRule.getAccumulatedWeights().isEmpty());
@@ -567,30 +706,6 @@ public class WeightedResponseTimeRuleDiffblueTest {
   }
 
   /**
-   * Test {@link WeightedResponseTimeRule#getAccumulatedWeights()}.
-   *
-   * <ul>
-   *   <li>Given {@link WeightedResponseTimeRule#WeightedResponseTimeRule()} LoadBalancer is {@code
-   *       null}.
-   * </ul>
-   *
-   * <p>Method under test: {@link WeightedResponseTimeRule#getAccumulatedWeights()}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"java.util.List WeightedResponseTimeRule.getAccumulatedWeights()"})
-  public void testGetAccumulatedWeights_givenWeightedResponseTimeRuleLoadBalancerIsNull() {
-    // Arrange
-    WeightedResponseTimeRule weightedResponseTimeRule = new WeightedResponseTimeRule();
-    weightedResponseTimeRule.initialize(new BaseLoadBalancer());
-    weightedResponseTimeRule.setLoadBalancer(null);
-
-    // Act and Assert
-    assertTrue(weightedResponseTimeRule.getAccumulatedWeights().isEmpty());
-  }
-
-  /**
    * Test {@link WeightedResponseTimeRule#choose(ILoadBalancer, Object)} with {@code lb}, {@code
    * key}.
    *
@@ -602,26 +717,16 @@ public class WeightedResponseTimeRuleDiffblueTest {
   @MethodsUnderTest({"Server WeightedResponseTimeRule.choose(ILoadBalancer, Object)"})
   public void testChooseWithLbKey() {
     // Arrange
-    IPing ping = mock(IPing.class);
-    when(ping.isAlive(Mockito.<Server>any())).thenReturn(true);
-
-    ServerStatusChangeListener listener = mock(ServerStatusChangeListener.class);
-    doNothing().when(listener).serverStatusChanged(Mockito.<Collection<Server>>any());
-
-    BaseLoadBalancer lb = new BaseLoadBalancer(ping, new ClientConfigEnabledRoundRobinRule());
-    lb.addServerStatusChangeListener(listener);
-    lb.addServers(new Object[] {"New Servers"});
+    BaseLoadBalancer lb = new BaseLoadBalancer();
+    lb.addServers(new ArrayList<>());
 
     WeightedResponseTimeRule weightedResponseTimeRule = new WeightedResponseTimeRule();
+    weightedResponseTimeRule.initWithNiwsConfig(
+        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build());
     weightedResponseTimeRule.setLoadBalancer(lb);
 
-    // Act
-    Server actualChooseResult = weightedResponseTimeRule.choose(null, "Key");
-
-    // Assert
-    verify(ping).isAlive(isA(Server.class));
-    verify(listener).serverStatusChanged(isA(Collection.class));
-    assertNull(actualChooseResult);
+    // Act and Assert
+    assertNull(weightedResponseTimeRule.choose(null, "Key"));
   }
 
   /**
@@ -636,26 +741,96 @@ public class WeightedResponseTimeRuleDiffblueTest {
   @MethodsUnderTest({"Server WeightedResponseTimeRule.choose(ILoadBalancer, Object)"})
   public void testChooseWithLbKey2() {
     // Arrange
-    IPing ping = mock(IPing.class);
-    when(ping.isAlive(Mockito.<Server>any())).thenReturn(true);
+    BaseLoadBalancer lb = new BaseLoadBalancer();
+    lb.addServers(new ArrayList<>());
 
-    ServerStatusChangeListener listener = mock(ServerStatusChangeListener.class);
-    doNothing().when(listener).serverStatusChanged(Mockito.<Collection<Server>>any());
+    WeightedResponseTimeRule weightedResponseTimeRule = new WeightedResponseTimeRule();
+    weightedResponseTimeRule.initWithNiwsConfig(
+        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build());
+    weightedResponseTimeRule.setLoadBalancer(lb);
 
-    BaseLoadBalancer lb = new BaseLoadBalancer(ping, new ResponseTimeWeightedRule());
-    lb.addServerStatusChangeListener(listener);
-    lb.addServers(new Object[] {"New Servers"});
+    // Act and Assert
+    assertNull(weightedResponseTimeRule.choose(null, "Key"));
+  }
+
+  /**
+   * Test {@link WeightedResponseTimeRule#choose(ILoadBalancer, Object)} with {@code lb}, {@code
+   * key}.
+   *
+   * <p>Method under test: {@link WeightedResponseTimeRule#choose(ILoadBalancer, Object)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"Server WeightedResponseTimeRule.choose(ILoadBalancer, Object)"})
+  public void testChooseWithLbKey3() {
+    // Arrange
+    BaseLoadBalancer lb = new BaseLoadBalancer();
+    lb.addServers(new ArrayList<>());
+
+    WeightedResponseTimeRule weightedResponseTimeRule = new WeightedResponseTimeRule();
+    weightedResponseTimeRule.initWithNiwsConfig(
+        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build());
+    weightedResponseTimeRule.setLoadBalancer(lb);
+
+    // Act and Assert
+    assertNull(weightedResponseTimeRule.choose(null, "Key"));
+  }
+
+  /**
+   * Test {@link WeightedResponseTimeRule#choose(ILoadBalancer, Object)} with {@code lb}, {@code
+   * key}.
+   *
+   * <ul>
+   *   <li>Given {@link BaseLoadBalancer#BaseLoadBalancer()} addServers {@link
+   *       ArrayList#ArrayList()}.
+   *   <li>When {@code null}.
+   * </ul>
+   *
+   * <p>Method under test: {@link WeightedResponseTimeRule#choose(ILoadBalancer, Object)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"Server WeightedResponseTimeRule.choose(ILoadBalancer, Object)"})
+  public void testChooseWithLbKey_givenBaseLoadBalancerAddServersArrayList_whenNull() {
+    // Arrange
+    BaseLoadBalancer lb = new BaseLoadBalancer();
+    lb.addServers(new ArrayList<>());
 
     WeightedResponseTimeRule weightedResponseTimeRule = new WeightedResponseTimeRule();
     weightedResponseTimeRule.setLoadBalancer(lb);
 
-    // Act
-    Server actualChooseResult = weightedResponseTimeRule.choose(null, "Key");
+    // Act and Assert
+    assertNull(weightedResponseTimeRule.choose(null, "Key"));
+  }
 
-    // Assert
-    verify(ping).isAlive(isA(Server.class));
-    verify(listener).serverStatusChanged(isA(Collection.class));
-    assertNull(actualChooseResult);
+  /**
+   * Test {@link WeightedResponseTimeRule#choose(ILoadBalancer, Object)} with {@code lb}, {@code
+   * key}.
+   *
+   * <ul>
+   *   <li>Given {@link BaseLoadBalancer#BaseLoadBalancer()} addServers {@link
+   *       ArrayList#ArrayList()}.
+   *   <li>When {@code null}.
+   * </ul>
+   *
+   * <p>Method under test: {@link WeightedResponseTimeRule#choose(ILoadBalancer, Object)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"Server WeightedResponseTimeRule.choose(ILoadBalancer, Object)"})
+  public void testChooseWithLbKey_givenBaseLoadBalancerAddServersArrayList_whenNull2() {
+    // Arrange
+    BaseLoadBalancer lb = new BaseLoadBalancer();
+    lb.addServers(new ArrayList<>());
+
+    WeightedResponseTimeRule weightedResponseTimeRule = new WeightedResponseTimeRule();
+    weightedResponseTimeRule.setLoadBalancer(lb);
+
+    // Act and Assert
+    assertNull(weightedResponseTimeRule.choose(null, "Key"));
   }
 
   /**
@@ -745,8 +920,8 @@ public class WeightedResponseTimeRuleDiffblueTest {
    * key}.
    *
    * <ul>
-   *   <li>Given {@link WeightedResponseTimeRule#WeightedResponseTimeRule()} initialize {@link
-   *       BaseLoadBalancer#BaseLoadBalancer()}.
+   *   <li>Given {@link WeightedResponseTimeRule#WeightedResponseTimeRule()} LoadBalancer is {@link
+   *       NoOpLoadBalancer} (default constructor).
    * </ul>
    *
    * <p>Method under test: {@link WeightedResponseTimeRule#choose(ILoadBalancer, Object)}
@@ -755,10 +930,58 @@ public class WeightedResponseTimeRuleDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"Server WeightedResponseTimeRule.choose(ILoadBalancer, Object)"})
-  public void testChooseWithLbKey_givenWeightedResponseTimeRuleInitializeBaseLoadBalancer() {
+  public void testChooseWithLbKey_givenWeightedResponseTimeRuleLoadBalancerIsNoOpLoadBalancer() {
     // Arrange
     WeightedResponseTimeRule weightedResponseTimeRule = new WeightedResponseTimeRule();
-    weightedResponseTimeRule.initialize(new BaseLoadBalancer());
+    weightedResponseTimeRule.setLoadBalancer(new NoOpLoadBalancer());
+
+    // Act and Assert
+    assertNull(weightedResponseTimeRule.choose(null, "Key"));
+  }
+
+  /**
+   * Test {@link WeightedResponseTimeRule#choose(ILoadBalancer, Object)} with {@code lb}, {@code
+   * key}.
+   *
+   * <ul>
+   *   <li>Given {@link WeightedResponseTimeRule#WeightedResponseTimeRule()} LoadBalancer is {@link
+   *       NoOpLoadBalancer} (default constructor).
+   * </ul>
+   *
+   * <p>Method under test: {@link WeightedResponseTimeRule#choose(ILoadBalancer, Object)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"Server WeightedResponseTimeRule.choose(ILoadBalancer, Object)"})
+  public void testChooseWithLbKey_givenWeightedResponseTimeRuleLoadBalancerIsNoOpLoadBalancer2() {
+    // Arrange
+    WeightedResponseTimeRule weightedResponseTimeRule = new WeightedResponseTimeRule();
+    weightedResponseTimeRule.setLoadBalancer(new NoOpLoadBalancer());
+
+    // Act and Assert
+    assertNull(weightedResponseTimeRule.choose(null, "Key"));
+  }
+
+  /**
+   * Test {@link WeightedResponseTimeRule#choose(ILoadBalancer, Object)} with {@code lb}, {@code
+   * key}.
+   *
+   * <ul>
+   *   <li>Given {@link WeightedResponseTimeRule#WeightedResponseTimeRule()} LoadBalancer is {@link
+   *       NoOpLoadBalancer} (default constructor).
+   * </ul>
+   *
+   * <p>Method under test: {@link WeightedResponseTimeRule#choose(ILoadBalancer, Object)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"Server WeightedResponseTimeRule.choose(ILoadBalancer, Object)"})
+  public void testChooseWithLbKey_givenWeightedResponseTimeRuleLoadBalancerIsNoOpLoadBalancer3() {
+    // Arrange
+    WeightedResponseTimeRule weightedResponseTimeRule = new WeightedResponseTimeRule();
+    weightedResponseTimeRule.setLoadBalancer(new NoOpLoadBalancer());
 
     // Act and Assert
     assertNull(weightedResponseTimeRule.choose(null, "Key"));
@@ -813,82 +1036,6 @@ public class WeightedResponseTimeRuleDiffblueTest {
    * key}.
    *
    * <ul>
-   *   <li>Then calls {@link IPing#isAlive(Server)}.
-   * </ul>
-   *
-   * <p>Method under test: {@link WeightedResponseTimeRule#choose(ILoadBalancer, Object)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"Server WeightedResponseTimeRule.choose(ILoadBalancer, Object)"})
-  public void testChooseWithLbKey_thenCallsIsAlive() {
-    // Arrange
-    IPing ping = mock(IPing.class);
-    when(ping.isAlive(Mockito.<Server>any())).thenReturn(true);
-
-    ServerStatusChangeListener listener = mock(ServerStatusChangeListener.class);
-    doNothing().when(listener).serverStatusChanged(Mockito.<Collection<Server>>any());
-
-    BaseLoadBalancer lb = new BaseLoadBalancer(ping, new AvailabilityFilteringRule());
-    lb.addServerStatusChangeListener(listener);
-    lb.addServers(new Object[] {"New Servers"});
-
-    WeightedResponseTimeRule weightedResponseTimeRule = new WeightedResponseTimeRule();
-    weightedResponseTimeRule.setLoadBalancer(lb);
-
-    // Act
-    Server actualChooseResult = weightedResponseTimeRule.choose(null, "Key");
-
-    // Assert
-    verify(ping).isAlive(isA(Server.class));
-    verify(listener).serverStatusChanged(isA(Collection.class));
-    assertNull(actualChooseResult);
-  }
-
-  /**
-   * Test {@link WeightedResponseTimeRule#choose(ILoadBalancer, Object)} with {@code lb}, {@code
-   * key}.
-   *
-   * <ul>
-   *   <li>Then calls {@link IPing#isAlive(Server)}.
-   * </ul>
-   *
-   * <p>Method under test: {@link WeightedResponseTimeRule#choose(ILoadBalancer, Object)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"Server WeightedResponseTimeRule.choose(ILoadBalancer, Object)"})
-  public void testChooseWithLbKey_thenCallsIsAlive2() {
-    // Arrange
-    IPing ping = mock(IPing.class);
-    when(ping.isAlive(Mockito.<Server>any())).thenReturn(true);
-
-    ServerStatusChangeListener listener = mock(ServerStatusChangeListener.class);
-    doNothing().when(listener).serverStatusChanged(Mockito.<Collection<Server>>any());
-
-    BaseLoadBalancer lb = new BaseLoadBalancer(ping, new AvailabilityFilteringRule());
-    lb.addServerStatusChangeListener(listener);
-    lb.addServers(new Object[] {"New Servers"});
-
-    WeightedResponseTimeRule weightedResponseTimeRule = new WeightedResponseTimeRule();
-    weightedResponseTimeRule.setLoadBalancer(lb);
-
-    // Act
-    Server actualChooseResult = weightedResponseTimeRule.choose(null, "Key");
-
-    // Assert
-    verify(ping).isAlive(isA(Server.class));
-    verify(listener).serverStatusChanged(isA(Collection.class));
-    assertNull(actualChooseResult);
-  }
-
-  /**
-   * Test {@link WeightedResponseTimeRule#choose(ILoadBalancer, Object)} with {@code lb}, {@code
-   * key}.
-   *
-   * <ul>
    *   <li>Then return {@link Server#Server(String)} with id is {@code 42}.
    * </ul>
    *
@@ -920,6 +1067,7 @@ public class WeightedResponseTimeRuleDiffblueTest {
    *
    * <ul>
    *   <li>When {@code null}.
+   *   <li>Then return {@code null}.
    * </ul>
    *
    * <p>Method under test: {@link WeightedResponseTimeRule#choose(ILoadBalancer, Object)}
@@ -928,30 +1076,7 @@ public class WeightedResponseTimeRuleDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"Server WeightedResponseTimeRule.choose(ILoadBalancer, Object)"})
-  public void testChooseWithLbKey_whenNull() {
-    // Arrange
-    WeightedResponseTimeRule weightedResponseTimeRule = new WeightedResponseTimeRule();
-    weightedResponseTimeRule.setLoadBalancer(new BaseLoadBalancer());
-
-    // Act and Assert
-    assertNull(weightedResponseTimeRule.choose(null, "Key"));
-  }
-
-  /**
-   * Test {@link WeightedResponseTimeRule#choose(ILoadBalancer, Object)} with {@code lb}, {@code
-   * key}.
-   *
-   * <ul>
-   *   <li>When {@code null}.
-   * </ul>
-   *
-   * <p>Method under test: {@link WeightedResponseTimeRule#choose(ILoadBalancer, Object)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"Server WeightedResponseTimeRule.choose(ILoadBalancer, Object)"})
-  public void testChooseWithLbKey_whenNull2() {
+  public void testChooseWithLbKey_whenNull_thenReturnNull() {
     // Arrange
     WeightedResponseTimeRule weightedResponseTimeRule = new WeightedResponseTimeRule();
     weightedResponseTimeRule.setLoadBalancer(new BaseLoadBalancer());

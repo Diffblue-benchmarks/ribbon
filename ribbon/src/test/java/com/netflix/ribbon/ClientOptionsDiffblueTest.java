@@ -6,6 +6,9 @@ import static org.junit.Assert.assertTrue;
 import com.diffblue.cover.annotations.ContributionFromDiffblue;
 import com.diffblue.cover.annotations.ManagedByDiffblue;
 import com.diffblue.cover.annotations.MethodsUnderTest;
+import com.netflix.client.config.DefaultClientConfigImpl;
+import com.netflix.client.config.IClientConfig;
+import com.netflix.client.config.IClientConfig.Builder;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -22,6 +25,47 @@ public class ClientOptionsDiffblueTest {
   public void testCreate() {
     // Arrange, Act and Assert
     assertTrue(ClientOptions.create().getOptions().isEmpty());
+  }
+
+  /**
+   * Test {@link ClientOptions#from(IClientConfig)}.
+   *
+   * <ul>
+   *   <li>Then return Options size is one.
+   * </ul>
+   *
+   * <p>Method under test: {@link ClientOptions#from(IClientConfig)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"ClientOptions ClientOptions.from(IClientConfig)"})
+  public void testFrom_thenReturnOptionsSizeIsOne() {
+    // Arrange
+    IClientConfig config =
+        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build();
+
+    // Act and Assert
+    assertEquals(1, ClientOptions.from(config).getOptions().size());
+  }
+
+  /**
+   * Test {@link ClientOptions#from(IClientConfig)}.
+   *
+   * <ul>
+   *   <li>When EmptyConfig.
+   *   <li>Then return Options Empty.
+   * </ul>
+   *
+   * <p>Method under test: {@link ClientOptions#from(IClientConfig)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"ClientOptions ClientOptions.from(IClientConfig)"})
+  public void testFrom_whenEmptyConfig_thenReturnOptionsEmpty() {
+    // Arrange, Act and Assert
+    assertTrue(ClientOptions.from(DefaultClientConfigImpl.getEmptyConfig()).getOptions().isEmpty());
   }
 
   /**

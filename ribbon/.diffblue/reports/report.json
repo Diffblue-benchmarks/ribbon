@@ -4,21 +4,20 @@
   },
   "run" : {
     "version" : "2025.09.01-44e352d-licensed",
-    "creationTimestamp" : "2025-10-13T10:30:18.91Z",
+    "creationTimestamp" : "2025-10-15T15:52:22.961Z",
     "command" : "dcover create --exclude=com.netflix.ribbon.proxy.Utils --exclude=com.netflix.ribbon.proxy.RibbonDynamicProxy --coverage-reports --upload http://localhost:8080 --project-name ribbon --name with-diffblue-tests",
-    "totalTime" : 767.021,
-    "environmentDetectionTime" : 0.127,
-    "indexingTime" : 0.314,
-    "entryPointsTime" : 0.118,
-    "generationTime" : 2480.36,
-    "timeToFirstTest" : 3215.723,
-    "timeToLastTest" : 2889.979,
-    "indexQueryTime" : 5.275,
-    "verificationTime" : 112.319,
-    "validationTime" : 23.733
+    "totalTime" : 780.383,
+    "environmentDetectionTime" : 0.138,
+    "indexingTime" : 0.389,
+    "entryPointsTime" : 0.128,
+    "generationTime" : 2594.24,
+    "timeToFirstTest" : 3254.113,
+    "timeToLastTest" : 2922.071,
+    "indexQueryTime" : 5.33,
+    "verificationTime" : 25.751,
+    "validationTime" : 24.578
   },
   "codes" : {
-    "F009" : "Internal error",
     "R000" : "Success",
     "R002" : "Missing observers",
     "R011" : "Sandboxing policy violation",
@@ -42,9 +41,9 @@
   "summary" : {
     "classesCount" : 81,
     "methodsCount" : 339,
-    "cumulativeDiffblueTestCount" : 61,
+    "cumulativeDiffblueTestCount" : 72,
     "cumulativeManualTestCount" : 58,
-    "completeTestCount" : 61,
+    "completeTestCount" : 72,
     "incompleteTestCount" : 0,
     "skeletonTestCount" : 0,
     "totalPhysicalLineCount" : 2119,
@@ -63,8 +62,7 @@
       "T033" : 17
     },
     "perMethodOutcome" : {
-      "F009" : 8,
-      "R000" : 58,
+      "R000" : 66,
       "R002" : 15,
       "R011" : 3,
       "R013" : 62,
@@ -81,10 +79,10 @@
       "T033" : 17
     },
     "perTestOutcome" : {
-      "R000" : 61
+      "R000" : 72
     },
     "perTestValidation" : {
-      "V000" : 61
+      "V000" : 72
     }
   },
   "classes" : {
@@ -112,7 +110,7 @@
     },
     "com.netflix.ribbon.ClientOptions" : {
       "methodsCount" : 16,
-      "completeTestCount" : 14,
+      "completeTestCount" : 16,
       "incompleteTestCount" : 0,
       "perMethodTestability" : {
         "T000" : 14,
@@ -120,24 +118,26 @@
         "T003" : 1
       },
       "perMethodOutcome" : {
-        "F009" : 1,
-        "R000" : 14,
+        "R000" : 15,
         "T003" : 1
       },
       "perTestOutcome" : {
-        "R000" : 14
+        "R000" : 16
       }
     },
     "com.netflix.ribbon.DefaultResourceFactory" : {
       "methodsCount" : 2,
-      "completeTestCount" : 0,
+      "completeTestCount" : 2,
       "incompleteTestCount" : 0,
       "perMethodTestability" : {
         "T000" : 1,
         "T005" : 1
       },
       "perMethodOutcome" : {
-        "F009" : 2
+        "R000" : 2
+      },
+      "perTestOutcome" : {
+        "R000" : 2
       }
     },
     "com.netflix.ribbon.RequestTemplate" : {
@@ -175,16 +175,19 @@
     },
     "com.netflix.ribbon.ResourceGroup" : {
       "methodsCount" : 5,
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : {
         "T000" : 2,
         "T010" : 3
       },
       "perMethodOutcome" : {
-        "F009" : 1,
+        "R000" : 1,
         "R013" : 1,
         "T010" : 3
+      },
+      "perTestOutcome" : {
+        "R000" : 1
       }
     },
     "com.netflix.ribbon.ResourceGroup$GroupBuilder" : {
@@ -249,7 +252,7 @@
     },
     "com.netflix.ribbon.RibbonResourceFactory" : {
       "methodsCount" : 8,
-      "completeTestCount" : 0,
+      "completeTestCount" : 2,
       "incompleteTestCount" : 0,
       "perMethodTestability" : {
         "T000" : 6,
@@ -257,11 +260,14 @@
         "T023" : 1
       },
       "perMethodOutcome" : {
-        "F009" : 2,
+        "R000" : 2,
         "R002" : 1,
         "R013" : 3,
         "T010" : 1,
         "T023" : 1
+      },
+      "perTestOutcome" : {
+        "R000" : 2
       }
     },
     "com.netflix.ribbon.RibbonResponse" : {
@@ -519,16 +525,19 @@
     },
     "com.netflix.ribbon.http.HttpResourceGroup$Builder" : {
       "methodsCount" : 5,
-      "completeTestCount" : 0,
+      "completeTestCount" : 4,
       "incompleteTestCount" : 0,
       "perMethodTestability" : {
         "T000" : 4,
         "T003" : 1
       },
       "perMethodOutcome" : {
-        "F009" : 2,
+        "R000" : 2,
         "R002" : 2,
         "T003" : 1
+      },
+      "perTestOutcome" : {
+        "R000" : 4
       }
     },
     "com.netflix.ribbon.http.HttpResourceObservableCommand" : {
@@ -1188,10 +1197,13 @@
       ]
     },
     "com.netflix.ribbon.ClientOptions.from:(Lcom/netflix/client/config/IClientConfig;)Lcom/netflix/ribbon/ClientOptions;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 2,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "F009",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 2
+      },
       "lineNumbers" : [
         43,
         44,
@@ -1371,20 +1383,26 @@
       ]
     },
     "com.netflix.ribbon.DefaultResourceFactory.<init>:(Lcom/netflix/client/config/ClientConfigFactory;Lcom/netflix/ribbon/RibbonTransportFactory;)V" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "F009",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         32,
         33
       ]
     },
     "com.netflix.ribbon.DefaultResourceFactory.<init>:(Lcom/netflix/client/config/ClientConfigFactory;Lcom/netflix/ribbon/RibbonTransportFactory;Lcom/netflix/ribbon/proxy/processor/AnnotationProcessorsProvider;)V" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T005",
-      "perMethodOutcome" : "F009",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         28,
         29
@@ -1558,10 +1576,13 @@
       ]
     },
     "com.netflix.ribbon.ResourceGroup.getClientConfig:()Lcom/netflix/client/config/IClientConfig;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "F009",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         76
       ]
@@ -1729,19 +1750,25 @@
       ]
     },
     "com.netflix.ribbon.RibbonResourceFactory.getClientConfigFactory:()Lcom/netflix/client/config/ClientConfigFactory;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "F009",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         71
       ]
     },
     "com.netflix.ribbon.RibbonResourceFactory.getTransportFactory:()Lcom/netflix/ribbon/RibbonTransportFactory;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "F009",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         67
       ]
@@ -2831,20 +2858,26 @@
       ]
     },
     "com.netflix.ribbon.http.HttpResourceGroup$Builder.withClientOptions:(Lcom/netflix/ribbon/ClientOptions;)Lcom/netflix/ribbon/http/HttpResourceGroup$Builder;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 1,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "F009",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
       "lineNumbers" : [
         50,
         51
       ]
     },
     "com.netflix.ribbon.http.HttpResourceGroup$Builder.withHeader:(Ljava/lang/String;Ljava/lang/String;)Lcom/netflix/ribbon/http/HttpResourceGroup$Builder;" : {
-      "completeTestCount" : 0,
+      "completeTestCount" : 3,
       "incompleteTestCount" : 0,
       "perMethodTestability" : "T000",
-      "perMethodOutcome" : "F009",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 3
+      },
       "lineNumbers" : [
         55,
         56
