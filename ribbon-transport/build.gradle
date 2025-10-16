@@ -8,7 +8,7 @@ dependencies {
     api "io.reactivex:rxnetty-servo:${rx_netty_version}"
     api "io.netty:netty-codec-http:4.0.27.Final"
     api 'javax.inject:javax.inject:1'
-    compileOnly "com.diffblue.cover:cover-annotations:1.6.0"
+    compileOnly "com.diffblue.cover:cover-annotations:1.7.0"
     api "org.slf4j:slf4j-api:${slf4j_version}"
     api "com.google.guava:guava:${guava_version}"
     testImplementation 'junit:junit:4.11'
@@ -19,5 +19,5 @@ dependencies {
     testImplementation project(':ribbon-eureka')
     testImplementation project(':ribbon-test')
     testImplementation project(':ribbon-archaius')
-    testImplementation "com.diffblue.cover:cover-annotations:1.6.0"
+    testImplementation "com.diffblue.cover:cover-annotations:1.7.0"
 }
