@@ -18,4 +18,5 @@ dependencies {
     testImplementation "com.netflix.eureka:eureka-test-utils:${eureka_version}"
     testImplementation "com.diffblue.cover:cover-annotations:1.7.0"
     testImplementation "org.mockito:mockito-core:4.11.0"
+    testImplementation "org.springframework:spring-test:5.3.8"
 }

@@ -28,4 +28,5 @@ dependencies {
     testImplementation "com.diffblue.cover:cover-annotations:1.7.0"
     testImplementation 'com.google.mockwebserver:mockwebserver:20130706'
     testImplementation "org.mockito:mockito-core:4.11.0"
+    testImplementation "org.springframework:spring-test:5.3.8"
 }

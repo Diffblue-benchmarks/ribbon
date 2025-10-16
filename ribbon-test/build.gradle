@@ -6,6 +6,7 @@ dependencies {
     compileOnly "com.diffblue.cover:cover-annotations:1.7.0"
     testImplementation "com.diffblue.cover:cover-annotations:1.7.0"
     testImplementation "org.mockito:mockito-core:4.11.0"
+    testImplementation "org.springframework:spring-test:5.3.8"
     api "com.netflix.eureka:eureka-client:${eureka_version}"
     api "io.reactivex:rxjava:${rx_java_version}"
     api 'javax.ws.rs:jsr311-api:1.1.1'  
