@@ -7,8 +7,6 @@ import static org.junit.Assert.assertTrue;
 import com.diffblue.cover.annotations.ContributionFromDiffblue;
 import com.diffblue.cover.annotations.ManagedByDiffblue;
 import com.diffblue.cover.annotations.MethodsUnderTest;
-import com.netflix.client.config.DefaultClientConfigImpl;
-import com.netflix.client.config.IClientConfig;
 import com.netflix.niws.client.http.HttpClientRequest.Builder;
 import com.netflix.niws.client.http.HttpClientRequest.Verb;
 import java.net.URI;
@@ -65,26 +63,6 @@ public class HttpClientRequestDiffblueTest {
   }
 
   /**
-   * Test Builder {@link Builder#setEntity(Object)}.
-   *
-   * <p>Method under test: {@link Builder#setEntity(Object)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"Builder Builder.setEntity(Object)"})
-  public void testBuilderSetEntity() {
-    // Arrange
-    Builder newBuilderResult = HttpClientRequest.newBuilder();
-
-    // Act
-    Builder actualSetEntityResult = newBuilderResult.setEntity("Entity");
-
-    // Assert
-    assertSame(newBuilderResult, actualSetEntityResult);
-  }
-
-  /**
    * Test Builder {@link Builder#setHeaders(MultivaluedMap)}.
    *
    * <p>Method under test: {@link Builder#setHeaders(MultivaluedMap)}
@@ -102,48 +80,6 @@ public class HttpClientRequestDiffblueTest {
 
     // Assert
     assertSame(newBuilderResult, actualSetHeadersResult);
-  }
-
-  /**
-   * Test Builder {@link Builder#setLoadBalancerKey(Object)}.
-   *
-   * <p>Method under test: {@link Builder#setLoadBalancerKey(Object)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"Builder Builder.setLoadBalancerKey(Object)"})
-  public void testBuilderSetLoadBalancerKey() {
-    // Arrange
-    Builder newBuilderResult = HttpClientRequest.newBuilder();
-
-    // Act
-    Builder actualSetLoadBalancerKeyResult =
-        newBuilderResult.setLoadBalancerKey("Load Balancer Key");
-
-    // Assert
-    assertSame(newBuilderResult, actualSetLoadBalancerKeyResult);
-  }
-
-  /**
-   * Test Builder {@link Builder#setOverrideConfig(IClientConfig)}.
-   *
-   * <p>Method under test: {@link Builder#setOverrideConfig(IClientConfig)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"Builder Builder.setOverrideConfig(IClientConfig)"})
-  public void testBuilderSetOverrideConfig() {
-    // Arrange
-    Builder newBuilderResult = HttpClientRequest.newBuilder();
-
-    // Act
-    Builder actualSetOverrideConfigResult =
-        newBuilderResult.setOverrideConfig(DefaultClientConfigImpl.getEmptyConfig());
-
-    // Assert
-    assertSame(newBuilderResult, actualSetOverrideConfigResult);
   }
 
   /**

@@ -26,6 +26,9 @@ public class ArchaiusClientConfigFactoryDiffblueTest {
     IClientConfig actualNewConfigResult = new ArchaiusClientConfigFactory().newConfig();
 
     // Assert
+    assertTrue(
+        ((DefaultClientConfigImpl) actualNewConfigResult).getPropertyResolver()
+            instanceof ArchaiusPropertyResolver);
     assertTrue(actualNewConfigResult instanceof DefaultClientConfigImpl);
     assertEquals("", actualNewConfigResult.getClientName());
     assertNull(((DefaultClientConfigImpl) actualNewConfigResult).getResolver());

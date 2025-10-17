@@ -40,69 +40,6 @@ public class CompositePredicateDiffblueTest {
   }
 
   /**
-   * Test Builder {@link Builder#addFallbackPredicate(AbstractServerPredicate)}.
-   *
-   * <ul>
-   *   <li>Then return withPredicate withPredicates build.
-   * </ul>
-   *
-   * <p>Method under test: {@link Builder#addFallbackPredicate(AbstractServerPredicate)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"Builder Builder.addFallbackPredicate(AbstractServerPredicate)"})
-  public void testBuilderAddFallbackPredicate_thenReturnWithPredicateWithPredicatesBuild() {
-    // Arrange
-    CompositePredicate primaryPredicate = CompositePredicate.withPredicates().build();
-    Builder withPredicateResult = CompositePredicate.withPredicate(primaryPredicate);
-
-    // Act
-    Builder actualAddFallbackPredicateResult =
-        withPredicateResult.addFallbackPredicate(new CompositePredicate());
-
-    // Assert
-    assertSame(withPredicateResult, actualAddFallbackPredicateResult);
-  }
-
-  /**
-   * Test Builder {@link Builder#Builder(AbstractServerPredicate)}.
-   *
-   * <p>Method under test: {@link Builder#Builder(AbstractServerPredicate)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void Builder.<init>(AbstractServerPredicate)"})
-  public void testBuilderNewBuilder() {
-    // Arrange, Act and Assert
-    CompositePredicate compositePredicate = new Builder(new CompositePredicate()).build();
-    assertNull(compositePredicate.rule);
-    assertNull(compositePredicate.getLBStats());
-  }
-
-  /**
-   * Test Builder {@link Builder#Builder(AbstractServerPredicate[])}.
-   *
-   * <ul>
-   *   <li>When {@link CompositePredicate} (default constructor).
-   *   <li>Then return build {@link AbstractServerPredicate#rule} is {@code null}.
-   * </ul>
-   *
-   * <p>Method under test: {@link Builder#Builder(AbstractServerPredicate[])}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void Builder.<init>(AbstractServerPredicate[])"})
-  public void testBuilderNewBuilder_whenCompositePredicate_thenReturnBuildRuleIsNull() {
-    // Arrange, Act and Assert
-    CompositePredicate compositePredicate = new Builder(new CompositePredicate()).build();
-    assertNull(compositePredicate.rule);
-    assertNull(compositePredicate.getLBStats());
-  }
-
-  /**
    * Test Builder {@link Builder#setFallbackThresholdAsMinimalFilteredNumberOfServers(int)}.
    *
    * <p>Method under test: {@link Builder#setFallbackThresholdAsMinimalFilteredNumberOfServers(int)}

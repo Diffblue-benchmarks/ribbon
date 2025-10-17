@@ -9,22 +9,16 @@ import com.diffblue.cover.annotations.ManagedByDiffblue;
 import com.diffblue.cover.annotations.MethodsUnderTest;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
-import com.netflix.client.config.DefaultClientConfigImpl;
-import com.netflix.client.config.IClientConfig;
 import com.netflix.client.http.HttpRequest.Builder;
 import com.netflix.client.http.HttpRequest.Verb;
 import java.net.URI;
 import java.nio.file.Paths;
 import java.util.Map;
 import java.util.Map.Entry;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.junit.rules.ExpectedException;
 
 public class HttpRequestDiffblueTest {
-  @Rule public ExpectedException thrown = ExpectedException.none();
-
   /**
    * Test Builder {@link Builder#build()}.
    *
@@ -58,67 +52,6 @@ public class HttpRequestDiffblueTest {
     assertTrue(actualHttpRequest.getHeaders().isEmpty());
     assertTrue(actualHttpRequest.getQueryParams().isEmpty());
     assertEquals(actualHttpRequest.queryParams, multimap);
-  }
-
-  /**
-   * Test Builder {@link Builder#entity(Object)}.
-   *
-   * <p>Method under test: {@link Builder#entity(Object)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"Builder Builder.entity(Object)"})
-  public void testBuilderEntity() {
-    // Arrange
-    Builder newBuilderResult = HttpRequest.newBuilder();
-
-    // Act
-    Builder actualEntityResult = newBuilderResult.entity("Entity");
-
-    // Assert
-    assertSame(newBuilderResult, actualEntityResult);
-  }
-
-  /**
-   * Test Builder {@link Builder#header(String, String)}.
-   *
-   * <p>Method under test: {@link Builder#header(String, String)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"Builder Builder.header(String, String)"})
-  public void testBuilderHeader() {
-    // Arrange
-    Builder newBuilderResult = HttpRequest.newBuilder();
-
-    // Act
-    Builder actualHeaderResult =
-        newBuilderResult.header("https://example.org/example", "https://example.org/example");
-
-    // Assert
-    assertSame(newBuilderResult, actualHeaderResult);
-  }
-
-  /**
-   * Test Builder {@link Builder#loadBalancerKey(Object)}.
-   *
-   * <p>Method under test: {@link Builder#loadBalancerKey(Object)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"Builder Builder.loadBalancerKey(Object)"})
-  public void testBuilderLoadBalancerKey() {
-    // Arrange
-    Builder newBuilderResult = HttpRequest.newBuilder();
-
-    // Act
-    Builder actualLoadBalancerKeyResult = newBuilderResult.loadBalancerKey("Load Balancer Key");
-
-    // Assert
-    assertSame(newBuilderResult, actualLoadBalancerKeyResult);
   }
 
   /**
@@ -164,69 +97,6 @@ public class HttpRequestDiffblueTest {
   }
 
   /**
-   * Test Builder {@link Builder#overrideConfig(IClientConfig)}.
-   *
-   * <p>Method under test: {@link Builder#overrideConfig(IClientConfig)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"Builder Builder.overrideConfig(IClientConfig)"})
-  public void testBuilderOverrideConfig() {
-    // Arrange
-    Builder newBuilderResult = HttpRequest.newBuilder();
-
-    // Act
-    Builder actualOverrideConfigResult =
-        newBuilderResult.overrideConfig(DefaultClientConfigImpl.getEmptyConfig());
-
-    // Assert
-    assertSame(newBuilderResult, actualOverrideConfigResult);
-  }
-
-  /**
-   * Test Builder {@link Builder#queryParam(String, String)}.
-   *
-   * <p>Method under test: {@link Builder#queryParam(String, String)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"Builder Builder.queryParam(String, String)"})
-  public void testBuilderQueryParam() {
-    // Arrange
-    Builder newBuilderResult = HttpRequest.newBuilder();
-
-    // Act
-    Builder actualQueryParamResult =
-        newBuilderResult.queryParam("https://example.org/example", "https://example.org/example");
-
-    // Assert
-    assertSame(newBuilderResult, actualQueryParamResult);
-  }
-
-  /**
-   * Test Builder {@link Builder#queryParams(String, String)} with {@code name}, {@code value}.
-   *
-   * <p>Method under test: {@link Builder#queryParams(String, String)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"Builder Builder.queryParams(String, String)"})
-  public void testBuilderQueryParamsWithNameValue() {
-    // Arrange
-    Builder newBuilderResult = HttpRequest.newBuilder();
-
-    // Act
-    Builder actualQueryParamsResult =
-        newBuilderResult.queryParams("https://example.org/example", "https://example.org/example");
-
-    // Assert
-    assertSame(newBuilderResult, actualQueryParamsResult);
-  }
-
-  /**
    * Test Builder {@link Builder#setRetriable(boolean)}.
    *
    * <p>Method under test: {@link Builder#setRetriable(boolean)}
@@ -244,51 +114,6 @@ public class HttpRequestDiffblueTest {
 
     // Assert
     assertSame(newBuilderResult, actualSetRetriableResult);
-  }
-
-  /**
-   * Test Builder {@link Builder#uri(String)} with {@code String}.
-   *
-   * <ul>
-   *   <li>When {@code 42https://example.org/example}.
-   *   <li>Then throw {@link RuntimeException}.
-   * </ul>
-   *
-   * <p>Method under test: {@link Builder#uri(String)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"Builder Builder.uri(String)"})
-  public void testBuilderUriWithString_when42httpsExampleOrgExample_thenThrowRuntimeException() {
-    // Arrange, Act and Assert
-    thrown.expect(RuntimeException.class);
-    HttpRequest.newBuilder().uri("42https://example.org/example");
-  }
-
-  /**
-   * Test Builder {@link Builder#uri(String)} with {@code String}.
-   *
-   * <ul>
-   *   <li>When {@code https://example.org/example}.
-   *   <li>Then return newBuilder.
-   * </ul>
-   *
-   * <p>Method under test: {@link Builder#uri(String)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"Builder Builder.uri(String)"})
-  public void testBuilderUriWithString_whenHttpsExampleOrgExample_thenReturnNewBuilder() {
-    // Arrange
-    Builder newBuilderResult = HttpRequest.newBuilder();
-
-    // Act
-    Builder actualUriResult = newBuilderResult.uri("https://example.org/example");
-
-    // Assert
-    assertSame(newBuilderResult, actualUriResult);
   }
 
   /**

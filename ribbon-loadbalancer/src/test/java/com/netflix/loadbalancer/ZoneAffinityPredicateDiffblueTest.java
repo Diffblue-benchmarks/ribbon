@@ -44,7 +44,7 @@ public class ZoneAffinityPredicateDiffblueTest {
   @MethodsUnderTest({"boolean ZoneAffinityPredicate.apply(PredicateKey)"})
   public void testApplyWithPredicateKey_givenNull_whenServerWithIdIs42ZoneIsNull() {
     // Arrange
-    ZoneAffinityPredicate zoneAffinityPredicate = new ZoneAffinityPredicate(null);
+    ZoneAffinityPredicate zoneAffinityPredicate = new ZoneAffinityPredicate("Zone");
 
     Server server = new Server("42");
     server.setZone(null);
@@ -60,8 +60,8 @@ public class ZoneAffinityPredicateDiffblueTest {
    * Test {@link ZoneAffinityPredicate#apply(PredicateKey)} with {@code PredicateKey}.
    *
    * <ul>
-   *   <li>Given {@code Server}.
-   *   <li>When {@link Server#Server(String)} with id is {@code 42} Zone is {@code Server}.
+   *   <li>Given {@link ZoneAffinityPredicate#ZoneAffinityPredicate(String)} with zone is {@code
+   *       null}.
    * </ul>
    *
    * <p>Method under test: {@link ZoneAffinityPredicate#apply(PredicateKey)}
@@ -70,7 +70,7 @@ public class ZoneAffinityPredicateDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"boolean ZoneAffinityPredicate.apply(PredicateKey)"})
-  public void testApplyWithPredicateKey_givenServer_whenServerWithIdIs42ZoneIsServer() {
+  public void testApplyWithPredicateKey_givenZoneAffinityPredicateWithZoneIsNull() {
     // Arrange
     ZoneAffinityPredicate zoneAffinityPredicate = new ZoneAffinityPredicate(null);
 

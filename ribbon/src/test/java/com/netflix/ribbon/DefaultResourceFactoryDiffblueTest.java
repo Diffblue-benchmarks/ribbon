@@ -12,14 +12,8 @@ import com.netflix.ribbon.proxy.processor.AnnotationProcessorsProvider;
 import com.netflix.ribbon.proxy.processor.AnnotationProcessorsProvider.DefaultAnnotationProcessorsProvider;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 
-@RunWith(MockitoJUnitRunner.class)
 public class DefaultResourceFactoryDiffblueTest {
-  @Mock private RibbonTransportFactory ribbonTransportFactory;
-
   /**
    * Test {@link DefaultResourceFactory#DefaultResourceFactory(ClientConfigFactory,
    * RibbonTransportFactory, AnnotationProcessorsProvider)}.
@@ -65,17 +59,24 @@ public class DefaultResourceFactoryDiffblueTest {
   public void testNewDefaultResourceFactory2() {
     // Arrange
     ClientConfigFactory clientConfigFactory = mock(ClientConfigFactory.class);
+    DefaultRibbonTransportFactory transportFactory =
+        new DefaultRibbonTransportFactory(mock(ClientConfigFactory.class));
 
     // Act
     DefaultResourceFactory actualDefaultResourceFactory =
-        new DefaultResourceFactory(clientConfigFactory, ribbonTransportFactory);
+        new DefaultResourceFactory(clientConfigFactory, transportFactory);
 
     // Assert
+    RibbonTransportFactory transportFactory2 = actualDefaultResourceFactory.getTransportFactory();
+    assertTrue(transportFactory2 instanceof DefaultRibbonTransportFactory);
     AnnotationProcessorsProvider annotationProcessorsProvider =
         actualDefaultResourceFactory.annotationProcessors;
     assertTrue(annotationProcessorsProvider instanceof DefaultAnnotationProcessorsProvider);
     assertTrue(annotationProcessorsProvider.getProcessors().isEmpty());
-    assertSame(ribbonTransportFactory, actualDefaultResourceFactory.getTransportFactory());
+    assertSame(transportFactory, transportFactory2);
+    assertSame(
+        transportFactory.clientConfigFactory,
+        ((DefaultRibbonTransportFactory) transportFactory2).clientConfigFactory);
     assertSame(clientConfigFactory, actualDefaultResourceFactory.getClientConfigFactory());
   }
 }

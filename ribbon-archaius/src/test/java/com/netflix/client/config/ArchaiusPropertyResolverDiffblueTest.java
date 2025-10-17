@@ -1,5 +1,6 @@
 package com.netflix.client.config;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import com.diffblue.cover.annotations.ContributionFromDiffblue;
 import com.diffblue.cover.annotations.ManagedByDiffblue;
@@ -138,5 +139,19 @@ public class ArchaiusPropertyResolverDiffblueTest {
 
     // Act and Assert
     assertFalse(ArchaiusPropertyResolver.INSTANCE.get("Key", type).isPresent());
+  }
+
+  /**
+   * Test {@link ArchaiusPropertyResolver#getActionCount()}.
+   *
+   * <p>Method under test: {@link ArchaiusPropertyResolver#getActionCount()}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"int ArchaiusPropertyResolver.getActionCount()"})
+  public void testGetActionCount() {
+    // Arrange, Act and Assert
+    assertEquals(0, ArchaiusPropertyResolver.INSTANCE.getActionCount());
   }
 }

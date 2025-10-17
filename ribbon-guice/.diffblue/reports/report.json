@@ -1,21 +1,21 @@
 {
   "meta" : {
-    "reportVersion" : "2.7"
+    "reportVersion" : "2.8"
   },
   "run" : {
-    "version" : "2025.09.01-44e352d-licensed",
-    "creationTimestamp" : "2025-10-15T15:52:22.961Z",
+    "version" : "2025.10.02-RC1-2bc25d3-licensed",
+    "creationTimestamp" : "2025-10-16T23:32:58.127Z",
     "command" : "dcover create --exclude=com.netflix.ribbon.proxy.Utils --exclude=com.netflix.ribbon.proxy.RibbonDynamicProxy --coverage-reports --upload http://localhost:8080 --project-name ribbon --name with-diffblue-tests",
-    "totalTime" : 120.159,
-    "environmentDetectionTime" : 0.403,
-    "indexingTime" : 0.367,
-    "entryPointsTime" : 0.377,
-    "generationTime" : 25.828,
-    "timeToFirstTest" : 64.053,
-    "timeToLastTest" : 68.389,
-    "indexQueryTime" : 5.3420000000000005,
-    "verificationTime" : 1.703,
-    "validationTime" : 20.42
+    "totalTime" : 202.119,
+    "environmentDetectionTime" : 1.856,
+    "indexingTime" : 0.34,
+    "entryPointsTime" : 1.823,
+    "generationTime" : 103.484,
+    "timeToFirstTest" : 94.039,
+    "timeToLastTest" : 143.642,
+    "indexQueryTime" : 2.936,
+    "verificationTime" : 1.934,
+    "validationTime" : 23.44
   },
   "codes" : {
     "R000" : "Success",
@@ -153,5 +153,48 @@
       ]
     }
   },
-  "validationMetrics" : { }
+  "validationMetrics" : { },
+  "outputCodes" : [
+    {
+      "baseMessage" : "{\"__type\":\"com.diffblue.cover.message.limitation.MissingObserverMessage\",\"fields\":[{\"className\":{\"descriptor\":\"Lcom/google/inject/AbstractModule;\",\"simpleNames\":[\"AbstractModule\"]},\"fieldName\":\"binder\"}],\"serializableCause\":null}",
+      "methodGroup" : {
+        "methods" : [
+          {
+            "binaryClassName" : "com.netflix.ribbon.guice.RibbonModule",
+            "descriptor" : "()V",
+            "methodName" : "<init>"
+          }
+        ]
+      }
+    },
+    {
+      "baseMessage" : "{\"__type\":\"com.diffblue.cover.message.limitation.NoNonThrowingInputsMessage\",\"serializableCause\":{\"cause\":null,\"message\":\"The binder can only be used inside configure()\",\"originalClassName\":\"java.lang.IllegalStateException\",\"stackTrace\":[{\"className\":\"com.google.common.base.Preconditions\",\"fileName\":\"Preconditions.java\",\"lineNumber\":174,\"methodName\":\"checkState\",\"nativeMethod\":false},{\"className\":\"com.google.inject.AbstractModule\",\"fileName\":\"AbstractModule.java\",\"lineNumber\":78,\"methodName\":\"binder\",\"nativeMethod\":false},{\"className\":\"com.google.inject.AbstractModule\",\"fileName\":\"AbstractModule.java\",\"lineNumber\":108,\"methodName\":\"bind\",\"nativeMethod\":false},{\"className\":\"com.netflix.ribbon.guice.RibbonModule\",\"fileName\":\"RibbonModule.java\",\"lineNumber\":37,\"methodName\":\"configure\",\"nativeMethod\":false},{\"className\":\"sun.reflect.NativeMethodAccessorImpl\",\"fileName\":\"NativeMethodAccessorImpl.java\",\"lineNumber\":-2,\"methodName\":\"invoke0\",\"nativeMethod\":true},{\"className\":\"sun.reflect.NativeMethodAccessorImpl\",\"fileName\":\"NativeMethodAccessorImpl.java\",\"lineNumber\":62,\"methodName\":\"invoke\",\"nativeMethod\":false},{\"className\":\"sun.reflect.DelegatingMethodAccessorImpl\",\"fileName\":\"DelegatingMethodAccessorImpl.java\",\"lineNumber\":43,\"methodName\":\"invoke\",\"nativeMethod\":false},{\"className\":\"java.lang.reflect.Method\",\"fileName\":\"Method.java\",\"lineNumber\":498,\"methodName\":\"invoke\",\"nativeMethod\":false},{\"className\":\"com.diffblue.tir.b.h\",\"fileName\":\"SourceFile\",\"lineNumber\":140,\"methodName\":\"a\",\"nativeMethod\":false},{\"className\":\"com.diffblue.tir.b.h\",\"fileName\":\"SourceFile\",\"lineNumber\":77,\"methodName\":\"a\",\"nativeMethod\":false},{\"className\":\"com.diffblue.tir.b.a.f\",\"fileName\":\"SourceFile\",\"lineNumber\":852,\"methodName\":\"a\",\"nativeMethod\":false},{\"className\":\"com.diffblue.tir.b.f\",\"fileName\":\"SourceFile\",\"lineNumber\":463,\"methodName\":\"a\",\"nativeMethod\":false},{\"className\":\"com.diffblue.tir.b.f\",\"fileName\":\"SourceFile\",\"lineNumber\":99,\"methodName\":\"b\",\"nativeMethod\":false},{\"className\":\"com.diffblue.tir.g.d\",\"fileName\":\"SourceFile\",\"lineNumber\":51,\"methodName\":\"a\",\"nativeMethod\":false},{\"className\":\"com.diffblue.tir.b.g\",\"fileName\":\"SourceFile\",\"lineNumber\":391,\"methodName\":\"a\",\"nativeMethod\":false},{\"className\":\"com.diffblue.tir.b.g\",\"fileName\":\"SourceFile\",\"lineNumber\":269,\"methodName\":\"b\",\"nativeMethod\":false},{\"className\":\"com.diffblue.fuzztest.b.f\",\"fileName\":\"SourceFile\",\"lineNumber\":1101,\"methodName\":\"a\",\"nativeMethod\":false},{\"className\":\"com.diffblue.cover.sandbox.execution.TimedCallableExecutor$CallableFuture\",\"fileName\":\"SourceFile\",\"lineNumber\":28,\"methodName\":\"executeTask\",\"nativeMethod\":false},{\"className\":\"com.diffblue.cover.sandbox.execution.TaskQueueRunner\",\"fileName\":\"SourceFile\",\"lineNumber\":39,\"methodName\":\"run\",\"nativeMethod\":false},{\"className\":\"com.diffblue.cover.sandbox.execution.WorkerThread\",\"fileName\":\"SourceFile\",\"lineNumber\":265,\"methodName\":\"run\",\"nativeMethod\":false}]}}",
+      "methodGroup" : {
+        "methods" : [
+          {
+            "binaryClassName" : "com.netflix.ribbon.guice.RibbonModule",
+            "descriptor" : "()V",
+            "methodName" : "configure"
+          }
+        ]
+      }
+    },
+    {
+      "baseMessage" : "{\"__type\":\"com.diffblue.cover.message.limitation.MissingObserverMessage\",\"fields\":[{\"className\":{\"descriptor\":\"Lcom/netflix/ribbon/guice/RibbonResourceProvider;\",\"simpleNames\":[\"RibbonResourceProvider\"]},\"fieldName\":\"contract\"},{\"className\":{\"descriptor\":\"Lcom/netflix/ribbon/guice/RibbonResourceProvider;\",\"simpleNames\":[\"RibbonResourceProvider\"]},\"fieldName\":\"factory\"}],\"serializableCause\":null}",
+      "methodGroup" : {
+        "methods" : [
+          {
+            "binaryClassName" : "com.netflix.ribbon.guice.RibbonResourceProvider",
+            "descriptor" : "(Ljava/lang/Class;)V",
+            "methodName" : "<init>"
+          },
+          {
+            "binaryClassName" : "com.netflix.ribbon.guice.RibbonResourceProvider",
+            "descriptor" : "(Lcom/netflix/ribbon/RibbonResourceFactory;)V",
+            "methodName" : "initialize"
+          }
+        ]
+      }
+    }
+  ]
 }

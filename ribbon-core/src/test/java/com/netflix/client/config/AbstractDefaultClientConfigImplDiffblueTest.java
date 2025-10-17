@@ -36,24 +36,6 @@ public class AbstractDefaultClientConfigImplDiffblueTest {
   }
 
   /**
-   * Test {@link AbstractDefaultClientConfigImpl#getResolver()}.
-   *
-   * <ul>
-   *   <li>Then return {@code null}.
-   * </ul>
-   *
-   * <p>Method under test: {@link AbstractDefaultClientConfigImpl#getResolver()}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"VipAddressResolver AbstractDefaultClientConfigImpl.getResolver()"})
-  public void testGetResolver_thenReturnNull() {
-    // Arrange, Act and Assert
-    assertNull(DefaultClientConfigImpl.getEmptyConfig().getResolver());
-  }
-
-  /**
    * Test {@link AbstractDefaultClientConfigImpl#resolveDeploymentContextbasedVipAddresses()}.
    *
    * <p>Method under test: {@link

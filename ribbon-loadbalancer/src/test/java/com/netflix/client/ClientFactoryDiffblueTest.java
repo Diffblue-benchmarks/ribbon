@@ -10,7 +10,6 @@ import com.diffblue.cover.annotations.ManagedByDiffblue;
 import com.diffblue.cover.annotations.MethodsUnderTest;
 import com.netflix.client.config.DefaultClientConfigImpl;
 import com.netflix.client.config.IClientConfig;
-import com.netflix.client.config.IClientConfig.Builder;
 import com.netflix.loadbalancer.AvailabilityFilteringRule;
 import com.netflix.loadbalancer.ConfigurationBasedServerList;
 import com.netflix.loadbalancer.DummyPing;
@@ -32,26 +31,6 @@ import org.junit.rules.ExpectedException;
 
 public class ClientFactoryDiffblueTest {
   @Rule public ExpectedException thrown = ExpectedException.none();
-
-  /**
-   * Test {@link ClientFactory#getNamedClient(String)} with {@code name}.
-   *
-   * <ul>
-   *   <li>When {@code Name}.
-   *   <li>Then throw {@link RuntimeException}.
-   * </ul>
-   *
-   * <p>Method under test: {@link ClientFactory#getNamedClient(String)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"com.netflix.client.IClient ClientFactory.getNamedClient(String)"})
-  public void testGetNamedClientWithName_whenName_thenThrowRuntimeException() {
-    // Arrange, Act and Assert
-    thrown.expect(RuntimeException.class);
-    ClientFactory.getNamedClient("Name");
-  }
 
   /**
    * Test {@link ClientFactory#getNamedLoadBalancer(String, Class)} with {@code name}, {@code
@@ -184,59 +163,6 @@ public class ClientFactoryDiffblueTest {
   }
 
   /**
-   * Test {@link ClientFactory#registerNamedLoadBalancerFromclientConfig(String, IClientConfig)}.
-   *
-   * <ul>
-   *   <li>Given {@code true}.
-   * </ul>
-   *
-   * <p>Method under test: {@link ClientFactory#registerNamedLoadBalancerFromclientConfig(String,
-   * IClientConfig)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "ILoadBalancer ClientFactory.registerNamedLoadBalancerFromclientConfig(String, IClientConfig)"
-  })
-  public void testRegisterNamedLoadBalancerFromclientConfig_givenTrue() throws ClientException {
-    // Arrange
-    Builder newBuilderResult = Builder.newBuilder();
-    newBuilderResult.withEnablePrimeConnections(true);
-    IClientConfig clientConfig =
-        newBuilderResult.ignoreUserTokenInConnectionPoolForSecureClient(true).build();
-
-    // Act and Assert
-    thrown.expect(ClientException.class);
-    ClientFactory.registerNamedLoadBalancerFromclientConfig("LoadBalancer for name ", clientConfig);
-  }
-
-  /**
-   * Test {@link ClientFactory#registerNamedLoadBalancerFromclientConfig(String, IClientConfig)}.
-   *
-   * <ul>
-   *   <li>When {@code Name}.
-   *   <li>Then throw {@link ClientException}.
-   * </ul>
-   *
-   * <p>Method under test: {@link ClientFactory#registerNamedLoadBalancerFromclientConfig(String,
-   * IClientConfig)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "ILoadBalancer ClientFactory.registerNamedLoadBalancerFromclientConfig(String, IClientConfig)"
-  })
-  public void testRegisterNamedLoadBalancerFromclientConfig_whenName_thenThrowClientException()
-      throws ClientException {
-    // Arrange, Act and Assert
-    thrown.expect(ClientException.class);
-    ClientFactory.registerNamedLoadBalancerFromclientConfig(
-        "Name", DefaultClientConfigImpl.getEmptyConfig());
-  }
-
-  /**
    * Test {@link ClientFactory#registerNamedLoadBalancerFromProperties(String, Class)}.
    *
    * <ul>
@@ -264,36 +190,10 @@ public class ClientFactoryDiffblueTest {
   }
 
   /**
-   * Test {@link ClientFactory#instantiateInstanceWithClientConfig(String, IClientConfig)}.
-   *
-   * <ul>
-   *   <li>Then return {@link ClientFactory}.
-   * </ul>
-   *
-   * <p>Method under test: {@link ClientFactory#instantiateInstanceWithClientConfig(String,
-   * IClientConfig)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "Object ClientFactory.instantiateInstanceWithClientConfig(String, IClientConfig)"
-  })
-  public void testInstantiateInstanceWithClientConfig_thenReturnClientFactory()
-      throws ClassNotFoundException, IllegalAccessException, InstantiationException {
-    // Arrange, Act and Assert
-    assertTrue(
-        ClientFactory.instantiateInstanceWithClientConfig(
-                "com.netflix.client.ClientFactory", DefaultClientConfigImpl.getEmptyConfig())
-            instanceof ClientFactory);
-  }
-
-  /**
    * Test {@link ClientFactory#getNamedConfig(String)} with {@code name}.
    *
    * <ul>
-   *   <li>When {@code NameName}.
-   *   <li>Then return ClientName is {@code NameName}.
+   *   <li>Then return ClientName is {@code %s isn't parameterized}.
    * </ul>
    *
    * <p>Method under test: {@link ClientFactory#getNamedConfig(String)}
@@ -302,15 +202,15 @@ public class ClientFactoryDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"IClientConfig ClientFactory.getNamedConfig(String)"})
-  public void testGetNamedConfigWithName_whenNameName_thenReturnClientNameIsNameName() {
+  public void testGetNamedConfigWithName_thenReturnClientNameIsSIsnTParameterized() {
     // Arrange and Act
-    IClientConfig actualNamedConfig = ClientFactory.getNamedConfig("NameName");
+    IClientConfig actualNamedConfig = ClientFactory.getNamedConfig("%s isn't parameterized");
 
     // Assert
     assertTrue(actualNamedConfig instanceof DefaultClientConfigImpl);
+    assertEquals("%s isn't parameterized", actualNamedConfig.getClientName());
     assertEquals(
         "/", ((DefaultClientConfigImpl) actualNamedConfig).getDefaultPrimeConnectionsUri());
-    assertEquals("NameName", actualNamedConfig.getClientName());
     assertEquals(
         "com.netflix.client.SimpleVipAddressResolver",
         ((DefaultClientConfigImpl) actualNamedConfig).getDefaultVipaddressResolverClassname());

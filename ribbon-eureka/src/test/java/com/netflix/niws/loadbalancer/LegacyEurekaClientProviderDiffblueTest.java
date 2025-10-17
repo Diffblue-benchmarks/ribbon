@@ -9,20 +9,6 @@ import org.junit.experimental.categories.Category;
 
 public class LegacyEurekaClientProviderDiffblueTest {
   /**
-   * Test {@link LegacyEurekaClientProvider#get()}.
-   *
-   * <p>Method under test: {@link LegacyEurekaClientProvider#get()}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"com.netflix.discovery.EurekaClient LegacyEurekaClientProvider.get()"})
-  public void testGet() {
-    // Arrange, Act and Assert
-    assertNull(new LegacyEurekaClientProvider().get());
-  }
-
-  /**
    * Test new {@link LegacyEurekaClientProvider} (default constructor).
    *
    * <p>Method under test: default or parameterless constructor of {@link

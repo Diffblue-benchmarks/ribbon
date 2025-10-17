@@ -43,6 +43,39 @@ public class DiscoveryEnabledNIWSServerListDiffblueTest {
    * Test {@link DiscoveryEnabledNIWSServerList#DiscoveryEnabledNIWSServerList(String)}.
    *
    * <ul>
+   *   <li>Then return VipAddresses is {@code 17 High St}.
+   * </ul>
+   *
+   * <p>Method under test: {@link
+   * DiscoveryEnabledNIWSServerList#DiscoveryEnabledNIWSServerList(String)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void DiscoveryEnabledNIWSServerList.<init>(String)"})
+  public void testNewDiscoveryEnabledNIWSServerList_thenReturnVipAddressesIs17HighSt() {
+    // Arrange and Act
+    DiscoveryEnabledNIWSServerList actualDiscoveryEnabledNIWSServerList =
+        new DiscoveryEnabledNIWSServerList("17 High St");
+
+    // Assert
+    assertEquals("", actualDiscoveryEnabledNIWSServerList.clientName);
+    assertEquals("17 High St", actualDiscoveryEnabledNIWSServerList.getVipAddresses());
+    assertNull(actualDiscoveryEnabledNIWSServerList.datacenter);
+    assertNull(actualDiscoveryEnabledNIWSServerList.targetRegion);
+    assertEquals(7001, actualDiscoveryEnabledNIWSServerList.overridePort);
+    assertFalse(actualDiscoveryEnabledNIWSServerList.isSecure);
+    assertFalse(actualDiscoveryEnabledNIWSServerList.shouldUseIpAddr);
+    assertFalse(actualDiscoveryEnabledNIWSServerList.shouldUseOverridePort);
+    assertTrue(actualDiscoveryEnabledNIWSServerList.getInitialListOfServers().isEmpty());
+    assertTrue(actualDiscoveryEnabledNIWSServerList.getUpdatedListOfServers().isEmpty());
+    assertTrue(actualDiscoveryEnabledNIWSServerList.prioritizeVipAddressBasedServers);
+  }
+
+  /**
+   * Test {@link DiscoveryEnabledNIWSServerList#DiscoveryEnabledNIWSServerList(String)}.
+   *
+   * <ul>
    *   <li>Then return VipAddresses is {@code 42 Main St}.
    * </ul>
    *
@@ -104,34 +137,6 @@ public class DiscoveryEnabledNIWSServerListDiffblueTest {
     assertTrue(actualDiscoveryEnabledNIWSServerList.getInitialListOfServers().isEmpty());
     assertTrue(actualDiscoveryEnabledNIWSServerList.getUpdatedListOfServers().isEmpty());
     assertTrue(actualDiscoveryEnabledNIWSServerList.prioritizeVipAddressBasedServers);
-  }
-
-  /**
-   * Test {@link DiscoveryEnabledNIWSServerList#getInitialListOfServers()}.
-   *
-   * <p>Method under test: {@link DiscoveryEnabledNIWSServerList#getInitialListOfServers()}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"java.util.List DiscoveryEnabledNIWSServerList.getInitialListOfServers()"})
-  public void testGetInitialListOfServers() {
-    // Arrange, Act and Assert
-    assertTrue(new DiscoveryEnabledNIWSServerList().getInitialListOfServers().isEmpty());
-  }
-
-  /**
-   * Test {@link DiscoveryEnabledNIWSServerList#getUpdatedListOfServers()}.
-   *
-   * <p>Method under test: {@link DiscoveryEnabledNIWSServerList#getUpdatedListOfServers()}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"java.util.List DiscoveryEnabledNIWSServerList.getUpdatedListOfServers()"})
-  public void testGetUpdatedListOfServers() {
-    // Arrange, Act and Assert
-    assertTrue(new DiscoveryEnabledNIWSServerList().getUpdatedListOfServers().isEmpty());
   }
 
   /**

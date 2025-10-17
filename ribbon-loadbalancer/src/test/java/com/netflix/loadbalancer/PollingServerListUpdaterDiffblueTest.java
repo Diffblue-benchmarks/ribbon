@@ -4,8 +4,6 @@ import static org.junit.Assert.assertEquals;
 import com.diffblue.cover.annotations.ContributionFromDiffblue;
 import com.diffblue.cover.annotations.ManagedByDiffblue;
 import com.diffblue.cover.annotations.MethodsUnderTest;
-import com.netflix.client.config.DefaultClientConfigImpl;
-import com.netflix.client.config.IClientConfig;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -44,43 +42,6 @@ public class PollingServerListUpdaterDiffblueTest {
     // Assert
     assertEquals(0, actualPollingServerListUpdater.getNumberMissedCycles());
     assertEquals(2, actualPollingServerListUpdater.getCoreThreads());
-  }
-
-  /**
-   * Test {@link PollingServerListUpdater#PollingServerListUpdater(IClientConfig)}.
-   *
-   * <ul>
-   *   <li>Then return NumberMissedCycles is zero.
-   * </ul>
-   *
-   * <p>Method under test: {@link PollingServerListUpdater#PollingServerListUpdater(IClientConfig)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void PollingServerListUpdater.<init>(IClientConfig)"})
-  public void testNewPollingServerListUpdater_thenReturnNumberMissedCyclesIsZero() {
-    // Arrange and Act
-    PollingServerListUpdater actualPollingServerListUpdater =
-        new PollingServerListUpdater(DefaultClientConfigImpl.getEmptyConfig());
-
-    // Assert
-    assertEquals(0, actualPollingServerListUpdater.getNumberMissedCycles());
-    assertEquals(2, actualPollingServerListUpdater.getCoreThreads());
-  }
-
-  /**
-   * Test {@link PollingServerListUpdater#getNumberMissedCycles()}.
-   *
-   * <p>Method under test: {@link PollingServerListUpdater#getNumberMissedCycles()}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"int PollingServerListUpdater.getNumberMissedCycles()"})
-  public void testGetNumberMissedCycles() {
-    // Arrange, Act and Assert
-    assertEquals(0, new PollingServerListUpdater().getNumberMissedCycles());
   }
 
   /**

@@ -80,6 +80,41 @@ public class URLConnectionLoadBalancerDiffblueTest {
    * Test {@link URLConnectionLoadBalancer#URLConnectionLoadBalancer(List)}.
    *
    * <ul>
+   *   <li>Given {@link Server#Server(String)} with id is {@code 42}.
+   *   <li>Then {@link ArrayList#ArrayList()} size is two.
+   * </ul>
+   *
+   * <p>Method under test: {@link URLConnectionLoadBalancer#URLConnectionLoadBalancer(List)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void URLConnectionLoadBalancer.<init>(List)"})
+  public void testNewURLConnectionLoadBalancer_givenServerWithIdIs42_thenArrayListSizeIsTwo() {
+    // Arrange
+    ArrayList<Server> serverList = new ArrayList<>();
+    serverList.add(new Server("42"));
+    serverList.add(new Server("42"));
+
+    // Act
+    URLConnectionLoadBalancer actualUrlConnectionLoadBalancer =
+        new URLConnectionLoadBalancer(serverList);
+
+    // Assert
+    assertEquals(2, serverList.size());
+    LoadBalancerStats loadBalancerStats = actualUrlConnectionLoadBalancer.getLoadBalancerStats();
+    assertEquals("", loadBalancerStats.getName());
+    assertEquals(0, loadBalancerStats.getCircuitBreakerTrippedCount());
+    assertTrue(serverList.get(0).isAlive());
+    assertTrue(loadBalancerStats.getServerStats().isEmpty());
+    assertTrue(loadBalancerStats.getZoneStats().isEmpty());
+    assertTrue(loadBalancerStats.getAvailableZones().isEmpty());
+  }
+
+  /**
+   * Test {@link URLConnectionLoadBalancer#URLConnectionLoadBalancer(List)}.
+   *
+   * <ul>
    *   <li>When {@link ArrayList#ArrayList()}.
    * </ul>
    *

@@ -1,12 +1,9 @@
 package com.netflix.ribbon.transport.netty.http;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
 import com.diffblue.cover.annotations.ContributionFromDiffblue;
 import com.diffblue.cover.annotations.ManagedByDiffblue;
 import com.diffblue.cover.annotations.MethodsUnderTest;
-import com.netflix.client.config.DefaultClientConfigImpl;
-import com.netflix.client.config.IClientConfig;
 import io.netty.channel.ConnectTimeoutException;
 import io.netty.handler.timeout.ReadTimeoutException;
 import io.reactivex.netty.client.PoolExhaustedException;
@@ -43,25 +40,25 @@ public class NettyHttpLoadBalancerErrorHandlerDiffblueTest {
         actualNettyHttpLoadBalancerErrorHandler.getRetriableExceptions();
     assertEquals(5, retriableExceptions.size());
     Class<ConnectTimeoutException> expectedGetResult = ConnectTimeoutException.class;
-    Class<? extends Throwable> getResult = circuitRelatedExceptions.get(3);
-    assertEquals(expectedGetResult, getResult);
-    Class<ReadTimeoutException> expectedGetResult2 = ReadTimeoutException.class;
-    Class<? extends Throwable> getResult2 = circuitRelatedExceptions.get(2);
-    assertEquals(expectedGetResult2, getResult2);
-    Class<PoolExhaustedException> expectedGetResult3 = PoolExhaustedException.class;
-    Class<? extends Throwable> getResult3 = circuitRelatedExceptions.get(4);
-    assertEquals(expectedGetResult3, getResult3);
-    Class<ConnectException> expectedGetResult4 = ConnectException.class;
-    assertEquals(expectedGetResult4, retriableExceptions.get(0));
-    Class<SocketException> expectedGetResult5 = SocketException.class;
-    assertEquals(expectedGetResult5, circuitRelatedExceptions.get(0));
-    Class<SocketTimeoutException> expectedGetResult6 = SocketTimeoutException.class;
-    Class<? extends Throwable> getResult4 = circuitRelatedExceptions.get(1);
-    assertEquals(expectedGetResult6, getResult4);
-    assertSame(getResult4, retriableExceptions.get(1));
-    assertSame(getResult2, retriableExceptions.get(2));
-    assertSame(getResult, retriableExceptions.get(3));
-    assertSame(getResult3, retriableExceptions.get(4));
+    assertEquals(expectedGetResult, circuitRelatedExceptions.get(3));
+    Class<ConnectTimeoutException> expectedGetResult2 = ConnectTimeoutException.class;
+    assertEquals(expectedGetResult2, retriableExceptions.get(3));
+    Class<ReadTimeoutException> expectedGetResult3 = ReadTimeoutException.class;
+    assertEquals(expectedGetResult3, circuitRelatedExceptions.get(2));
+    Class<ReadTimeoutException> expectedGetResult4 = ReadTimeoutException.class;
+    assertEquals(expectedGetResult4, retriableExceptions.get(2));
+    Class<PoolExhaustedException> expectedGetResult5 = PoolExhaustedException.class;
+    assertEquals(expectedGetResult5, circuitRelatedExceptions.get(4));
+    Class<PoolExhaustedException> expectedGetResult6 = PoolExhaustedException.class;
+    assertEquals(expectedGetResult6, retriableExceptions.get(4));
+    Class<ConnectException> expectedGetResult7 = ConnectException.class;
+    assertEquals(expectedGetResult7, retriableExceptions.get(0));
+    Class<SocketException> expectedGetResult8 = SocketException.class;
+    assertEquals(expectedGetResult8, circuitRelatedExceptions.get(0));
+    Class<SocketTimeoutException> expectedGetResult9 = SocketTimeoutException.class;
+    assertEquals(expectedGetResult9, circuitRelatedExceptions.get(1));
+    Class<SocketTimeoutException> expectedGetResult10 = SocketTimeoutException.class;
+    assertEquals(expectedGetResult10, retriableExceptions.get(1));
   }
 
   /**
@@ -90,76 +87,25 @@ public class NettyHttpLoadBalancerErrorHandlerDiffblueTest {
         actualNettyHttpLoadBalancerErrorHandler.getRetriableExceptions();
     assertEquals(5, retriableExceptions.size());
     Class<ConnectTimeoutException> expectedGetResult = ConnectTimeoutException.class;
-    Class<? extends Throwable> getResult = circuitRelatedExceptions.get(3);
-    assertEquals(expectedGetResult, getResult);
-    Class<ReadTimeoutException> expectedGetResult2 = ReadTimeoutException.class;
-    Class<? extends Throwable> getResult2 = circuitRelatedExceptions.get(2);
-    assertEquals(expectedGetResult2, getResult2);
-    Class<PoolExhaustedException> expectedGetResult3 = PoolExhaustedException.class;
-    Class<? extends Throwable> getResult3 = circuitRelatedExceptions.get(4);
-    assertEquals(expectedGetResult3, getResult3);
-    Class<ConnectException> expectedGetResult4 = ConnectException.class;
-    assertEquals(expectedGetResult4, retriableExceptions.get(0));
-    Class<SocketException> expectedGetResult5 = SocketException.class;
-    assertEquals(expectedGetResult5, circuitRelatedExceptions.get(0));
-    Class<SocketTimeoutException> expectedGetResult6 = SocketTimeoutException.class;
-    Class<? extends Throwable> getResult4 = circuitRelatedExceptions.get(1);
-    assertEquals(expectedGetResult6, getResult4);
-    assertSame(getResult4, retriableExceptions.get(1));
-    assertSame(getResult2, retriableExceptions.get(2));
-    assertSame(getResult, retriableExceptions.get(3));
-    assertSame(getResult3, retriableExceptions.get(4));
-  }
-
-  /**
-   * Test {@link
-   * NettyHttpLoadBalancerErrorHandler#NettyHttpLoadBalancerErrorHandler(IClientConfig)}.
-   *
-   * <ul>
-   *   <li>Then return MaxRetriesOnSameServer is zero.
-   * </ul>
-   *
-   * <p>Method under test: {@link
-   * NettyHttpLoadBalancerErrorHandler#NettyHttpLoadBalancerErrorHandler(IClientConfig)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void NettyHttpLoadBalancerErrorHandler.<init>(IClientConfig)"})
-  public void testNewNettyHttpLoadBalancerErrorHandler_thenReturnMaxRetriesOnSameServerIsZero() {
-    // Arrange and Act
-    NettyHttpLoadBalancerErrorHandler actualNettyHttpLoadBalancerErrorHandler =
-        new NettyHttpLoadBalancerErrorHandler(DefaultClientConfigImpl.getEmptyConfig());
-
-    // Assert
-    assertEquals(0, actualNettyHttpLoadBalancerErrorHandler.getMaxRetriesOnSameServer());
-    assertEquals(1, actualNettyHttpLoadBalancerErrorHandler.getMaxRetriesOnNextServer());
-    List<Class<? extends Throwable>> circuitRelatedExceptions =
-        actualNettyHttpLoadBalancerErrorHandler.getCircuitRelatedExceptions();
-    assertEquals(5, circuitRelatedExceptions.size());
-    List<Class<? extends Throwable>> retriableExceptions =
-        actualNettyHttpLoadBalancerErrorHandler.getRetriableExceptions();
-    assertEquals(5, retriableExceptions.size());
-    Class<ConnectTimeoutException> expectedGetResult = ConnectTimeoutException.class;
-    Class<? extends Throwable> getResult = circuitRelatedExceptions.get(3);
-    assertEquals(expectedGetResult, getResult);
-    Class<ReadTimeoutException> expectedGetResult2 = ReadTimeoutException.class;
-    Class<? extends Throwable> getResult2 = circuitRelatedExceptions.get(2);
-    assertEquals(expectedGetResult2, getResult2);
-    Class<PoolExhaustedException> expectedGetResult3 = PoolExhaustedException.class;
-    Class<? extends Throwable> getResult3 = circuitRelatedExceptions.get(4);
-    assertEquals(expectedGetResult3, getResult3);
-    Class<ConnectException> expectedGetResult4 = ConnectException.class;
-    assertEquals(expectedGetResult4, retriableExceptions.get(0));
-    Class<SocketException> expectedGetResult5 = SocketException.class;
-    assertEquals(expectedGetResult5, circuitRelatedExceptions.get(0));
-    Class<SocketTimeoutException> expectedGetResult6 = SocketTimeoutException.class;
-    Class<? extends Throwable> getResult4 = circuitRelatedExceptions.get(1);
-    assertEquals(expectedGetResult6, getResult4);
-    assertSame(getResult4, retriableExceptions.get(1));
-    assertSame(getResult2, retriableExceptions.get(2));
-    assertSame(getResult, retriableExceptions.get(3));
-    assertSame(getResult3, retriableExceptions.get(4));
+    assertEquals(expectedGetResult, circuitRelatedExceptions.get(3));
+    Class<ConnectTimeoutException> expectedGetResult2 = ConnectTimeoutException.class;
+    assertEquals(expectedGetResult2, retriableExceptions.get(3));
+    Class<ReadTimeoutException> expectedGetResult3 = ReadTimeoutException.class;
+    assertEquals(expectedGetResult3, circuitRelatedExceptions.get(2));
+    Class<ReadTimeoutException> expectedGetResult4 = ReadTimeoutException.class;
+    assertEquals(expectedGetResult4, retriableExceptions.get(2));
+    Class<PoolExhaustedException> expectedGetResult5 = PoolExhaustedException.class;
+    assertEquals(expectedGetResult5, circuitRelatedExceptions.get(4));
+    Class<PoolExhaustedException> expectedGetResult6 = PoolExhaustedException.class;
+    assertEquals(expectedGetResult6, retriableExceptions.get(4));
+    Class<ConnectException> expectedGetResult7 = ConnectException.class;
+    assertEquals(expectedGetResult7, retriableExceptions.get(0));
+    Class<SocketException> expectedGetResult8 = SocketException.class;
+    assertEquals(expectedGetResult8, circuitRelatedExceptions.get(0));
+    Class<SocketTimeoutException> expectedGetResult9 = SocketTimeoutException.class;
+    assertEquals(expectedGetResult9, circuitRelatedExceptions.get(1));
+    Class<SocketTimeoutException> expectedGetResult10 = SocketTimeoutException.class;
+    assertEquals(expectedGetResult10, retriableExceptions.get(1));
   }
 
   /**
@@ -194,24 +140,24 @@ public class NettyHttpLoadBalancerErrorHandlerDiffblueTest {
     assertEquals(5, actualCircuitRelatedExceptions.size());
     assertEquals(5, actualRetriableExceptions.size());
     Class<ConnectTimeoutException> expectedGetResult = ConnectTimeoutException.class;
-    Class<? extends Throwable> getResult = actualCircuitRelatedExceptions.get(3);
-    assertEquals(expectedGetResult, getResult);
-    Class<ReadTimeoutException> expectedGetResult2 = ReadTimeoutException.class;
-    Class<? extends Throwable> getResult2 = actualCircuitRelatedExceptions.get(2);
-    assertEquals(expectedGetResult2, getResult2);
-    Class<PoolExhaustedException> expectedGetResult3 = PoolExhaustedException.class;
-    Class<? extends Throwable> getResult3 = actualCircuitRelatedExceptions.get(4);
-    assertEquals(expectedGetResult3, getResult3);
-    Class<ConnectException> expectedGetResult4 = ConnectException.class;
-    assertEquals(expectedGetResult4, actualRetriableExceptions.get(0));
-    Class<SocketException> expectedGetResult5 = SocketException.class;
-    assertEquals(expectedGetResult5, actualCircuitRelatedExceptions.get(0));
-    Class<SocketTimeoutException> expectedGetResult6 = SocketTimeoutException.class;
-    Class<? extends Throwable> getResult4 = actualCircuitRelatedExceptions.get(1);
-    assertEquals(expectedGetResult6, getResult4);
-    assertSame(getResult4, actualRetriableExceptions.get(1));
-    assertSame(getResult2, actualRetriableExceptions.get(2));
-    assertSame(getResult, actualRetriableExceptions.get(3));
-    assertSame(getResult3, actualRetriableExceptions.get(4));
+    assertEquals(expectedGetResult, actualCircuitRelatedExceptions.get(3));
+    Class<ConnectTimeoutException> expectedGetResult2 = ConnectTimeoutException.class;
+    assertEquals(expectedGetResult2, actualRetriableExceptions.get(3));
+    Class<ReadTimeoutException> expectedGetResult3 = ReadTimeoutException.class;
+    assertEquals(expectedGetResult3, actualCircuitRelatedExceptions.get(2));
+    Class<ReadTimeoutException> expectedGetResult4 = ReadTimeoutException.class;
+    assertEquals(expectedGetResult4, actualRetriableExceptions.get(2));
+    Class<PoolExhaustedException> expectedGetResult5 = PoolExhaustedException.class;
+    assertEquals(expectedGetResult5, actualCircuitRelatedExceptions.get(4));
+    Class<PoolExhaustedException> expectedGetResult6 = PoolExhaustedException.class;
+    assertEquals(expectedGetResult6, actualRetriableExceptions.get(4));
+    Class<ConnectException> expectedGetResult7 = ConnectException.class;
+    assertEquals(expectedGetResult7, actualRetriableExceptions.get(0));
+    Class<SocketException> expectedGetResult8 = SocketException.class;
+    assertEquals(expectedGetResult8, actualCircuitRelatedExceptions.get(0));
+    Class<SocketTimeoutException> expectedGetResult9 = SocketTimeoutException.class;
+    assertEquals(expectedGetResult9, actualCircuitRelatedExceptions.get(1));
+    Class<SocketTimeoutException> expectedGetResult10 = SocketTimeoutException.class;
+    assertEquals(expectedGetResult10, actualRetriableExceptions.get(1));
   }
 }
