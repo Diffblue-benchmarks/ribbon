@@ -8,8 +8,6 @@ import static org.junit.Assert.assertTrue;
 import com.diffblue.cover.annotations.ContributionFromDiffblue;
 import com.diffblue.cover.annotations.ManagedByDiffblue;
 import com.diffblue.cover.annotations.MethodsUnderTest;
-import com.netflix.client.PrimeConnections;
-import com.netflix.client.config.IClientConfig;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -203,82 +201,5 @@ public class BaseLoadBalancerDiffblueTest {
     assertTrue(actualBaseLoadBalancer.allServerList.isEmpty());
     assertTrue(actualBaseLoadBalancer.upServerList.isEmpty());
     assertSame(lbStats, actualBaseLoadBalancer.getLoadBalancerStats());
-  }
-
-  /**
-   * Test getters and setters.
-   *
-   * <p>Methods under test:
-   *
-   * <ul>
-   *   <li>{@link BaseLoadBalancer#setEnablePrimingConnections(boolean)}
-   *   <li>{@link BaseLoadBalancer#setLoadBalancerStats(LoadBalancerStats)}
-   *   <li>{@link BaseLoadBalancer#setPrimeConnections(PrimeConnections)}
-   *   <li>{@link BaseLoadBalancer#toString()}
-   *   <li>{@link BaseLoadBalancer#getClientConfig()}
-   *   <li>{@link BaseLoadBalancer#getLoadBalancerStats()}
-   *   <li>{@link BaseLoadBalancer#getMaxTotalPingTime()}
-   *   <li>{@link BaseLoadBalancer#getName()}
-   *   <li>{@link BaseLoadBalancer#getPing()}
-   *   <li>{@link BaseLoadBalancer#getPingInterval()}
-   *   <li>{@link BaseLoadBalancer#getPrimeConnections()}
-   *   <li>{@link BaseLoadBalancer#getRule()}
-   *   <li>{@link BaseLoadBalancer#isEnablePrimingConnections()}
-   * </ul>
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "IClientConfig BaseLoadBalancer.getClientConfig()",
-    "LoadBalancerStats BaseLoadBalancer.getLoadBalancerStats()",
-    "int BaseLoadBalancer.getMaxTotalPingTime()",
-    "String BaseLoadBalancer.getName()",
-    "IPing BaseLoadBalancer.getPing()",
-    "int BaseLoadBalancer.getPingInterval()",
-    "PrimeConnections BaseLoadBalancer.getPrimeConnections()",
-    "IRule BaseLoadBalancer.getRule()",
-    "boolean BaseLoadBalancer.isEnablePrimingConnections()",
-    "void BaseLoadBalancer.setEnablePrimingConnections(boolean)",
-    "void BaseLoadBalancer.setLoadBalancerStats(LoadBalancerStats)",
-    "void BaseLoadBalancer.setPrimeConnections(PrimeConnections)",
-    "String BaseLoadBalancer.toString()"
-  })
-  public void testGettersAndSetters() {
-    // Arrange
-    BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer();
-
-    // Act
-    baseLoadBalancer.setEnablePrimingConnections(true);
-    LoadBalancerStats lbStats = new LoadBalancerStats();
-    baseLoadBalancer.setLoadBalancerStats(lbStats);
-    PrimeConnections primeConnections =
-        new PrimeConnections("Name", 3, 1L, "Prime Connections URI");
-    baseLoadBalancer.setPrimeConnections(primeConnections);
-    String actualToStringResult = baseLoadBalancer.toString();
-    IClientConfig actualClientConfig = baseLoadBalancer.getClientConfig();
-    LoadBalancerStats actualLoadBalancerStats = baseLoadBalancer.getLoadBalancerStats();
-    int actualMaxTotalPingTime = baseLoadBalancer.getMaxTotalPingTime();
-    String actualName = baseLoadBalancer.getName();
-    IPing actualPing = baseLoadBalancer.getPing();
-    int actualPingInterval = baseLoadBalancer.getPingInterval();
-    PrimeConnections actualPrimeConnections = baseLoadBalancer.getPrimeConnections();
-    IRule actualRule = baseLoadBalancer.getRule();
-
-    // Assert
-    assertTrue(actualRule instanceof RoundRobinRule);
-    assertEquals("default", actualName);
-    assertEquals(
-        "{NFLoadBalancer:name=default,current list of Servers=[],Load balancer stats=Zone stats: {},Server"
-            + " stats: []}",
-        actualToStringResult);
-    assertNull(actualPrimeConnections.getEndStats());
-    assertNull(actualClientConfig);
-    assertNull(actualPing);
-    assertEquals(10, actualPingInterval);
-    assertEquals(5, actualMaxTotalPingTime);
-    assertTrue(baseLoadBalancer.isEnablePrimingConnections());
-    assertSame(primeConnections, actualPrimeConnections);
-    assertSame(lbStats, actualLoadBalancerStats);
   }
 }

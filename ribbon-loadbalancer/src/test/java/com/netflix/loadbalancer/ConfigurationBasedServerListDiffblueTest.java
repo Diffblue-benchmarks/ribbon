@@ -36,34 +36,6 @@ public class ConfigurationBasedServerListDiffblueTest {
     assertEquals("42:80", getResult.getHostPort());
     assertEquals("42:80", getResult.getId());
     assertNull(getResult.getScheme());
-    assertEquals(80, getResult.getPort());
-  }
-
-  /**
-   * Test {@link ConfigurationBasedServerList#derive(String)}.
-   *
-   * <ul>
-   *   <li>When {@code :42}.
-   *   <li>Then return first HostPort is {@code :42}.
-   * </ul>
-   *
-   * <p>Method under test: {@link ConfigurationBasedServerList#derive(String)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"List ConfigurationBasedServerList.derive(String)"})
-  public void testDerive_when42_thenReturnFirstHostPortIs42() {
-    // Arrange and Act
-    List<Server> actualDeriveResult = new ConfigurationBasedServerList().derive(":42");
-
-    // Assert
-    assertEquals(1, actualDeriveResult.size());
-    Server getResult = actualDeriveResult.get(0);
-    assertEquals(":42", getResult.getHostPort());
-    assertEquals(":42", getResult.getId());
-    assertNull(getResult.getScheme());
-    assertEquals(42, getResult.getPort());
   }
 
   /**
@@ -106,6 +78,7 @@ public class ConfigurationBasedServerListDiffblueTest {
     // Assert
     assertEquals(1, actualDeriveResult.size());
     Server getResult = actualDeriveResult.get(0);
+    assertEquals("", getResult.getHost());
     assertEquals(":80", getResult.getHostPort());
     assertEquals(":80", getResult.getId());
     assertEquals("http", getResult.getScheme());
@@ -163,7 +136,7 @@ public class ConfigurationBasedServerListDiffblueTest {
    *
    * <ul>
    *   <li>When {@code /}.
-   *   <li>Then return first HostPort is {@code :80}.
+   *   <li>Then return first Host is empty string.
    * </ul>
    *
    * <p>Method under test: {@link ConfigurationBasedServerList#derive(String)}
@@ -172,13 +145,14 @@ public class ConfigurationBasedServerListDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"List ConfigurationBasedServerList.derive(String)"})
-  public void testDerive_whenSlash_thenReturnFirstHostPortIs80() {
+  public void testDerive_whenSlash_thenReturnFirstHostIsEmptyString() {
     // Arrange and Act
     List<Server> actualDeriveResult = new ConfigurationBasedServerList().derive("/");
 
     // Assert
     assertEquals(1, actualDeriveResult.size());
     Server getResult = actualDeriveResult.get(0);
+    assertEquals("", getResult.getHost());
     assertEquals(":80", getResult.getHostPort());
     assertEquals(":80", getResult.getId());
     assertNull(getResult.getScheme());

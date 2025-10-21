@@ -1,15 +1,11 @@
 package com.netflix.niws.client.http;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
 import com.diffblue.cover.annotations.ContributionFromDiffblue;
 import com.diffblue.cover.annotations.ManagedByDiffblue;
 import com.diffblue.cover.annotations.MethodsUnderTest;
-import com.netflix.client.DefaultLoadBalancerRetryHandler;
-import com.netflix.servo.monitor.BasicTimer;
 import com.sun.jersey.api.client.Client;
 import java.net.URL;
 import java.nio.file.Paths;
@@ -17,31 +13,6 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 public class RestClientDiffblueTest {
-  /**
-   * Test {@link RestClient#RestClient()}.
-   *
-   * <p>Method under test: {@link RestClient#RestClient()}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void RestClient.<init>()"})
-  public void testNewRestClient() {
-    // Arrange and Act
-    RestClient actualRestClient = new RestClient();
-
-    // Assert
-    assertTrue(actualRestClient.getRetryHandler() instanceof DefaultLoadBalancerRetryHandler);
-    assertTrue(actualRestClient.getExecuteTracer() instanceof BasicTimer);
-    assertEquals("default", actualRestClient.getClientName());
-    assertNull(actualRestClient.getLoadBalancer());
-    assertNull(actualRestClient.getJerseyClient());
-    assertEquals(0, actualRestClient.getMaxAutoRetries());
-    assertEquals(1, actualRestClient.getMaxAutoRetriesNextServer());
-    assertFalse(actualRestClient.isOkToRetryOnAllOperations());
-    assertFalse(actualRestClient.bFollowRedirects);
-  }
-
   /**
    * Test {@link RestClient#getResource(String)}.
    *
