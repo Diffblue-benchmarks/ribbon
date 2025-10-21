@@ -1,0 +1,1 @@
+{"id":"chatcmpl-CT5zUbCcxjLU2jRVc4t75aIXU68Tj","object":"chat.completion","created":1761050576,"model":"gpt-4-0613","choices":[{"message":{"role":"assistant","content":"{\"name\":\"John Doe\",\"age\":30}"},"index":0,"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":291,"completion_tokens":10,"total_tokens":301}}

@@ -38,16 +38,16 @@ public class LoadBalancingHttpClientDiffblueTest {
   public void testSetHostHeader() {
     // Arrange
     HttpClientRequest<?> request = mock(HttpClientRequest.class);
-    HttpVersion httpVersion = new HttpVersion("https://example.org/example", 1, 1, true);
+    HttpVersion httpVersion = new HttpVersion("\"HTTP/1.1\"", 1, 1, true);
     DefaultFullHttpRequest nettyRequest =
         new DefaultFullHttpRequest(
             httpVersion,
-            HttpMethod.valueOf("https://example.org/example"),
-            "https://example.org/example");
+            HttpMethod.valueOf("\"GET\""),
+            "\"/test/path?param1=value1&param2=value2\"");
     when(request.getHeaders()).thenReturn(new HttpRequestHeaders(nettyRequest));
 
     // Act
-    LoadBalancingHttpClient.setHostHeader(request, "https://example.org/example");
+    LoadBalancingHttpClient.setHostHeader(request, "\"www.netflix.com\"");
 
     // Assert
     verify(request).getHeaders();
@@ -64,53 +64,21 @@ public class LoadBalancingHttpClientDiffblueTest {
   @MethodsUnderTest({"void LoadBalancingHttpClient.setHostHeader(HttpClientRequest, String)"})
   public void testSetHostHeader2() {
     // Arrange
-    HttpVersion httpVersion = new HttpVersion("https://example.org/example", 1, 1, true);
+    HttpVersion httpVersion = new HttpVersion("\"HTTP/1.1\"", 1, 1, true);
     DefaultFullHttpRequest nettyRequest =
         new DefaultFullHttpRequest(
             httpVersion,
-            HttpMethod.valueOf("https://example.org/example"),
-            "https://example.org/example");
-
-    HttpRequestHeaders httpRequestHeaders = new HttpRequestHeaders(nettyRequest);
-    httpRequestHeaders.add("Host", "Value");
-
-    HttpClientRequest<?> request = mock(HttpClientRequest.class);
-    when(request.getHeaders()).thenReturn(httpRequestHeaders);
-
-    // Act
-    LoadBalancingHttpClient.setHostHeader(request, "https://example.org/example");
-
-    // Assert
-    verify(request).getHeaders();
-  }
-
-  /**
-   * Test {@link LoadBalancingHttpClient#setHostHeader(HttpClientRequest, String)}.
-   *
-   * <p>Method under test: {@link LoadBalancingHttpClient#setHostHeader(HttpClientRequest, String)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void LoadBalancingHttpClient.setHostHeader(HttpClientRequest, String)"})
-  public void testSetHostHeader3() {
-    // Arrange
-    HttpVersion httpVersion = new HttpVersion("https://example.org/example", 1, 1, true);
-    DefaultFullHttpRequest nettyRequest =
-        new DefaultFullHttpRequest(
-            httpVersion,
-            HttpMethod.valueOf("https://example.org/example"),
-            "https://example.org/example");
+            HttpMethod.valueOf("\"GET\""),
+            "\"/test/path?param1=value1&param2=value2\"");
 
     HttpRequestHeaders httpRequestHeaders = new HttpRequestHeaders(nettyRequest);
     httpRequestHeaders.setHost((CharSequence) Names.ACCEPT);
-    httpRequestHeaders.add("Host", "Value");
 
     HttpClientRequest<?> request = mock(HttpClientRequest.class);
     when(request.getHeaders()).thenReturn(httpRequestHeaders);
 
     // Act
-    LoadBalancingHttpClient.setHostHeader(request, "https://example.org/example");
+    LoadBalancingHttpClient.setHostHeader(request, "\"www.netflix.com\"");
 
     // Assert
     verify(request).getHeaders();

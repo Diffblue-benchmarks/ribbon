@@ -1,0 +1,1 @@
+{"id":"chatcmpl-CT5OLKsiiXKEaw3mMU9pAnpGAoO6P","object":"chat.completion","created":1761048273,"model":"gpt-4-0613","choices":[{"message":{"role":"assistant","content":"\"Invalid state detected: Expected state ACTIVE, but found INACTIVE.\""},"index":0,"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":212,"completion_tokens":14,"total_tokens":226}}

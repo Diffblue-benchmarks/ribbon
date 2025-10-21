@@ -1,0 +1,1 @@
+{"id":"chatcmpl-CT5b2JCM5zyMLDsm0XYgTn3mSk2VO","object":"chat.completion","created":1761049060,"model":"gpt-4-0613","choices":[{"message":{"role":"assistant","content":"\"TestGroupNetflixRibbon\""},"index":0,"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":267,"completion_tokens":7,"total_tokens":274}}

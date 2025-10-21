@@ -1,0 +1,1 @@
+{"id":"chatcmpl-CT671vcqTl3UwcDb7MuqQDXN4366M","object":"chat.completion","created":1761051043,"model":"gpt-4-0613","choices":[{"message":{"role":"assistant","content":"\"secure-vip-address-123.netflix.com\""},"index":0,"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":455,"completion_tokens":10,"total_tokens":465}}

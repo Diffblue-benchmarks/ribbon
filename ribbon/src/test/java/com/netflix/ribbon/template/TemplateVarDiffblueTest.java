@@ -24,6 +24,9 @@ public class TemplateVarDiffblueTest {
   @MethodsUnderTest({"void TemplateVar.<init>(String)", "String TemplateVar.toString()"})
   public void testGettersAndSetters() {
     // Arrange, Act and Assert
-    assertEquals("Val", new TemplateVar("Val").toString());
+    assertEquals(
+        "\"http://localhost:8080/api/v1/users/{userId}/posts/{postId}\"",
+        new TemplateVar("\"http://localhost:8080/api/v1/users/{userId}/posts/{postId}\"")
+            .toString());
   }
 }

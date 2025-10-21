@@ -42,10 +42,6 @@ public class DiscoveryEnabledNIWSServerListDiffblueTest {
   /**
    * Test {@link DiscoveryEnabledNIWSServerList#DiscoveryEnabledNIWSServerList(String)}.
    *
-   * <ul>
-   *   <li>Then return VipAddresses is {@code 17 High St}.
-   * </ul>
-   *
    * <p>Method under test: {@link
    * DiscoveryEnabledNIWSServerList#DiscoveryEnabledNIWSServerList(String)}
    */
@@ -53,14 +49,15 @@ public class DiscoveryEnabledNIWSServerListDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void DiscoveryEnabledNIWSServerList.<init>(String)"})
-  public void testNewDiscoveryEnabledNIWSServerList_thenReturnVipAddressesIs17HighSt() {
+  public void testNewDiscoveryEnabledNIWSServerList2() {
     // Arrange and Act
     DiscoveryEnabledNIWSServerList actualDiscoveryEnabledNIWSServerList =
-        new DiscoveryEnabledNIWSServerList("17 High St");
+        new DiscoveryEnabledNIWSServerList("\"test-service-vip.netflix.com\"");
 
     // Assert
     assertEquals("", actualDiscoveryEnabledNIWSServerList.clientName);
-    assertEquals("17 High St", actualDiscoveryEnabledNIWSServerList.getVipAddresses());
+    assertEquals(
+        "\"test-service-vip.netflix.com\"", actualDiscoveryEnabledNIWSServerList.getVipAddresses());
     assertNull(actualDiscoveryEnabledNIWSServerList.datacenter);
     assertNull(actualDiscoveryEnabledNIWSServerList.targetRegion);
     assertEquals(7001, actualDiscoveryEnabledNIWSServerList.overridePort);
@@ -164,14 +161,17 @@ public class DiscoveryEnabledNIWSServerListDiffblueTest {
         new DiscoveryEnabledNIWSServerList();
 
     // Act
-    discoveryEnabledNIWSServerList.setVipAddresses("42 Main St");
+    discoveryEnabledNIWSServerList.setVipAddresses(
+        "\"test-vip-address-1,test-vip-address-2,test-vip-address-3\"");
     String actualToStringResult = discoveryEnabledNIWSServerList.toString();
 
     // Assert
-    assertEquals("42 Main St", discoveryEnabledNIWSServerList.getVipAddresses());
     assertEquals(
-        "DiscoveryEnabledNIWSServerList:; clientName:null; Effective vipAddresses:42 Main St; isSecure:false;"
-            + " datacenter:null",
+        "DiscoveryEnabledNIWSServerList:; clientName:null; Effective vipAddresses:\"test-vip-address-1,test-vip"
+            + "-address-2,test-vip-address-3\"; isSecure:false; datacenter:null",
         actualToStringResult);
+    assertEquals(
+        "\"test-vip-address-1,test-vip-address-2,test-vip-address-3\"",
+        discoveryEnabledNIWSServerList.getVipAddresses());
   }
 }

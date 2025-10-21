@@ -1,0 +1,1 @@
+{"id":"chatcmpl-CT5i6n4pi0NkLSM184oWN93ovmuOx","object":"chat.completion","created":1761049498,"model":"gpt-4-0613","choices":[{"message":{"role":"assistant","content":"\"TestMemoryMetricObserver\""},"index":0,"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":229,"completion_tokens":6,"total_tokens":235}}

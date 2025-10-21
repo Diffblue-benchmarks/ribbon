@@ -28,7 +28,8 @@ public class ArchaiusPropertyResolverDiffblueTest {
     Class<Boolean> type = Boolean.class;
 
     // Act and Assert
-    assertFalse(ArchaiusPropertyResolver.INSTANCE.get("Key", type).isPresent());
+    assertFalse(
+        ArchaiusPropertyResolver.INSTANCE.get("\"ribbon.MaxAutoRetries\"", type).isPresent());
   }
 
   /**
@@ -50,7 +51,8 @@ public class ArchaiusPropertyResolverDiffblueTest {
     Class<Double> type = Double.class;
 
     // Act and Assert
-    assertFalse(ArchaiusPropertyResolver.INSTANCE.get("Key", type).isPresent());
+    assertFalse(
+        ArchaiusPropertyResolver.INSTANCE.get("\"ribbon.MaxAutoRetries\"", type).isPresent());
   }
 
   /**
@@ -72,7 +74,8 @@ public class ArchaiusPropertyResolverDiffblueTest {
     Class<Float> type = Float.class;
 
     // Act and Assert
-    assertFalse(ArchaiusPropertyResolver.INSTANCE.get("Key", type).isPresent());
+    assertFalse(
+        ArchaiusPropertyResolver.INSTANCE.get("\"ribbon.MaxAutoRetries\"", type).isPresent());
   }
 
   /**
@@ -94,7 +97,8 @@ public class ArchaiusPropertyResolverDiffblueTest {
     Class<Integer> type = Integer.class;
 
     // Act and Assert
-    assertFalse(ArchaiusPropertyResolver.INSTANCE.get("Key", type).isPresent());
+    assertFalse(
+        ArchaiusPropertyResolver.INSTANCE.get("\"ribbon.MaxAutoRetries\"", type).isPresent());
   }
 
   /**
@@ -116,7 +120,8 @@ public class ArchaiusPropertyResolverDiffblueTest {
     Class<Long> type = Long.class;
 
     // Act and Assert
-    assertFalse(ArchaiusPropertyResolver.INSTANCE.get("Key", type).isPresent());
+    assertFalse(
+        ArchaiusPropertyResolver.INSTANCE.get("\"ribbon.MaxAutoRetries\"", type).isPresent());
   }
 
   /**
@@ -138,7 +143,8 @@ public class ArchaiusPropertyResolverDiffblueTest {
     Class<Object> type = Object.class;
 
     // Act and Assert
-    assertFalse(ArchaiusPropertyResolver.INSTANCE.get("Key", type).isPresent());
+    assertFalse(
+        ArchaiusPropertyResolver.INSTANCE.get("\"ribbon.MaxAutoRetries\"", type).isPresent());
   }
 
   /**

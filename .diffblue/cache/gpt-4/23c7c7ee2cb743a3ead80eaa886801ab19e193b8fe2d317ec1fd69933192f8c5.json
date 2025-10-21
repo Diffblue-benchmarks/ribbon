@@ -1,0 +1,1 @@
+{"id":"chatcmpl-CT5GDbGSR3wX5nZOqXw07ePF5zTu1","object":"chat.completion","created":1761047769,"model":"gpt-4-0613","choices":[{"message":{"role":"assistant","content":"\"<p>This is a test paragraph for HTMLDocument.insertBeforeEnd method.</p>\""},"index":0,"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":230,"completion_tokens":16,"total_tokens":246}}

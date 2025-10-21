@@ -1,39 +1,43 @@
 package com.netflix.niws.client.http;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 import com.diffblue.cover.annotations.ContributionFromDiffblue;
 import com.diffblue.cover.annotations.ManagedByDiffblue;
 import com.diffblue.cover.annotations.MethodsUnderTest;
+import com.netflix.client.DefaultLoadBalancerRetryHandler;
+import com.netflix.servo.monitor.BasicTimer;
 import com.sun.jersey.api.client.Client;
-import java.net.URL;
-import java.nio.file.Paths;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 public class RestClientDiffblueTest {
   /**
-   * Test {@link RestClient#getResource(String)}.
+   * Test {@link RestClient#RestClient()}.
    *
-   * <p>Method under test: {@link RestClient#getResource(String)}
+   * <p>Method under test: {@link RestClient#RestClient()}
    */
   @Test
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
-  @MethodsUnderTest({"URL RestClient.getResource(String)"})
-  public void testGetResource() {
+  @MethodsUnderTest({"void RestClient.<init>()"})
+  public void testNewRestClient() {
     // Arrange and Act
-    URL actualResource = RestClient.getResource("https://example.org/example");
+    RestClient actualRestClient = new RestClient();
 
     // Assert
-    String expectedToStringResult =
-        String.join(
-            "",
-            "file:",
-            Paths.get(System.getProperty("user.dir"), "https").toString(),
-            ":/example.org/example");
-    assertEquals(expectedToStringResult, actualResource.toString());
+    assertTrue(actualRestClient.getRetryHandler() instanceof DefaultLoadBalancerRetryHandler);
+    assertTrue(actualRestClient.getExecuteTracer() instanceof BasicTimer);
+    assertEquals("default", actualRestClient.getClientName());
+    assertNull(actualRestClient.getLoadBalancer());
+    assertNull(actualRestClient.getJerseyClient());
+    assertEquals(0, actualRestClient.getMaxAutoRetries());
+    assertEquals(1, actualRestClient.getMaxAutoRetriesNextServer());
+    assertFalse(actualRestClient.isOkToRetryOnAllOperations());
+    assertFalse(actualRestClient.bFollowRedirects);
   }
 
   /**
@@ -49,7 +53,7 @@ public class RestClientDiffblueTest {
   @Test
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
-  @MethodsUnderTest({"URL RestClient.getResource(String)"})
+  @MethodsUnderTest({"java.net.URL RestClient.getResource(String)"})
   public void testGetResource_whenSNfhttpclientConnIdleEvictTimeMilliSeconds_thenReturnNull() {
     // Arrange, Act and Assert
     assertNull(RestClient.getResource("%s.nfhttpclient.connIdleEvictTimeMilliSeconds"));

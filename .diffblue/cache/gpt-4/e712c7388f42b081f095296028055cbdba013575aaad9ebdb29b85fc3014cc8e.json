@@ -1,0 +1,1 @@
+{"id":"chatcmpl-CT5QgywC2xHhB8nSA6tmR0pEY49LT","object":"chat.completion","created":1761048418,"model":"gpt-4-0613","choices":[{"message":{"role":"assistant","content":"\"Test exception message for java.lang.Exception constructor unit test\""},"index":0,"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":219,"completion_tokens":12,"total_tokens":231}}

@@ -21,7 +21,7 @@ public class ZoneAffinityPredicateDiffblueTest {
   @MethodsUnderTest({"void ZoneAffinityPredicate.<init>(String)"})
   public void testNewZoneAffinityPredicate() {
     // Arrange and Act
-    ZoneAffinityPredicate actualZoneAffinityPredicate = new ZoneAffinityPredicate("Zone");
+    ZoneAffinityPredicate actualZoneAffinityPredicate = new ZoneAffinityPredicate("\"us-west-2\"");
 
     // Assert
     assertNull(actualZoneAffinityPredicate.rule);
@@ -32,8 +32,7 @@ public class ZoneAffinityPredicateDiffblueTest {
    * Test {@link ZoneAffinityPredicate#apply(PredicateKey)} with {@code PredicateKey}.
    *
    * <ul>
-   *   <li>Given {@code null}.
-   *   <li>When {@link Server#Server(String)} with id is {@code 42} Zone is {@code null}.
+   *   <li>Then return {@code false}.
    * </ul>
    *
    * <p>Method under test: {@link ZoneAffinityPredicate#apply(PredicateKey)}
@@ -42,43 +41,12 @@ public class ZoneAffinityPredicateDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"boolean ZoneAffinityPredicate.apply(PredicateKey)"})
-  public void testApplyWithPredicateKey_givenNull_whenServerWithIdIs42ZoneIsNull() {
-    // Arrange
-    ZoneAffinityPredicate zoneAffinityPredicate = new ZoneAffinityPredicate("Zone");
-
-    Server server = new Server("42");
-    server.setZone(null);
-
-    // Act
-    boolean actualApplyResult = zoneAffinityPredicate.apply(new PredicateKey(server));
-
-    // Assert
-    assertFalse(actualApplyResult);
-  }
-
-  /**
-   * Test {@link ZoneAffinityPredicate#apply(PredicateKey)} with {@code PredicateKey}.
-   *
-   * <ul>
-   *   <li>Given {@link ZoneAffinityPredicate#ZoneAffinityPredicate(String)} with zone is {@code
-   *       null}.
-   * </ul>
-   *
-   * <p>Method under test: {@link ZoneAffinityPredicate#apply(PredicateKey)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"boolean ZoneAffinityPredicate.apply(PredicateKey)"})
-  public void testApplyWithPredicateKey_givenZoneAffinityPredicateWithZoneIsNull() {
+  public void testApplyWithPredicateKey_thenReturnFalse() {
     // Arrange
     ZoneAffinityPredicate zoneAffinityPredicate = new ZoneAffinityPredicate(null);
 
-    Server server = new Server("42");
-    server.setZone("Server");
-
     // Act
-    boolean actualApplyResult = zoneAffinityPredicate.apply(new PredicateKey(server));
+    boolean actualApplyResult = zoneAffinityPredicate.apply(new PredicateKey(new Server("42")));
 
     // Assert
     assertFalse(actualApplyResult);
@@ -112,6 +80,34 @@ public class ZoneAffinityPredicateDiffblueTest {
    * Test {@link ZoneAffinityPredicate#apply(PredicateKey)} with {@code PredicateKey}.
    *
    * <ul>
+   *   <li>When {@link Server#Server(String)} with id is {@code 42} Zone is {@code null}.
+   *   <li>Then return {@code false}.
+   * </ul>
+   *
+   * <p>Method under test: {@link ZoneAffinityPredicate#apply(PredicateKey)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"boolean ZoneAffinityPredicate.apply(PredicateKey)"})
+  public void testApplyWithPredicateKey_whenServerWithIdIs42ZoneIsNull_thenReturnFalse() {
+    // Arrange
+    ZoneAffinityPredicate zoneAffinityPredicate = new ZoneAffinityPredicate("\"us-west-2\"");
+
+    Server server = new Server("42");
+    server.setZone(null);
+
+    // Act
+    boolean actualApplyResult = zoneAffinityPredicate.apply(new PredicateKey(server));
+
+    // Assert
+    assertFalse(actualApplyResult);
+  }
+
+  /**
+   * Test {@link ZoneAffinityPredicate#apply(PredicateKey)} with {@code PredicateKey}.
+   *
+   * <ul>
    *   <li>When {@link Server#Server(String)} with id is {@code 42}.
    *   <li>Then return {@code false}.
    * </ul>
@@ -124,7 +120,7 @@ public class ZoneAffinityPredicateDiffblueTest {
   @MethodsUnderTest({"boolean ZoneAffinityPredicate.apply(PredicateKey)"})
   public void testApplyWithPredicateKey_whenServerWithIdIs42_thenReturnFalse() {
     // Arrange
-    ZoneAffinityPredicate zoneAffinityPredicate = new ZoneAffinityPredicate("Zone");
+    ZoneAffinityPredicate zoneAffinityPredicate = new ZoneAffinityPredicate("\"us-west-2\"");
 
     // Act
     boolean actualApplyResult = zoneAffinityPredicate.apply(new PredicateKey(new Server("42")));

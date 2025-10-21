@@ -1,0 +1,1 @@
+{"id":"chatcmpl-CT5ZprxDNvT0bbeyMyjT0KcdqyxXm","object":"chat.completion","created":1761048985,"model":"gpt-4-0613","choices":[{"message":{"role":"assistant","content":"\"TestHystrixCommandKey\""},"index":0,"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":222,"completion_tokens":8,"total_tokens":230}}

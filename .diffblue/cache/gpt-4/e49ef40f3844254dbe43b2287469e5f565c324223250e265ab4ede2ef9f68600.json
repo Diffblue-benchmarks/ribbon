@@ -1,0 +1,1 @@
+{"id":"chatcmpl-CT5KPgnVfSMc7UisBWgIWh64XxPL0","object":"chat.completion","created":1761048029,"model":"gpt-4-0613","choices":[{"message":{"role":"assistant","content":"\"Test RuntimeException: This is a simulated runtime exception for testing purposes.\""},"index":0,"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":211,"completion_tokens":14,"total_tokens":225}}

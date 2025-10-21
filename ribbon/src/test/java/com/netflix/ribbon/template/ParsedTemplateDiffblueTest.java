@@ -37,13 +37,54 @@ public class ParsedTemplateDiffblueTest {
     ArrayList<Object> parsed = new ArrayList<>();
 
     // Act
-    ParsedTemplate actualParsedTemplate = new ParsedTemplate(parsed, "Template");
+    ParsedTemplate actualParsedTemplate =
+        new ParsedTemplate(
+            parsed, "\"http://localhost:8080/api/{version}/{resource}?query={queryParam}\"");
     List<Object> actualParsed = actualParsedTemplate.getParsed();
 
     // Assert
-    assertEquals("Template", actualParsedTemplate.getTemplate());
+    assertEquals(
+        "\"http://localhost:8080/api/{version}/{resource}?query={queryParam}\"",
+        actualParsedTemplate.getTemplate());
     assertTrue(actualParsed.isEmpty());
     assertSame(parsed, actualParsed);
+  }
+
+  /**
+   * Test {@link ParsedTemplate#create(String)}.
+   *
+   * <ul>
+   *   <li>Then return Parsed size is thirteen.
+   * </ul>
+   *
+   * <p>Method under test: {@link ParsedTemplate#create(String)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"ParsedTemplate ParsedTemplate.create(String)"})
+  public void testCreate_thenReturnParsedSizeIsThirteen() {
+    // Arrange and Act
+    ParsedTemplate actualCreateResult =
+        ParsedTemplate.create(
+            "\"http://{hostName}:{portNumber}/{contextPath}/{apiVersion}/{resourcePath}?{queryParameters}\"");
+
+    // Assert
+    List<Object> parsed = actualCreateResult.getParsed();
+    assertEquals(13, parsed.size());
+    Object getResult = parsed.get(1);
+    assertTrue(getResult instanceof PathVar);
+    Object getResult2 = parsed.get(11);
+    assertTrue(getResult2 instanceof PathVar);
+    assertEquals(":", parsed.get(2));
+    assertEquals("?", parsed.get(10));
+    assertEquals("\"", parsed.get(12));
+    assertEquals("\"http://", parsed.get(0));
+    assertEquals(
+        "\"http://{hostName}:{portNumber}/{contextPath}/{apiVersion}/{resourcePath}?{queryParameters}\"",
+        actualCreateResult.getTemplate());
+    assertEquals("hostName", getResult.toString());
+    assertEquals("queryParameters", getResult2.toString());
   }
 
   /**
@@ -90,30 +131,5 @@ public class ParsedTemplateDiffblueTest {
     // Assert
     assertNull(actualCreateResult.getTemplate());
     assertTrue(actualCreateResult.getParsed().isEmpty());
-  }
-
-  /**
-   * Test {@link ParsedTemplate#create(String)}.
-   *
-   * <ul>
-   *   <li>When {@code Template}.
-   *   <li>Then return {@code Template}.
-   * </ul>
-   *
-   * <p>Method under test: {@link ParsedTemplate#create(String)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"ParsedTemplate ParsedTemplate.create(String)"})
-  public void testCreate_whenTemplate_thenReturnTemplate() {
-    // Arrange and Act
-    ParsedTemplate actualCreateResult = ParsedTemplate.create("Template");
-
-    // Assert
-    assertEquals("Template", actualCreateResult.getTemplate());
-    List<Object> parsed = actualCreateResult.getParsed();
-    assertEquals(1, parsed.size());
-    assertEquals("Template", parsed.get(0));
   }
 }

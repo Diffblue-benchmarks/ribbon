@@ -36,7 +36,7 @@ public class ScheduledThreadPoolExectuorWithDynamicSizeDiffblueTest {
     // Act
     ScheduledThreadPoolExectuorWithDynamicSize actualScheduledThreadPoolExectuorWithDynamicSize =
         new ScheduledThreadPoolExectuorWithDynamicSize(
-            new DynamicIntProperty("Prop Name", 42), threadFactory);
+            new DynamicIntProperty("\"stream.buffer.size\"", 42), threadFactory);
 
     // Assert
     assertEquals(0, actualScheduledThreadPoolExectuorWithDynamicSize.getActiveCount());

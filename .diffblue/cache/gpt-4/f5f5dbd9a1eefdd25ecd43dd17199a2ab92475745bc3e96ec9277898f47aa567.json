@@ -1,0 +1,1 @@
+{"id":"chatcmpl-CT6JRU73qXjReKK1xKdT34g5vgjK7","object":"chat.completion","created":1761051813,"model":"gpt-4-0613","choices":[{"message":{"role":"assistant","content":"\"TestNFHttpClientInstance\""},"index":0,"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":244,"completion_tokens":6,"total_tokens":250}}

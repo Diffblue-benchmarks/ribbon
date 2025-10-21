@@ -27,10 +27,10 @@ public class ReloadableClientConfigDiffblueTest {
     DefaultClientConfigImpl emptyConfig = DefaultClientConfigImpl.getEmptyConfig();
 
     // Act
-    emptyConfig.setClientName("Dr Jane Doe");
+    emptyConfig.setClientName("\"testClientName\"");
 
     // Assert
-    assertEquals("Dr Jane Doe", emptyConfig.getClientName());
+    assertEquals("\"testClientName\"", emptyConfig.getClientName());
   }
 
   /**
@@ -77,10 +77,10 @@ public class ReloadableClientConfigDiffblueTest {
     DefaultClientConfigImpl emptyConfig = DefaultClientConfigImpl.getEmptyConfig();
 
     // Act
-    emptyConfig.setNameSpace("Name Space");
+    emptyConfig.setNameSpace("\"client1.netflix.config\"");
 
     // Assert
-    assertEquals("Name Space", emptyConfig.getNameSpace());
+    assertEquals("\"client1.netflix.config\"", emptyConfig.getNameSpace());
   }
 
   /**
@@ -96,10 +96,10 @@ public class ReloadableClientConfigDiffblueTest {
     // Arrange
     DefaultClientConfigImpl clientConfigWithDefaultValues =
         DefaultClientConfigImpl.getClientConfigWithDefaultValues(
-            "Dr Jane Doe", "[{}] loading config");
+            "\"TestClientName\"", "\"com.netflix.client.config.default\"");
 
     // Act
-    clientConfigWithDefaultValues.loadProperties("Dr Jane Doe");
+    clientConfigWithDefaultValues.loadProperties("\"testClient.netflix.config\"");
 
     // Assert that nothing has changed
     Map<String, Object> properties = clientConfigWithDefaultValues.getProperties();
@@ -158,8 +158,7 @@ public class ReloadableClientConfigDiffblueTest {
    * Test {@link ReloadableClientConfig#loadProperties(String)}.
    *
    * <ul>
-   *   <li>When {@code Dr Jane Doe}.
-   *   <li>Then EmptyConfig ClientName is {@code Dr Jane Doe}.
+   *   <li>Then EmptyConfig ClientName is {@code "testClient.netflix.config"}.
    * </ul>
    *
    * <p>Method under test: {@link ReloadableClientConfig#loadProperties(String)}
@@ -168,18 +167,18 @@ public class ReloadableClientConfigDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void ReloadableClientConfig.loadProperties(String)"})
-  public void testLoadProperties_whenDrJaneDoe_thenEmptyConfigClientNameIsDrJaneDoe() {
+  public void testLoadProperties_thenEmptyConfigClientNameIsTestClientNetflixConfig() {
     // Arrange
     DefaultClientConfigImpl emptyConfig = DefaultClientConfigImpl.getEmptyConfig();
 
     // Act
-    emptyConfig.loadProperties("Dr Jane Doe");
+    emptyConfig.loadProperties("\"testClient.netflix.config\"");
 
     // Assert
     Map<String, Object> properties = emptyConfig.getProperties();
     assertEquals(39, properties.size());
     assertEquals("", properties.get("listOfServers"));
-    assertEquals("Dr Jane Doe", emptyConfig.getClientName());
+    assertEquals("\"testClient.netflix.config\"", emptyConfig.getClientName());
     assertEquals(Boolean.FALSE.toString(), properties.get("EnableZoneAffinity"));
     assertEquals(Boolean.FALSE.toString(), properties.get("FollowRedirects"));
     assertEquals(Boolean.FALSE.toString(), properties.get("IsClientAuthRequired"));
@@ -263,7 +262,8 @@ public class ReloadableClientConfigDiffblueTest {
   public void testGetProperties_thenReturnSizeIsThirtyNine() {
     // Arrange and Act
     Map<String, Object> actualProperties =
-        DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space")
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues(
+                "\"TestClientName\"", "\"com.netflix.client.config.default\"")
             .getProperties();
 
     // Assert
@@ -357,7 +357,8 @@ public class ReloadableClientConfigDiffblueTest {
             + "ionsClassName:com.netflix.niws.client.http.HttpPrimeConnection, ProxyHost:null, ConnIdleEvictTimeMilliSeconds"
             + ":30000, MaxTotalTimeToPrimeConnections:30000, NIWSServerListClassName:com.netflix.loadbalancer"
             + ".ConfigurationBasedServerList",
-        DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe", "ClientConfig:")
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues(
+                "\"TestClientName\"", "\"com.netflix.client.config.default\"")
             .toString());
   }
 

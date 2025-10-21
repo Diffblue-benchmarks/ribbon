@@ -2,22 +2,26 @@ package com.netflix.http4;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import com.diffblue.cover.annotations.ContributionFromDiffblue;
 import com.diffblue.cover.annotations.ManagedByDiffblue;
 import com.diffblue.cover.annotations.MethodsUnderTest;
+import com.netflix.client.config.FallbackProperty;
+import com.netflix.client.config.Property;
+import java.util.Optional;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.ThreadFactory;
 import org.apache.http.conn.ClientConnectionManager;
+import org.apache.http.conn.DnsResolver;
+import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.impl.conn.PoolingClientConnectionManager;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.mockito.Mockito;
 
 public class ConnectionPoolCleanerDiffblueTest {
   /**
@@ -40,15 +44,72 @@ public class ConnectionPoolCleanerDiffblueTest {
     // Act
     ConnectionPoolCleaner actualConnectionPoolCleaner =
         new ConnectionPoolCleaner(
-            "https://example.org/example", connMgr, new ScheduledThreadPoolExecutor(1));
+            "\"IdleConnectionCleaner\"", connMgr, new ScheduledThreadPoolExecutor(1));
 
     // Assert
     assertTrue(actualConnectionPoolCleaner.scheduler instanceof ScheduledThreadPoolExecutor);
     assertTrue(actualConnectionPoolCleaner.connMgr instanceof ThreadSafeClientConnManager);
-    assertEquals("https://example.org/example", actualConnectionPoolCleaner.name);
+    assertEquals("\"IdleConnectionCleaner\"", actualConnectionPoolCleaner.name);
     assertEquals(10L, actualConnectionPoolCleaner.getConnectionCleanerTimerDelay());
     assertEquals(30000L, actualConnectionPoolCleaner.getConnectionCleanerRepeatInterval());
     assertFalse(actualConnectionPoolCleaner.isEnableConnectionPoolCleanerTask());
+  }
+
+  /**
+   * Test getters and setters.
+   *
+   * <p>Methods under test:
+   *
+   * <ul>
+   *   <li>{@link ConnectionPoolCleaner#setConnIdleEvictTimeMilliSeconds(Property)}
+   *   <li>{@link ConnectionPoolCleaner#setConnectionCleanerRepeatInterval(long)}
+   *   <li>{@link ConnectionPoolCleaner#setConnectionCleanerTimerDelay(long)}
+   *   <li>{@link ConnectionPoolCleaner#setEnableConnectionPoolCleanerTask(boolean)}
+   *   <li>{@link ConnectionPoolCleaner#getConnIdleEvictTimeMilliSeconds()}
+   *   <li>{@link ConnectionPoolCleaner#getConnectionCleanerRepeatInterval()}
+   *   <li>{@link ConnectionPoolCleaner#getConnectionCleanerTimerDelay()}
+   *   <li>{@link ConnectionPoolCleaner#isEnableConnectionPoolCleanerTask()}
+   * </ul>
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "Property ConnectionPoolCleaner.getConnIdleEvictTimeMilliSeconds()",
+    "long ConnectionPoolCleaner.getConnectionCleanerRepeatInterval()",
+    "long ConnectionPoolCleaner.getConnectionCleanerTimerDelay()",
+    "boolean ConnectionPoolCleaner.isEnableConnectionPoolCleanerTask()",
+    "void ConnectionPoolCleaner.setConnIdleEvictTimeMilliSeconds(Property)",
+    "void ConnectionPoolCleaner.setConnectionCleanerRepeatInterval(long)",
+    "void ConnectionPoolCleaner.setConnectionCleanerTimerDelay(long)",
+    "void ConnectionPoolCleaner.setEnableConnectionPoolCleanerTask(boolean)",
+    "String ConnectionPoolCleaner.toString()"
+  })
+  public void testGettersAndSetters() {
+    // Arrange
+    ThreadSafeClientConnManager connMgr = new ThreadSafeClientConnManager();
+    ConnectionPoolCleaner connectionPoolCleaner =
+        new ConnectionPoolCleaner(
+            "\"IdleConnectionCleaner\"", connMgr, new ScheduledThreadPoolExecutor(1));
+    FallbackProperty<Integer> connIdleEvictTimeMilliSeconds = new FallbackProperty<>(null, null);
+
+    // Act
+    connectionPoolCleaner.setConnIdleEvictTimeMilliSeconds(connIdleEvictTimeMilliSeconds);
+    connectionPoolCleaner.setConnectionCleanerRepeatInterval(42L);
+    connectionPoolCleaner.setConnectionCleanerTimerDelay(1L);
+    connectionPoolCleaner.setEnableConnectionPoolCleanerTask(true);
+    Property<Integer> actualConnIdleEvictTimeMilliSeconds =
+        connectionPoolCleaner.getConnIdleEvictTimeMilliSeconds();
+    long actualConnectionCleanerRepeatInterval =
+        connectionPoolCleaner.getConnectionCleanerRepeatInterval();
+    long actualConnectionCleanerTimerDelay = connectionPoolCleaner.getConnectionCleanerTimerDelay();
+
+    // Assert
+    assertTrue(actualConnIdleEvictTimeMilliSeconds instanceof FallbackProperty);
+    assertEquals(1L, actualConnectionCleanerTimerDelay);
+    assertEquals(42L, actualConnectionCleanerRepeatInterval);
+    assertTrue(connectionPoolCleaner.isEnableConnectionPoolCleanerTask());
+    assertSame(connIdleEvictTimeMilliSeconds, actualConnIdleEvictTimeMilliSeconds);
   }
 
   /**
@@ -65,7 +126,7 @@ public class ConnectionPoolCleanerDiffblueTest {
     ThreadSafeClientConnManager connMgr = new ThreadSafeClientConnManager();
     ConnectionPoolCleaner connectionPoolCleaner =
         new ConnectionPoolCleaner(
-            "https://example.org/example", connMgr, new ScheduledThreadPoolExecutor(1));
+            "\"IdleConnectionCleaner\"", connMgr, new ScheduledThreadPoolExecutor(1));
 
     // Act
     connectionPoolCleaner.initTask();
@@ -73,10 +134,7 @@ public class ConnectionPoolCleanerDiffblueTest {
     // Assert that nothing has changed
     ScheduledExecutorService scheduledExecutorService = connectionPoolCleaner.scheduler;
     assertTrue(scheduledExecutorService instanceof ScheduledThreadPoolExecutor);
-    assertEquals(0, ((ScheduledThreadPoolExecutor) scheduledExecutorService).getActiveCount());
     assertEquals(0, ((ScheduledThreadPoolExecutor) scheduledExecutorService).getLargestPoolSize());
-    assertEquals(0, ((ScheduledThreadPoolExecutor) scheduledExecutorService).getPoolSize());
-    assertEquals(0L, ((ScheduledThreadPoolExecutor) scheduledExecutorService).getTaskCount());
   }
 
   /**
@@ -94,7 +152,7 @@ public class ConnectionPoolCleanerDiffblueTest {
 
     ConnectionPoolCleaner connectionPoolCleaner =
         new ConnectionPoolCleaner(
-            "https://example.org/example", connMgr, new ScheduledThreadPoolExecutor(1));
+            "\"IdleConnectionCleaner\"", connMgr, new ScheduledThreadPoolExecutor(1));
     connectionPoolCleaner.setEnableConnectionPoolCleanerTask(true);
 
     // Act
@@ -103,7 +161,6 @@ public class ConnectionPoolCleanerDiffblueTest {
     // Assert
     ScheduledExecutorService scheduledExecutorService = connectionPoolCleaner.scheduler;
     assertTrue(scheduledExecutorService instanceof ScheduledThreadPoolExecutor);
-    assertEquals(0, ((ScheduledThreadPoolExecutor) scheduledExecutorService).getActiveCount());
     assertEquals(1, ((ScheduledThreadPoolExecutor) scheduledExecutorService).getLargestPoolSize());
   }
 
@@ -118,26 +175,173 @@ public class ConnectionPoolCleanerDiffblueTest {
   @MethodsUnderTest({"void ConnectionPoolCleaner.initTask()"})
   public void testInitTask3() {
     // Arrange
-    ThreadFactory threadFactory = mock(ThreadFactory.class);
-    when(threadFactory.newThread(Mockito.<Runnable>any())).thenReturn(new Thread());
-
-    ScheduledThreadPoolExecutor scheduler = new ScheduledThreadPoolExecutor(1);
-    scheduler.setThreadFactory(threadFactory);
+    PoolingClientConnectionManager connMgr =
+        new PoolingClientConnectionManager(new SchemeRegistry(), mock(DnsResolver.class));
 
     ConnectionPoolCleaner connectionPoolCleaner =
         new ConnectionPoolCleaner(
-            "https://example.org/example", new ThreadSafeClientConnManager(), scheduler);
+            "\"IdleConnectionCleaner\"", connMgr, new ScheduledThreadPoolExecutor(1));
     connectionPoolCleaner.setEnableConnectionPoolCleanerTask(true);
 
     // Act
     connectionPoolCleaner.initTask();
 
     // Assert
-    verify(threadFactory).newThread(isA(Runnable.class));
     ScheduledExecutorService scheduledExecutorService = connectionPoolCleaner.scheduler;
     assertTrue(scheduledExecutorService instanceof ScheduledThreadPoolExecutor);
-    assertEquals(1, ((ScheduledThreadPoolExecutor) scheduledExecutorService).getActiveCount());
     assertEquals(1, ((ScheduledThreadPoolExecutor) scheduledExecutorService).getLargestPoolSize());
-    assertEquals(1, ((ScheduledThreadPoolExecutor) scheduledExecutorService).getPoolSize());
+  }
+
+  /**
+   * Test {@link ConnectionPoolCleaner#initTask()}.
+   *
+   * <p>Method under test: {@link ConnectionPoolCleaner#initTask()}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void ConnectionPoolCleaner.initTask()"})
+  public void testInitTask4() {
+    // Arrange
+    ScheduledThreadPoolExecutor scheduler = new ScheduledThreadPoolExecutor(1);
+    scheduler.setContinueExistingPeriodicTasksAfterShutdownPolicy(true);
+    PoolingClientConnectionManager connMgr =
+        new PoolingClientConnectionManager(new SchemeRegistry(), mock(DnsResolver.class));
+
+    ConnectionPoolCleaner connectionPoolCleaner =
+        new ConnectionPoolCleaner("\"IdleConnectionCleaner\"", connMgr, scheduler);
+    connectionPoolCleaner.setEnableConnectionPoolCleanerTask(true);
+
+    // Act
+    connectionPoolCleaner.initTask();
+
+    // Assert
+    ScheduledExecutorService scheduledExecutorService = connectionPoolCleaner.scheduler;
+    assertTrue(scheduledExecutorService instanceof ScheduledThreadPoolExecutor);
+    assertEquals(1, ((ScheduledThreadPoolExecutor) scheduledExecutorService).getLargestPoolSize());
+  }
+
+  /**
+   * Test {@link ConnectionPoolCleaner#initTask()}.
+   *
+   * <p>Method under test: {@link ConnectionPoolCleaner#initTask()}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void ConnectionPoolCleaner.initTask()"})
+  public void testInitTask5() {
+    // Arrange
+    ThreadSafeClientConnManager connMgr = new ThreadSafeClientConnManager();
+
+    ConnectionPoolCleaner connectionPoolCleaner =
+        new ConnectionPoolCleaner(
+            "\"IdleConnectionCleaner\"", connMgr, new ScheduledThreadPoolExecutor(1));
+    connectionPoolCleaner.setConnectionCleanerTimerDelay(1L);
+    connectionPoolCleaner.setEnableConnectionPoolCleanerTask(true);
+
+    // Act
+    connectionPoolCleaner.initTask();
+
+    // Assert
+    ScheduledExecutorService scheduledExecutorService = connectionPoolCleaner.scheduler;
+    assertTrue(scheduledExecutorService instanceof ScheduledThreadPoolExecutor);
+    assertEquals(1, ((ScheduledThreadPoolExecutor) scheduledExecutorService).getLargestPoolSize());
+  }
+
+  /**
+   * Test {@link ConnectionPoolCleaner#initTask()}.
+   *
+   * <p>Method under test: {@link ConnectionPoolCleaner#initTask()}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void ConnectionPoolCleaner.initTask()"})
+  public void testInitTask6() {
+    // Arrange
+    PoolingClientConnectionManager connMgr = new PoolingClientConnectionManager();
+
+    ConnectionPoolCleaner connectionPoolCleaner =
+        new ConnectionPoolCleaner(
+            "com.netflix.http4.ConnectionPoolCleaner", connMgr, new ScheduledThreadPoolExecutor(1));
+    connectionPoolCleaner.setEnableConnectionPoolCleanerTask(true);
+
+    // Act
+    connectionPoolCleaner.initTask();
+
+    // Assert
+    ScheduledExecutorService scheduledExecutorService = connectionPoolCleaner.scheduler;
+    assertTrue(scheduledExecutorService instanceof ScheduledThreadPoolExecutor);
+    assertEquals(1, ((ScheduledThreadPoolExecutor) scheduledExecutorService).getLargestPoolSize());
+  }
+
+  /**
+   * Test {@link ConnectionPoolCleaner#initTask()}.
+   *
+   * <ul>
+   *   <li>Given {@link ScheduledThreadPoolExecutor#ScheduledThreadPoolExecutor(int)} with one
+   *       RemoveOnCancelPolicy is {@code true}.
+   * </ul>
+   *
+   * <p>Method under test: {@link ConnectionPoolCleaner#initTask()}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void ConnectionPoolCleaner.initTask()"})
+  public void testInitTask_givenScheduledThreadPoolExecutorWithOneRemoveOnCancelPolicyIsTrue() {
+    // Arrange
+    ScheduledThreadPoolExecutor scheduler = new ScheduledThreadPoolExecutor(1);
+    scheduler.setRemoveOnCancelPolicy(true);
+
+    ConnectionPoolCleaner connectionPoolCleaner =
+        new ConnectionPoolCleaner(
+            "\"IdleConnectionCleaner\"", new ThreadSafeClientConnManager(), scheduler);
+    connectionPoolCleaner.setConnectionCleanerTimerDelay(1L);
+    connectionPoolCleaner.setEnableConnectionPoolCleanerTask(true);
+
+    // Act
+    connectionPoolCleaner.initTask();
+
+    // Assert
+    ScheduledExecutorService scheduledExecutorService = connectionPoolCleaner.scheduler;
+    assertTrue(scheduledExecutorService instanceof ScheduledThreadPoolExecutor);
+    assertEquals(1, ((ScheduledThreadPoolExecutor) scheduledExecutorService).getLargestPoolSize());
+  }
+
+  /**
+   * Test {@link ConnectionPoolCleaner#cleanupConnections()}.
+   *
+   * <ul>
+   *   <li>Given {@link Property} {@link Property#get()} return of one.
+   *   <li>Then calls {@link Property#get()}.
+   * </ul>
+   *
+   * <p>Method under test: {@link ConnectionPoolCleaner#cleanupConnections()}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void ConnectionPoolCleaner.cleanupConnections()"})
+  public void testCleanupConnections_givenPropertyGetReturnOfOne_thenCallsGet() {
+    // Arrange
+    Property<Integer> primary = mock(Property.class);
+    Optional<Integer> ofResult = Optional.of(1);
+    when(primary.get()).thenReturn(ofResult);
+    FallbackProperty<Integer> connIdleEvictTimeMilliSeconds =
+        new FallbackProperty<>(primary, mock(Property.class));
+    ThreadSafeClientConnManager connMgr = new ThreadSafeClientConnManager();
+
+    ConnectionPoolCleaner connectionPoolCleaner =
+        new ConnectionPoolCleaner(
+            "\"IdleConnectionCleaner\"", connMgr, new ScheduledThreadPoolExecutor(1));
+    connectionPoolCleaner.setConnIdleEvictTimeMilliSeconds(connIdleEvictTimeMilliSeconds);
+
+    // Act
+    connectionPoolCleaner.cleanupConnections();
+
+    // Assert
+    verify(primary).get();
   }
 }

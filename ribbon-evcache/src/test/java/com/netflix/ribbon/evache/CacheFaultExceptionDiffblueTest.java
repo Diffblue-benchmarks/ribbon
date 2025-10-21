@@ -14,7 +14,7 @@ public class CacheFaultExceptionDiffblueTest {
    * Test {@link CacheFaultException#CacheFaultException(String)}.
    *
    * <ul>
-   *   <li>When {@code An error occurred}.
+   *   <li>When a string.
    *   <li>Then return Cause is {@code null}.
    * </ul>
    *
@@ -27,12 +27,18 @@ public class CacheFaultExceptionDiffblueTest {
     "void CacheFaultException.<init>(String)",
     "void CacheFaultException.<init>(String, Throwable)"
   })
-  public void testNewCacheFaultException_whenAnErrorOccurred_thenReturnCauseIsNull() {
+  public void testNewCacheFaultException_whenAString_thenReturnCauseIsNull() {
     // Arrange and Act
-    CacheFaultException actualCacheFaultException = new CacheFaultException("An error occurred");
+    CacheFaultException actualCacheFaultException =
+        new CacheFaultException(
+            "\"CacheFaultException occurred: Unable to retrieve data from cache due to connection timeout. Please"
+                + " check your cache server status and network connectivity.\"");
 
     // Assert
-    assertEquals("An error occurred", actualCacheFaultException.getMessage());
+    assertEquals(
+        "\"CacheFaultException occurred: Unable to retrieve data from cache due to connection timeout. Please"
+            + " check your cache server status and network connectivity.\"",
+        actualCacheFaultException.getMessage());
     assertNull(actualCacheFaultException.getCause());
     assertEquals(0, actualCacheFaultException.getSuppressed().length);
   }
@@ -60,10 +66,16 @@ public class CacheFaultExceptionDiffblueTest {
 
     // Act
     CacheFaultException actualCacheFaultException =
-        new CacheFaultException("An error occurred", cause);
+        new CacheFaultException(
+            "\"Failed to access cache due to unexpected server error. Please check server status and"
+                + " connectivity.\"",
+            cause);
 
     // Assert
-    assertEquals("An error occurred", actualCacheFaultException.getMessage());
+    assertEquals(
+        "\"Failed to access cache due to unexpected server error. Please check server status and"
+            + " connectivity.\"",
+        actualCacheFaultException.getMessage());
     assertEquals(0, actualCacheFaultException.getSuppressed().length);
     assertSame(cause, actualCacheFaultException.getCause());
   }

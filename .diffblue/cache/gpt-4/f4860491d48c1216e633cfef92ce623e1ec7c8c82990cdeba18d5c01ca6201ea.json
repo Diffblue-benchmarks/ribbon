@@ -1,0 +1,1 @@
+{"id":"chatcmpl-CT5st5JTTIzWjWgZGiZ6vdtxjXnl4","object":"chat.completion","created":1761050167,"model":"gpt-4-0613","choices":[{"message":{"role":"assistant","content":"\"www.netflix.com\""},"index":0,"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":268,"completion_tokens":5,"total_tokens":273}}

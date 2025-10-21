@@ -1,0 +1,1 @@
+{"id":"chatcmpl-CT6JmgGqW3ZWKUwuX5MHZpMUr8WE3","object":"chat.completion","created":1761051834,"model":"gpt-4-0613","choices":[{"message":{"role":"assistant","content":"\"Invalid class exception occurred due to incompatible stream header version.\""},"index":0,"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":216,"completion_tokens":12,"total_tokens":228}}

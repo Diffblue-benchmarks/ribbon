@@ -11,13 +11,18 @@ public class NoOpPingDiffblueTest {
   /**
    * Test {@link NoOpPing#isAlive(Server)}.
    *
+   * <ul>
+   *   <li>When {@link Server#Server(String)} with id is {@code 42}.
+   *   <li>Then return {@code true}.
+   * </ul>
+   *
    * <p>Method under test: {@link NoOpPing#isAlive(Server)}
    */
   @Test
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"boolean NoOpPing.isAlive(Server)"})
-  public void testIsAlive() {
+  public void testIsAlive_whenServerWithIdIs42_thenReturnTrue() {
     // Arrange
     NoOpPing noOpPing = new NoOpPing();
 

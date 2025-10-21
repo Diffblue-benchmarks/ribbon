@@ -1,0 +1,1 @@
+{"id":"chatcmpl-CT5JtOUoeRrdW4E9FEITcu2brqfbL","object":"chat.completion","created":1761047997,"model":"gpt-4-0613","choices":[{"message":{"role":"assistant","content":"\"monitorId-123-websocket-client\""},"index":0,"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":243,"completion_tokens":9,"total_tokens":252}}

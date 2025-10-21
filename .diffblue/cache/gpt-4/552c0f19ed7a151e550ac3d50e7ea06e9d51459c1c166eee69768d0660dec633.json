@@ -1,0 +1,1 @@
+{"id":"chatcmpl-CT6K9Cqobd7oS2GwcmXLLXjaLgL94","object":"chat.completion","created":1761051857,"model":"gpt-4-0613","choices":[{"message":{"role":"assistant","content":"\"Invalid array type. Attempted to store an incompatible type in an array.\""},"index":0,"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":216,"completion_tokens":16,"total_tokens":232}}

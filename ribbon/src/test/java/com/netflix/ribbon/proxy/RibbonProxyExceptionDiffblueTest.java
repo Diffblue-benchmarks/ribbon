@@ -13,11 +13,6 @@ public class RibbonProxyExceptionDiffblueTest {
   /**
    * Test {@link RibbonProxyException#RibbonProxyException(String)}.
    *
-   * <ul>
-   *   <li>When {@code An error occurred}.
-   *   <li>Then return Cause is {@code null}.
-   * </ul>
-   *
    * <p>Method under test: {@link RibbonProxyException#RibbonProxyException(String)}
    */
   @Test
@@ -27,12 +22,16 @@ public class RibbonProxyExceptionDiffblueTest {
     "void RibbonProxyException.<init>(String)",
     "void RibbonProxyException.<init>(String, Throwable)"
   })
-  public void testNewRibbonProxyException_whenAnErrorOccurred_thenReturnCauseIsNull() {
+  public void testNewRibbonProxyException() {
     // Arrange and Act
-    RibbonProxyException actualRibbonProxyException = new RibbonProxyException("An error occurred");
+    RibbonProxyException actualRibbonProxyException =
+        new RibbonProxyException(
+            "\"Failed to establish connection with Ribbon Proxy Server: Connection timeout exceeded.\"");
 
     // Assert
-    assertEquals("An error occurred", actualRibbonProxyException.getMessage());
+    assertEquals(
+        "\"Failed to establish connection with Ribbon Proxy Server: Connection timeout exceeded.\"",
+        actualRibbonProxyException.getMessage());
     assertNull(actualRibbonProxyException.getCause());
     assertEquals(0, actualRibbonProxyException.getSuppressed().length);
   }
@@ -41,8 +40,8 @@ public class RibbonProxyExceptionDiffblueTest {
    * Test {@link RibbonProxyException#RibbonProxyException(String, Throwable)}.
    *
    * <ul>
-   *   <li>When {@link Throwable#Throwable()}.
-   *   <li>Then return Cause is {@link Throwable#Throwable()}.
+   *   <li>When a string.
+   *   <li>Then return Message is a string.
    * </ul>
    *
    * <p>Method under test: {@link RibbonProxyException#RibbonProxyException(String, Throwable)}
@@ -54,16 +53,22 @@ public class RibbonProxyExceptionDiffblueTest {
     "void RibbonProxyException.<init>(String)",
     "void RibbonProxyException.<init>(String, Throwable)"
   })
-  public void testNewRibbonProxyException_whenThrowable_thenReturnCauseIsThrowable() {
+  public void testNewRibbonProxyException_whenAString_thenReturnMessageIsAString() {
     // Arrange
     Throwable cause = new Throwable();
 
     // Act
     RibbonProxyException actualRibbonProxyException =
-        new RibbonProxyException("An error occurred", cause);
+        new RibbonProxyException(
+            "\"Failed to establish connection with the Ribbon Proxy server. Please check your network settings and"
+                + " try again.\"",
+            cause);
 
     // Assert
-    assertEquals("An error occurred", actualRibbonProxyException.getMessage());
+    assertEquals(
+        "\"Failed to establish connection with the Ribbon Proxy server. Please check your network settings and"
+            + " try again.\"",
+        actualRibbonProxyException.getMessage());
     assertEquals(0, actualRibbonProxyException.getSuppressed().length);
     assertSame(cause, actualRibbonProxyException.getCause());
   }

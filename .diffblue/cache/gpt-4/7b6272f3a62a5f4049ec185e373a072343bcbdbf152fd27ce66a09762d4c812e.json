@@ -1,0 +1,1 @@
+{"id":"chatcmpl-CT6FmXlxGlkcJMOEMWHR0K0OW40ne","object":"chat.completion","created":1761051586,"model":"gpt-4-0613","choices":[{"message":{"role":"assistant","content":"\"Failed to read file. File not found in specified path.\""},"index":0,"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":210,"completion_tokens":13,"total_tokens":223}}

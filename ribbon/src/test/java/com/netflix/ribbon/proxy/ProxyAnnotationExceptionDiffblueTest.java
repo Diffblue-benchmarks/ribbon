@@ -21,10 +21,15 @@ public class ProxyAnnotationExceptionDiffblueTest {
   public void testNewProxyAnnotationException() {
     // Arrange and Act
     ProxyAnnotationException actualProxyAnnotationException =
-        new ProxyAnnotationException("An error occurred");
+        new ProxyAnnotationException(
+            "\"Invalid proxy annotation detected. Please ensure all annotations are correctly defined and try"
+                + " again.\"");
 
     // Assert
-    assertEquals("An error occurred", actualProxyAnnotationException.getMessage());
+    assertEquals(
+        "\"Invalid proxy annotation detected. Please ensure all annotations are correctly defined and try"
+            + " again.\"",
+        actualProxyAnnotationException.getMessage());
     assertNull(actualProxyAnnotationException.getCause());
     assertEquals(0, actualProxyAnnotationException.getSuppressed().length);
   }

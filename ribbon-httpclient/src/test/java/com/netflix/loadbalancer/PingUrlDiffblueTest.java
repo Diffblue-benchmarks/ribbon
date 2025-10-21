@@ -42,14 +42,14 @@ public class PingUrlDiffblueTest {
   public void testGettersAndSetters() {
     // Arrange and Act
     PingUrl actualPingUrl = new PingUrl();
-    actualPingUrl.setExpectedContent("https://example.org/example");
+    actualPingUrl.setExpectedContent("\"Server Health: OK\"");
     actualPingUrl.setSecure(true);
     String actualExpectedContent = actualPingUrl.getExpectedContent();
     String actualPingAppendString = actualPingUrl.getPingAppendString();
 
     // Assert
     assertEquals("", actualPingAppendString);
-    assertEquals("https://example.org/example", actualExpectedContent);
+    assertEquals("\"Server Health: OK\"", actualExpectedContent);
     assertTrue(actualPingUrl.isSecure());
   }
 
@@ -57,7 +57,8 @@ public class PingUrlDiffblueTest {
    * Test {@link PingUrl#PingUrl(boolean, String)}.
    *
    * <ul>
-   *   <li>Then return PingAppendString is {@code https://example.org/example}.
+   *   <li>When {@code "/healthcheck"}.
+   *   <li>Then return PingAppendString is {@code "/healthcheck"}.
    * </ul>
    *
    * <p>Method under test: {@link PingUrl#PingUrl(boolean, String)}
@@ -66,12 +67,12 @@ public class PingUrlDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void PingUrl.<init>(boolean, String)"})
-  public void testNewPingUrl_thenReturnPingAppendStringIsHttpsExampleOrgExample() {
+  public void testNewPingUrl_whenHealthcheck_thenReturnPingAppendStringIsHealthcheck() {
     // Arrange and Act
-    PingUrl actualPingUrl = new PingUrl(true, "https://example.org/example");
+    PingUrl actualPingUrl = new PingUrl(true, "\"/healthcheck\"");
 
     // Assert
-    assertEquals("https://example.org/example", actualPingUrl.getPingAppendString());
+    assertEquals("\"/healthcheck\"", actualPingUrl.getPingAppendString());
     assertNull(actualPingUrl.getExpectedContent());
     assertTrue(actualPingUrl.isSecure());
   }
@@ -111,13 +112,13 @@ public class PingUrlDiffblueTest {
   @MethodsUnderTest({"void PingUrl.setPingAppendString(String)"})
   public void testSetPingAppendString() {
     // Arrange
-    PingUrl pingUrl = new PingUrl(true, "https://example.org/example");
+    PingUrl pingUrl = new PingUrl(true, "\"/healthcheck\"");
 
     // Act
-    pingUrl.setPingAppendString("https://example.org/example");
+    pingUrl.setPingAppendString("\"/healthcheck\"");
 
     // Assert that nothing has changed
-    assertEquals("https://example.org/example", pingUrl.getPingAppendString());
+    assertEquals("\"/healthcheck\"", pingUrl.getPingAppendString());
   }
 
   /**
@@ -131,7 +132,7 @@ public class PingUrlDiffblueTest {
   @MethodsUnderTest({"void PingUrl.setPingAppendString(String)"})
   public void testSetPingAppendString2() {
     // Arrange
-    PingUrl pingUrl = new PingUrl(true, "https://example.org/example");
+    PingUrl pingUrl = new PingUrl(true, "\"/healthcheck\"");
 
     // Act
     pingUrl.setPingAppendString(null);

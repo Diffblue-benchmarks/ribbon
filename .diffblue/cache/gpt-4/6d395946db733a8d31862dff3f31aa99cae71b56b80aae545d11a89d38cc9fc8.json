@@ -1,0 +1,1 @@
+{"id":"chatcmpl-CT51O1sdODUgMAuPWJiWDt1cOBe23","object":"chat.completion","created":1761046850,"model":"gpt-4-0613","choices":[{"message":{"role":"assistant","content":"\"Invalid argument provided for the method. Expected a non-null value.\""},"index":0,"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":220,"completion_tokens":14,"total_tokens":234}}

@@ -1,0 +1,1 @@
+{"id":"chatcmpl-CT50vLXrU5edBUuWJABFlUMD3ZjTo","object":"chat.completion","created":1761046821,"model":"gpt-4-0613","choices":[{"message":{"role":"assistant","content":"\"http://content.netflix.com/Movies/ID123\""},"index":0,"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":251,"completion_tokens":11,"total_tokens":262}}

@@ -1,0 +1,1 @@
+{"id":"chatcmpl-CT5zceqARHWQdBuC4Rn6rbQiX0gBV","object":"chat.completion","created":1761050584,"model":"gpt-4-0613","choices":[{"message":{"role":"assistant","content":"\"RXNETTY-REQ-1234567890\""},"index":0,"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":312,"completion_tokens":12,"total_tokens":324}}

@@ -47,7 +47,12 @@ public class MovieDiffblueTest {
   public void testGettersAndSetters() {
     // Arrange and Act
     Movie actualMovie =
-        new Movie("42", "Name", "Category", "Age Group", "Not all who wander are lost");
+        new Movie(
+            "\"1234567890\"",
+            "\"The Shawshank Redemption\"",
+            "\"Action\"",
+            "\"18-24\"",
+            "\"http://content.netflix.com/Movies/ID123\"");
     String actualToStringResult = actualMovie.toString();
     String actualAgeGroup = actualMovie.getAgeGroup();
     String actualCategory = actualMovie.getCategory();
@@ -55,14 +60,14 @@ public class MovieDiffblueTest {
     String actualId = actualMovie.getId();
 
     // Assert
-    assertEquals("42", actualId);
-    assertEquals("Age Group", actualAgeGroup);
-    assertEquals("Category", actualCategory);
-    assertEquals("Name", actualMovie.getName());
-    assertEquals("Not all who wander are lost", actualContentURI);
+    assertEquals("\"1234567890\"", actualId);
+    assertEquals("\"18-24\"", actualAgeGroup);
+    assertEquals("\"Action\"", actualCategory);
+    assertEquals("\"The Shawshank Redemption\"", actualMovie.getName());
+    assertEquals("\"http://content.netflix.com/Movies/ID123\"", actualContentURI);
     assertEquals(
-        "{id='42', name='Name', category='Category', ageGroup='Age Group', contentURI='Not all who wander"
-            + " are lost'}",
+        "{id='\"1234567890\"', name='\"The Shawshank Redemption\"', category='\"Action\"', ageGroup='\"18-24\"',"
+            + " contentURI='\"http://content.netflix.com/Movies/ID123\"'}",
         actualToStringResult);
   }
 
@@ -89,6 +94,203 @@ public class MovieDiffblueTest {
     // Arrange
     Movie movie = Movie.BREAKING_BAD;
     Movie movie2 = Movie.BREAKING_BAD;
+
+    // Act and Assert
+    assertEquals(movie, movie2);
+    assertEquals(movie.hashCode(), movie2.hashCode());
+  }
+
+  /**
+   * Test {@link Movie#equals(Object)}, and {@link Movie#hashCode()}.
+   *
+   * <ul>
+   *   <li>When other is equal.
+   *   <li>Then return equal.
+   * </ul>
+   *
+   * <p>Methods under test:
+   *
+   * <ul>
+   *   <li>{@link Movie#equals(Object)}
+   *   <li>{@link Movie#hashCode()}
+   * </ul>
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"boolean Movie.equals(Object)", "int Movie.hashCode()"})
+  public void testEqualsAndHashCode_whenOtherIsEqual_thenReturnEqual2() {
+    // Arrange
+    Movie movie =
+        new Movie(
+            "\"1234567890\"",
+            "\"The Shawshank Redemption\"",
+            "\"Action\"",
+            "\"18-24\"",
+            "\"http://content.netflix.com/Movies/ID123\"");
+    Movie movie2 =
+        new Movie(
+            "\"1234567890\"",
+            "\"The Shawshank Redemption\"",
+            "\"Action\"",
+            "\"18-24\"",
+            "\"http://content.netflix.com/Movies/ID123\"");
+
+    // Act and Assert
+    assertEquals(movie, movie2);
+    assertEquals(movie.hashCode(), movie2.hashCode());
+  }
+
+  /**
+   * Test {@link Movie#equals(Object)}, and {@link Movie#hashCode()}.
+   *
+   * <ul>
+   *   <li>When other is equal.
+   *   <li>Then return equal.
+   * </ul>
+   *
+   * <p>Methods under test:
+   *
+   * <ul>
+   *   <li>{@link Movie#equals(Object)}
+   *   <li>{@link Movie#hashCode()}
+   * </ul>
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"boolean Movie.equals(Object)", "int Movie.hashCode()"})
+  public void testEqualsAndHashCode_whenOtherIsEqual_thenReturnEqual3() {
+    // Arrange
+    Movie movie =
+        new Movie(
+            null,
+            "\"The Shawshank Redemption\"",
+            "\"Action\"",
+            "\"18-24\"",
+            "\"http://content.netflix.com/Movies/ID123\"");
+    Movie movie2 =
+        new Movie(
+            null,
+            "\"The Shawshank Redemption\"",
+            "\"Action\"",
+            "\"18-24\"",
+            "\"http://content.netflix.com/Movies/ID123\"");
+
+    // Act and Assert
+    assertEquals(movie, movie2);
+    assertEquals(movie.hashCode(), movie2.hashCode());
+  }
+
+  /**
+   * Test {@link Movie#equals(Object)}, and {@link Movie#hashCode()}.
+   *
+   * <ul>
+   *   <li>When other is equal.
+   *   <li>Then return equal.
+   * </ul>
+   *
+   * <p>Methods under test:
+   *
+   * <ul>
+   *   <li>{@link Movie#equals(Object)}
+   *   <li>{@link Movie#hashCode()}
+   * </ul>
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"boolean Movie.equals(Object)", "int Movie.hashCode()"})
+  public void testEqualsAndHashCode_whenOtherIsEqual_thenReturnEqual4() {
+    // Arrange
+    Movie movie =
+        new Movie(
+            "\"1234567890\"",
+            null,
+            "\"Action\"",
+            "\"18-24\"",
+            "\"http://content.netflix.com/Movies/ID123\"");
+    Movie movie2 =
+        new Movie(
+            "\"1234567890\"",
+            null,
+            "\"Action\"",
+            "\"18-24\"",
+            "\"http://content.netflix.com/Movies/ID123\"");
+
+    // Act and Assert
+    assertEquals(movie, movie2);
+    assertEquals(movie.hashCode(), movie2.hashCode());
+  }
+
+  /**
+   * Test {@link Movie#equals(Object)}, and {@link Movie#hashCode()}.
+   *
+   * <ul>
+   *   <li>When other is equal.
+   *   <li>Then return equal.
+   * </ul>
+   *
+   * <p>Methods under test:
+   *
+   * <ul>
+   *   <li>{@link Movie#equals(Object)}
+   *   <li>{@link Movie#hashCode()}
+   * </ul>
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"boolean Movie.equals(Object)", "int Movie.hashCode()"})
+  public void testEqualsAndHashCode_whenOtherIsEqual_thenReturnEqual5() {
+    // Arrange
+    Movie movie =
+        new Movie(
+            "\"1234567890\"",
+            "\"The Shawshank Redemption\"",
+            null,
+            "\"18-24\"",
+            "\"http://content.netflix.com/Movies/ID123\"");
+    Movie movie2 =
+        new Movie(
+            "\"1234567890\"",
+            "\"The Shawshank Redemption\"",
+            null,
+            "\"18-24\"",
+            "\"http://content.netflix.com/Movies/ID123\"");
+
+    // Act and Assert
+    assertEquals(movie, movie2);
+    assertEquals(movie.hashCode(), movie2.hashCode());
+  }
+
+  /**
+   * Test {@link Movie#equals(Object)}, and {@link Movie#hashCode()}.
+   *
+   * <ul>
+   *   <li>When other is equal.
+   *   <li>Then return equal.
+   * </ul>
+   *
+   * <p>Methods under test:
+   *
+   * <ul>
+   *   <li>{@link Movie#equals(Object)}
+   *   <li>{@link Movie#hashCode()}
+   * </ul>
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"boolean Movie.equals(Object)", "int Movie.hashCode()"})
+  public void testEqualsAndHashCode_whenOtherIsEqual_thenReturnEqual6() {
+    // Arrange
+    Movie movie =
+        new Movie(
+            "\"1234567890\"", "\"The Shawshank Redemption\"", "\"Action\"", "\"18-24\"", null);
+    Movie movie2 =
+        new Movie(
+            "\"1234567890\"", "\"The Shawshank Redemption\"", "\"Action\"", "\"18-24\"", null);
 
     // Act and Assert
     assertEquals(movie, movie2);
@@ -160,7 +362,12 @@ public class MovieDiffblueTest {
   public void testEquals_whenOtherIsDifferent_thenReturnNotEqual2() {
     // Arrange, Act and Assert
     assertNotEquals(
-        new Movie("42", "Name", "Category", "Age Group", "Not all who wander are lost"),
+        new Movie(
+            "\"1234567890\"",
+            "\"The Shawshank Redemption\"",
+            "\"Action\"",
+            "\"18-24\"",
+            "\"http://content.netflix.com/Movies/ID123\""),
         Movie.BREAKING_BAD);
   }
 
@@ -181,8 +388,254 @@ public class MovieDiffblueTest {
   public void testEquals_whenOtherIsDifferent_thenReturnNotEqual3() {
     // Arrange, Act and Assert
     assertNotEquals(
-        new Movie("42", "Name", "Category", null, "Not all who wander are lost"),
+        new Movie(
+            "\"1234567890\"",
+            "\"The Shawshank Redemption\"",
+            "\"Action\"",
+            null,
+            "\"http://content.netflix.com/Movies/ID123\""),
         Movie.BREAKING_BAD);
+  }
+
+  /**
+   * Test {@link Movie#equals(Object)}.
+   *
+   * <ul>
+   *   <li>When other is different.
+   *   <li>Then return not equal.
+   * </ul>
+   *
+   * <p>Method under test: {@link Movie#equals(Object)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"boolean Movie.equals(Object)", "int Movie.hashCode()"})
+  public void testEquals_whenOtherIsDifferent_thenReturnNotEqual4() {
+    // Arrange
+    Movie movie =
+        new Movie(
+            "42",
+            "\"The Shawshank Redemption\"",
+            "\"Action\"",
+            "\"18-24\"",
+            "\"http://content.netflix.com/Movies/ID123\"");
+
+    // Act and Assert
+    assertNotEquals(
+        movie,
+        new Movie(
+            "\"1234567890\"",
+            "\"The Shawshank Redemption\"",
+            "\"Action\"",
+            "\"18-24\"",
+            "\"http://content.netflix.com/Movies/ID123\""));
+  }
+
+  /**
+   * Test {@link Movie#equals(Object)}.
+   *
+   * <ul>
+   *   <li>When other is different.
+   *   <li>Then return not equal.
+   * </ul>
+   *
+   * <p>Method under test: {@link Movie#equals(Object)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"boolean Movie.equals(Object)", "int Movie.hashCode()"})
+  public void testEquals_whenOtherIsDifferent_thenReturnNotEqual5() {
+    // Arrange
+    Movie movie =
+        new Movie(
+            null,
+            "\"The Shawshank Redemption\"",
+            "\"Action\"",
+            "\"18-24\"",
+            "\"http://content.netflix.com/Movies/ID123\"");
+
+    // Act and Assert
+    assertNotEquals(
+        movie,
+        new Movie(
+            "\"1234567890\"",
+            "\"The Shawshank Redemption\"",
+            "\"Action\"",
+            "\"18-24\"",
+            "\"http://content.netflix.com/Movies/ID123\""));
+  }
+
+  /**
+   * Test {@link Movie#equals(Object)}.
+   *
+   * <ul>
+   *   <li>When other is different.
+   *   <li>Then return not equal.
+   * </ul>
+   *
+   * <p>Method under test: {@link Movie#equals(Object)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"boolean Movie.equals(Object)", "int Movie.hashCode()"})
+  public void testEquals_whenOtherIsDifferent_thenReturnNotEqual6() {
+    // Arrange
+    Movie movie =
+        new Movie(
+            "\"1234567890\"",
+            "\"18-24\"",
+            "\"Action\"",
+            "\"18-24\"",
+            "\"http://content.netflix.com/Movies/ID123\"");
+
+    // Act and Assert
+    assertNotEquals(
+        movie,
+        new Movie(
+            "\"1234567890\"",
+            "\"The Shawshank Redemption\"",
+            "\"Action\"",
+            "\"18-24\"",
+            "\"http://content.netflix.com/Movies/ID123\""));
+  }
+
+  /**
+   * Test {@link Movie#equals(Object)}.
+   *
+   * <ul>
+   *   <li>When other is different.
+   *   <li>Then return not equal.
+   * </ul>
+   *
+   * <p>Method under test: {@link Movie#equals(Object)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"boolean Movie.equals(Object)", "int Movie.hashCode()"})
+  public void testEquals_whenOtherIsDifferent_thenReturnNotEqual7() {
+    // Arrange
+    Movie movie =
+        new Movie(
+            "\"1234567890\"",
+            null,
+            "\"Action\"",
+            "\"18-24\"",
+            "\"http://content.netflix.com/Movies/ID123\"");
+
+    // Act and Assert
+    assertNotEquals(
+        movie,
+        new Movie(
+            "\"1234567890\"",
+            "\"The Shawshank Redemption\"",
+            "\"Action\"",
+            "\"18-24\"",
+            "\"http://content.netflix.com/Movies/ID123\""));
+  }
+
+  /**
+   * Test {@link Movie#equals(Object)}.
+   *
+   * <ul>
+   *   <li>When other is different.
+   *   <li>Then return not equal.
+   * </ul>
+   *
+   * <p>Method under test: {@link Movie#equals(Object)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"boolean Movie.equals(Object)", "int Movie.hashCode()"})
+  public void testEquals_whenOtherIsDifferent_thenReturnNotEqual8() {
+    // Arrange
+    Movie movie =
+        new Movie(
+            "\"1234567890\"",
+            "\"The Shawshank Redemption\"",
+            null,
+            "\"18-24\"",
+            "\"http://content.netflix.com/Movies/ID123\"");
+
+    // Act and Assert
+    assertNotEquals(
+        movie,
+        new Movie(
+            "\"1234567890\"",
+            "\"The Shawshank Redemption\"",
+            "\"Action\"",
+            "\"18-24\"",
+            "\"http://content.netflix.com/Movies/ID123\""));
+  }
+
+  /**
+   * Test {@link Movie#equals(Object)}.
+   *
+   * <ul>
+   *   <li>When other is different.
+   *   <li>Then return not equal.
+   * </ul>
+   *
+   * <p>Method under test: {@link Movie#equals(Object)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"boolean Movie.equals(Object)", "int Movie.hashCode()"})
+  public void testEquals_whenOtherIsDifferent_thenReturnNotEqual9() {
+    // Arrange
+    Movie movie =
+        new Movie(
+            "\"1234567890\"",
+            "\"The Shawshank Redemption\"",
+            "\"Action\"",
+            "\"18-24\"",
+            "Not all who wander are lost");
+
+    // Act and Assert
+    assertNotEquals(
+        movie,
+        new Movie(
+            "\"1234567890\"",
+            "\"The Shawshank Redemption\"",
+            "\"Action\"",
+            "\"18-24\"",
+            "\"http://content.netflix.com/Movies/ID123\""));
+  }
+
+  /**
+   * Test {@link Movie#equals(Object)}.
+   *
+   * <ul>
+   *   <li>When other is different.
+   *   <li>Then return not equal.
+   * </ul>
+   *
+   * <p>Method under test: {@link Movie#equals(Object)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"boolean Movie.equals(Object)", "int Movie.hashCode()"})
+  public void testEquals_whenOtherIsDifferent_thenReturnNotEqual10() {
+    // Arrange
+    Movie movie =
+        new Movie(
+            "\"1234567890\"", "\"The Shawshank Redemption\"", "\"Action\"", "\"18-24\"", null);
+
+    // Act and Assert
+    assertNotEquals(
+        movie,
+        new Movie(
+            "\"1234567890\"",
+            "\"The Shawshank Redemption\"",
+            "\"Action\"",
+            "\"18-24\"",
+            "\"http://content.netflix.com/Movies/ID123\""));
   }
 
   /**
@@ -272,7 +725,7 @@ public class MovieDiffblueTest {
    * Test {@link Movie#from(String)} with {@code formatted}.
    *
    * <ul>
-   *   <li>When {@code Formatted}.
+   *   <li>When a string.
    *   <li>Then throw {@link IllegalArgumentException}.
    * </ul>
    *
@@ -282,9 +735,11 @@ public class MovieDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"Movie Movie.from(String)"})
-  public void testFromWithFormatted_whenFormatted_thenThrowIllegalArgumentException() {
+  public void testFromWithFormatted_whenAString_thenThrowIllegalArgumentException() {
     // Arrange, Act and Assert
     thrown.expect(IllegalArgumentException.class);
-    Movie.from("Formatted");
+    Movie.from(
+        "\"Title: The Matrix, Director: Lana Wachowski, Lilly Wachowski, Release Year: 1999, Genre: Science"
+            + " Fiction, Duration: 136 minutes\"");
   }
 }

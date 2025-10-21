@@ -62,14 +62,14 @@ public class MockedDiscoveryServerListTestDiffblueTest {
 
     // Act
     List<InstanceInfo> actualDummyInstanceInfo =
-        MockedDiscoveryServerListTest.getDummyInstanceInfo("App Name", serverList);
+        MockedDiscoveryServerListTest.getDummyInstanceInfo("\"TestApplicationName\"", serverList);
 
     // Assert
     assertEquals(1, actualDummyInstanceInfo.size());
     InstanceInfo getResult = actualDummyInstanceInfo.get(0);
     assertEquals("42", getResult.getHostName());
     assertEquals("42", getResult.getId());
-    assertEquals("APP NAME", getResult.getAppName());
+    assertEquals("\"TESTAPPLICATIONNAME\"", getResult.getAppName());
   }
 
   /**
@@ -94,7 +94,7 @@ public class MockedDiscoveryServerListTestDiffblueTest {
 
     // Act
     List<InstanceInfo> actualDummyInstanceInfo =
-        MockedDiscoveryServerListTest.getDummyInstanceInfo("App Name", serverList);
+        MockedDiscoveryServerListTest.getDummyInstanceInfo("\"TestApplicationName\"", serverList);
 
     // Assert
     assertEquals(2, actualDummyInstanceInfo.size());
@@ -106,7 +106,8 @@ public class MockedDiscoveryServerListTestDiffblueTest {
    * Test {@link MockedDiscoveryServerListTest#getDummyInstanceInfo(String, List)}.
    *
    * <ul>
-   *   <li>Then return first AppName is {@code APP NAME}.
+   *   <li>Given {@link Server#Server(String)} with {@code Id}.
+   *   <li>Then return first HostName is {@code Id}.
    * </ul>
    *
    * <p>Method under test: {@link MockedDiscoveryServerListTest#getDummyInstanceInfo(String, List)}
@@ -115,19 +116,49 @@ public class MockedDiscoveryServerListTestDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"List MockedDiscoveryServerListTest.getDummyInstanceInfo(String, List)"})
-  public void testGetDummyInstanceInfo_thenReturnFirstAppNameIsAppName() {
+  public void testGetDummyInstanceInfo_givenServerWithId_thenReturnFirstHostNameIsId() {
+    // Arrange
+    ArrayList<Server> serverList = new ArrayList<>();
+    serverList.add(new Server("Id"));
+
+    // Act
+    List<InstanceInfo> actualDummyInstanceInfo =
+        MockedDiscoveryServerListTest.getDummyInstanceInfo("\"TestApplicationName\"", serverList);
+
+    // Assert
+    assertEquals(1, actualDummyInstanceInfo.size());
+    InstanceInfo getResult = actualDummyInstanceInfo.get(0);
+    assertEquals("Id", getResult.getHostName());
+    assertEquals("Id", getResult.getId());
+    assertEquals("\"TESTAPPLICATIONNAME\"", getResult.getAppName());
+  }
+
+  /**
+   * Test {@link MockedDiscoveryServerListTest#getDummyInstanceInfo(String, List)}.
+   *
+   * <ul>
+   *   <li>Then return first HostName is {@code null}.
+   * </ul>
+   *
+   * <p>Method under test: {@link MockedDiscoveryServerListTest#getDummyInstanceInfo(String, List)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"List MockedDiscoveryServerListTest.getDummyInstanceInfo(String, List)"})
+  public void testGetDummyInstanceInfo_thenReturnFirstHostNameIsNull() {
     // Arrange
     ArrayList<Server> serverList = new ArrayList<>();
     serverList.add(new Server(""));
 
     // Act
     List<InstanceInfo> actualDummyInstanceInfo =
-        MockedDiscoveryServerListTest.getDummyInstanceInfo("App Name", serverList);
+        MockedDiscoveryServerListTest.getDummyInstanceInfo("\"TestApplicationName\"", serverList);
 
     // Assert
     assertEquals(1, actualDummyInstanceInfo.size());
     InstanceInfo getResult = actualDummyInstanceInfo.get(0);
-    assertEquals("APP NAME", getResult.getAppName());
+    assertEquals("\"TESTAPPLICATIONNAME\"", getResult.getAppName());
     assertNull(getResult.getHostName());
     assertNull(getResult.getId());
   }
@@ -149,7 +180,8 @@ public class MockedDiscoveryServerListTestDiffblueTest {
   public void testGetDummyInstanceInfo_whenArrayList_thenReturnEmpty() {
     // Arrange and Act
     List<InstanceInfo> actualDummyInstanceInfo =
-        MockedDiscoveryServerListTest.getDummyInstanceInfo("App Name", new ArrayList<>());
+        MockedDiscoveryServerListTest.getDummyInstanceInfo(
+            "\"TestApplicationName\"", new ArrayList<>());
 
     // Assert
     assertTrue(actualDummyInstanceInfo.isEmpty());

@@ -164,70 +164,6 @@ public class AbstractServerPredicateDiffblueTest {
    * Test {@link AbstractServerPredicate#getEligibleServers(List, Object)} with {@code servers},
    * {@code loadBalancerKey}.
    *
-   * <p>Method under test: {@link AbstractServerPredicate#getEligibleServers(List, Object)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"List AbstractServerPredicate.getEligibleServers(List, Object)"})
-  public void testGetEligibleServersWithServersLoadBalancerKey() {
-    // Arrange
-    ZoneAffinityPredicate zoneAffinityPredicate = new ZoneAffinityPredicate("Zone");
-
-    ArrayList<Server> servers = new ArrayList<>();
-    servers.add(new Server("42"));
-
-    // Act and Assert
-    assertTrue(zoneAffinityPredicate.getEligibleServers(servers, "Load Balancer Key").isEmpty());
-  }
-
-  /**
-   * Test {@link AbstractServerPredicate#getEligibleServers(List, Object)} with {@code servers},
-   * {@code loadBalancerKey}.
-   *
-   * <p>Method under test: {@link AbstractServerPredicate#getEligibleServers(List, Object)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"List AbstractServerPredicate.getEligibleServers(List, Object)"})
-  public void testGetEligibleServersWithServersLoadBalancerKey2() {
-    // Arrange
-    ZoneAffinityPredicate zoneAffinityPredicate = new ZoneAffinityPredicate("Zone");
-
-    ArrayList<Server> servers = new ArrayList<>();
-    servers.add(new Server("42"));
-    servers.add(new Server("42"));
-
-    // Act and Assert
-    assertTrue(zoneAffinityPredicate.getEligibleServers(servers, "Load Balancer Key").isEmpty());
-  }
-
-  /**
-   * Test {@link AbstractServerPredicate#getEligibleServers(List, Object)} with {@code servers},
-   * {@code loadBalancerKey}.
-   *
-   * <p>Method under test: {@link AbstractServerPredicate#getEligibleServers(List, Object)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"List AbstractServerPredicate.getEligibleServers(List, Object)"})
-  public void testGetEligibleServersWithServersLoadBalancerKey3() {
-    // Arrange
-    ZoneAffinityPredicate zoneAffinityPredicate = new ZoneAffinityPredicate("Zone");
-
-    ArrayList<Server> servers = new ArrayList<>();
-    servers.add(new Server("42"));
-
-    // Act and Assert
-    assertTrue(zoneAffinityPredicate.getEligibleServers(servers, null).isEmpty());
-  }
-
-  /**
-   * Test {@link AbstractServerPredicate#getEligibleServers(List, Object)} with {@code servers},
-   * {@code loadBalancerKey}.
-   *
    * <ul>
    *   <li>Then return {@link ArrayList#ArrayList()}.
    * </ul>
@@ -286,7 +222,7 @@ public class AbstractServerPredicateDiffblueTest {
    * {@code loadBalancerKey}.
    *
    * <ul>
-   *   <li>Then return size is five.
+   *   <li>Then return Empty.
    * </ul>
    *
    * <p>Method under test: {@link AbstractServerPredicate#getEligibleServers(List, Object)}
@@ -295,24 +231,15 @@ public class AbstractServerPredicateDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"List AbstractServerPredicate.getEligibleServers(List, Object)"})
-  public void testGetEligibleServersWithServersLoadBalancerKey_thenReturnSizeIsFive() {
+  public void testGetEligibleServersWithServersLoadBalancerKey_thenReturnEmpty() {
     // Arrange
-    ZoneAffinityPredicate zoneAffinityPredicate = new ZoneAffinityPredicate("unknown");
+    ZoneAffinityPredicate zoneAffinityPredicate = new ZoneAffinityPredicate("\"us-west-2\"");
 
     ArrayList<Server> servers = new ArrayList<>();
     servers.add(new Server("42"));
-    servers.add(new Server("42"));
-    servers.add(new Server("42"));
-    servers.add(new Server("42"));
-    Server server = new Server("42");
-    servers.add(server);
 
-    // Act
-    List<Server> actualEligibleServers = zoneAffinityPredicate.getEligibleServers(servers, null);
-
-    // Assert
-    assertEquals(5, actualEligibleServers.size());
-    assertSame(server, actualEligibleServers.get(4));
+    // Act and Assert
+    assertTrue(zoneAffinityPredicate.getEligibleServers(servers, "Load Balancer Key").isEmpty());
   }
 
   /**
@@ -320,7 +247,7 @@ public class AbstractServerPredicateDiffblueTest {
    * {@code loadBalancerKey}.
    *
    * <ul>
-   *   <li>Then return size is four.
+   *   <li>Then return Empty.
    * </ul>
    *
    * <p>Method under test: {@link AbstractServerPredicate#getEligibleServers(List, Object)}
@@ -329,25 +256,41 @@ public class AbstractServerPredicateDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"List AbstractServerPredicate.getEligibleServers(List, Object)"})
-  public void testGetEligibleServersWithServersLoadBalancerKey_thenReturnSizeIsFour() {
+  public void testGetEligibleServersWithServersLoadBalancerKey_thenReturnEmpty2() {
     // Arrange
-    ZoneAffinityPredicate zoneAffinityPredicate = new ZoneAffinityPredicate("unknown");
+    ZoneAffinityPredicate zoneAffinityPredicate = new ZoneAffinityPredicate("\"us-west-2\"");
 
     ArrayList<Server> servers = new ArrayList<>();
     servers.add(new Server("42"));
     servers.add(new Server("42"));
-    Server server = new Server("42");
-    servers.add(server);
-    Server server2 = new Server("42");
-    servers.add(server2);
 
-    // Act
-    List<Server> actualEligibleServers = zoneAffinityPredicate.getEligibleServers(servers, null);
+    // Act and Assert
+    assertTrue(zoneAffinityPredicate.getEligibleServers(servers, "Load Balancer Key").isEmpty());
+  }
 
-    // Assert
-    assertEquals(4, actualEligibleServers.size());
-    assertSame(server, actualEligibleServers.get(2));
-    assertSame(server2, actualEligibleServers.get(3));
+  /**
+   * Test {@link AbstractServerPredicate#getEligibleServers(List, Object)} with {@code servers},
+   * {@code loadBalancerKey}.
+   *
+   * <ul>
+   *   <li>Then return Empty.
+   * </ul>
+   *
+   * <p>Method under test: {@link AbstractServerPredicate#getEligibleServers(List, Object)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"List AbstractServerPredicate.getEligibleServers(List, Object)"})
+  public void testGetEligibleServersWithServersLoadBalancerKey_thenReturnEmpty3() {
+    // Arrange
+    ZoneAffinityPredicate zoneAffinityPredicate = new ZoneAffinityPredicate("\"us-west-2\"");
+
+    ArrayList<Server> servers = new ArrayList<>();
+    servers.add(new Server("42"));
+
+    // Act and Assert
+    assertTrue(zoneAffinityPredicate.getEligibleServers(servers, null).isEmpty());
   }
 
   /**
@@ -397,11 +340,10 @@ public class AbstractServerPredicateDiffblueTest {
   @MethodsUnderTest({"List AbstractServerPredicate.getEligibleServers(List, Object)"})
   public void testGetEligibleServersWithServersLoadBalancerKey_whenArrayList() {
     // Arrange
-    ZoneAffinityPredicate zoneAffinityPredicate = new ZoneAffinityPredicate("Zone");
+    CompositePredicate compositePredicate = new CompositePredicate();
 
     // Act and Assert
-    assertTrue(
-        zoneAffinityPredicate.getEligibleServers(new ArrayList<>(), "Load Balancer Key").isEmpty());
+    assertTrue(compositePredicate.getEligibleServers(new ArrayList<>(), null).isEmpty());
   }
 
   /**
@@ -410,6 +352,7 @@ public class AbstractServerPredicateDiffblueTest {
    *
    * <ul>
    *   <li>When {@link ArrayList#ArrayList()}.
+   *   <li>Then return Empty.
    * </ul>
    *
    * <p>Method under test: {@link AbstractServerPredicate#getEligibleServers(List, Object)}
@@ -418,12 +361,13 @@ public class AbstractServerPredicateDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"List AbstractServerPredicate.getEligibleServers(List, Object)"})
-  public void testGetEligibleServersWithServersLoadBalancerKey_whenArrayList2() {
+  public void testGetEligibleServersWithServersLoadBalancerKey_whenArrayList_thenReturnEmpty() {
     // Arrange
-    CompositePredicate compositePredicate = new CompositePredicate();
+    ZoneAffinityPredicate zoneAffinityPredicate = new ZoneAffinityPredicate("\"us-west-2\"");
 
     // Act and Assert
-    assertTrue(compositePredicate.getEligibleServers(new ArrayList<>(), null).isEmpty());
+    assertTrue(
+        zoneAffinityPredicate.getEligibleServers(new ArrayList<>(), "Load Balancer Key").isEmpty());
   }
 
   /**

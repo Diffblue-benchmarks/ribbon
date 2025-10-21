@@ -31,7 +31,7 @@ public class NFHttpMethodRetryHandlerDiffblueTest {
   public void testNewNFHttpMethodRetryHandler() {
     // Arrange and Act
     NFHttpMethodRetryHandler actualNfHttpMethodRetryHandler =
-        new NFHttpMethodRetryHandler("Dr Jane Doe", 3, true, 3);
+        new NFHttpMethodRetryHandler("\"DefaultHttpClient\"", 3, true, 3);
 
     // Assert
     assertEquals(3, actualNfHttpMethodRetryHandler.getRetryCount());
@@ -53,7 +53,7 @@ public class NFHttpMethodRetryHandlerDiffblueTest {
   public void testRetryRequest() {
     // Arrange
     NFHttpMethodRetryHandler nfHttpMethodRetryHandler =
-        new NFHttpMethodRetryHandler("Dr Jane Doe", 1, true, 3);
+        new NFHttpMethodRetryHandler("\"DefaultHttpClient\"", 1, true, 3);
 
     InterruptedIOException exception = new InterruptedIOException();
     exception.addSuppressed(new Throwable());
@@ -82,7 +82,7 @@ public class NFHttpMethodRetryHandlerDiffblueTest {
   public void testRetryRequest_givenThrowable_thenReturnFalse() {
     // Arrange
     NFHttpMethodRetryHandler nfHttpMethodRetryHandler =
-        new NFHttpMethodRetryHandler("Dr Jane Doe", 3, true, 3);
+        new NFHttpMethodRetryHandler("\"DefaultHttpClient\"", 3, true, 3);
 
     InterruptedIOException exception = new InterruptedIOException();
     exception.addSuppressed(new Throwable());
@@ -111,7 +111,7 @@ public class NFHttpMethodRetryHandlerDiffblueTest {
   public void testRetryRequest_whenIOException_thenThrowIllegalArgumentException() {
     // Arrange
     NFHttpMethodRetryHandler nfHttpMethodRetryHandler =
-        new NFHttpMethodRetryHandler("Dr Jane Doe", 3, true, 3);
+        new NFHttpMethodRetryHandler("\"DefaultHttpClient\"", 3, true, 3);
 
     // Act and Assert
     thrown.expect(IllegalArgumentException.class);
@@ -138,7 +138,7 @@ public class NFHttpMethodRetryHandlerDiffblueTest {
   public void testRetryRequest_whenNull_thenThrowIllegalArgumentException() {
     // Arrange
     NFHttpMethodRetryHandler nfHttpMethodRetryHandler =
-        new NFHttpMethodRetryHandler("Dr Jane Doe", 3, true, 3);
+        new NFHttpMethodRetryHandler("\"DefaultHttpClient\"", 3, true, 3);
 
     // Act and Assert
     thrown.expect(IllegalArgumentException.class);

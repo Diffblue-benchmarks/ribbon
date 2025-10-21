@@ -1,0 +1,1 @@
+{"id":"chatcmpl-CT6JsW9G54WQ5HxnLU5gKUR9abSWK","object":"chat.completion","created":1761051840,"model":"gpt-4-0613","choices":[{"message":{"role":"assistant","content":"\"Test case for NotActiveException: Object is not currently active\""},"index":0,"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":216,"completion_tokens":14,"total_tokens":230}}

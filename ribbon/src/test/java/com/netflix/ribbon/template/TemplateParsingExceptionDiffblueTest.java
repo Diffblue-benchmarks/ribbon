@@ -14,7 +14,7 @@ public class TemplateParsingExceptionDiffblueTest {
    * Test {@link TemplateParsingException#TemplateParsingException(String)}.
    *
    * <ul>
-   *   <li>When {@code Arg0}.
+   *   <li>When a string.
    *   <li>Then return Cause is {@code null}.
    * </ul>
    *
@@ -27,12 +27,18 @@ public class TemplateParsingExceptionDiffblueTest {
     "void TemplateParsingException.<init>(String)",
     "void TemplateParsingException.<init>(String, Throwable)"
   })
-  public void testNewTemplateParsingException_whenArg0_thenReturnCauseIsNull() {
+  public void testNewTemplateParsingException_whenAString_thenReturnCauseIsNull() {
     // Arrange and Act
-    TemplateParsingException actualTemplateParsingException = new TemplateParsingException("Arg0");
+    TemplateParsingException actualTemplateParsingException =
+        new TemplateParsingException(
+            "\"Error occurred while parsing the Ribbon template. Invalid syntax or unsupported template structure"
+                + " detected.\"");
 
     // Assert
-    assertEquals("Arg0", actualTemplateParsingException.getMessage());
+    assertEquals(
+        "\"Error occurred while parsing the Ribbon template. Invalid syntax or unsupported template structure"
+            + " detected.\"",
+        actualTemplateParsingException.getMessage());
     assertNull(actualTemplateParsingException.getCause());
     assertEquals(0, actualTemplateParsingException.getSuppressed().length);
   }
@@ -61,10 +67,16 @@ public class TemplateParsingExceptionDiffblueTest {
 
     // Act
     TemplateParsingException actualTemplateParsingException =
-        new TemplateParsingException("Arg0", arg1);
+        new TemplateParsingException(
+            "\"Failed to parse the provided template due to unexpected syntax at line 10, column 5. Please check the"
+                + " template for errors.\"",
+            arg1);
 
     // Assert
-    assertEquals("Arg0", actualTemplateParsingException.getMessage());
+    assertEquals(
+        "\"Failed to parse the provided template due to unexpected syntax at line 10, column 5. Please check the"
+            + " template for errors.\"",
+        actualTemplateParsingException.getMessage());
     assertEquals(0, actualTemplateParsingException.getSuppressed().length);
     assertSame(arg1, actualTemplateParsingException.getCause());
   }

@@ -22,6 +22,7 @@ public class CaseInsensitiveMultiMapDiffblueTest {
    *
    * <ul>
    *   <li>Given {@link CaseInsensitiveMultiMap} (default constructor).
+   *   <li>When {@code "Content-Type"}.
    *   <li>Then return {@code null}.
    * </ul>
    *
@@ -31,16 +32,16 @@ public class CaseInsensitiveMultiMapDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"String CaseInsensitiveMultiMap.getFirstValue(String)"})
-  public void testGetFirstValue_givenCaseInsensitiveMultiMap_thenReturnNull() {
+  public void testGetFirstValue_givenCaseInsensitiveMultiMap_whenContentType_thenReturnNull() {
     // Arrange, Act and Assert
-    assertNull(new CaseInsensitiveMultiMap().getFirstValue("https://example.org/example"));
+    assertNull(new CaseInsensitiveMultiMap().getFirstValue("\"Content-Type\""));
   }
 
   /**
    * Test {@link CaseInsensitiveMultiMap#getFirstValue(String)}.
    *
    * <ul>
-   *   <li>Then return {@code https://example.org/example}.
+   *   <li>Then return {@code "Content-Type"}.
    * </ul>
    *
    * <p>Method under test: {@link CaseInsensitiveMultiMap#getFirstValue(String)}
@@ -49,15 +50,13 @@ public class CaseInsensitiveMultiMapDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"String CaseInsensitiveMultiMap.getFirstValue(String)"})
-  public void testGetFirstValue_thenReturnHttpsExampleOrgExample() {
+  public void testGetFirstValue_thenReturnContentType() {
     // Arrange
     CaseInsensitiveMultiMap caseInsensitiveMultiMap = new CaseInsensitiveMultiMap();
-    caseInsensitiveMultiMap.addHeader("https://example.org/example", "https://example.org/example");
+    caseInsensitiveMultiMap.addHeader("\"Content-Type\"", "\"Content-Type\"");
 
     // Act and Assert
-    assertEquals(
-        "https://example.org/example",
-        caseInsensitiveMultiMap.getFirstValue("https://example.org/example"));
+    assertEquals("\"Content-Type\"", caseInsensitiveMultiMap.getFirstValue("\"Content-Type\""));
   }
 
   /**
@@ -65,6 +64,7 @@ public class CaseInsensitiveMultiMapDiffblueTest {
    *
    * <ul>
    *   <li>Given {@link CaseInsensitiveMultiMap} (default constructor).
+   *   <li>When {@code "Content-Type"}.
    *   <li>Then return Empty.
    * </ul>
    *
@@ -74,9 +74,9 @@ public class CaseInsensitiveMultiMapDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"List CaseInsensitiveMultiMap.getAllValues(String)"})
-  public void testGetAllValues_givenCaseInsensitiveMultiMap_thenReturnEmpty() {
+  public void testGetAllValues_givenCaseInsensitiveMultiMap_whenContentType_thenReturnEmpty() {
     // Arrange, Act and Assert
-    assertTrue(new CaseInsensitiveMultiMap().getAllValues("https://example.org/example").isEmpty());
+    assertTrue(new CaseInsensitiveMultiMap().getAllValues("\"Content-Type\"").isEmpty());
   }
 
   /**
@@ -95,15 +95,14 @@ public class CaseInsensitiveMultiMapDiffblueTest {
   public void testGetAllValues_thenReturnSizeIsOne() {
     // Arrange
     CaseInsensitiveMultiMap caseInsensitiveMultiMap = new CaseInsensitiveMultiMap();
-    caseInsensitiveMultiMap.addHeader("https://example.org/example", "https://example.org/example");
+    caseInsensitiveMultiMap.addHeader("\"Content-Type\"", "\"Content-Type\"");
 
     // Act
-    List<String> actualAllValues =
-        caseInsensitiveMultiMap.getAllValues("https://example.org/example");
+    List<String> actualAllValues = caseInsensitiveMultiMap.getAllValues("\"Content-Type\"");
 
     // Assert
     assertEquals(1, actualAllValues.size());
-    assertEquals("https://example.org/example", actualAllValues.get(0));
+    assertEquals("\"Content-Type\"", actualAllValues.get(0));
   }
 
   /**
@@ -136,7 +135,7 @@ public class CaseInsensitiveMultiMapDiffblueTest {
   @MethodsUnderTest({"boolean CaseInsensitiveMultiMap.containsHeader(String)"})
   public void testContainsHeader_givenCaseInsensitiveMultiMap_thenReturnFalse() {
     // Arrange, Act and Assert
-    assertFalse(new CaseInsensitiveMultiMap().containsHeader("https://example.org/example"));
+    assertFalse(new CaseInsensitiveMultiMap().containsHeader("\"Content-Type\""));
   }
 
   /**
@@ -155,14 +154,19 @@ public class CaseInsensitiveMultiMapDiffblueTest {
   public void testContainsHeader_thenReturnTrue() {
     // Arrange
     CaseInsensitiveMultiMap caseInsensitiveMultiMap = new CaseInsensitiveMultiMap();
-    caseInsensitiveMultiMap.addHeader("https://example.org/example", "https://example.org/example");
+    caseInsensitiveMultiMap.addHeader("\"Content-Type\"", "\"Content-Type\"");
 
     // Act and Assert
-    assertTrue(caseInsensitiveMultiMap.containsHeader("https://example.org/example"));
+    assertTrue(caseInsensitiveMultiMap.containsHeader("\"Content-Type\""));
   }
 
   /**
    * Test {@link CaseInsensitiveMultiMap#addHeader(String, String)}.
+   *
+   * <ul>
+   *   <li>Given {@link CaseInsensitiveMultiMap} (default constructor) addHeader {@code
+   *       "Content-Type"} and {@code "Content-Type"}.
+   * </ul>
    *
    * <p>Method under test: {@link CaseInsensitiveMultiMap#addHeader(String, String)}
    */
@@ -170,13 +174,13 @@ public class CaseInsensitiveMultiMapDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void CaseInsensitiveMultiMap.addHeader(String, String)"})
-  public void testAddHeader() {
+  public void testAddHeader_givenCaseInsensitiveMultiMapAddHeaderContentTypeAndContentType() {
     // Arrange
     CaseInsensitiveMultiMap caseInsensitiveMultiMap = new CaseInsensitiveMultiMap();
-    caseInsensitiveMultiMap.addHeader("https://example.org/example", "https://example.org/example");
+    caseInsensitiveMultiMap.addHeader("\"Content-Type\"", "\"Content-Type\"");
 
     // Act
-    caseInsensitiveMultiMap.addHeader("https://example.org/example", "https://example.org/example");
+    caseInsensitiveMultiMap.addHeader("\"Content-Type\"", "\"Content-Type\"");
 
     // Assert that nothing has changed
     Multimap<String, Entry<String, String>> multimap = caseInsensitiveMultiMap.map;
@@ -205,7 +209,7 @@ public class CaseInsensitiveMultiMapDiffblueTest {
     CaseInsensitiveMultiMap caseInsensitiveMultiMap = new CaseInsensitiveMultiMap();
 
     // Act
-    caseInsensitiveMultiMap.addHeader("https://example.org/example", "https://example.org/example");
+    caseInsensitiveMultiMap.addHeader("\"Content-Type\"", "\"Content-Type\"");
 
     // Assert
     Multimap<String, Entry<String, String>> multimap = caseInsensitiveMultiMap.map;
@@ -233,10 +237,10 @@ public class CaseInsensitiveMultiMapDiffblueTest {
   public void testAddHeader_thenCaseInsensitiveMultiMapMapSizeIsTwo() {
     // Arrange
     CaseInsensitiveMultiMap caseInsensitiveMultiMap = new CaseInsensitiveMultiMap();
-    caseInsensitiveMultiMap.addHeader("https://example.org/example", "42");
+    caseInsensitiveMultiMap.addHeader("\"Content-Type\"", "https://example.org/example");
 
     // Act
-    caseInsensitiveMultiMap.addHeader("https://example.org/example", "https://example.org/example");
+    caseInsensitiveMultiMap.addHeader("\"Content-Type\"", "\"Content-Type\"");
 
     // Assert
     Multimap<String, Entry<String, String>> multimap = caseInsensitiveMultiMap.map;
@@ -245,39 +249,6 @@ public class CaseInsensitiveMultiMapDiffblueTest {
     assertEquals(2, multimap.entries().size());
     assertEquals(2, caseInsensitiveMultiMap.getAllHeaders().size());
     assertFalse(multimap.isEmpty());
-  }
-
-  /**
-   * Test {@link CaseInsensitiveMultiMap#asMap()}.
-   *
-   * <ul>
-   *   <li>Given {@link CaseInsensitiveMultiMap} (default constructor) addHeader {@code Name} and
-   *       {@code 42}.
-   *   <li>Then return size is two.
-   * </ul>
-   *
-   * <p>Method under test: {@link CaseInsensitiveMultiMap#asMap()}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"Map CaseInsensitiveMultiMap.asMap()"})
-  public void testAsMap_givenCaseInsensitiveMultiMapAddHeaderNameAnd42_thenReturnSizeIsTwo() {
-    // Arrange
-    CaseInsensitiveMultiMap caseInsensitiveMultiMap = new CaseInsensitiveMultiMap();
-    caseInsensitiveMultiMap.addHeader("Name", "42");
-    caseInsensitiveMultiMap.addHeader("https://example.org/example", "https://example.org/example");
-
-    // Act
-    Map<String, Collection<String>> actualAsMapResult = caseInsensitiveMultiMap.asMap();
-
-    // Assert
-    assertEquals(2, actualAsMapResult.size());
-    Collection<String> getResult = actualAsMapResult.get("Name");
-    assertEquals(1, getResult.size());
-    assertTrue(getResult instanceof List);
-    assertEquals("42", ((List<String>) getResult).get(0));
-    assertTrue(actualAsMapResult.containsKey("https://example.org/example"));
   }
 
   /**
@@ -303,7 +274,7 @@ public class CaseInsensitiveMultiMapDiffblueTest {
    * Test {@link CaseInsensitiveMultiMap#asMap()}.
    *
    * <ul>
-   *   <li>Then return {@code https://example.org/example} size is one.
+   *   <li>Then return {@code "Content-Type"} size is one.
    * </ul>
    *
    * <p>Method under test: {@link CaseInsensitiveMultiMap#asMap()}
@@ -312,19 +283,50 @@ public class CaseInsensitiveMultiMapDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"Map CaseInsensitiveMultiMap.asMap()"})
-  public void testAsMap_thenReturnHttpsExampleOrgExampleSizeIsOne() {
+  public void testAsMap_thenReturnContentTypeSizeIsOne() {
     // Arrange
     CaseInsensitiveMultiMap caseInsensitiveMultiMap = new CaseInsensitiveMultiMap();
-    caseInsensitiveMultiMap.addHeader("https://example.org/example", "https://example.org/example");
+    caseInsensitiveMultiMap.addHeader("\"Content-Type\"", "\"Content-Type\"");
 
     // Act
     Map<String, Collection<String>> actualAsMapResult = caseInsensitiveMultiMap.asMap();
 
     // Assert
     assertEquals(1, actualAsMapResult.size());
-    Collection<String> getResult = actualAsMapResult.get("https://example.org/example");
+    Collection<String> getResult = actualAsMapResult.get("\"Content-Type\"");
     assertEquals(1, getResult.size());
     assertTrue(getResult instanceof List);
+    assertEquals("\"Content-Type\"", ((List<String>) getResult).get(0));
+  }
+
+  /**
+   * Test {@link CaseInsensitiveMultiMap#asMap()}.
+   *
+   * <ul>
+   *   <li>Then return {@code "Content-Type"} size is two.
+   * </ul>
+   *
+   * <p>Method under test: {@link CaseInsensitiveMultiMap#asMap()}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"Map CaseInsensitiveMultiMap.asMap()"})
+  public void testAsMap_thenReturnContentTypeSizeIsTwo() {
+    // Arrange
+    CaseInsensitiveMultiMap caseInsensitiveMultiMap = new CaseInsensitiveMultiMap();
+    caseInsensitiveMultiMap.addHeader("\"Content-Type\"", "https://example.org/example");
+    caseInsensitiveMultiMap.addHeader("\"Content-Type\"", "\"Content-Type\"");
+
+    // Act
+    Map<String, Collection<String>> actualAsMapResult = caseInsensitiveMultiMap.asMap();
+
+    // Assert
+    assertEquals(1, actualAsMapResult.size());
+    Collection<String> getResult = actualAsMapResult.get("\"Content-Type\"");
+    assertEquals(2, getResult.size());
+    assertTrue(getResult instanceof List);
+    assertEquals("\"Content-Type\"", ((List<String>) getResult).get(1));
     assertEquals("https://example.org/example", ((List<String>) getResult).get(0));
   }
 
@@ -332,7 +334,7 @@ public class CaseInsensitiveMultiMapDiffblueTest {
    * Test {@link CaseInsensitiveMultiMap#asMap()}.
    *
    * <ul>
-   *   <li>Then return {@code https://example.org/example} size is two.
+   *   <li>Then return size is two.
    * </ul>
    *
    * <p>Method under test: {@link CaseInsensitiveMultiMap#asMap()}
@@ -341,22 +343,22 @@ public class CaseInsensitiveMultiMapDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"Map CaseInsensitiveMultiMap.asMap()"})
-  public void testAsMap_thenReturnHttpsExampleOrgExampleSizeIsTwo() {
+  public void testAsMap_thenReturnSizeIsTwo() {
     // Arrange
     CaseInsensitiveMultiMap caseInsensitiveMultiMap = new CaseInsensitiveMultiMap();
-    caseInsensitiveMultiMap.addHeader("https://example.org/example", "42");
     caseInsensitiveMultiMap.addHeader("https://example.org/example", "https://example.org/example");
+    caseInsensitiveMultiMap.addHeader("\"Content-Type\"", "\"Content-Type\"");
 
     // Act
     Map<String, Collection<String>> actualAsMapResult = caseInsensitiveMultiMap.asMap();
 
     // Assert
-    assertEquals(1, actualAsMapResult.size());
+    assertEquals(2, actualAsMapResult.size());
     Collection<String> getResult = actualAsMapResult.get("https://example.org/example");
-    assertEquals(2, getResult.size());
+    assertEquals(1, getResult.size());
     assertTrue(getResult instanceof List);
-    assertEquals("42", ((List<String>) getResult).get(0));
-    assertEquals("https://example.org/example", ((List<String>) getResult).get(1));
+    assertEquals("https://example.org/example", ((List<String>) getResult).get(0));
+    assertTrue(actualAsMapResult.containsKey("\"Content-Type\""));
   }
 
   /**

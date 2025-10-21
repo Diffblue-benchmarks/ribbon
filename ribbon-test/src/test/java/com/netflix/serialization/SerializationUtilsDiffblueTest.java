@@ -43,7 +43,10 @@ public class SerializationUtilsDiffblueTest {
     // Arrange and Act
     Object actualDeserializeFromStringResult =
         SerializationUtils.deserializeFromString(
-            mock(Deserializer.class), "Not all who wander are lost", mock(TypeDef.class));
+            mock(Deserializer.class),
+            "{\"name\":\"John Doe\",\"age\":30,\"email\":\"johndoe@example.com\",\"address\":{\"street\":\"123 Main St\",\"city\":"
+                + "\"Springfield\",\"state\":\"IL\",\"zip\":\"62701\"}}",
+            mock(TypeDef.class));
 
     // Assert
     assertNull(actualDeserializeFromStringResult);

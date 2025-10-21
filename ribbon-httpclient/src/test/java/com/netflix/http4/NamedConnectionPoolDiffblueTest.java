@@ -15,6 +15,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.http.HttpHost;
 import org.apache.http.conn.ClientConnectionOperator;
 import org.apache.http.conn.ConnectionPoolTimeoutException;
+import org.apache.http.conn.DnsResolver;
 import org.apache.http.conn.params.ConnPerRoute;
 import org.apache.http.conn.routing.HttpRoute;
 import org.apache.http.conn.scheme.SchemeRegistry;
@@ -54,7 +55,7 @@ public class NamedConnectionPoolDiffblueTest {
     // Arrange and Act
     NamedConnectionPool actualNamedConnectionPool =
         new NamedConnectionPool(
-            "https://example.org/example",
+            "\"TestConnectionPool\"",
             new DefaultClientConnectionOperator(new SchemeRegistry()),
             mock(ConnPerRoute.class),
             3);
@@ -91,7 +92,7 @@ public class NamedConnectionPoolDiffblueTest {
     // Arrange and Act
     NamedConnectionPool actualNamedConnectionPool =
         new NamedConnectionPool(
-            "https://example.org/example",
+            "\"TestConnectionPool\"",
             new DefaultClientConnectionOperator(new SchemeRegistry()),
             mock(ConnPerRoute.class),
             3,
@@ -133,7 +134,7 @@ public class NamedConnectionPoolDiffblueTest {
 
     // Act
     NamedConnectionPool actualNamedConnectionPool =
-        new NamedConnectionPool("https://example.org/example", operator, new BasicHttpParams());
+        new NamedConnectionPool("\"TestConnectionPool\"", operator, new BasicHttpParams());
 
     // Assert
     assertEquals(0, actualNamedConnectionPool.getConnectionCount());
@@ -258,7 +259,7 @@ public class NamedConnectionPoolDiffblueTest {
     // Arrange, Act and Assert
     thrown.expect(IllegalArgumentException.class);
     new NamedConnectionPool(
-        "https://example.org/example",
+        "\"TestConnectionPool\"",
         new DefaultClientConnectionOperator(new SchemeRegistry()),
         null,
         3);
@@ -284,7 +285,7 @@ public class NamedConnectionPoolDiffblueTest {
   public void testNewNamedConnectionPool_thenThrowIllegalArgumentException2() {
     // Arrange, Act and Assert
     thrown.expect(IllegalArgumentException.class);
-    new NamedConnectionPool("https://example.org/example", null, mock(ConnPerRoute.class), 3);
+    new NamedConnectionPool("\"TestConnectionPool\"", null, mock(ConnPerRoute.class), 3);
   }
 
   /**
@@ -308,7 +309,7 @@ public class NamedConnectionPoolDiffblueTest {
     // Arrange, Act and Assert
     thrown.expect(IllegalArgumentException.class);
     new NamedConnectionPool(
-        "https://example.org/example",
+        "\"TestConnectionPool\"",
         new DefaultClientConnectionOperator(new SchemeRegistry()),
         null,
         3,
@@ -337,7 +338,7 @@ public class NamedConnectionPoolDiffblueTest {
     // Arrange, Act and Assert
     thrown.expect(IllegalArgumentException.class);
     new NamedConnectionPool(
-        "https://example.org/example", null, mock(ConnPerRoute.class), 3, 1L, TimeUnit.NANOSECONDS);
+        "\"TestConnectionPool\"", null, mock(ConnPerRoute.class), 3, 1L, TimeUnit.NANOSECONDS);
   }
 
   /**
@@ -360,7 +361,7 @@ public class NamedConnectionPoolDiffblueTest {
   public void testNewNamedConnectionPool_thenThrowIllegalArgumentException5() {
     // Arrange, Act and Assert
     thrown.expect(IllegalArgumentException.class);
-    new NamedConnectionPool("https://example.org/example", null, new BasicHttpParams());
+    new NamedConnectionPool("\"TestConnectionPool\"", null, new BasicHttpParams());
   }
 
   /**
@@ -412,43 +413,6 @@ public class NamedConnectionPoolDiffblueTest {
         3,
         1L,
         TimeUnit.NANOSECONDS);
-  }
-
-  /**
-   * Test {@link NamedConnectionPool#NamedConnectionPool(String, ClientConnectionOperator,
-   * ConnPerRoute, int)}.
-   *
-   * <ul>
-   *   <li>When {@code _CreateConnectionTimer}.
-   * </ul>
-   *
-   * <p>Method under test: {@link NamedConnectionPool#NamedConnectionPool(String,
-   * ClientConnectionOperator, ConnPerRoute, int)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "void NamedConnectionPool.<init>(String, ClientConnectionOperator, ConnPerRoute, int)"
-  })
-  public void testNewNamedConnectionPool_whenCreateConnectionTimer() {
-    // Arrange and Act
-    NamedConnectionPool actualNamedConnectionPool =
-        new NamedConnectionPool(
-            "_CreateConnectionTimer",
-            new DefaultClientConnectionOperator(new SchemeRegistry()),
-            mock(ConnPerRoute.class),
-            3);
-
-    // Assert
-    assertEquals(0, actualNamedConnectionPool.getConnectionCount());
-    assertEquals(0, actualNamedConnectionPool.getConnectionsInPool());
-    assertEquals(0L, actualNamedConnectionPool.getCreatedEntryCount());
-    assertEquals(0L, actualNamedConnectionPool.getDeleteCount());
-    assertEquals(0L, actualNamedConnectionPool.getFreeEntryCount());
-    assertEquals(0L, actualNamedConnectionPool.getReleaseCount());
-    assertEquals(0L, actualNamedConnectionPool.getRequestsCount());
-    assertEquals(3, actualNamedConnectionPool.getMaxTotalConnections());
   }
 
   /**
@@ -561,17 +525,13 @@ public class NamedConnectionPoolDiffblueTest {
   /**
    * Test {@link NamedConnectionPool#initMonitors(String)}.
    *
-   * <ul>
-   *   <li>When {@code https://example.org/example}.
-   * </ul>
-   *
    * <p>Method under test: {@link NamedConnectionPool#initMonitors(String)}
    */
   @Test
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void NamedConnectionPool.initMonitors(String)"})
-  public void testInitMonitors_whenHttpsExampleOrgExample() {
+  public void testInitMonitors() {
     // Arrange
     DefaultClientConnectionOperator operator =
         new DefaultClientConnectionOperator(new SchemeRegistry());
@@ -579,7 +539,7 @@ public class NamedConnectionPoolDiffblueTest {
         new NamedConnectionPool(operator, new BasicHttpParams());
 
     // Act
-    namedConnectionPool.initMonitors("https://example.org/example");
+    namedConnectionPool.initMonitors("\"TestConnectionPoolMonitor\"");
 
     // Assert
     assertEquals(0L, namedConnectionPool.getCreatedEntryCount());
@@ -592,25 +552,21 @@ public class NamedConnectionPoolDiffblueTest {
   /**
    * Test {@link NamedConnectionPool#initMonitors(String)}.
    *
-   * <ul>
-   *   <li>When {@code https://example.org/examplehttps://example.org/example}.
-   * </ul>
-   *
    * <p>Method under test: {@link NamedConnectionPool#initMonitors(String)}
    */
   @Test
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void NamedConnectionPool.initMonitors(String)"})
-  public void testInitMonitors_whenHttpsExampleOrgExamplehttpsExampleOrgExample() {
+  public void testInitMonitors2() {
     // Arrange
     DefaultClientConnectionOperator operator =
-        new DefaultClientConnectionOperator(new SchemeRegistry());
+        new DefaultClientConnectionOperator(new SchemeRegistry(), mock(DnsResolver.class));
     NamedConnectionPool namedConnectionPool =
         new NamedConnectionPool(operator, new BasicHttpParams());
 
     // Act
-    namedConnectionPool.initMonitors("https://example.org/examplehttps://example.org/example");
+    namedConnectionPool.initMonitors("\"TestConnectionPoolMonitor\"");
 
     // Assert
     assertEquals(0L, namedConnectionPool.getCreatedEntryCount());
@@ -636,11 +592,11 @@ public class NamedConnectionPoolDiffblueTest {
     DefaultClientConnectionOperator operator =
         new DefaultClientConnectionOperator(new SchemeRegistry());
     NamedConnectionPool namedConnectionPool =
-        new NamedConnectionPool("https://example.org/example", operator, new BasicHttpParams());
+        new NamedConnectionPool("\"TestConnectionPool\"", operator, new BasicHttpParams());
 
     // Act
     namedConnectionPool.requestPoolEntry(
-        new HttpRoute(new HttpHost("https://example.org/example")), "State");
+        new HttpRoute(new HttpHost("\"www.example.com\"")), "State");
 
     // Assert
     assertEquals(1L, namedConnectionPool.getRequestsCount());
@@ -669,7 +625,7 @@ public class NamedConnectionPoolDiffblueTest {
 
     ConnPerRoute connPerRoute = mock(ConnPerRoute.class);
     when(connPerRoute.getMaxForRoute(Mockito.<HttpRoute>any())).thenReturn(3);
-    HttpRoute route = new HttpRoute(new HttpHost("https://example.org/example"));
+    HttpRoute route = new HttpRoute(new HttpHost("\"www.example.com\""));
 
     RouteSpecificPool rospl = new RouteSpecificPool(route, connPerRoute);
 
@@ -701,7 +657,7 @@ public class NamedConnectionPoolDiffblueTest {
         new DefaultClientConnectionOperator(new SchemeRegistry());
     NamedConnectionPool namedConnectionPool =
         new NamedConnectionPool(operator, new BasicHttpParams());
-    HttpRoute route = new HttpRoute(new HttpHost("https://example.org/example"));
+    HttpRoute route = new HttpRoute(new HttpHost("\"www.example.com\""));
 
     // Act and Assert
     assertNull(namedConnectionPool.getFreeEntry(new RouteSpecificPool(route, 3), "State"));
@@ -727,7 +683,7 @@ public class NamedConnectionPoolDiffblueTest {
         new DefaultClientConnectionOperator(new SchemeRegistry());
     NamedConnectionPool namedConnectionPool =
         new NamedConnectionPool(operator, new BasicHttpParams());
-    HttpRoute route = new HttpRoute(new HttpHost("https://example.org/example"));
+    HttpRoute route = new HttpRoute(new HttpHost("\"www.example.com\""));
 
     // Act and Assert
     assertNull(namedConnectionPool.getFreeEntry(new RouteSpecificPool(route, 0), "State"));
@@ -737,6 +693,7 @@ public class NamedConnectionPoolDiffblueTest {
    * Test {@link NamedConnectionPool#createEntry(RouteSpecificPool, ClientConnectionOperator)}.
    *
    * <ul>
+   *   <li>When {@link HttpHost#HttpHost(String)} with hostname is {@code "www.example.com"}.
    *   <li>Then return State is {@code null}.
    * </ul>
    *
@@ -749,13 +706,13 @@ public class NamedConnectionPoolDiffblueTest {
   @MethodsUnderTest({
     "BasicPoolEntry NamedConnectionPool.createEntry(RouteSpecificPool, ClientConnectionOperator)"
   })
-  public void testCreateEntry_thenReturnStateIsNull() {
+  public void testCreateEntry_whenHttpHostWithHostnameIsWwwExampleCom_thenReturnStateIsNull() {
     // Arrange
     DefaultClientConnectionOperator operator =
         new DefaultClientConnectionOperator(new SchemeRegistry());
     NamedConnectionPool namedConnectionPool =
-        new NamedConnectionPool("https://example.org/example", operator, new BasicHttpParams());
-    HttpRoute route = new HttpRoute(new HttpHost("https://example.org/example"));
+        new NamedConnectionPool("\"TestConnectionPool\"", operator, new BasicHttpParams());
+    HttpRoute route = new HttpRoute(new HttpHost("\"www.example.com\""));
     RouteSpecificPool rospl = new RouteSpecificPool(route, 3);
 
     // Act
@@ -799,8 +756,8 @@ public class NamedConnectionPoolDiffblueTest {
     DefaultClientConnectionOperator operator =
         new DefaultClientConnectionOperator(new SchemeRegistry());
     NamedConnectionPool namedConnectionPool =
-        new NamedConnectionPool("https://example.org/example", operator, new BasicHttpParams());
-    HttpRoute route = new HttpRoute(new HttpHost("https://example.org/example"));
+        new NamedConnectionPool("\"TestConnectionPool\"", operator, new BasicHttpParams());
+    HttpRoute route = new HttpRoute(new HttpHost("\"www.example.com\""));
 
     // Act
     BasicPoolEntry actualEntryBlocking =
@@ -841,9 +798,9 @@ public class NamedConnectionPoolDiffblueTest {
         new DefaultClientConnectionOperator(new SchemeRegistry());
 
     NamedConnectionPool namedConnectionPool =
-        new NamedConnectionPool("https://example.org/example", operator, new BasicHttpParams());
+        new NamedConnectionPool("\"TestConnectionPool\"", operator, new BasicHttpParams());
     namedConnectionPool.setMaxTotalConnections(-1);
-    HttpRoute route = new HttpRoute(new HttpHost("https://example.org/example"));
+    HttpRoute route = new HttpRoute(new HttpHost("\"www.example.com\""));
 
     // Act and Assert
     thrown.expect(ConnectionPoolTimeoutException.class);
@@ -875,8 +832,8 @@ public class NamedConnectionPoolDiffblueTest {
     DefaultClientConnectionOperator operator =
         new DefaultClientConnectionOperator(new SchemeRegistry());
     NamedConnectionPool namedConnectionPool =
-        new NamedConnectionPool("https://example.org/example", operator, new BasicHttpParams());
-    HttpRoute route = new HttpRoute(new HttpHost("https://example.org/example"));
+        new NamedConnectionPool("\"TestConnectionPool\"", operator, new BasicHttpParams());
+    HttpRoute route = new HttpRoute(new HttpHost("\"www.example.com\""));
 
     // Act
     BasicPoolEntry actualEntryBlocking =
@@ -907,9 +864,9 @@ public class NamedConnectionPoolDiffblueTest {
     DefaultClientConnectionOperator operator =
         new DefaultClientConnectionOperator(new SchemeRegistry());
     NamedConnectionPool namedConnectionPool =
-        new NamedConnectionPool("https://example.org/example", operator, new BasicHttpParams());
+        new NamedConnectionPool("\"TestConnectionPool\"", operator, new BasicHttpParams());
     DefaultClientConnectionOperator op = new DefaultClientConnectionOperator(new SchemeRegistry());
-    HttpRoute route = new HttpRoute(new HttpHost("https://example.org/example"));
+    HttpRoute route = new HttpRoute(new HttpHost("\"www.example.com\""));
 
     BasicPoolEntry entry = new BasicPoolEntry(op, route);
 
@@ -940,7 +897,7 @@ public class NamedConnectionPoolDiffblueTest {
     DefaultClientConnectionOperator operator =
         new DefaultClientConnectionOperator(new SchemeRegistry());
     NamedConnectionPool namedConnectionPool =
-        new NamedConnectionPool("https://example.org/example", operator, new BasicHttpParams());
+        new NamedConnectionPool("\"TestConnectionPool\"", operator, new BasicHttpParams());
 
     // Act and Assert
     assertEquals(0L, namedConnectionPool.getFreeEntryCount());
@@ -964,7 +921,7 @@ public class NamedConnectionPoolDiffblueTest {
     DefaultClientConnectionOperator operator =
         new DefaultClientConnectionOperator(new SchemeRegistry());
     NamedConnectionPool namedConnectionPool =
-        new NamedConnectionPool("https://example.org/example", operator, new BasicHttpParams());
+        new NamedConnectionPool("\"TestConnectionPool\"", operator, new BasicHttpParams());
 
     // Act and Assert
     assertEquals(0L, namedConnectionPool.getCreatedEntryCount());
@@ -988,7 +945,7 @@ public class NamedConnectionPoolDiffblueTest {
     DefaultClientConnectionOperator operator =
         new DefaultClientConnectionOperator(new SchemeRegistry());
     NamedConnectionPool namedConnectionPool =
-        new NamedConnectionPool("https://example.org/example", operator, new BasicHttpParams());
+        new NamedConnectionPool("\"TestConnectionPool\"", operator, new BasicHttpParams());
 
     // Act and Assert
     assertEquals(0L, namedConnectionPool.getRequestsCount());
@@ -1012,7 +969,7 @@ public class NamedConnectionPoolDiffblueTest {
     DefaultClientConnectionOperator operator =
         new DefaultClientConnectionOperator(new SchemeRegistry());
     NamedConnectionPool namedConnectionPool =
-        new NamedConnectionPool("https://example.org/example", operator, new BasicHttpParams());
+        new NamedConnectionPool("\"TestConnectionPool\"", operator, new BasicHttpParams());
 
     // Act and Assert
     assertEquals(0L, namedConnectionPool.getReleaseCount());
@@ -1036,7 +993,7 @@ public class NamedConnectionPoolDiffblueTest {
     DefaultClientConnectionOperator operator =
         new DefaultClientConnectionOperator(new SchemeRegistry());
     NamedConnectionPool namedConnectionPool =
-        new NamedConnectionPool("https://example.org/example", operator, new BasicHttpParams());
+        new NamedConnectionPool("\"TestConnectionPool\"", operator, new BasicHttpParams());
 
     // Act and Assert
     assertEquals(0L, namedConnectionPool.getDeleteCount());

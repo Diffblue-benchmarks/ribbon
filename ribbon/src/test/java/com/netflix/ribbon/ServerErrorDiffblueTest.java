@@ -11,40 +11,10 @@ import org.junit.experimental.categories.Category;
 
 public class ServerErrorDiffblueTest {
   /**
-   * Test {@link ServerError#ServerError(String, Throwable)}.
-   *
-   * <ul>
-   *   <li>Then return Message is {@code Not all who wander are lost}.
-   * </ul>
-   *
-   * <p>Method under test: {@link ServerError#ServerError(String, Throwable)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "void ServerError.<init>(String)",
-    "void ServerError.<init>(String, Throwable)",
-    "void ServerError.<init>(Throwable)"
-  })
-  public void testNewServerError_thenReturnMessageIsNotAllWhoWanderAreLost() {
-    // Arrange
-    Throwable cause = new Throwable();
-
-    // Act
-    ServerError actualServerError = new ServerError("Not all who wander are lost", cause);
-
-    // Assert
-    assertEquals("Not all who wander are lost", actualServerError.getMessage());
-    assertEquals(0, actualServerError.getSuppressed().length);
-    assertSame(cause, actualServerError.getCause());
-  }
-
-  /**
    * Test {@link ServerError#ServerError(String)}.
    *
    * <ul>
-   *   <li>When {@code Not all who wander are lost}.
+   *   <li>When a string.
    *   <li>Then return Cause is {@code null}.
    * </ul>
    *
@@ -58,14 +28,58 @@ public class ServerErrorDiffblueTest {
     "void ServerError.<init>(String, Throwable)",
     "void ServerError.<init>(Throwable)"
   })
-  public void testNewServerError_whenNotAllWhoWanderAreLost_thenReturnCauseIsNull() {
+  public void testNewServerError_whenAString_thenReturnCauseIsNull() {
     // Arrange and Act
-    ServerError actualServerError = new ServerError("Not all who wander are lost");
+    ServerError actualServerError =
+        new ServerError(
+            "\"ServerError occurred while processing the request. Possible causes: Network issues, server overload,"
+                + " or unexpected data format. Please check the server logs for more details.\"");
 
     // Assert
-    assertEquals("Not all who wander are lost", actualServerError.getMessage());
+    assertEquals(
+        "\"ServerError occurred while processing the request. Possible causes: Network issues, server overload,"
+            + " or unexpected data format. Please check the server logs for more details.\"",
+        actualServerError.getMessage());
     assertNull(actualServerError.getCause());
     assertEquals(0, actualServerError.getSuppressed().length);
+  }
+
+  /**
+   * Test {@link ServerError#ServerError(String, Throwable)}.
+   *
+   * <ul>
+   *   <li>When a string.
+   *   <li>Then return Message is a string.
+   * </ul>
+   *
+   * <p>Method under test: {@link ServerError#ServerError(String, Throwable)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "void ServerError.<init>(String)",
+    "void ServerError.<init>(String, Throwable)",
+    "void ServerError.<init>(Throwable)"
+  })
+  public void testNewServerError_whenAString_thenReturnMessageIsAString() {
+    // Arrange
+    Throwable cause = new Throwable();
+
+    // Act
+    ServerError actualServerError =
+        new ServerError(
+            "\"Server encountered an unexpected error while processing the request. Please check the server logs for"
+                + " more details.\"",
+            cause);
+
+    // Assert
+    assertEquals(
+        "\"Server encountered an unexpected error while processing the request. Please check the server logs for"
+            + " more details.\"",
+        actualServerError.getMessage());
+    assertEquals(0, actualServerError.getSuppressed().length);
+    assertSame(cause, actualServerError.getCause());
   }
 
   /**

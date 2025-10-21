@@ -405,7 +405,7 @@ public class DefaultClientConfigImplDiffblueTest {
   public void testNewDefaultClientConfigImpl2() {
     // Arrange and Act
     DefaultClientConfigImpl actualDefaultClientConfigImpl =
-        new DefaultClientConfigImpl("Name Space");
+        new DefaultClientConfigImpl("\"myCustomNamespace\"");
 
     // Assert
     assertTrue(
@@ -554,30 +554,25 @@ public class DefaultClientConfigImplDiffblueTest {
    * Test {@link DefaultClientConfigImpl#getDefaultPropName(IClientConfigKey)} with {@code
    * IClientConfigKey}.
    *
-   * <ul>
-   *   <li>Given {@code Key}.
-   *   <li>Then return {@code ribbon.Key}.
-   * </ul>
-   *
    * <p>Method under test: {@link DefaultClientConfigImpl#getDefaultPropName(IClientConfigKey)}
    */
   @Test
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"String DefaultClientConfigImpl.getDefaultPropName(IClientConfigKey)"})
-  public void testGetDefaultPropNameWithIClientConfigKey_givenKey_thenReturnRibbonKey() {
+  public void testGetDefaultPropNameWithIClientConfigKey() {
     // Arrange
     DefaultClientConfigImpl emptyConfig = DefaultClientConfigImpl.getEmptyConfig();
 
     IClientConfigKey propName = mock(IClientConfigKey.class);
-    when(propName.key()).thenReturn("Key");
+    when(propName.key()).thenReturn("\"LoadBalancerRuleConfig\"");
 
     // Act
     String actualDefaultPropName = emptyConfig.getDefaultPropName(propName);
 
     // Assert
     verify(propName).key();
-    assertEquals("ribbon.Key", actualDefaultPropName);
+    assertEquals("ribbon.\"LoadBalancerRuleConfig\"", actualDefaultPropName);
   }
 
   /**
@@ -592,17 +587,13 @@ public class DefaultClientConfigImplDiffblueTest {
   public void testGetDefaultPropNameWithString() {
     // Arrange, Act and Assert
     assertEquals(
-        "ribbon.Prop Name",
-        DefaultClientConfigImpl.getEmptyConfig().getDefaultPropName("Prop Name"));
+        "ribbon.\"ribbon.MaxAutoRetries\"",
+        DefaultClientConfigImpl.getEmptyConfig().getDefaultPropName("\"ribbon.MaxAutoRetries\""));
   }
 
   /**
    * Test {@link DefaultClientConfigImpl#getInstancePropName(String, IClientConfigKey)} with {@code
    * restClientName}, {@code configKey}.
-   *
-   * <ul>
-   *   <li>Then return {@code Dr Jane Doe.foo.Key}.
-   * </ul>
    *
    * <p>Method under test: {@link DefaultClientConfigImpl#getInstancePropName(String,
    * IClientConfigKey)}
@@ -613,30 +604,27 @@ public class DefaultClientConfigImplDiffblueTest {
   @MethodsUnderTest({
     "String DefaultClientConfigImpl.getInstancePropName(String, IClientConfigKey)"
   })
-  public void testGetInstancePropNameWithRestClientNameConfigKey_thenReturnDrJaneDoeFooKey() {
+  public void testGetInstancePropNameWithRestClientNameConfigKey() {
     // Arrange
-    DefaultClientConfigImpl defaultClientConfigImpl = new DefaultClientConfigImpl("Name Space");
+    DefaultClientConfigImpl defaultClientConfigImpl =
+        new DefaultClientConfigImpl("\"myCustomNamespace\"");
     defaultClientConfigImpl.setNameSpace("foo");
 
     IClientConfigKey configKey = mock(IClientConfigKey.class);
-    when(configKey.key()).thenReturn("Key");
+    when(configKey.key()).thenReturn("\"LoadBalancerRuleConfig\"");
 
     // Act
     String actualInstancePropName =
-        defaultClientConfigImpl.getInstancePropName("Dr Jane Doe", configKey);
+        defaultClientConfigImpl.getInstancePropName("\"myRestClient\"", configKey);
 
     // Assert
     verify(configKey).key();
-    assertEquals("Dr Jane Doe.foo.Key", actualInstancePropName);
+    assertEquals("\"myRestClient\".foo.\"LoadBalancerRuleConfig\"", actualInstancePropName);
   }
 
   /**
    * Test {@link DefaultClientConfigImpl#getInstancePropName(String, String)} with {@code
    * restClientName}, {@code key}.
-   *
-   * <ul>
-   *   <li>Then return {@code Dr Jane Doe.ribbon.Key}.
-   * </ul>
    *
    * <p>Method under test: {@link DefaultClientConfigImpl#getInstancePropName(String, String)}
    */
@@ -644,11 +632,12 @@ public class DefaultClientConfigImplDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"String DefaultClientConfigImpl.getInstancePropName(String, String)"})
-  public void testGetInstancePropNameWithRestClientNameKey_thenReturnDrJaneDoeRibbonKey() {
+  public void testGetInstancePropNameWithRestClientNameKey() {
     // Arrange, Act and Assert
     assertEquals(
-        "Dr Jane Doe.ribbon.Key",
-        DefaultClientConfigImpl.getEmptyConfig().getInstancePropName("Dr Jane Doe", "Key"));
+        "\"myRestClient\".ribbon.\"ribbon.MaxAutoRetries\"",
+        DefaultClientConfigImpl.getEmptyConfig()
+            .getInstancePropName("\"myRestClient\"", "\"ribbon.MaxAutoRetries\""));
   }
 
   /**
@@ -922,13 +911,13 @@ public class DefaultClientConfigImplDiffblueTest {
   public void testGetClientConfigWithDefaultValuesWithClientName() {
     // Arrange and Act
     DefaultClientConfigImpl actualClientConfigWithDefaultValues =
-        DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe");
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues("\"testClient\"");
 
     // Assert
     assertTrue(
         actualClientConfigWithDefaultValues.getPropertyResolver()
             instanceof ArchaiusPropertyResolver);
-    assertEquals("Dr Jane Doe", actualClientConfigWithDefaultValues.getClientName());
+    assertEquals("\"testClient\"", actualClientConfigWithDefaultValues.getClientName());
     assertNull(actualClientConfigWithDefaultValues.getResolver());
     assertNull(actualClientConfigWithDefaultValues.getAppName());
     assertNull(actualClientConfigWithDefaultValues.getVersion());
@@ -1060,13 +1049,14 @@ public class DefaultClientConfigImplDiffblueTest {
   public void testGetClientConfigWithDefaultValuesWithClientNameNameSpace() {
     // Arrange and Act
     DefaultClientConfigImpl actualClientConfigWithDefaultValues =
-        DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space");
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues(
+            "\"myNetflixClient\"", "\"myCustomNamespace\"");
 
     // Assert
     assertTrue(
         actualClientConfigWithDefaultValues.getPropertyResolver()
             instanceof ArchaiusPropertyResolver);
-    assertEquals("Dr Jane Doe", actualClientConfigWithDefaultValues.getClientName());
+    assertEquals("\"myNetflixClient\"", actualClientConfigWithDefaultValues.getClientName());
     assertNull(actualClientConfigWithDefaultValues.getResolver());
     assertNull(actualClientConfigWithDefaultValues.getAppName());
     assertNull(actualClientConfigWithDefaultValues.getVersion());

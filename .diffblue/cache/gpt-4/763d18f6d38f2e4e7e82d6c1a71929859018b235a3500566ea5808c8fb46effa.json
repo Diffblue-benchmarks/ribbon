@@ -1,0 +1,1 @@
+{"id":"chatcmpl-CT5tssbg2w0Bvzc7G8JsYU2PnZmGU","object":"chat.completion","created":1761050228,"model":"gpt-4-0613","choices":[{"message":{"role":"assistant","content":"\"http://localhost:8080/primeConnections\""},"index":0,"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":371,"completion_tokens":10,"total_tokens":381}}

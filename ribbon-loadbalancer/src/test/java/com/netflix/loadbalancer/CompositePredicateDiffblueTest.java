@@ -1,5 +1,6 @@
 package com.netflix.loadbalancer;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
@@ -82,6 +83,37 @@ public class CompositePredicateDiffblueTest {
 
     // Assert
     assertSame(withPredicateResult, actualSetFallbackThresholdAsMinimalFilteredPercentageResult);
+  }
+
+  /**
+   * Test {@link CompositePredicate#getEligibleServers(List, Object)} with {@code servers}, {@code
+   * loadBalancerKey}.
+   *
+   * <ul>
+   *   <li>Then return {@link ArrayList#ArrayList()}.
+   * </ul>
+   *
+   * <p>Method under test: {@link CompositePredicate#getEligibleServers(List, Object)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"List CompositePredicate.getEligibleServers(List, Object)"})
+  public void testGetEligibleServersWithServersLoadBalancerKey_thenReturnArrayList() {
+    // Arrange
+    CompositePredicate primaryPredicate = CompositePredicate.withPredicates().build();
+    CompositePredicate compositePredicate =
+        CompositePredicate.withPredicate(primaryPredicate).build();
+
+    ArrayList<Server> servers = new ArrayList<>();
+    servers.add(new Server("42"));
+
+    // Act
+    List<Server> actualEligibleServers =
+        compositePredicate.getEligibleServers(servers, "Load Balancer Key");
+
+    // Assert
+    assertEquals(servers, actualEligibleServers);
   }
 
   /**

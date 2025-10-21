@@ -1,0 +1,1 @@
+{"id":"chatcmpl-CT5Vkgbo5O08pasOqxhdGG1rsow9u","object":"chat.completion","created":1761048732,"model":"gpt-4-0613","choices":[{"message":{"role":"assistant","content":"\"Unsupported operation exception occurred while processing the request.\""},"index":0,"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":220,"completion_tokens":10,"total_tokens":230}}

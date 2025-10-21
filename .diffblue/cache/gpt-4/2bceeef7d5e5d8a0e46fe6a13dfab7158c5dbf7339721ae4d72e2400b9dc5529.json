@@ -1,0 +1,1 @@
+{"id":"chatcmpl-CT5ftJleMcnhNTad9QjMtjYYfEBVY","object":"chat.completion","created":1761049361,"model":"gpt-4-0613","choices":[{"message":{"role":"assistant","content":"\"Unexpected runtime exception occurred during execution of the application.\""},"index":0,"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":220,"completion_tokens":11,"total_tokens":231}}

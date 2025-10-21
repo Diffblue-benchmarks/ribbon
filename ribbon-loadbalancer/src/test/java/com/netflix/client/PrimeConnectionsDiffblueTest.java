@@ -33,7 +33,8 @@ public class PrimeConnectionsDiffblueTest {
   public void testGettersAndSetters() {
     // Arrange and Act
     PrimeConnections actualPrimeConnections =
-        new PrimeConnections("Name", 3, 1L, "Prime Connections URI", 10.0f);
+        new PrimeConnections(
+            "\"TestClient\"", 3, 1L, "\"http://localhost:8080/primeConnections\"", 10.0f);
 
     // Assert
     assertNull(actualPrimeConnections.getEndStats());
@@ -51,13 +52,15 @@ public class PrimeConnectionsDiffblueTest {
   public void testNewPrimeConnections() {
     // Arrange and Act
     PrimeConnections actualPrimeConnections =
-        new PrimeConnections("Name", 3, 1L, "Prime Connections URI");
+        new PrimeConnections("\"TestClient\"", 3, 1L, "\"http://localhost:8080/primeConnections\"");
 
     // Assert
     assertTrue(actualPrimeConnections.successCounter instanceof BasicCounter);
     assertTrue(actualPrimeConnections.totalCounter instanceof BasicCounter);
     assertTrue(actualPrimeConnections.initialPrimeTimer instanceof BasicTimer);
-    assertEquals("Prime Connections URI", actualPrimeConnections.primeConnectionsURIPath);
+    assertEquals(
+        "\"http://localhost:8080/primeConnections\"",
+        actualPrimeConnections.primeConnectionsURIPath);
     assertNull(actualPrimeConnections.getEndStats());
     assertEquals(0L, actualPrimeConnections.totalTimeTaken);
     assertEquals(1L, actualPrimeConnections.maxTotalTimeToPrimeConnections);

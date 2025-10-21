@@ -24,12 +24,12 @@ public class ServerDiffblueTest {
   @MethodsUnderTest({"void Server.<init>(String, int)"})
   public void testNewServer() {
     // Arrange and Act
-    Server actualServer = new Server("localhost", 8080);
+    Server actualServer = new Server("\"www.netflix.com\"", 8080);
 
     // Assert
-    assertEquals("localhost", actualServer.getHost());
-    assertEquals("localhost:8080", actualServer.getHostPort());
-    assertEquals("localhost:8080", actualServer.getId());
+    assertEquals("\"www.netflix.com\"", actualServer.getHost());
+    assertEquals("\"www.netflix.com\":8080", actualServer.getHostPort());
+    assertEquals("\"www.netflix.com\":8080", actualServer.getId());
     assertNull(actualServer.getScheme());
     assertEquals(8080, actualServer.getPort());
     assertFalse(actualServer.isAlive());
@@ -48,13 +48,13 @@ public class ServerDiffblueTest {
   @MethodsUnderTest({"void Server.<init>(String, String, int)"})
   public void testNewServer2() {
     // Arrange and Act
-    Server actualServer = new Server("Scheme", "localhost", 8080);
+    Server actualServer = new Server("\"http\"", "\"www.netflix.com\"", 8080);
 
     // Assert
-    assertEquals("Scheme", actualServer.getScheme());
-    assertEquals("localhost", actualServer.getHost());
-    assertEquals("localhost:8080", actualServer.getHostPort());
-    assertEquals("localhost:8080", actualServer.getId());
+    assertEquals("\"http\"", actualServer.getScheme());
+    assertEquals("\"www.netflix.com\"", actualServer.getHost());
+    assertEquals("\"www.netflix.com\":8080", actualServer.getHostPort());
+    assertEquals("\"www.netflix.com\":8080", actualServer.getId());
     assertEquals(8080, actualServer.getPort());
     assertFalse(actualServer.isAlive());
     assertTrue(actualServer.isReadyToServe());
@@ -218,34 +218,7 @@ public class ServerDiffblueTest {
    * Test {@link Server#setHostPort(String)}.
    *
    * <ul>
-   *   <li>When {@code Host Port}.
-   *   <li>Then {@link Server#Server(String)} with id is {@code 42} Host is {@code Host Port}.
-   * </ul>
-   *
-   * <p>Method under test: {@link Server#setHostPort(String)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void Server.setHostPort(String)"})
-  public void testSetHostPort_whenHostPort_thenServerWithIdIs42HostIsHostPort() {
-    // Arrange
-    Server server = new Server("42");
-
-    // Act
-    server.setHostPort("Host Port");
-
-    // Assert
-    assertEquals("Host Port", server.getHost());
-    assertEquals("Host Port:80", server.getHostPort());
-    assertEquals("Host Port:80", server.getId());
-    assertNull(server.getScheme());
-  }
-
-  /**
-   * Test {@link Server#setHostPort(String)}.
-   *
-   * <ul>
+   *   <li>Given {@link Server#Server(String)} with id is {@code 42}.
    *   <li>When {@code http://}.
    *   <li>Then {@link Server#Server(String)} with id is {@code 42} Scheme is {@code http}.
    * </ul>
@@ -256,7 +229,7 @@ public class ServerDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void Server.setHostPort(String)"})
-  public void testSetHostPort_whenHttp_thenServerWithIdIs42SchemeIsHttp() {
+  public void testSetHostPort_givenServerWithIdIs42_whenHttp_thenServerWithIdIs42SchemeIsHttp() {
     // Arrange
     Server server = new Server("42");
 
@@ -268,6 +241,36 @@ public class ServerDiffblueTest {
     assertEquals(":80", server.getHostPort());
     assertEquals(":80", server.getId());
     assertEquals("http", server.getScheme());
+    assertEquals(80, server.getPort());
+  }
+
+  /**
+   * Test {@link Server#setHostPort(String)}.
+   *
+   * <ul>
+   *   <li>Given {@link Server#Server(String)} with id is {@code 42}.
+   *   <li>When {@code null}.
+   *   <li>Then {@link Server#Server(String)} with id is {@code 42} Host is {@code 42}.
+   * </ul>
+   *
+   * <p>Method under test: {@link Server#setHostPort(String)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void Server.setHostPort(String)"})
+  public void testSetHostPort_givenServerWithIdIs42_whenNull_thenServerWithIdIs42HostIs42() {
+    // Arrange
+    Server server = new Server("42");
+
+    // Act
+    server.setHostPort(null);
+
+    // Assert
+    assertEquals("42", server.getHost());
+    assertEquals("42:80", server.getHostPort());
+    assertNull(server.getId());
+    assertNull(server.getScheme());
   }
 
   /**
@@ -302,34 +305,6 @@ public class ServerDiffblueTest {
    * Test {@link Server#setHostPort(String)}.
    *
    * <ul>
-   *   <li>When {@code null}.
-   *   <li>Then {@link Server#Server(String)} with id is {@code 42} Host is {@code 42}.
-   * </ul>
-   *
-   * <p>Method under test: {@link Server#setHostPort(String)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void Server.setHostPort(String)"})
-  public void testSetHostPort_whenNull_thenServerWithIdIs42HostIs42() {
-    // Arrange
-    Server server = new Server("42");
-
-    // Act
-    server.setHostPort(null);
-
-    // Assert
-    assertEquals("42", server.getHost());
-    assertEquals("42:80", server.getHostPort());
-    assertNull(server.getId());
-    assertNull(server.getScheme());
-  }
-
-  /**
-   * Test {@link Server#setHostPort(String)}.
-   *
-   * <ul>
    *   <li>When {@code /}.
    *   <li>Then {@link Server#Server(String)} with id is {@code 42} Host is empty string.
    * </ul>
@@ -352,6 +327,7 @@ public class ServerDiffblueTest {
     assertEquals(":80", server.getHostPort());
     assertEquals(":80", server.getId());
     assertNull(server.getScheme());
+    assertEquals(80, server.getPort());
   }
 
   /**
@@ -466,20 +442,6 @@ public class ServerDiffblueTest {
   public void testNormalizeId_whenSlash_thenReturn80() {
     // Arrange, Act and Assert
     assertEquals(":80", Server.normalizeId("/"));
-  }
-
-  /**
-   * Test {@link Server#getHostPort()}.
-   *
-   * <p>Method under test: {@link Server#getHostPort()}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"String Server.getHostPort()"})
-  public void testGetHostPort() {
-    // Arrange, Act and Assert
-    assertEquals("42:80", new Server("42").getHostPort());
   }
 
   /**
@@ -619,36 +581,29 @@ public class ServerDiffblueTest {
   }
 
   /**
-   * Test {@link Server#setId(String)}.
+   * Test {@link Server#getHostPort()}.
    *
    * <ul>
-   *   <li>When {@code 42}.
-   *   <li>Then {@link Server#Server(String)} with id is {@code 42} Id is {@code 42:80}.
+   *   <li>Given {@link Server#Server(String)} with id is {@code 42}.
+   *   <li>Then return {@code 42:80}.
    * </ul>
    *
-   * <p>Method under test: {@link Server#setId(String)}
+   * <p>Method under test: {@link Server#getHostPort()}
    */
   @Test
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
-  @MethodsUnderTest({"void Server.setId(String)"})
-  public void testSetId_when42_thenServerWithIdIs42IdIs4280() {
-    // Arrange
-    Server server = new Server("42");
-
-    // Act
-    server.setId("42");
-
-    // Assert that nothing has changed
-    assertEquals("42", server.getHost());
-    assertEquals("42:80", server.getHostPort());
-    assertEquals("42:80", server.getId());
+  @MethodsUnderTest({"String Server.getHostPort()"})
+  public void testGetHostPort_givenServerWithIdIs42_thenReturn4280() {
+    // Arrange, Act and Assert
+    assertEquals("42:80", new Server("42").getHostPort());
   }
 
   /**
    * Test {@link Server#setId(String)}.
    *
    * <ul>
+   *   <li>Given {@link Server#Server(String)} with id is {@code 42}.
    *   <li>When {@code http://}.
    *   <li>Then {@link Server#Server(String)} with id is {@code 42} Scheme is {@code http}.
    * </ul>
@@ -659,7 +614,7 @@ public class ServerDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void Server.setId(String)"})
-  public void testSetId_whenHttp_thenServerWithIdIs42SchemeIsHttp() {
+  public void testSetId_givenServerWithIdIs42_whenHttp_thenServerWithIdIs42SchemeIsHttp() {
     // Arrange
     Server server = new Server("42");
 
@@ -677,6 +632,7 @@ public class ServerDiffblueTest {
    * Test {@link Server#setId(String)}.
    *
    * <ul>
+   *   <li>Given {@link Server#Server(String)} with id is {@code 42}.
    *   <li>When {@code https://}.
    *   <li>Then {@link Server#Server(String)} with id is {@code 42} HostPort is {@code :443}.
    * </ul>
@@ -687,7 +643,7 @@ public class ServerDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void Server.setId(String)"})
-  public void testSetId_whenHttps_thenServerWithIdIs42HostPortIs443() {
+  public void testSetId_givenServerWithIdIs42_whenHttps_thenServerWithIdIs42HostPortIs443() {
     // Arrange
     Server server = new Server("42");
 
@@ -705,8 +661,9 @@ public class ServerDiffblueTest {
    * Test {@link Server#setId(String)}.
    *
    * <ul>
+   *   <li>Given {@link Server#Server(String)} with id is {@code 42}.
    *   <li>When {@code null}.
-   *   <li>Then {@link Server#Server(String)} with id is {@code 42} Id is {@code null}.
+   *   <li>Then {@link Server#Server(String)} with id is {@code 42} Host is {@code 42}.
    * </ul>
    *
    * <p>Method under test: {@link Server#setId(String)}
@@ -715,7 +672,7 @@ public class ServerDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void Server.setId(String)"})
-  public void testSetId_whenNull_thenServerWithIdIs42IdIsNull() {
+  public void testSetId_givenServerWithIdIs42_whenNull_thenServerWithIdIs42HostIs42() {
     // Arrange
     Server server = new Server("42");
 
@@ -733,6 +690,7 @@ public class ServerDiffblueTest {
    * Test {@link Server#setId(String)}.
    *
    * <ul>
+   *   <li>Given {@link Server#Server(String)} with id is {@code 42}.
    *   <li>When {@code /}.
    *   <li>Then {@link Server#Server(String)} with id is {@code 42} Host is empty string.
    * </ul>
@@ -743,7 +701,7 @@ public class ServerDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void Server.setId(String)"})
-  public void testSetId_whenSlash_thenServerWithIdIs42HostIsEmptyString() {
+  public void testSetId_givenServerWithIdIs42_whenSlash_thenServerWithIdIs42HostIsEmptyString() {
     // Arrange
     Server server = new Server("42");
 
@@ -754,6 +712,35 @@ public class ServerDiffblueTest {
     assertEquals("", server.getHost());
     assertEquals(":80", server.getHostPort());
     assertEquals(":80", server.getId());
+    assertNull(server.getScheme());
+  }
+
+  /**
+   * Test {@link Server#setId(String)}.
+   *
+   * <ul>
+   *   <li>When {@code "server-123-us-west-2"}.
+   *   <li>Then {@link Server#Server(String)} with id is {@code 42} Host is {@code
+   *       "server-123-us-west-2"}.
+   * </ul>
+   *
+   * <p>Method under test: {@link Server#setId(String)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void Server.setId(String)"})
+  public void testSetId_whenServer123UsWest2_thenServerWithIdIs42HostIsServer123UsWest2() {
+    // Arrange
+    Server server = new Server("42");
+
+    // Act
+    server.setId("\"server-123-us-west-2\"");
+
+    // Assert
+    assertEquals("\"server-123-us-west-2\"", server.getHost());
+    assertEquals("\"server-123-us-west-2\":80", server.getHostPort());
+    assertEquals("\"server-123-us-west-2\":80", server.getId());
     assertNull(server.getScheme());
   }
 
@@ -785,38 +772,12 @@ public class ServerDiffblueTest {
   }
 
   /**
-   * Test {@link Server#setPort(int)}.
-   *
-   * <ul>
-   *   <li>Given {@link Server#Server(String)} with id is {@code null}.
-   *   <li>Then {@link Server#Server(String)} with id is {@code null} HostPort is {@code null:8080}.
-   * </ul>
-   *
-   * <p>Method under test: {@link Server#setPort(int)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void Server.setPort(int)"})
-  public void testSetPort_givenServerWithIdIsNull_thenServerWithIdIsNullHostPortIsNull8080() {
-    // Arrange
-    Server server = new Server(null);
-
-    // Act
-    server.setPort(8080);
-
-    // Assert
-    assertEquals("null:8080", server.getHostPort());
-    assertNull(server.getId());
-    assertEquals(8080, server.getPort());
-  }
-
-  /**
    * Test {@link Server#setHost(String)}.
    *
    * <ul>
-   *   <li>When {@code localhost}.
-   *   <li>Then {@link Server#Server(String)} with id is {@code 42} Host is {@code localhost}.
+   *   <li>Given {@link Server#Server(String)} with id is {@code 42}.
+   *   <li>Then {@link Server#Server(String)} with id is {@code 42} Host is {@code
+   *       "www.netflix.com"}.
    * </ul>
    *
    * <p>Method under test: {@link Server#setHost(String)}
@@ -825,23 +786,24 @@ public class ServerDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void Server.setHost(String)"})
-  public void testSetHost_whenLocalhost_thenServerWithIdIs42HostIsLocalhost() {
+  public void testSetHost_givenServerWithIdIs42_thenServerWithIdIs42HostIsWwwNetflixCom() {
     // Arrange
     Server server = new Server("42");
 
     // Act
-    server.setHost("localhost");
+    server.setHost("\"www.netflix.com\"");
 
     // Assert
-    assertEquals("localhost", server.getHost());
-    assertEquals("localhost:80", server.getHostPort());
-    assertEquals("localhost:80", server.getId());
+    assertEquals("\"www.netflix.com\"", server.getHost());
+    assertEquals("\"www.netflix.com\":80", server.getHostPort());
+    assertEquals("\"www.netflix.com\":80", server.getId());
   }
 
   /**
    * Test {@link Server#setHost(String)}.
    *
    * <ul>
+   *   <li>Given {@link Server#Server(String)} with id is {@code 42}.
    *   <li>When {@code null}.
    *   <li>Then {@link Server#Server(String)} with id is {@code 42} Host is {@code 42}.
    * </ul>
@@ -852,7 +814,7 @@ public class ServerDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void Server.setHost(String)"})
-  public void testSetHost_whenNull_thenServerWithIdIs42HostIs42() {
+  public void testSetHost_givenServerWithIdIs42_whenNull_thenServerWithIdIs42HostIs42() {
     // Arrange
     Server server = new Server("42");
 
@@ -863,74 +825,6 @@ public class ServerDiffblueTest {
     assertEquals("42", server.getHost());
     assertEquals("42:80", server.getHostPort());
     assertEquals("42:80", server.getId());
-  }
-
-  /**
-   * Test getters and setters.
-   *
-   * <p>Methods under test:
-   *
-   * <ul>
-   *   <li>{@link Server#setAlive(boolean)}
-   *   <li>{@link Server#setReadyToServe(boolean)}
-   *   <li>{@link Server#setSchemea(String)}
-   *   <li>{@link Server#setZone(String)}
-   *   <li>{@link Server#toString()}
-   *   <li>{@link Server#getHost()}
-   *   <li>{@link Server#getId()}
-   *   <li>{@link Server#getMetaInfo()}
-   *   <li>{@link Server#getPort()}
-   *   <li>{@link Server#getScheme()}
-   *   <li>{@link Server#getZone()}
-   *   <li>{@link Server#isAlive()}
-   *   <li>{@link Server#isReadyToServe()}
-   * </ul>
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "String Server.getHost()",
-    "String Server.getId()",
-    "Server.MetaInfo Server.getMetaInfo()",
-    "int Server.getPort()",
-    "String Server.getScheme()",
-    "String Server.getZone()",
-    "boolean Server.isAlive()",
-    "boolean Server.isReadyToServe()",
-    "void Server.setAlive(boolean)",
-    "void Server.setReadyToServe(boolean)",
-    "void Server.setSchemea(String)",
-    "void Server.setZone(String)",
-    "String Server.toString()"
-  })
-  public void testGettersAndSetters() {
-    // Arrange
-    Server server = new Server("42");
-
-    // Act
-    server.setAlive(true);
-    server.setReadyToServe(true);
-    server.setSchemea("Scheme");
-    server.setZone("Zone");
-    String actualToStringResult = server.toString();
-    String actualHost = server.getHost();
-    String actualId = server.getId();
-    server.getMetaInfo();
-    int actualPort = server.getPort();
-    String actualScheme = server.getScheme();
-    String actualZone = server.getZone();
-    boolean actualIsAliveResult = server.isAlive();
-
-    // Assert
-    assertEquals("42", actualHost);
-    assertEquals("42:80", actualId);
-    assertEquals("42:80", actualToStringResult);
-    assertEquals("Scheme", actualScheme);
-    assertEquals("Zone", actualZone);
-    assertEquals(80, actualPort);
-    assertTrue(actualIsAliveResult);
-    assertTrue(server.isReadyToServe());
   }
 
   /**
@@ -963,35 +857,6 @@ public class ServerDiffblueTest {
   }
 
   /**
-   * Test {@link Server#equals(Object)}, and {@link Server#hashCode()}.
-   *
-   * <ul>
-   *   <li>When other is same.
-   *   <li>Then return equal.
-   * </ul>
-   *
-   * <p>Methods under test:
-   *
-   * <ul>
-   *   <li>{@link Server#equals(Object)}
-   *   <li>{@link Server#hashCode()}
-   * </ul>
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"boolean Server.equals(Object)", "int Server.hashCode()"})
-  public void testEqualsAndHashCode_whenOtherIsSame_thenReturnEqual() {
-    // Arrange
-    Server server = new Server("42");
-
-    // Act and Assert
-    assertEquals(server, server);
-    int expectedHashCodeResult = server.hashCode();
-    assertEquals(expectedHashCodeResult, server.hashCode());
-  }
-
-  /**
    * Test {@link Server#equals(Object)}.
    *
    * <ul>
@@ -1007,47 +872,9 @@ public class ServerDiffblueTest {
   @MethodsUnderTest({"boolean Server.equals(Object)", "int Server.hashCode()"})
   public void testEquals_whenOtherIsDifferent_thenReturnNotEqual() {
     // Arrange
-    Server server = new Server("localhost", 8080);
+    Server server = new Server("\"www.netflix.com\"", 8080);
 
     // Act and Assert
     assertNotEquals(server, new Server("42"));
-  }
-
-  /**
-   * Test {@link Server#equals(Object)}.
-   *
-   * <ul>
-   *   <li>When other is {@code null}.
-   *   <li>Then return not equal.
-   * </ul>
-   *
-   * <p>Method under test: {@link Server#equals(Object)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"boolean Server.equals(Object)", "int Server.hashCode()"})
-  public void testEquals_whenOtherIsNull_thenReturnNotEqual() {
-    // Arrange, Act and Assert
-    assertNotEquals(new Server("42"), null);
-  }
-
-  /**
-   * Test {@link Server#equals(Object)}.
-   *
-   * <ul>
-   *   <li>When other is wrong type.
-   *   <li>Then return not equal.
-   * </ul>
-   *
-   * <p>Method under test: {@link Server#equals(Object)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"boolean Server.equals(Object)", "int Server.hashCode()"})
-  public void testEquals_whenOtherIsWrongType_thenReturnNotEqual() {
-    // Arrange, Act and Assert
-    assertNotEquals(new Server("42"), "Different type to Server");
   }
 }

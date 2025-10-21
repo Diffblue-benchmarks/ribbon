@@ -1,0 +1,1 @@
+{"id":"chatcmpl-CT5DS7vTf4drSLSdT8ftc5bbvISAV","object":"chat.completion","created":1761047598,"model":"gpt-4-0613","choices":[{"message":{"role":"assistant","content":"\"my-service-vip-address\""},"index":0,"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":453,"completion_tokens":7,"total_tokens":460}}

@@ -11,6 +11,34 @@ import org.junit.experimental.categories.Category;
 
 public class UnsuccessfulResponseExceptionDiffblueTest {
   /**
+   * Test {@link UnsuccessfulResponseException#UnsuccessfulResponseException(String)}.
+   *
+   * <p>Method under test: {@link
+   * UnsuccessfulResponseException#UnsuccessfulResponseException(String)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "void UnsuccessfulResponseException.<init>(String)",
+    "void UnsuccessfulResponseException.<init>(String, Throwable)",
+    "void UnsuccessfulResponseException.<init>(Throwable)"
+  })
+  public void testNewUnsuccessfulResponseException() {
+    // Arrange and Act
+    UnsuccessfulResponseException actualUnsuccessfulResponseException =
+        new UnsuccessfulResponseException(
+            "\"Failed to retrieve data from Netflix server. Please check your network connection and try again.\"");
+
+    // Assert
+    assertEquals(
+        "\"Failed to retrieve data from Netflix server. Please check your network connection and try again.\"",
+        actualUnsuccessfulResponseException.getMessage());
+    assertNull(actualUnsuccessfulResponseException.getCause());
+    assertEquals(0, actualUnsuccessfulResponseException.getSuppressed().length);
+  }
+
+  /**
    * Test {@link UnsuccessfulResponseException#UnsuccessfulResponseException(Throwable)}.
    *
    * <ul>
@@ -43,41 +71,11 @@ public class UnsuccessfulResponseExceptionDiffblueTest {
   }
 
   /**
-   * Test {@link UnsuccessfulResponseException#UnsuccessfulResponseException(String)}.
-   *
-   * <ul>
-   *   <li>When {@code Arg0}.
-   *   <li>Then return Cause is {@code null}.
-   * </ul>
-   *
-   * <p>Method under test: {@link
-   * UnsuccessfulResponseException#UnsuccessfulResponseException(String)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "void UnsuccessfulResponseException.<init>(String)",
-    "void UnsuccessfulResponseException.<init>(String, Throwable)",
-    "void UnsuccessfulResponseException.<init>(Throwable)"
-  })
-  public void testNewUnsuccessfulResponseException_whenArg0_thenReturnCauseIsNull() {
-    // Arrange and Act
-    UnsuccessfulResponseException actualUnsuccessfulResponseException =
-        new UnsuccessfulResponseException("Arg0");
-
-    // Assert
-    assertEquals("Arg0", actualUnsuccessfulResponseException.getMessage());
-    assertNull(actualUnsuccessfulResponseException.getCause());
-    assertEquals(0, actualUnsuccessfulResponseException.getSuppressed().length);
-  }
-
-  /**
    * Test {@link UnsuccessfulResponseException#UnsuccessfulResponseException(String, Throwable)}.
    *
    * <ul>
-   *   <li>When {@code Arg0}.
-   *   <li>Then return Message is {@code Arg0}.
+   *   <li>When a string.
+   *   <li>Then return Message is a string.
    * </ul>
    *
    * <p>Method under test: {@link
@@ -91,16 +89,22 @@ public class UnsuccessfulResponseExceptionDiffblueTest {
     "void UnsuccessfulResponseException.<init>(String, Throwable)",
     "void UnsuccessfulResponseException.<init>(Throwable)"
   })
-  public void testNewUnsuccessfulResponseException_whenArg0_thenReturnMessageIsArg0() {
+  public void testNewUnsuccessfulResponseException_whenAString_thenReturnMessageIsAString() {
     // Arrange
     Throwable arg1 = new Throwable();
 
     // Act
     UnsuccessfulResponseException actualUnsuccessfulResponseException =
-        new UnsuccessfulResponseException("Arg0", arg1);
+        new UnsuccessfulResponseException(
+            "\"Failed to process the request due to server error. Please check the server status and try again"
+                + " later.\"",
+            arg1);
 
     // Assert
-    assertEquals("Arg0", actualUnsuccessfulResponseException.getMessage());
+    assertEquals(
+        "\"Failed to process the request due to server error. Please check the server status and try again"
+            + " later.\"",
+        actualUnsuccessfulResponseException.getMessage());
     assertEquals(0, actualUnsuccessfulResponseException.getSuppressed().length);
     assertSame(arg1, actualUnsuccessfulResponseException.getCause());
   }
