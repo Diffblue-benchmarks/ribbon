@@ -35,6 +35,43 @@ public class NamedConnectionPoolDiffblueTest {
 
   /**
    * Test {@link NamedConnectionPool#NamedConnectionPool(String, ClientConnectionOperator,
+   * ConnPerRoute, int)}.
+   *
+   * <ul>
+   *   <li>Then return ConnectionCount is zero.
+   * </ul>
+   *
+   * <p>Method under test: {@link NamedConnectionPool#NamedConnectionPool(String,
+   * ClientConnectionOperator, ConnPerRoute, int)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "void NamedConnectionPool.<init>(String, ClientConnectionOperator, ConnPerRoute, int)"
+  })
+  public void testNewNamedConnectionPool_thenReturnConnectionCountIsZero() {
+    // Arrange and Act
+    NamedConnectionPool actualNamedConnectionPool =
+        new NamedConnectionPool(
+            "https://example.org/example",
+            new DefaultClientConnectionOperator(new SchemeRegistry()),
+            mock(ConnPerRoute.class),
+            3);
+
+    // Assert
+    assertEquals(0, actualNamedConnectionPool.getConnectionCount());
+    assertEquals(0, actualNamedConnectionPool.getConnectionsInPool());
+    assertEquals(0L, actualNamedConnectionPool.getCreatedEntryCount());
+    assertEquals(0L, actualNamedConnectionPool.getDeleteCount());
+    assertEquals(0L, actualNamedConnectionPool.getFreeEntryCount());
+    assertEquals(0L, actualNamedConnectionPool.getReleaseCount());
+    assertEquals(0L, actualNamedConnectionPool.getRequestsCount());
+    assertEquals(3, actualNamedConnectionPool.getMaxTotalConnections());
+  }
+
+  /**
+   * Test {@link NamedConnectionPool#NamedConnectionPool(String, ClientConnectionOperator,
    * ConnPerRoute, int, long, TimeUnit)}.
    *
    * <ul>
@@ -50,7 +87,7 @@ public class NamedConnectionPoolDiffblueTest {
   @MethodsUnderTest({
     "void NamedConnectionPool.<init>(String, ClientConnectionOperator, ConnPerRoute, int, long, TimeUnit)"
   })
-  public void testNewNamedConnectionPool_thenReturnConnectionCountIsZero() {
+  public void testNewNamedConnectionPool_thenReturnConnectionCountIsZero2() {
     // Arrange and Act
     NamedConnectionPool actualNamedConnectionPool =
         new NamedConnectionPool(
@@ -89,7 +126,7 @@ public class NamedConnectionPoolDiffblueTest {
   @MethodsUnderTest({
     "void NamedConnectionPool.<init>(String, ClientConnectionOperator, HttpParams)"
   })
-  public void testNewNamedConnectionPool_thenReturnConnectionCountIsZero2() {
+  public void testNewNamedConnectionPool_thenReturnConnectionCountIsZero3() {
     // Arrange
     DefaultClientConnectionOperator operator =
         new DefaultClientConnectionOperator(new SchemeRegistry());
@@ -110,6 +147,68 @@ public class NamedConnectionPoolDiffblueTest {
   }
 
   /**
+   * Test {@link NamedConnectionPool#NamedConnectionPool(ClientConnectionOperator, ConnPerRoute,
+   * int)}.
+   *
+   * <ul>
+   *   <li>Then return ConnectionCount is zero.
+   * </ul>
+   *
+   * <p>Method under test: {@link NamedConnectionPool#NamedConnectionPool(ClientConnectionOperator,
+   * ConnPerRoute, int)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "void NamedConnectionPool.<init>(ClientConnectionOperator, ConnPerRoute, int)"
+  })
+  public void testNewNamedConnectionPool_thenReturnConnectionCountIsZero4() {
+    // Arrange and Act
+    NamedConnectionPool actualNamedConnectionPool =
+        new NamedConnectionPool(
+            new DefaultClientConnectionOperator(new SchemeRegistry()), mock(ConnPerRoute.class), 3);
+
+    // Assert
+    assertEquals(0, actualNamedConnectionPool.getConnectionCount());
+    assertEquals(0, actualNamedConnectionPool.getConnectionsInPool());
+    assertEquals(3, actualNamedConnectionPool.getMaxTotalConnections());
+  }
+
+  /**
+   * Test {@link NamedConnectionPool#NamedConnectionPool(ClientConnectionOperator, ConnPerRoute,
+   * int, long, TimeUnit)}.
+   *
+   * <ul>
+   *   <li>Then return ConnectionCount is zero.
+   * </ul>
+   *
+   * <p>Method under test: {@link NamedConnectionPool#NamedConnectionPool(ClientConnectionOperator,
+   * ConnPerRoute, int, long, TimeUnit)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "void NamedConnectionPool.<init>(ClientConnectionOperator, ConnPerRoute, int, long, TimeUnit)"
+  })
+  public void testNewNamedConnectionPool_thenReturnConnectionCountIsZero5() {
+    // Arrange and Act
+    NamedConnectionPool actualNamedConnectionPool =
+        new NamedConnectionPool(
+            new DefaultClientConnectionOperator(new SchemeRegistry()),
+            mock(ConnPerRoute.class),
+            3,
+            1L,
+            TimeUnit.NANOSECONDS);
+
+    // Assert
+    assertEquals(0, actualNamedConnectionPool.getConnectionCount());
+    assertEquals(0, actualNamedConnectionPool.getConnectionsInPool());
+    assertEquals(3, actualNamedConnectionPool.getMaxTotalConnections());
+  }
+
+  /**
    * Test {@link NamedConnectionPool#NamedConnectionPool(ClientConnectionOperator, HttpParams)}.
    *
    * <ul>
@@ -123,7 +222,7 @@ public class NamedConnectionPoolDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void NamedConnectionPool.<init>(ClientConnectionOperator, HttpParams)"})
-  public void testNewNamedConnectionPool_thenReturnConnectionCountIsZero3() {
+  public void testNewNamedConnectionPool_thenReturnConnectionCountIsZero6() {
     // Arrange
     DefaultClientConnectionOperator operator =
         new DefaultClientConnectionOperator(new SchemeRegistry());
@@ -136,6 +235,132 @@ public class NamedConnectionPoolDiffblueTest {
     assertEquals(0, actualNamedConnectionPool.getConnectionCount());
     assertEquals(0, actualNamedConnectionPool.getConnectionsInPool());
     assertEquals(20, actualNamedConnectionPool.getMaxTotalConnections());
+  }
+
+  /**
+   * Test {@link NamedConnectionPool#NamedConnectionPool(String, ClientConnectionOperator,
+   * ConnPerRoute, int)}.
+   *
+   * <ul>
+   *   <li>Then throw {@link IllegalArgumentException}.
+   * </ul>
+   *
+   * <p>Method under test: {@link NamedConnectionPool#NamedConnectionPool(String,
+   * ClientConnectionOperator, ConnPerRoute, int)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "void NamedConnectionPool.<init>(String, ClientConnectionOperator, ConnPerRoute, int)"
+  })
+  public void testNewNamedConnectionPool_thenThrowIllegalArgumentException() {
+    // Arrange, Act and Assert
+    thrown.expect(IllegalArgumentException.class);
+    new NamedConnectionPool(
+        "https://example.org/example",
+        new DefaultClientConnectionOperator(new SchemeRegistry()),
+        null,
+        3);
+  }
+
+  /**
+   * Test {@link NamedConnectionPool#NamedConnectionPool(String, ClientConnectionOperator,
+   * ConnPerRoute, int)}.
+   *
+   * <ul>
+   *   <li>Then throw {@link IllegalArgumentException}.
+   * </ul>
+   *
+   * <p>Method under test: {@link NamedConnectionPool#NamedConnectionPool(String,
+   * ClientConnectionOperator, ConnPerRoute, int)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "void NamedConnectionPool.<init>(String, ClientConnectionOperator, ConnPerRoute, int)"
+  })
+  public void testNewNamedConnectionPool_thenThrowIllegalArgumentException2() {
+    // Arrange, Act and Assert
+    thrown.expect(IllegalArgumentException.class);
+    new NamedConnectionPool("https://example.org/example", null, mock(ConnPerRoute.class), 3);
+  }
+
+  /**
+   * Test {@link NamedConnectionPool#NamedConnectionPool(String, ClientConnectionOperator,
+   * ConnPerRoute, int, long, TimeUnit)}.
+   *
+   * <ul>
+   *   <li>Then throw {@link IllegalArgumentException}.
+   * </ul>
+   *
+   * <p>Method under test: {@link NamedConnectionPool#NamedConnectionPool(String,
+   * ClientConnectionOperator, ConnPerRoute, int, long, TimeUnit)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "void NamedConnectionPool.<init>(String, ClientConnectionOperator, ConnPerRoute, int, long, TimeUnit)"
+  })
+  public void testNewNamedConnectionPool_thenThrowIllegalArgumentException3() {
+    // Arrange, Act and Assert
+    thrown.expect(IllegalArgumentException.class);
+    new NamedConnectionPool(
+        "https://example.org/example",
+        new DefaultClientConnectionOperator(new SchemeRegistry()),
+        null,
+        3,
+        1L,
+        TimeUnit.NANOSECONDS);
+  }
+
+  /**
+   * Test {@link NamedConnectionPool#NamedConnectionPool(String, ClientConnectionOperator,
+   * ConnPerRoute, int, long, TimeUnit)}.
+   *
+   * <ul>
+   *   <li>Then throw {@link IllegalArgumentException}.
+   * </ul>
+   *
+   * <p>Method under test: {@link NamedConnectionPool#NamedConnectionPool(String,
+   * ClientConnectionOperator, ConnPerRoute, int, long, TimeUnit)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "void NamedConnectionPool.<init>(String, ClientConnectionOperator, ConnPerRoute, int, long, TimeUnit)"
+  })
+  public void testNewNamedConnectionPool_thenThrowIllegalArgumentException4() {
+    // Arrange, Act and Assert
+    thrown.expect(IllegalArgumentException.class);
+    new NamedConnectionPool(
+        "https://example.org/example", null, mock(ConnPerRoute.class), 3, 1L, TimeUnit.NANOSECONDS);
+  }
+
+  /**
+   * Test {@link NamedConnectionPool#NamedConnectionPool(String, ClientConnectionOperator,
+   * HttpParams)}.
+   *
+   * <ul>
+   *   <li>Then throw {@link IllegalArgumentException}.
+   * </ul>
+   *
+   * <p>Method under test: {@link NamedConnectionPool#NamedConnectionPool(String,
+   * ClientConnectionOperator, HttpParams)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "void NamedConnectionPool.<init>(String, ClientConnectionOperator, HttpParams)"
+  })
+  public void testNewNamedConnectionPool_thenThrowIllegalArgumentException5() {
+    // Arrange, Act and Assert
+    thrown.expect(IllegalArgumentException.class);
+    new NamedConnectionPool("https://example.org/example", null, new BasicHttpParams());
   }
 
   /**
@@ -155,7 +380,7 @@ public class NamedConnectionPoolDiffblueTest {
   @MethodsUnderTest({
     "void NamedConnectionPool.<init>(ClientConnectionOperator, ConnPerRoute, int)"
   })
-  public void testNewNamedConnectionPool_thenThrowIllegalArgumentException() {
+  public void testNewNamedConnectionPool_thenThrowIllegalArgumentException6() {
     // Arrange, Act and Assert
     thrown.expect(IllegalArgumentException.class);
     new NamedConnectionPool(new DefaultClientConnectionOperator(new SchemeRegistry()), null, 3);
@@ -178,7 +403,7 @@ public class NamedConnectionPoolDiffblueTest {
   @MethodsUnderTest({
     "void NamedConnectionPool.<init>(ClientConnectionOperator, ConnPerRoute, int, long, TimeUnit)"
   })
-  public void testNewNamedConnectionPool_thenThrowIllegalArgumentException2() {
+  public void testNewNamedConnectionPool_thenThrowIllegalArgumentException7() {
     // Arrange, Act and Assert
     thrown.expect(IllegalArgumentException.class);
     new NamedConnectionPool(
@@ -187,70 +412,6 @@ public class NamedConnectionPoolDiffblueTest {
         3,
         1L,
         TimeUnit.NANOSECONDS);
-  }
-
-  /**
-   * Test {@link NamedConnectionPool#NamedConnectionPool(ClientConnectionOperator, ConnPerRoute,
-   * int)}.
-   *
-   * <ul>
-   *   <li>When {@link ConnPerRoute}.
-   *   <li>Then return ConnectionCount is zero.
-   * </ul>
-   *
-   * <p>Method under test: {@link NamedConnectionPool#NamedConnectionPool(ClientConnectionOperator,
-   * ConnPerRoute, int)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "void NamedConnectionPool.<init>(ClientConnectionOperator, ConnPerRoute, int)"
-  })
-  public void testNewNamedConnectionPool_whenConnPerRoute_thenReturnConnectionCountIsZero() {
-    // Arrange and Act
-    NamedConnectionPool actualNamedConnectionPool =
-        new NamedConnectionPool(
-            new DefaultClientConnectionOperator(new SchemeRegistry()), mock(ConnPerRoute.class), 3);
-
-    // Assert
-    assertEquals(0, actualNamedConnectionPool.getConnectionCount());
-    assertEquals(0, actualNamedConnectionPool.getConnectionsInPool());
-    assertEquals(3, actualNamedConnectionPool.getMaxTotalConnections());
-  }
-
-  /**
-   * Test {@link NamedConnectionPool#NamedConnectionPool(ClientConnectionOperator, ConnPerRoute,
-   * int, long, TimeUnit)}.
-   *
-   * <ul>
-   *   <li>When {@link ConnPerRoute}.
-   *   <li>Then return ConnectionCount is zero.
-   * </ul>
-   *
-   * <p>Method under test: {@link NamedConnectionPool#NamedConnectionPool(ClientConnectionOperator,
-   * ConnPerRoute, int, long, TimeUnit)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "void NamedConnectionPool.<init>(ClientConnectionOperator, ConnPerRoute, int, long, TimeUnit)"
-  })
-  public void testNewNamedConnectionPool_whenConnPerRoute_thenReturnConnectionCountIsZero2() {
-    // Arrange and Act
-    NamedConnectionPool actualNamedConnectionPool =
-        new NamedConnectionPool(
-            new DefaultClientConnectionOperator(new SchemeRegistry()),
-            mock(ConnPerRoute.class),
-            3,
-            1L,
-            TimeUnit.NANOSECONDS);
-
-    // Assert
-    assertEquals(0, actualNamedConnectionPool.getConnectionCount());
-    assertEquals(0, actualNamedConnectionPool.getConnectionsInPool());
-    assertEquals(3, actualNamedConnectionPool.getMaxTotalConnections());
   }
 
   /**
@@ -291,170 +452,6 @@ public class NamedConnectionPoolDiffblueTest {
   }
 
   /**
-   * Test {@link NamedConnectionPool#NamedConnectionPool(String, ClientConnectionOperator,
-   * ConnPerRoute, int)}.
-   *
-   * <ul>
-   *   <li>When {@code https://example.org/example}.
-   * </ul>
-   *
-   * <p>Method under test: {@link NamedConnectionPool#NamedConnectionPool(String,
-   * ClientConnectionOperator, ConnPerRoute, int)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "void NamedConnectionPool.<init>(String, ClientConnectionOperator, ConnPerRoute, int)"
-  })
-  public void testNewNamedConnectionPool_whenHttpsExampleOrgExample() {
-    // Arrange and Act
-    NamedConnectionPool actualNamedConnectionPool =
-        new NamedConnectionPool(
-            "https://example.org/example",
-            new DefaultClientConnectionOperator(new SchemeRegistry()),
-            mock(ConnPerRoute.class),
-            3);
-
-    // Assert
-    assertEquals(0, actualNamedConnectionPool.getConnectionCount());
-    assertEquals(0, actualNamedConnectionPool.getConnectionsInPool());
-    assertEquals(0L, actualNamedConnectionPool.getCreatedEntryCount());
-    assertEquals(0L, actualNamedConnectionPool.getDeleteCount());
-    assertEquals(0L, actualNamedConnectionPool.getFreeEntryCount());
-    assertEquals(0L, actualNamedConnectionPool.getReleaseCount());
-    assertEquals(0L, actualNamedConnectionPool.getRequestsCount());
-    assertEquals(3, actualNamedConnectionPool.getMaxTotalConnections());
-  }
-
-  /**
-   * Test {@link NamedConnectionPool#NamedConnectionPool(String, ClientConnectionOperator,
-   * ConnPerRoute, int)}.
-   *
-   * <ul>
-   *   <li>When {@code null}.
-   *   <li>Then throw {@link IllegalArgumentException}.
-   * </ul>
-   *
-   * <p>Method under test: {@link NamedConnectionPool#NamedConnectionPool(String,
-   * ClientConnectionOperator, ConnPerRoute, int)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "void NamedConnectionPool.<init>(String, ClientConnectionOperator, ConnPerRoute, int)"
-  })
-  public void testNewNamedConnectionPool_whenNull_thenThrowIllegalArgumentException() {
-    // Arrange, Act and Assert
-    thrown.expect(IllegalArgumentException.class);
-    new NamedConnectionPool(null, null, null, 3);
-  }
-
-  /**
-   * Test {@link NamedConnectionPool#NamedConnectionPool(String, ClientConnectionOperator,
-   * ConnPerRoute, int)}.
-   *
-   * <ul>
-   *   <li>When {@code null}.
-   *   <li>Then throw {@link IllegalArgumentException}.
-   * </ul>
-   *
-   * <p>Method under test: {@link NamedConnectionPool#NamedConnectionPool(String,
-   * ClientConnectionOperator, ConnPerRoute, int)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "void NamedConnectionPool.<init>(String, ClientConnectionOperator, ConnPerRoute, int)"
-  })
-  public void testNewNamedConnectionPool_whenNull_thenThrowIllegalArgumentException2() {
-    // Arrange, Act and Assert
-    thrown.expect(IllegalArgumentException.class);
-    new NamedConnectionPool(
-        null, new DefaultClientConnectionOperator(new SchemeRegistry()), null, 3);
-  }
-
-  /**
-   * Test {@link NamedConnectionPool#NamedConnectionPool(String, ClientConnectionOperator,
-   * ConnPerRoute, int, long, TimeUnit)}.
-   *
-   * <ul>
-   *   <li>When {@code null}.
-   *   <li>Then throw {@link IllegalArgumentException}.
-   * </ul>
-   *
-   * <p>Method under test: {@link NamedConnectionPool#NamedConnectionPool(String,
-   * ClientConnectionOperator, ConnPerRoute, int, long, TimeUnit)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "void NamedConnectionPool.<init>(String, ClientConnectionOperator, ConnPerRoute, int, long, TimeUnit)"
-  })
-  public void testNewNamedConnectionPool_whenNull_thenThrowIllegalArgumentException3() {
-    // Arrange, Act and Assert
-    thrown.expect(IllegalArgumentException.class);
-    new NamedConnectionPool(null, null, null, 3, 1L, TimeUnit.NANOSECONDS);
-  }
-
-  /**
-   * Test {@link NamedConnectionPool#NamedConnectionPool(String, ClientConnectionOperator,
-   * ConnPerRoute, int, long, TimeUnit)}.
-   *
-   * <ul>
-   *   <li>When {@code null}.
-   *   <li>Then throw {@link IllegalArgumentException}.
-   * </ul>
-   *
-   * <p>Method under test: {@link NamedConnectionPool#NamedConnectionPool(String,
-   * ClientConnectionOperator, ConnPerRoute, int, long, TimeUnit)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "void NamedConnectionPool.<init>(String, ClientConnectionOperator, ConnPerRoute, int, long, TimeUnit)"
-  })
-  public void testNewNamedConnectionPool_whenNull_thenThrowIllegalArgumentException4() {
-    // Arrange, Act and Assert
-    thrown.expect(IllegalArgumentException.class);
-    new NamedConnectionPool(
-        null,
-        new DefaultClientConnectionOperator(new SchemeRegistry()),
-        null,
-        3,
-        1L,
-        TimeUnit.NANOSECONDS);
-  }
-
-  /**
-   * Test {@link NamedConnectionPool#NamedConnectionPool(String, ClientConnectionOperator,
-   * HttpParams)}.
-   *
-   * <ul>
-   *   <li>When {@code null}.
-   *   <li>Then throw {@link IllegalArgumentException}.
-   * </ul>
-   *
-   * <p>Method under test: {@link NamedConnectionPool#NamedConnectionPool(String,
-   * ClientConnectionOperator, HttpParams)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "void NamedConnectionPool.<init>(String, ClientConnectionOperator, HttpParams)"
-  })
-  public void testNewNamedConnectionPool_whenNull_thenThrowIllegalArgumentException5() {
-    // Arrange, Act and Assert
-    thrown.expect(IllegalArgumentException.class);
-    new NamedConnectionPool(null, null, new BasicHttpParams());
-  }
-
-  /**
    * Test {@link NamedConnectionPool#NamedConnectionPool(ClientConnectionOperator, ConnPerRoute,
    * int)}.
    *
@@ -472,10 +469,10 @@ public class NamedConnectionPoolDiffblueTest {
   @MethodsUnderTest({
     "void NamedConnectionPool.<init>(ClientConnectionOperator, ConnPerRoute, int)"
   })
-  public void testNewNamedConnectionPool_whenNull_thenThrowIllegalArgumentException6() {
+  public void testNewNamedConnectionPool_whenNull_thenThrowIllegalArgumentException() {
     // Arrange, Act and Assert
     thrown.expect(IllegalArgumentException.class);
-    new NamedConnectionPool(null, null, 3);
+    new NamedConnectionPool(null, mock(ConnPerRoute.class), 3);
   }
 
   /**
@@ -496,10 +493,10 @@ public class NamedConnectionPoolDiffblueTest {
   @MethodsUnderTest({
     "void NamedConnectionPool.<init>(ClientConnectionOperator, ConnPerRoute, int, long, TimeUnit)"
   })
-  public void testNewNamedConnectionPool_whenNull_thenThrowIllegalArgumentException7() {
+  public void testNewNamedConnectionPool_whenNull_thenThrowIllegalArgumentException2() {
     // Arrange, Act and Assert
     thrown.expect(IllegalArgumentException.class);
-    new NamedConnectionPool(null, null, 3, 1L, TimeUnit.NANOSECONDS);
+    new NamedConnectionPool(null, mock(ConnPerRoute.class), 3, 1L, TimeUnit.NANOSECONDS);
   }
 
   /**
@@ -517,7 +514,7 @@ public class NamedConnectionPoolDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void NamedConnectionPool.<init>(ClientConnectionOperator, HttpParams)"})
-  public void testNewNamedConnectionPool_whenNull_thenThrowIllegalArgumentException8() {
+  public void testNewNamedConnectionPool_whenNull_thenThrowIllegalArgumentException3() {
     // Arrange, Act and Assert
     thrown.expect(IllegalArgumentException.class);
     new NamedConnectionPool(null, new BasicHttpParams());
@@ -810,7 +807,7 @@ public class NamedConnectionPoolDiffblueTest {
 
     NamedConnectionPool namedConnectionPool =
         new NamedConnectionPool("https://example.org/example", operator, new BasicHttpParams());
-    namedConnectionPool.setMaxTotalConnections(0);
+    namedConnectionPool.setMaxTotalConnections(-1);
     HttpRoute route = new HttpRoute(new HttpHost("https://example.org/example"));
 
     // Act and Assert
@@ -1028,37 +1025,5 @@ public class NamedConnectionPoolDiffblueTest {
 
     // Act and Assert
     assertEquals(0, namedConnectionPool.getConnectionCount());
-  }
-
-  /**
-   * Test {@link NamedConnectionPool#shutdown()}.
-   *
-   * <ul>
-   *   <li>Then calls {@link ClientConnectionOperator#createConnection()}.
-   * </ul>
-   *
-   * <p>Method under test: {@link NamedConnectionPool#shutdown()}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void NamedConnectionPool.shutdown()"})
-  public void testShutdown_thenCallsCreateConnection() {
-    // Arrange
-    ClientConnectionOperator op = mock(ClientConnectionOperator.class);
-    when(op.createConnection()).thenReturn(null);
-    DefaultClientConnectionOperator operator =
-        new DefaultClientConnectionOperator(new SchemeRegistry());
-
-    NamedConnectionPool namedConnectionPool =
-        new NamedConnectionPool("https://example.org/example", operator, new BasicHttpParams());
-    HttpRoute route = new HttpRoute(new HttpHost("https://example.org/example"));
-    namedConnectionPool.createEntry(new RouteSpecificPool(route, 3), op);
-
-    // Act
-    namedConnectionPool.shutdown();
-
-    // Assert
-    verify(op).createConnection();
   }
 }

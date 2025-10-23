@@ -33,6 +33,31 @@ public class RetryRuleDiffblueTest {
   }
 
   /**
+   * Test {@link RetryRule#RetryRule(IRule, long)}.
+   *
+   * <ul>
+   *   <li>Then return MaxRetryMillis is five hundred.
+   * </ul>
+   *
+   * <p>Method under test: {@link RetryRule#RetryRule(IRule, long)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void RetryRule.<init>(IRule, long)"})
+  public void testNewRetryRule_thenReturnMaxRetryMillisIsFiveHundred() {
+    // Arrange
+    AvailabilityFilteringRule subRule = new AvailabilityFilteringRule();
+
+    // Act
+    RetryRule actualRetryRule = new RetryRule(subRule, 0L);
+
+    // Assert
+    assertEquals(500L, actualRetryRule.getMaxRetryMillis());
+    assertSame(subRule, actualRetryRule.getRule());
+  }
+
+  /**
    * Test {@link RetryRule#RetryRule(IRule)}.
    *
    * <ul>
@@ -51,32 +76,6 @@ public class RetryRuleDiffblueTest {
 
     // Act and Assert
     assertSame(subRule, new RetryRule(subRule).getRule());
-  }
-
-  /**
-   * Test {@link RetryRule#RetryRule(IRule, long)}.
-   *
-   * <ul>
-   *   <li>When {@link AvailabilityFilteringRule} (default constructor).
-   *   <li>Then return MaxRetryMillis is one.
-   * </ul>
-   *
-   * <p>Method under test: {@link RetryRule#RetryRule(IRule, long)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void RetryRule.<init>(IRule, long)"})
-  public void testNewRetryRule_whenAvailabilityFilteringRule_thenReturnMaxRetryMillisIsOne() {
-    // Arrange
-    AvailabilityFilteringRule subRule = new AvailabilityFilteringRule();
-
-    // Act
-    RetryRule actualRetryRule = new RetryRule(subRule, 1L);
-
-    // Assert
-    assertEquals(1L, actualRetryRule.getMaxRetryMillis());
-    assertSame(subRule, actualRetryRule.getRule());
   }
 
   /**
@@ -129,6 +128,32 @@ public class RetryRuleDiffblueTest {
     assertNull(actualRetryRule.getLoadBalancer());
     assertNull(rule.getLoadBalancer());
     assertEquals(500L, actualRetryRule.getMaxRetryMillis());
+  }
+
+  /**
+   * Test {@link RetryRule#RetryRule(IRule, long)}.
+   *
+   * <ul>
+   *   <li>When one.
+   *   <li>Then return MaxRetryMillis is one.
+   * </ul>
+   *
+   * <p>Method under test: {@link RetryRule#RetryRule(IRule, long)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void RetryRule.<init>(IRule, long)"})
+  public void testNewRetryRule_whenOne_thenReturnMaxRetryMillisIsOne() {
+    // Arrange
+    AvailabilityFilteringRule subRule = new AvailabilityFilteringRule();
+
+    // Act
+    RetryRule actualRetryRule = new RetryRule(subRule, 1L);
+
+    // Assert
+    assertEquals(1L, actualRetryRule.getMaxRetryMillis());
+    assertSame(subRule, actualRetryRule.getRule());
   }
 
   /**
@@ -412,27 +437,6 @@ public class RetryRuleDiffblueTest {
     assertTrue(actualChooseResult.isAlive());
     assertTrue(actualChooseResult.isReadyToServe());
     assertEquals(Server.UNKNOWN_ZONE, actualChooseResult.getZone());
-  }
-
-  /**
-   * Test {@link RetryRule#choose(ILoadBalancer, Object)} with {@code lb}, {@code key}.
-   *
-   * <ul>
-   *   <li>Then return {@code null}.
-   * </ul>
-   *
-   * <p>Method under test: {@link RetryRule#choose(ILoadBalancer, Object)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"Server RetryRule.choose(ILoadBalancer, Object)"})
-  public void testChooseWithLbKey_thenReturnNull() {
-    // Arrange
-    RetryRule retryRule = new RetryRule(new RandomRule(), 1L);
-
-    // Act and Assert
-    assertNull(retryRule.choose(new BaseLoadBalancer(), "Key"));
   }
 
   /**

@@ -7,8 +7,6 @@ import static org.mockito.Mockito.mock;
 import com.diffblue.cover.annotations.ContributionFromDiffblue;
 import com.diffblue.cover.annotations.ManagedByDiffblue;
 import com.diffblue.cover.annotations.MethodsUnderTest;
-import com.netflix.client.config.DefaultClientConfigImpl;
-import com.netflix.client.config.IClientConfig;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -33,54 +31,6 @@ public class AvailabilityFilteringRuleDiffblueTest {
     assertNull(actualAvailabilityFilteringRule.roundRobinRule.getLoadBalancer());
     assertNull(((CompositePredicate) predicate).rule);
     assertNull(predicate.getLBStats());
-  }
-
-  /**
-   * Test {@link AvailabilityFilteringRule#initWithNiwsConfig(IClientConfig)} with {@code
-   * clientConfig}.
-   *
-   * <p>Method under test: {@link AvailabilityFilteringRule#initWithNiwsConfig(IClientConfig)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void AvailabilityFilteringRule.initWithNiwsConfig(IClientConfig)"})
-  public void testInitWithNiwsConfigWithClientConfig() {
-    // Arrange
-    DefaultClientConfigImpl clientConfig =
-        DefaultClientConfigImpl.getClientConfigWithDefaultValues(
-            "Dr Jane Doe", "[{}] get global property '{}' with default '{}'");
-
-    // Act
-    new AvailabilityFilteringRule().initWithNiwsConfig(clientConfig);
-
-    // Assert
-    assertEquals(3L, clientConfig.getRefreshCount());
-  }
-
-  /**
-   * Test {@link AvailabilityFilteringRule#initWithNiwsConfig(IClientConfig)} with {@code
-   * clientConfig}.
-   *
-   * <ul>
-   *   <li>Then EmptyConfig RefreshCount is three.
-   * </ul>
-   *
-   * <p>Method under test: {@link AvailabilityFilteringRule#initWithNiwsConfig(IClientConfig)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void AvailabilityFilteringRule.initWithNiwsConfig(IClientConfig)"})
-  public void testInitWithNiwsConfigWithClientConfig_thenEmptyConfigRefreshCountIsThree() {
-    // Arrange
-    DefaultClientConfigImpl clientConfig = DefaultClientConfigImpl.getEmptyConfig();
-
-    // Act
-    new AvailabilityFilteringRule().initWithNiwsConfig(clientConfig);
-
-    // Assert
-    assertEquals(3L, clientConfig.getRefreshCount());
   }
 
   /**

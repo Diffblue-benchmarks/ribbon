@@ -58,7 +58,7 @@ public class URLSslContextFactoryDiffblueTest {
    * Test {@link URLSslContextFactory#URLSslContextFactory(URL, String, URL, String)}.
    *
    * <ul>
-   *   <li>Then throw {@link ClientSslSocketFactoryException}.
+   *   <li>When {@code https://example.org/example}.
    * </ul>
    *
    * <p>Method under test: {@link URLSslContextFactory#URLSslContextFactory(URL, String, URL,
@@ -68,7 +68,7 @@ public class URLSslContextFactoryDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void URLSslContextFactory.<init>(URL, String, URL, String)"})
-  public void testNewURLSslContextFactory_thenThrowClientSslSocketFactoryException()
+  public void testNewURLSslContextFactory_whenHttpsExampleOrgExample()
       throws ClientSslSocketFactoryException, MalformedURLException {
     // Arrange
     URL trustStoreUrl = Paths.get(System.getProperty("java.io.tmpdir"), "test.txt").toUri().toURL();
@@ -150,6 +150,31 @@ public class URLSslContextFactoryDiffblueTest {
     assertTrue(provider.containsKey("Provider.id name"));
     assertTrue(provider.containsKey("Signature.MD5andSHA1withRSA"));
     assertEquals(AbstractSslContextFactory.SOCKET_ALGORITHM, sSLContext.getProtocol());
+  }
+
+  /**
+   * Test {@link URLSslContextFactory#URLSslContextFactory(URL, String, URL, String)}.
+   *
+   * <ul>
+   *   <li>When {@code null}.
+   *   <li>Then throw {@link ClientSslSocketFactoryException}.
+   * </ul>
+   *
+   * <p>Method under test: {@link URLSslContextFactory#URLSslContextFactory(URL, String, URL,
+   * String)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void URLSslContextFactory.<init>(URL, String, URL, String)"})
+  public void testNewURLSslContextFactory_whenNull_thenThrowClientSslSocketFactoryException()
+      throws ClientSslSocketFactoryException, MalformedURLException {
+    // Arrange
+    URL keyStoreUrl = Paths.get(System.getProperty("java.io.tmpdir"), "test.txt").toUri().toURL();
+
+    // Act and Assert
+    thrown.expect(ClientSslSocketFactoryException.class);
+    new URLSslContextFactory(null, "not empty", keyStoreUrl, "not empty");
   }
 
   /**

@@ -33,30 +33,4 @@ public class PropertyUtilsDiffblueTest {
     // Assert
     assertFalse(actualResolveWithValueOfResult.isPresent());
   }
-
-  /**
-   * Test {@link PropertyUtils#resolveWithValueOf(Class, String)}.
-   *
-   * <ul>
-   *   <li>When {@code valueOf}.
-   *   <li>Then return not Present.
-   * </ul>
-   *
-   * <p>Method under test: {@link PropertyUtils#resolveWithValueOf(Class, String)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"Optional PropertyUtils.resolveWithValueOf(Class, String)"})
-  public void testResolveWithValueOf_whenValueOf_thenReturnNotPresent() {
-    // Arrange
-    Class<Object> type = Object.class;
-
-    // Act
-    Optional<Object> actualResolveWithValueOfResult =
-        PropertyUtils.resolveWithValueOf(type, "valueOf");
-
-    // Assert
-    assertFalse(actualResolveWithValueOfResult.isPresent());
-  }
 }

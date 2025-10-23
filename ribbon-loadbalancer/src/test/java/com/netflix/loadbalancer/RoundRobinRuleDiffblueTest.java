@@ -43,24 +43,6 @@ public class RoundRobinRuleDiffblueTest {
   /**
    * Test {@link RoundRobinRule#choose(Object)} with {@code key}.
    *
-   * <p>Method under test: {@link RoundRobinRule#choose(Object)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"Server RoundRobinRule.choose(Object)"})
-  public void testChooseWithKey() {
-    // Arrange
-    RoundRobinRule roundRobinRule = new RoundRobinRule(new BaseLoadBalancer());
-    roundRobinRule.setLoadBalancer(new BaseLoadBalancer());
-
-    // Act and Assert
-    assertNull(roundRobinRule.choose("Key"));
-  }
-
-  /**
-   * Test {@link RoundRobinRule#choose(Object)} with {@code key}.
-   *
    * <ul>
    *   <li>Given {@link BaseLoadBalancer#BaseLoadBalancer()} EnablePrimingConnections is {@code
    *       true}.
@@ -78,11 +60,8 @@ public class RoundRobinRuleDiffblueTest {
     lb.setEnablePrimingConnections(true);
     lb.addServer(new Server("42"));
 
-    RoundRobinRule roundRobinRule = new RoundRobinRule(new BaseLoadBalancer());
-    roundRobinRule.setLoadBalancer(lb);
-
     // Act and Assert
-    assertNull(roundRobinRule.choose("Key"));
+    assertNull(new RoundRobinRule(lb).choose("Key"));
   }
 
   /**
@@ -102,6 +81,26 @@ public class RoundRobinRuleDiffblueTest {
   public void testChooseWithKey_givenResponseTimeWeightedRule_thenReturnNull() {
     // Arrange, Act and Assert
     assertNull(new ResponseTimeWeightedRule().choose("Key"));
+  }
+
+  /**
+   * Test {@link RoundRobinRule#choose(Object)} with {@code key}.
+   *
+   * <ul>
+   *   <li>Given {@link RoundRobinRule#RoundRobinRule(ILoadBalancer)} with lb is {@link
+   *       BaseLoadBalancer#BaseLoadBalancer()}.
+   *   <li>Then return {@code null}.
+   * </ul>
+   *
+   * <p>Method under test: {@link RoundRobinRule#choose(Object)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"Server RoundRobinRule.choose(Object)"})
+  public void testChooseWithKey_givenRoundRobinRuleWithLbIsBaseLoadBalancer_thenReturnNull() {
+    // Arrange, Act and Assert
+    assertNull(new RoundRobinRule(new BaseLoadBalancer()).choose("Key"));
   }
 
   /**
@@ -142,11 +141,8 @@ public class RoundRobinRuleDiffblueTest {
     Server newServer = new Server("42");
     lb.addServer(newServer);
 
-    RoundRobinRule roundRobinRule = new RoundRobinRule(new BaseLoadBalancer());
-    roundRobinRule.setLoadBalancer(lb);
-
     // Act and Assert
-    assertSame(newServer, roundRobinRule.choose("Key"));
+    assertSame(newServer, new RoundRobinRule(lb).choose("Key"));
   }
 
   /**

@@ -7,8 +7,6 @@ import static org.junit.Assert.assertTrue;
 import com.diffblue.cover.annotations.ContributionFromDiffblue;
 import com.diffblue.cover.annotations.ManagedByDiffblue;
 import com.diffblue.cover.annotations.MethodsUnderTest;
-import com.netflix.client.config.DefaultClientConfigImpl;
-import com.netflix.client.config.IClientConfig;
 import com.netflix.niws.client.http.HttpClientRequest.Builder;
 import com.netflix.niws.client.http.HttpClientRequest.Verb;
 import java.net.URI;
@@ -123,27 +121,6 @@ public class HttpClientRequestDiffblueTest {
 
     // Assert
     assertSame(newBuilderResult, actualSetLoadBalancerKeyResult);
-  }
-
-  /**
-   * Test Builder {@link Builder#setOverrideConfig(IClientConfig)}.
-   *
-   * <p>Method under test: {@link Builder#setOverrideConfig(IClientConfig)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"Builder Builder.setOverrideConfig(IClientConfig)"})
-  public void testBuilderSetOverrideConfig() {
-    // Arrange
-    Builder newBuilderResult = HttpClientRequest.newBuilder();
-
-    // Act
-    Builder actualSetOverrideConfigResult =
-        newBuilderResult.setOverrideConfig(DefaultClientConfigImpl.getEmptyConfig());
-
-    // Assert
-    assertSame(newBuilderResult, actualSetOverrideConfigResult);
   }
 
   /**

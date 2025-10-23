@@ -1,15 +1,12 @@
 package com.netflix.client.config;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import com.diffblue.cover.annotations.ContributionFromDiffblue;
 import com.diffblue.cover.annotations.ManagedByDiffblue;
 import com.diffblue.cover.annotations.MethodsUnderTest;
-import com.netflix.client.config.DefaultClientConfigImplTest.NewConfigKey;
 import com.netflix.client.config.IClientConfig.Builder;
 import org.junit.Rule;
 import org.junit.Test;
@@ -1049,8 +1046,7 @@ public class IClientConfigDiffblueTest {
    * Test {@link IClientConfig#getOrDefault(IClientConfigKey)}.
    *
    * <ul>
-   *   <li>Given EmptyConfig.
-   *   <li>Then return {@code Default Value}.
+   *   <li>Then return {@code null}.
    * </ul>
    *
    * <p>Method under test: {@link IClientConfig#getOrDefault(IClientConfigKey)}
@@ -1059,18 +1055,60 @@ public class IClientConfigDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"Object IClientConfig.getOrDefault(IClientConfigKey)"})
-  public void testGetOrDefault_givenEmptyConfig_thenReturnDefaultValue() {
+  public void testGetOrDefault_thenReturnNull() {
     // Arrange
     DefaultClientConfigImpl emptyConfig = DefaultClientConfigImpl.getEmptyConfig();
 
-    NewConfigKey<Object> key = mock(NewConfigKey.class);
-    when(key.defaultValue()).thenReturn("Default Value");
-
     // Act
-    Object actualOrDefault = emptyConfig.getOrDefault(key);
+    Object actualOrDefault =
+        emptyConfig.getOrDefault(new DefaultClientConfigImplTest().new NewConfigKey("Config Key"));
 
     // Assert
-    verify(key).defaultValue();
-    assertEquals("Default Value", actualOrDefault);
+    assertNull(actualOrDefault);
+  }
+
+  /**
+   * Test {@link IClientConfig#getIfSet(IClientConfigKey)}.
+   *
+   * <p>Method under test: {@link IClientConfig#getIfSet(IClientConfigKey)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"java.util.Optional IClientConfig.getIfSet(IClientConfigKey)"})
+  public void testGetIfSet() {
+    // Arrange
+    IClientConfig iClientConfig =
+        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build();
+
+    // Act and Assert
+    assertFalse(
+        iClientConfig
+            .getIfSet(new DefaultClientConfigImplTest().new NewConfigKey("Config Key"))
+            .isPresent());
+  }
+
+  /**
+   * Test {@link IClientConfig#getIfSet(IClientConfigKey)}.
+   *
+   * <ul>
+   *   <li>Given EmptyConfig.
+   * </ul>
+   *
+   * <p>Method under test: {@link IClientConfig#getIfSet(IClientConfigKey)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"java.util.Optional IClientConfig.getIfSet(IClientConfigKey)"})
+  public void testGetIfSet_givenEmptyConfig() {
+    // Arrange
+    DefaultClientConfigImpl emptyConfig = DefaultClientConfigImpl.getEmptyConfig();
+
+    // Act and Assert
+    assertFalse(
+        emptyConfig
+            .getIfSet(new DefaultClientConfigImplTest().new NewConfigKey("Config Key"))
+            .isPresent());
   }
 }

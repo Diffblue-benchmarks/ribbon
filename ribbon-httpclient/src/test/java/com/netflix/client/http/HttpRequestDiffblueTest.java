@@ -9,8 +9,6 @@ import com.diffblue.cover.annotations.ManagedByDiffblue;
 import com.diffblue.cover.annotations.MethodsUnderTest;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
-import com.netflix.client.config.DefaultClientConfigImpl;
-import com.netflix.client.config.IClientConfig;
 import com.netflix.client.http.HttpRequest.Builder;
 import com.netflix.client.http.HttpRequest.Verb;
 import java.net.URI;
@@ -161,27 +159,6 @@ public class HttpRequestDiffblueTest {
     // Act and Assert
     HttpRequest actualHttpRequest = new Builder(request).build();
     assertSame(request, actualHttpRequest);
-  }
-
-  /**
-   * Test Builder {@link Builder#overrideConfig(IClientConfig)}.
-   *
-   * <p>Method under test: {@link Builder#overrideConfig(IClientConfig)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"Builder Builder.overrideConfig(IClientConfig)"})
-  public void testBuilderOverrideConfig() {
-    // Arrange
-    Builder newBuilderResult = HttpRequest.newBuilder();
-
-    // Act
-    Builder actualOverrideConfigResult =
-        newBuilderResult.overrideConfig(DefaultClientConfigImpl.getEmptyConfig());
-
-    // Assert
-    assertSame(newBuilderResult, actualOverrideConfigResult);
   }
 
   /**

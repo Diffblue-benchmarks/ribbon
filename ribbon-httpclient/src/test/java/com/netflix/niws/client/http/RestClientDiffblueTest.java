@@ -5,6 +5,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -12,533 +14,44 @@ import static org.mockito.Mockito.when;
 import com.diffblue.cover.annotations.ContributionFromDiffblue;
 import com.diffblue.cover.annotations.ManagedByDiffblue;
 import com.diffblue.cover.annotations.MethodsUnderTest;
-import com.netflix.client.ClientException;
-import com.netflix.client.DefaultLoadBalancerRetryHandler;
-import com.netflix.client.PrimeConnections;
-import com.netflix.client.RequestSpecificRetryHandler;
-import com.netflix.client.RetryHandler;
-import com.netflix.client.config.DefaultClientConfigImpl;
-import com.netflix.client.config.IClientConfig;
-import com.netflix.client.config.IClientConfig.Builder;
-import com.netflix.client.config.IClientConfigKey;
-import com.netflix.client.http.HttpRequest;
 import com.netflix.loadbalancer.AvailabilityFilteringRule;
 import com.netflix.loadbalancer.BaseLoadBalancer;
 import com.netflix.loadbalancer.DynamicServerListLoadBalancer;
 import com.netflix.loadbalancer.ILoadBalancer;
 import com.netflix.loadbalancer.IPing;
-import com.netflix.loadbalancer.IRule;
-import com.netflix.loadbalancer.LoadBalancerStats;
-import com.netflix.loadbalancer.PollingServerListUpdater;
-import com.netflix.loadbalancer.RoundRobinRule;
 import com.netflix.loadbalancer.Server;
+import com.netflix.loadbalancer.ServerListChangeListener;
 import com.netflix.loadbalancer.ServerListFilter;
 import com.netflix.loadbalancer.ServerStatusChangeListener;
+import com.netflix.loadbalancer.ZoneAwareLoadBalancer;
 import com.netflix.servo.monitor.BasicTimer;
 import com.netflix.servo.monitor.Monitor;
 import com.netflix.servo.monitor.StepCounter;
 import com.netflix.servo.monitor.Timer;
-import com.netflix.util.Pair;
 import com.sun.jersey.api.client.Client;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.junit.rules.ExpectedException;
 import org.mockito.Mockito;
 
 public class RestClientDiffblueTest {
-  @Rule public ExpectedException thrown = ExpectedException.none();
-
   /**
-   * Test {@link RestClient#RestClient()}.
+   * Test {@link RestClient#RestClient(ILoadBalancer)}.
    *
-   * <p>Method under test: {@link RestClient#RestClient()}
+   * <p>Method under test: {@link RestClient#RestClient(ILoadBalancer)}
    */
   @Test
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
-  @MethodsUnderTest({"void RestClient.<init>()"})
+  @MethodsUnderTest({"void RestClient.<init>(ILoadBalancer)"})
   public void testNewRestClient() {
-    // Arrange and Act
-    RestClient actualRestClient = new RestClient();
-
-    // Assert
-    assertTrue(actualRestClient.getRetryHandler() instanceof DefaultLoadBalancerRetryHandler);
-    assertTrue(actualRestClient.getExecuteTracer() instanceof BasicTimer);
-    assertEquals("default", actualRestClient.getClientName());
-    assertNull(actualRestClient.getLoadBalancer());
-    assertNull(actualRestClient.getJerseyClient());
-    assertEquals(0, actualRestClient.getMaxAutoRetries());
-    assertEquals(1, actualRestClient.getMaxAutoRetriesNextServer());
-    assertFalse(actualRestClient.isOkToRetryOnAllOperations());
-    assertFalse(actualRestClient.bFollowRedirects);
-  }
-
-  /**
-   * Test {@link RestClient#RestClient(ILoadBalancer)}.
-   *
-   * <p>Method under test: {@link RestClient#RestClient(ILoadBalancer)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void RestClient.<init>(ILoadBalancer)"})
-  public void testNewRestClient2() {
-    // Arrange
-    IClientConfig config =
-        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build();
-
-    BaseLoadBalancer lb = new BaseLoadBalancer(config);
-    lb.addServerStatusChangeListener(mock(ServerStatusChangeListener.class));
-    lb.addServerStatusChangeListener(mock(ServerStatusChangeListener.class));
-    lb.setPing(mock(IPing.class));
-
-    // Act and Assert
-    assertSame(lb, new RestClient(lb).getLoadBalancer());
-  }
-
-  /**
-   * Test {@link RestClient#RestClient(ILoadBalancer, Client)}.
-   *
-   * <p>Method under test: {@link RestClient#RestClient(ILoadBalancer, Client)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void RestClient.<init>(ILoadBalancer, Client)"})
-  public void testNewRestClient3() {
     // Arrange
     IPing ping = mock(IPing.class);
 
     BaseLoadBalancer lb = new BaseLoadBalancer(ping, new AvailabilityFilteringRule());
-    lb.setPing(mock(IPing.class));
-
-    // Act
-    RestClient actualRestClient = new RestClient(lb, (Client) null);
-
-    // Assert
-    RetryHandler retryHandler = actualRestClient.getRetryHandler();
-    assertTrue(retryHandler instanceof HttpClientLoadBalancerErrorHandler);
-    Timer executeTracer = actualRestClient.getExecuteTracer();
-    assertTrue(executeTracer instanceof BasicTimer);
-    List<Monitor<?>> monitors = ((BasicTimer) executeTracer).getMonitors();
-    assertEquals(4, monitors.size());
-    assertTrue(monitors.get(1) instanceof StepCounter);
-    assertEquals(
-        7, ((HttpClientLoadBalancerErrorHandler) retryHandler).getRetriableExceptions().size());
-    assertSame(lb, actualRestClient.getLoadBalancer());
-  }
-
-  /**
-   * Test {@link RestClient#RestClient(ILoadBalancer, Client)}.
-   *
-   * <p>Method under test: {@link RestClient#RestClient(ILoadBalancer, Client)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void RestClient.<init>(ILoadBalancer, Client)"})
-  public void testNewRestClient4() {
-    // Arrange
-    BaseLoadBalancer lb = new BaseLoadBalancer();
-    lb.addServerStatusChangeListener(mock(ServerStatusChangeListener.class));
-    lb.setPing(mock(IPing.class));
-
-    // Act
-    RestClient actualRestClient = new RestClient(lb, (Client) null);
-
-    // Assert
-    ILoadBalancer loadBalancer = actualRestClient.getLoadBalancer();
-    assertTrue(loadBalancer instanceof BaseLoadBalancer);
-    IRule rule = ((BaseLoadBalancer) loadBalancer).getRule();
-    assertTrue(rule instanceof RoundRobinRule);
-    RetryHandler retryHandler = actualRestClient.getRetryHandler();
-    assertTrue(retryHandler instanceof HttpClientLoadBalancerErrorHandler);
-    Timer executeTracer = actualRestClient.getExecuteTracer();
-    assertTrue(executeTracer instanceof BasicTimer);
-    List<Monitor<?>> monitors = ((BasicTimer) executeTracer).getMonitors();
-    assertEquals(4, monitors.size());
-    assertTrue(monitors.get(1) instanceof StepCounter);
-    assertEquals(
-        7, ((HttpClientLoadBalancerErrorHandler) retryHandler).getRetriableExceptions().size());
-    assertSame(loadBalancer, rule.getLoadBalancer());
-  }
-
-  /**
-   * Test {@link RestClient#RestClient(ILoadBalancer, Client)}.
-   *
-   * <p>Method under test: {@link RestClient#RestClient(ILoadBalancer, Client)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void RestClient.<init>(ILoadBalancer, Client)"})
-  public void testNewRestClient5() {
-    // Arrange
-    IClientConfig config =
-        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build();
-
-    BaseLoadBalancer lb = new BaseLoadBalancer(config);
-    lb.setLoadBalancerStats(new LoadBalancerStats());
-    lb.addServerStatusChangeListener(mock(ServerStatusChangeListener.class));
-    lb.setPing(mock(IPing.class));
-
-    // Act
-    RestClient actualRestClient = new RestClient(lb, (Client) null);
-
-    // Assert
-    assertSame(lb, actualRestClient.getLoadBalancer());
-  }
-
-  /**
-   * Test {@link RestClient#RestClient(ILoadBalancer, Client)}.
-   *
-   * <p>Method under test: {@link RestClient#RestClient(ILoadBalancer, Client)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void RestClient.<init>(ILoadBalancer, Client)"})
-  public void testNewRestClient6() {
-    // Arrange
-    IPing ping = mock(IPing.class);
-
-    BaseLoadBalancer lb = new BaseLoadBalancer(ping, new AvailabilityFilteringRule());
-    lb.addServerStatusChangeListener(mock(ServerStatusChangeListener.class));
-    lb.addServerStatusChangeListener(mock(ServerStatusChangeListener.class));
-    lb.setPing(mock(IPing.class));
-
-    // Act
-    RestClient actualRestClient = new RestClient(lb, (Client) null);
-
-    // Assert
-    RetryHandler retryHandler = actualRestClient.getRetryHandler();
-    assertTrue(retryHandler instanceof HttpClientLoadBalancerErrorHandler);
-    Timer executeTracer = actualRestClient.getExecuteTracer();
-    assertTrue(executeTracer instanceof BasicTimer);
-    List<Monitor<?>> monitors = ((BasicTimer) executeTracer).getMonitors();
-    assertEquals(4, monitors.size());
-    assertTrue(monitors.get(1) instanceof StepCounter);
-    assertEquals(
-        7, ((HttpClientLoadBalancerErrorHandler) retryHandler).getRetriableExceptions().size());
-    assertSame(lb, actualRestClient.getLoadBalancer());
-  }
-
-  /**
-   * Test {@link RestClient#RestClient(ILoadBalancer, Client)}.
-   *
-   * <p>Method under test: {@link RestClient#RestClient(ILoadBalancer, Client)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void RestClient.<init>(ILoadBalancer, Client)"})
-  public void testNewRestClient7() {
-    // Arrange
-    IClientConfig config =
-        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build();
-
-    BaseLoadBalancer lb = new BaseLoadBalancer(config);
-    PrimeConnections primeConnections = new PrimeConnections("default", 3, 2L, "default");
-    lb.setPrimeConnections(primeConnections);
-    lb.addServerStatusChangeListener(mock(ServerStatusChangeListener.class));
-    lb.addServerStatusChangeListener(mock(ServerStatusChangeListener.class));
-    lb.setPing(mock(IPing.class));
-
-    // Act
-    RestClient actualRestClient = new RestClient(lb, (Client) null);
-
-    // Assert
-    assertSame(lb, actualRestClient.getLoadBalancer());
-  }
-
-  /**
-   * Test {@link RestClient#RestClient(ILoadBalancer, Client)}.
-   *
-   * <p>Method under test: {@link RestClient#RestClient(ILoadBalancer, Client)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void RestClient.<init>(ILoadBalancer, Client)"})
-  public void testNewRestClient8() {
-    // Arrange
-    BaseLoadBalancer lb = new BaseLoadBalancer();
-    lb.addServerStatusChangeListener(mock(ServerStatusChangeListener.class));
-    lb.addServers(new ArrayList<>());
-    lb.setPing(mock(IPing.class));
-
-    // Act
-    RestClient actualRestClient = new RestClient(lb, (Client) null);
-
-    // Assert
-    ILoadBalancer loadBalancer = actualRestClient.getLoadBalancer();
-    assertTrue(loadBalancer instanceof BaseLoadBalancer);
-    IRule rule = ((BaseLoadBalancer) loadBalancer).getRule();
-    assertTrue(rule instanceof RoundRobinRule);
-    RetryHandler retryHandler = actualRestClient.getRetryHandler();
-    assertTrue(retryHandler instanceof HttpClientLoadBalancerErrorHandler);
-    Timer executeTracer = actualRestClient.getExecuteTracer();
-    assertTrue(executeTracer instanceof BasicTimer);
-    List<Monitor<?>> monitors = ((BasicTimer) executeTracer).getMonitors();
-    assertEquals(4, monitors.size());
-    assertTrue(monitors.get(1) instanceof StepCounter);
-    assertEquals(
-        7, ((HttpClientLoadBalancerErrorHandler) retryHandler).getRetriableExceptions().size());
-    assertSame(loadBalancer, rule.getLoadBalancer());
-  }
-
-  /**
-   * Test {@link RestClient#RestClient(ILoadBalancer, Client)}.
-   *
-   * <p>Method under test: {@link RestClient#RestClient(ILoadBalancer, Client)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void RestClient.<init>(ILoadBalancer, Client)"})
-  public void testNewRestClient9() {
-    // Arrange
-    IClientConfig config =
-        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build();
-
-    BaseLoadBalancer lb = new BaseLoadBalancer(config);
-    lb.setPingInterval(42);
-    lb.setPing(mock(IPing.class));
-
-    // Act
-    RestClient actualRestClient = new RestClient(lb, (Client) null);
-
-    // Assert
-    assertSame(lb, actualRestClient.getLoadBalancer());
-  }
-
-  /**
-   * Test {@link RestClient#RestClient(ILoadBalancer, Client)}.
-   *
-   * <p>Method under test: {@link RestClient#RestClient(ILoadBalancer, Client)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void RestClient.<init>(ILoadBalancer, Client)"})
-  public void testNewRestClient10() {
-    // Arrange
-    IPing ping = mock(IPing.class);
-
-    BaseLoadBalancer lb = new BaseLoadBalancer(ping, new AvailabilityFilteringRule());
-    lb.setLoadBalancerStats(new LoadBalancerStats());
-    lb.setPing(mock(IPing.class));
-
-    // Act
-    RestClient actualRestClient = new RestClient(lb, (Client) null);
-
-    // Assert
-    RetryHandler retryHandler = actualRestClient.getRetryHandler();
-    assertTrue(retryHandler instanceof HttpClientLoadBalancerErrorHandler);
-    assertEquals(
-        7, ((HttpClientLoadBalancerErrorHandler) retryHandler).getRetriableExceptions().size());
-    assertSame(lb, actualRestClient.getLoadBalancer());
-  }
-
-  /**
-   * Test {@link RestClient#RestClient(ILoadBalancer, Client)}.
-   *
-   * <p>Method under test: {@link RestClient#RestClient(ILoadBalancer, Client)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void RestClient.<init>(ILoadBalancer, Client)"})
-  public void testNewRestClient11() {
-    // Arrange
-    IPing ping = mock(IPing.class);
-
-    BaseLoadBalancer lb = new BaseLoadBalancer(ping, new AvailabilityFilteringRule());
-    lb.setPingInterval(42);
-    lb.setPing(mock(IPing.class));
-
-    // Act
-    RestClient actualRestClient = new RestClient(lb, (Client) null);
-
-    // Assert
-    RetryHandler retryHandler = actualRestClient.getRetryHandler();
-    assertTrue(retryHandler instanceof HttpClientLoadBalancerErrorHandler);
-    assertEquals(
-        7, ((HttpClientLoadBalancerErrorHandler) retryHandler).getRetriableExceptions().size());
-    assertSame(lb, actualRestClient.getLoadBalancer());
-  }
-
-  /**
-   * Test {@link RestClient#RestClient(ILoadBalancer, Client)}.
-   *
-   * <p>Method under test: {@link RestClient#RestClient(ILoadBalancer, Client)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void RestClient.<init>(ILoadBalancer, Client)"})
-  public void testNewRestClient12() {
-    // Arrange
-    IPing ping = mock(IPing.class);
-
-    BaseLoadBalancer lb = new BaseLoadBalancer(ping, new AvailabilityFilteringRule());
-    PrimeConnections primeConnections = new PrimeConnections("default", 3, 2L, "default");
-    lb.setPrimeConnections(primeConnections);
-    lb.setPing(mock(IPing.class));
-
-    // Act
-    RestClient actualRestClient = new RestClient(lb, (Client) null);
-
-    // Assert
-    RetryHandler retryHandler = actualRestClient.getRetryHandler();
-    assertTrue(retryHandler instanceof HttpClientLoadBalancerErrorHandler);
-    assertEquals(
-        7, ((HttpClientLoadBalancerErrorHandler) retryHandler).getRetriableExceptions().size());
-    assertSame(lb, actualRestClient.getLoadBalancer());
-  }
-
-  /**
-   * Test {@link RestClient#RestClient(ILoadBalancer, Client)}.
-   *
-   * <p>Method under test: {@link RestClient#RestClient(ILoadBalancer, Client)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void RestClient.<init>(ILoadBalancer, Client)"})
-  public void testNewRestClient13() {
-    // Arrange
-    IClientConfig config =
-        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(false).build();
-
-    BaseLoadBalancer lb = new BaseLoadBalancer(config);
-    lb.addServerStatusChangeListener(mock(ServerStatusChangeListener.class));
-    lb.setPing(mock(IPing.class));
-
-    // Act
-    RestClient actualRestClient = new RestClient(lb, (Client) null);
-
-    // Assert
-    RetryHandler retryHandler = actualRestClient.getRetryHandler();
-    assertTrue(retryHandler instanceof HttpClientLoadBalancerErrorHandler);
-    assertEquals(
-        7, ((HttpClientLoadBalancerErrorHandler) retryHandler).getRetriableExceptions().size());
-    assertSame(lb, actualRestClient.getLoadBalancer());
-  }
-
-  /**
-   * Test {@link RestClient#RestClient(ILoadBalancer, Client)}.
-   *
-   * <p>Method under test: {@link RestClient#RestClient(ILoadBalancer, Client)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void RestClient.<init>(ILoadBalancer, Client)"})
-  public void testNewRestClient14() {
-    // Arrange
-    IClientConfig config =
-        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build();
-
-    BaseLoadBalancer lb = new BaseLoadBalancer(config);
-    lb.addServers(new ArrayList<>());
-    lb.setEnablePrimingConnections(true);
-    lb.addServerStatusChangeListener(mock(ServerStatusChangeListener.class));
-    lb.setPing(mock(IPing.class));
-
-    // Act
-    RestClient actualRestClient = new RestClient(lb, (Client) null);
-
-    // Assert
-    assertSame(lb, actualRestClient.getLoadBalancer());
-  }
-
-  /**
-   * Test {@link RestClient#RestClient(ILoadBalancer, Client)}.
-   *
-   * <p>Method under test: {@link RestClient#RestClient(ILoadBalancer, Client)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void RestClient.<init>(ILoadBalancer, Client)"})
-  public void testNewRestClient15() {
-    // Arrange
-    IClientConfig config =
-        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(false).build();
-
-    BaseLoadBalancer lb = new BaseLoadBalancer(config);
-    PrimeConnections primeConnections = new PrimeConnections("default", 3, 2L, "default");
-    lb.setPrimeConnections(primeConnections);
-    lb.addServerStatusChangeListener(mock(ServerStatusChangeListener.class));
-    lb.addServerStatusChangeListener(mock(ServerStatusChangeListener.class));
-    lb.setPing(mock(IPing.class));
-
-    // Act
-    RestClient actualRestClient = new RestClient(lb, (Client) null);
-
-    // Assert
-    RetryHandler retryHandler = actualRestClient.getRetryHandler();
-    assertTrue(retryHandler instanceof HttpClientLoadBalancerErrorHandler);
-    assertEquals(
-        7, ((HttpClientLoadBalancerErrorHandler) retryHandler).getRetriableExceptions().size());
-    assertSame(lb, actualRestClient.getLoadBalancer());
-  }
-
-  /**
-   * Test {@link RestClient#RestClient(ILoadBalancer, Client)}.
-   *
-   * <p>Method under test: {@link RestClient#RestClient(ILoadBalancer, Client)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void RestClient.<init>(ILoadBalancer, Client)"})
-  public void testNewRestClient16() {
-    // Arrange
-    IClientConfig config =
-        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build();
-
-    BaseLoadBalancer lb = new BaseLoadBalancer(config);
-    PrimeConnections primeConnections = new PrimeConnections("default", 6, 2L, "default");
-    lb.setPrimeConnections(primeConnections);
-    lb.addServerStatusChangeListener(mock(ServerStatusChangeListener.class));
-    lb.addServerStatusChangeListener(mock(ServerStatusChangeListener.class));
-    lb.setPing(mock(IPing.class));
-
-    // Act
-    RestClient actualRestClient = new RestClient(lb, (Client) null);
-
-    // Assert
-    assertSame(lb, actualRestClient.getLoadBalancer());
-  }
-
-  /**
-   * Test {@link RestClient#RestClient(ILoadBalancer)}.
-   *
-   * <ul>
-   *   <li>Given {@code Key}.
-   *   <li>When {@link DynamicServerListLoadBalancer#DynamicServerListLoadBalancer()} chooseServer
-   *       {@code Key}.
-   * </ul>
-   *
-   * <p>Method under test: {@link RestClient#RestClient(ILoadBalancer)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void RestClient.<init>(ILoadBalancer)"})
-  public void testNewRestClient_givenKey_whenDynamicServerListLoadBalancerChooseServerKey() {
-    // Arrange
-    DynamicServerListLoadBalancer<Server> lb = new DynamicServerListLoadBalancer<>();
-    lb.chooseServer("Key");
     lb.addServerStatusChangeListener(mock(ServerStatusChangeListener.class));
     lb.setPing(mock(IPing.class));
 
@@ -558,8 +71,7 @@ public class RestClientDiffblueTest {
    * Test {@link RestClient#RestClient(ILoadBalancer)}.
    *
    * <ul>
-   *   <li>Given {@link LoadBalancerStats#LoadBalancerStats()}.
-   *   <li>Then return LoadBalancer Filter is {@code null}.
+   *   <li>Given {@link ServerListChangeListener}.
    * </ul>
    *
    * <p>Method under test: {@link RestClient#RestClient(ILoadBalancer)}
@@ -568,471 +80,12 @@ public class RestClientDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void RestClient.<init>(ILoadBalancer)"})
-  public void testNewRestClient_givenLoadBalancerStats_thenReturnLoadBalancerFilterIsNull() {
+  public void testNewRestClient_givenServerListChangeListener() {
     // Arrange
-    DynamicServerListLoadBalancer<Server> lb = new DynamicServerListLoadBalancer<>();
-    LoadBalancerStats lbStats = new LoadBalancerStats();
-    lb.setLoadBalancerStats(lbStats);
-    lb.addServerStatusChangeListener(mock(ServerStatusChangeListener.class));
-    lb.setPing(mock(IPing.class));
+    IPing ping = mock(IPing.class);
 
-    // Act and Assert
-    ILoadBalancer loadBalancer = new RestClient(lb).getLoadBalancer();
-    assertTrue(loadBalancer instanceof DynamicServerListLoadBalancer);
-    assertNull(((DynamicServerListLoadBalancer<Server>) loadBalancer).getFilter());
-    LoadBalancerStats loadBalancerStats =
-        ((DynamicServerListLoadBalancer<Server>) loadBalancer).getLoadBalancerStats();
-    assertNull(loadBalancerStats.getName());
-    assertTrue(loadBalancer.getAllServers().isEmpty());
-    assertSame(lbStats, loadBalancerStats);
-  }
-
-  /**
-   * Test {@link RestClient#RestClient(IClientConfig)}.
-   *
-   * <ul>
-   *   <li>Given {@code Or Default}.
-   *   <li>Then throw {@link IllegalArgumentException}.
-   * </ul>
-   *
-   * <p>Method under test: {@link RestClient#RestClient(IClientConfig)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void RestClient.<init>(IClientConfig)"})
-  public void testNewRestClient_givenOrDefault_thenThrowIllegalArgumentException() {
-    // Arrange
-    IClientConfig ncc = mock(IClientConfig.class);
-    when(ncc.getOrDefault(Mockito.<IClientConfigKey<Object>>any())).thenReturn("Or Default");
-    when(ncc.getClientName()).thenThrow(new IllegalArgumentException());
-    when(ncc.getOrDefault(Mockito.<IClientConfigKey<Integer>>any()))
-        .thenThrow(new IllegalArgumentException());
-
-    // Act and Assert
-    thrown.expect(IllegalArgumentException.class);
-    new RestClient(ncc);
-    verify(ncc).getClientName();
-    verify(ncc).getOrDefault(Mockito.<IClientConfigKey<Object>>any());
-  }
-
-  /**
-   * Test {@link RestClient#RestClient(ILoadBalancer, IClientConfig)}.
-   *
-   * <ul>
-   *   <li>Given {@code Or Default}.
-   *   <li>Then throw {@link IllegalArgumentException}.
-   * </ul>
-   *
-   * <p>Method under test: {@link RestClient#RestClient(ILoadBalancer, IClientConfig)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void RestClient.<init>(ILoadBalancer, IClientConfig)"})
-  public void testNewRestClient_givenOrDefault_thenThrowIllegalArgumentException2() {
-    // Arrange
-    BaseLoadBalancer lb = new BaseLoadBalancer();
-
-    IClientConfig ncc = mock(IClientConfig.class);
-    when(ncc.getOrDefault(Mockito.<IClientConfigKey<Object>>any())).thenReturn("Or Default");
-    when(ncc.getClientName()).thenThrow(new IllegalArgumentException());
-    when(ncc.getOrDefault(Mockito.<IClientConfigKey<Integer>>any()))
-        .thenThrow(new IllegalArgumentException());
-
-    // Act and Assert
-    thrown.expect(IllegalArgumentException.class);
-    new RestClient(lb, ncc);
-    verify(ncc).getClientName();
-    verify(ncc).getOrDefault(Mockito.<IClientConfigKey<Object>>any());
-  }
-
-  /**
-   * Test {@link RestClient#RestClient(ILoadBalancer, Client)}.
-   *
-   * <ul>
-   *   <li>Given three.
-   * </ul>
-   *
-   * <p>Method under test: {@link RestClient#RestClient(ILoadBalancer, Client)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void RestClient.<init>(ILoadBalancer, Client)"})
-  public void testNewRestClient_givenThree() {
-    // Arrange
-    IClientConfig config =
-        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build();
-
-    BaseLoadBalancer lb = new BaseLoadBalancer(config);
-    lb.setMaxTotalPingTime(3);
-    lb.addServers(new ArrayList<>());
-    lb.setEnablePrimingConnections(true);
-    lb.addServerStatusChangeListener(mock(ServerStatusChangeListener.class));
-    lb.setPing(mock(IPing.class));
-
-    // Act
-    RestClient actualRestClient = new RestClient(lb, (Client) null);
-
-    // Assert
-    assertSame(lb, actualRestClient.getLoadBalancer());
-  }
-
-  /**
-   * Test {@link RestClient#RestClient(ILoadBalancer, Client)}.
-   *
-   * <ul>
-   *   <li>Given three.
-   *   <li>Then return LoadBalancer MaxTotalPingTime is three.
-   * </ul>
-   *
-   * <p>Method under test: {@link RestClient#RestClient(ILoadBalancer, Client)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void RestClient.<init>(ILoadBalancer, Client)"})
-  public void testNewRestClient_givenThree_thenReturnLoadBalancerMaxTotalPingTimeIsThree() {
-    // Arrange
-    IClientConfig config =
-        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build();
-
-    BaseLoadBalancer lb = new BaseLoadBalancer(config);
-    lb.setMaxTotalPingTime(3);
-    lb.addServerStatusChangeListener(mock(ServerStatusChangeListener.class));
-    lb.setPing(mock(IPing.class));
-
-    // Act
-    RestClient actualRestClient = new RestClient(lb, (Client) null);
-
-    // Assert
-    ILoadBalancer loadBalancer = actualRestClient.getLoadBalancer();
-    IRule rule = ((BaseLoadBalancer) loadBalancer).getRule();
-    assertTrue(rule instanceof AvailabilityFilteringRule);
-    assertTrue(loadBalancer instanceof BaseLoadBalancer);
-    RetryHandler retryHandler = actualRestClient.getRetryHandler();
-    assertTrue(retryHandler instanceof HttpClientLoadBalancerErrorHandler);
-    assertEquals(3, ((BaseLoadBalancer) loadBalancer).getMaxTotalPingTime());
-    assertEquals(
-        7, ((HttpClientLoadBalancerErrorHandler) retryHandler).getRetriableExceptions().size());
-    assertSame(lb, rule.getLoadBalancer());
-  }
-
-  /**
-   * Test {@link RestClient#RestClient(ILoadBalancer, Client)}.
-   *
-   * <ul>
-   *   <li>Given {@code true}.
-   * </ul>
-   *
-   * <p>Method under test: {@link RestClient#RestClient(ILoadBalancer, Client)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void RestClient.<init>(ILoadBalancer, Client)"})
-  public void testNewRestClient_givenTrue() {
-    // Arrange
-    IClientConfig config =
-        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build();
-
-    BaseLoadBalancer lb = new BaseLoadBalancer(config);
-    lb.setEnablePrimingConnections(true);
-    lb.addServerStatusChangeListener(mock(ServerStatusChangeListener.class));
-    lb.setPing(mock(IPing.class));
-
-    // Act
-    RestClient actualRestClient = new RestClient(lb, (Client) null);
-
-    // Assert
-    assertSame(lb, actualRestClient.getLoadBalancer());
-  }
-
-  /**
-   * Test {@link RestClient#RestClient(ILoadBalancer, Client)}.
-   *
-   * <ul>
-   *   <li>Then LoadBalancer Rule return {@link AvailabilityFilteringRule}.
-   * </ul>
-   *
-   * <p>Method under test: {@link RestClient#RestClient(ILoadBalancer, Client)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void RestClient.<init>(ILoadBalancer, Client)"})
-  public void testNewRestClient_thenLoadBalancerRuleReturnAvailabilityFilteringRule() {
-    // Arrange
-    IClientConfig config =
-        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build();
-
-    BaseLoadBalancer lb = new BaseLoadBalancer(config);
-    lb.setPing(mock(IPing.class));
-
-    // Act
-    RestClient actualRestClient = new RestClient(lb, (Client) null);
-
-    // Assert
-    ILoadBalancer loadBalancer = actualRestClient.getLoadBalancer();
-    IRule rule = ((BaseLoadBalancer) loadBalancer).getRule();
-    assertTrue(rule instanceof AvailabilityFilteringRule);
-    assertTrue(loadBalancer instanceof BaseLoadBalancer);
-    RetryHandler retryHandler = actualRestClient.getRetryHandler();
-    assertTrue(retryHandler instanceof HttpClientLoadBalancerErrorHandler);
-    assertEquals(
-        7, ((HttpClientLoadBalancerErrorHandler) retryHandler).getRetriableExceptions().size());
-    assertSame(lb, rule.getLoadBalancer());
-  }
-
-  /**
-   * Test {@link RestClient#RestClient(ILoadBalancer, Client)}.
-   *
-   * <ul>
-   *   <li>Then LoadBalancer Rule return {@link AvailabilityFilteringRule}.
-   * </ul>
-   *
-   * <p>Method under test: {@link RestClient#RestClient(ILoadBalancer, Client)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void RestClient.<init>(ILoadBalancer, Client)"})
-  public void testNewRestClient_thenLoadBalancerRuleReturnAvailabilityFilteringRule2() {
-    // Arrange
-    IClientConfig config =
-        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build();
-
-    BaseLoadBalancer lb = new BaseLoadBalancer(config);
-    lb.addServerStatusChangeListener(mock(ServerStatusChangeListener.class));
-    lb.setPing(mock(IPing.class));
-
-    // Act
-    RestClient actualRestClient = new RestClient(lb, (Client) null);
-
-    // Assert
-    ILoadBalancer loadBalancer = actualRestClient.getLoadBalancer();
-    IRule rule = ((BaseLoadBalancer) loadBalancer).getRule();
-    assertTrue(rule instanceof AvailabilityFilteringRule);
-    assertTrue(loadBalancer instanceof BaseLoadBalancer);
-    RetryHandler retryHandler = actualRestClient.getRetryHandler();
-    assertTrue(retryHandler instanceof HttpClientLoadBalancerErrorHandler);
-    assertEquals(
-        7, ((HttpClientLoadBalancerErrorHandler) retryHandler).getRetriableExceptions().size());
-    assertSame(lb, rule.getLoadBalancer());
-  }
-
-  /**
-   * Test {@link RestClient#RestClient(ILoadBalancer, Client)}.
-   *
-   * <ul>
-   *   <li>Then LoadBalancer Rule return {@link AvailabilityFilteringRule}.
-   * </ul>
-   *
-   * <p>Method under test: {@link RestClient#RestClient(ILoadBalancer, Client)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void RestClient.<init>(ILoadBalancer, Client)"})
-  public void testNewRestClient_thenLoadBalancerRuleReturnAvailabilityFilteringRule3() {
-    // Arrange
-    IClientConfig config =
-        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build();
-
-    BaseLoadBalancer lb = new BaseLoadBalancer(config);
-    lb.addServerStatusChangeListener(mock(ServerStatusChangeListener.class));
-    lb.addServerStatusChangeListener(mock(ServerStatusChangeListener.class));
-    lb.setPing(mock(IPing.class));
-
-    // Act
-    RestClient actualRestClient = new RestClient(lb, (Client) null);
-
-    // Assert
-    ILoadBalancer loadBalancer = actualRestClient.getLoadBalancer();
-    IRule rule = ((BaseLoadBalancer) loadBalancer).getRule();
-    assertTrue(rule instanceof AvailabilityFilteringRule);
-    assertTrue(loadBalancer instanceof BaseLoadBalancer);
-    RetryHandler retryHandler = actualRestClient.getRetryHandler();
-    assertTrue(retryHandler instanceof HttpClientLoadBalancerErrorHandler);
-    assertEquals(
-        7, ((HttpClientLoadBalancerErrorHandler) retryHandler).getRetriableExceptions().size());
-    assertSame(lb, rule.getLoadBalancer());
-  }
-
-  /**
-   * Test {@link RestClient#RestClient(ILoadBalancer, Client)}.
-   *
-   * <ul>
-   *   <li>Then LoadBalancer Rule return {@link AvailabilityFilteringRule}.
-   * </ul>
-   *
-   * <p>Method under test: {@link RestClient#RestClient(ILoadBalancer, Client)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void RestClient.<init>(ILoadBalancer, Client)"})
-  public void testNewRestClient_thenLoadBalancerRuleReturnAvailabilityFilteringRule4() {
-    // Arrange
-    IClientConfig config =
-        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build();
-
-    BaseLoadBalancer lb = new BaseLoadBalancer(config);
-    lb.addServerStatusChangeListener(mock(ServerStatusChangeListener.class));
-    lb.addServerStatusChangeListener(mock(ServerStatusChangeListener.class));
-    lb.addServerStatusChangeListener(mock(ServerStatusChangeListener.class));
-    lb.setPing(mock(IPing.class));
-
-    // Act
-    RestClient actualRestClient = new RestClient(lb, (Client) null);
-
-    // Assert
-    ILoadBalancer loadBalancer = actualRestClient.getLoadBalancer();
-    IRule rule = ((BaseLoadBalancer) loadBalancer).getRule();
-    assertTrue(rule instanceof AvailabilityFilteringRule);
-    assertTrue(loadBalancer instanceof BaseLoadBalancer);
-    RetryHandler retryHandler = actualRestClient.getRetryHandler();
-    assertTrue(retryHandler instanceof HttpClientLoadBalancerErrorHandler);
-    assertEquals(
-        7, ((HttpClientLoadBalancerErrorHandler) retryHandler).getRetriableExceptions().size());
-    assertSame(lb, rule.getLoadBalancer());
-  }
-
-  /**
-   * Test {@link RestClient#RestClient(ILoadBalancer, Client)}.
-   *
-   * <ul>
-   *   <li>Then LoadBalancer Rule return {@link RoundRobinRule}.
-   * </ul>
-   *
-   * <p>Method under test: {@link RestClient#RestClient(ILoadBalancer, Client)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void RestClient.<init>(ILoadBalancer, Client)"})
-  public void testNewRestClient_thenLoadBalancerRuleReturnRoundRobinRule() {
-    // Arrange
-    BaseLoadBalancer lb = new BaseLoadBalancer();
-    lb.setPing(mock(IPing.class));
-
-    // Act
-    RestClient actualRestClient = new RestClient(lb, (Client) null);
-
-    // Assert
-    ILoadBalancer loadBalancer = actualRestClient.getLoadBalancer();
-    assertTrue(loadBalancer instanceof BaseLoadBalancer);
-    IRule rule = ((BaseLoadBalancer) loadBalancer).getRule();
-    assertTrue(rule instanceof RoundRobinRule);
-    RetryHandler retryHandler = actualRestClient.getRetryHandler();
-    assertTrue(retryHandler instanceof HttpClientLoadBalancerErrorHandler);
-    Timer executeTracer = actualRestClient.getExecuteTracer();
-    assertTrue(executeTracer instanceof BasicTimer);
-    List<Monitor<?>> monitors = ((BasicTimer) executeTracer).getMonitors();
-    assertEquals(4, monitors.size());
-    assertTrue(monitors.get(1) instanceof StepCounter);
-    assertEquals(
-        7, ((HttpClientLoadBalancerErrorHandler) retryHandler).getRetriableExceptions().size());
-    assertSame(loadBalancer, rule.getLoadBalancer());
-  }
-
-  /**
-   * Test {@link RestClient#RestClient(ILoadBalancer)}.
-   *
-   * <ul>
-   *   <li>Then return LoadBalancer AllServers first is {@link Server#Server(String)} with id is
-   *       {@code 42}.
-   * </ul>
-   *
-   * <p>Method under test: {@link RestClient#RestClient(ILoadBalancer)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void RestClient.<init>(ILoadBalancer)"})
-  public void testNewRestClient_thenReturnLoadBalancerAllServersFirstIsServerWithIdIs42() {
-    // Arrange
-    ServerStatusChangeListener listener = mock(ServerStatusChangeListener.class);
-    doThrow(new IllegalStateException())
-        .when(listener)
-        .serverStatusChanged(Mockito.<Collection<Server>>any());
-
-    DynamicServerListLoadBalancer<Server> lb = new DynamicServerListLoadBalancer<>();
-    Server newServer = new Server("42");
-    lb.addServer(newServer);
-    lb.addServerStatusChangeListener(mock(ServerStatusChangeListener.class));
-    lb.addServerStatusChangeListener(listener);
-    lb.setPing(mock(IPing.class));
-
-    // Act and Assert
-    ILoadBalancer loadBalancer = new RestClient(lb).getLoadBalancer();
-    assertTrue(loadBalancer instanceof DynamicServerListLoadBalancer);
-    List<Server> allServers = loadBalancer.getAllServers();
-    assertEquals(1, allServers.size());
-    assertSame(newServer, allServers.get(0));
-  }
-
-  /**
-   * Test {@link RestClient#RestClient(ILoadBalancer)}.
-   *
-   * <ul>
-   *   <li>Then return LoadBalancer AllServers first is {@link Server#Server(String)} with id is
-   *       {@code 42}.
-   * </ul>
-   *
-   * <p>Method under test: {@link RestClient#RestClient(ILoadBalancer)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void RestClient.<init>(ILoadBalancer)"})
-  public void testNewRestClient_thenReturnLoadBalancerAllServersFirstIsServerWithIdIs422() {
-    // Arrange
-    ServerStatusChangeListener listener = mock(ServerStatusChangeListener.class);
-    doThrow(new IllegalStateException())
-        .when(listener)
-        .serverStatusChanged(Mockito.<Collection<Server>>any());
-
-    ServerStatusChangeListener listener2 = mock(ServerStatusChangeListener.class);
-    doThrow(new IllegalStateException())
-        .when(listener2)
-        .serverStatusChanged(Mockito.<Collection<Server>>any());
-
-    DynamicServerListLoadBalancer<Server> lb = new DynamicServerListLoadBalancer<>();
-    lb.addServerStatusChangeListener(listener2);
-    Server newServer = new Server("42");
-    lb.addServer(newServer);
-    lb.addServerStatusChangeListener(mock(ServerStatusChangeListener.class));
-    lb.addServerStatusChangeListener(listener);
-    lb.setPing(mock(IPing.class));
-
-    // Act and Assert
-    ILoadBalancer loadBalancer = new RestClient(lb).getLoadBalancer();
-    assertTrue(loadBalancer instanceof DynamicServerListLoadBalancer);
-    List<Server> allServers = loadBalancer.getAllServers();
-    assertEquals(1, allServers.size());
-    assertSame(newServer, allServers.get(0));
-  }
-
-  /**
-   * Test {@link RestClient#RestClient(ILoadBalancer)}.
-   *
-   * <ul>
-   *   <li>Then return LoadBalancer is {@link
-   *       DynamicServerListLoadBalancer#DynamicServerListLoadBalancer()}.
-   * </ul>
-   *
-   * <p>Method under test: {@link RestClient#RestClient(ILoadBalancer)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void RestClient.<init>(ILoadBalancer)"})
-  public void testNewRestClient_thenReturnLoadBalancerIsDynamicServerListLoadBalancer() {
-    // Arrange
-    DynamicServerListLoadBalancer<Server> lb = new DynamicServerListLoadBalancer<>();
-    lb.addServerStatusChangeListener(mock(ServerStatusChangeListener.class));
+    BaseLoadBalancer lb = new BaseLoadBalancer(ping, new AvailabilityFilteringRule());
+    lb.addServerListChangeListener(mock(ServerListChangeListener.class));
     lb.setPing(mock(IPing.class));
 
     // Act
@@ -1051,8 +104,7 @@ public class RestClientDiffblueTest {
    * Test {@link RestClient#RestClient(ILoadBalancer)}.
    *
    * <ul>
-   *   <li>Then return LoadBalancer is {@link
-   *       DynamicServerListLoadBalancer#DynamicServerListLoadBalancer()}.
+   *   <li>Given {@link ServerListFilter}.
    * </ul>
    *
    * <p>Method under test: {@link RestClient#RestClient(ILoadBalancer)}
@@ -1061,42 +113,9 @@ public class RestClientDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void RestClient.<init>(ILoadBalancer)"})
-  public void testNewRestClient_thenReturnLoadBalancerIsDynamicServerListLoadBalancer2() {
+  public void testNewRestClient_givenServerListFilter() {
     // Arrange
-    DynamicServerListLoadBalancer<Server> lb = new DynamicServerListLoadBalancer<>();
-    lb.addServerStatusChangeListener(mock(ServerStatusChangeListener.class));
-    lb.addServerStatusChangeListener(mock(ServerStatusChangeListener.class));
-    lb.setPing(mock(IPing.class));
-
-    // Act
-    RestClient actualRestClient = new RestClient(lb);
-
-    // Assert
-    Timer executeTracer = actualRestClient.getExecuteTracer();
-    assertTrue(executeTracer instanceof BasicTimer);
-    List<Monitor<?>> monitors = ((BasicTimer) executeTracer).getMonitors();
-    assertEquals(4, monitors.size());
-    assertTrue(monitors.get(1) instanceof StepCounter);
-    assertSame(lb, actualRestClient.getLoadBalancer());
-  }
-
-  /**
-   * Test {@link RestClient#RestClient(ILoadBalancer)}.
-   *
-   * <ul>
-   *   <li>Then return LoadBalancer is {@link
-   *       DynamicServerListLoadBalancer#DynamicServerListLoadBalancer()}.
-   * </ul>
-   *
-   * <p>Method under test: {@link RestClient#RestClient(ILoadBalancer)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void RestClient.<init>(ILoadBalancer)"})
-  public void testNewRestClient_thenReturnLoadBalancerIsDynamicServerListLoadBalancer3() {
-    // Arrange
-    DynamicServerListLoadBalancer<Server> lb = new DynamicServerListLoadBalancer<>();
+    ZoneAwareLoadBalancer<Server> lb = new ZoneAwareLoadBalancer<>();
     lb.setFilter(mock(ServerListFilter.class));
     lb.addServerStatusChangeListener(mock(ServerStatusChangeListener.class));
     lb.setPing(mock(IPing.class));
@@ -1117,7 +136,7 @@ public class RestClientDiffblueTest {
    * Test {@link RestClient#RestClient(ILoadBalancer)}.
    *
    * <ul>
-   *   <li>Then return LoadBalancer NumberMissedCycles is zero.
+   *   <li>Then LoadBalancer return {@link ZoneAwareLoadBalancer}.
    * </ul>
    *
    * <p>Method under test: {@link RestClient#RestClient(ILoadBalancer)}
@@ -1126,62 +145,90 @@ public class RestClientDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void RestClient.<init>(ILoadBalancer)"})
-  public void testNewRestClient_thenReturnLoadBalancerNumberMissedCyclesIsZero() {
+  public void testNewRestClient_thenLoadBalancerReturnZoneAwareLoadBalancer() {
     // Arrange
-    DynamicServerListLoadBalancer<Server> lb = new DynamicServerListLoadBalancer<>();
-    PollingServerListUpdater serverListUpdater = new PollingServerListUpdater();
-    lb.setServerListUpdater(serverListUpdater);
+    ServerStatusChangeListener listener = mock(ServerStatusChangeListener.class);
+    doThrow(new IllegalArgumentException())
+        .when(listener)
+        .serverStatusChanged(Mockito.<Collection<Server>>any());
+
+    ZoneAwareLoadBalancer<Server> lb = new ZoneAwareLoadBalancer<>();
+    lb.addServerStatusChangeListener(mock(ServerStatusChangeListener.class));
+    Server newServer = new Server("42");
+    lb.addServer(newServer);
+    lb.addServerStatusChangeListener(listener);
     lb.addServerStatusChangeListener(mock(ServerStatusChangeListener.class));
     lb.setPing(mock(IPing.class));
 
     // Act and Assert
     ILoadBalancer loadBalancer = new RestClient(lb).getLoadBalancer();
-    assertTrue(loadBalancer instanceof DynamicServerListLoadBalancer);
-    assertEquals(0, ((DynamicServerListLoadBalancer<Server>) loadBalancer).getNumberMissedCycles());
-    assertEquals(2, ((DynamicServerListLoadBalancer<Server>) loadBalancer).getCoreThreads());
-    assertSame(
-        serverListUpdater,
-        ((DynamicServerListLoadBalancer<Server>) loadBalancer).getServerListUpdater());
+    assertTrue(loadBalancer instanceof ZoneAwareLoadBalancer);
+    List<Server> allServers = loadBalancer.getAllServers();
+    assertEquals(1, allServers.size());
+    assertSame(newServer, allServers.get(0));
   }
 
   /**
-   * Test {@link RestClient#RestClient(ILoadBalancer, Client)}.
+   * Test {@link RestClient#RestClient(ILoadBalancer)}.
    *
    * <ul>
-   *   <li>When {@link BaseLoadBalancer#BaseLoadBalancer()} addServers {@link
-   *       ArrayList#ArrayList()}.
+   *   <li>Then return LoadBalancer is {@link ZoneAwareLoadBalancer#ZoneAwareLoadBalancer()}.
    * </ul>
    *
-   * <p>Method under test: {@link RestClient#RestClient(ILoadBalancer, Client)}
+   * <p>Method under test: {@link RestClient#RestClient(ILoadBalancer)}
    */
   @Test
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
-  @MethodsUnderTest({"void RestClient.<init>(ILoadBalancer, Client)"})
-  public void testNewRestClient_whenBaseLoadBalancerAddServersArrayList() {
+  @MethodsUnderTest({"void RestClient.<init>(ILoadBalancer)"})
+  public void testNewRestClient_thenReturnLoadBalancerIsZoneAwareLoadBalancer() {
     // Arrange
-    BaseLoadBalancer lb = new BaseLoadBalancer();
-    lb.addServers(new ArrayList<>());
+    ZoneAwareLoadBalancer<Server> lb = new ZoneAwareLoadBalancer<>();
+    lb.addServerStatusChangeListener(mock(ServerStatusChangeListener.class));
     lb.setPing(mock(IPing.class));
 
     // Act
-    RestClient actualRestClient = new RestClient(lb, (Client) null);
+    RestClient actualRestClient = new RestClient(lb);
 
     // Assert
-    ILoadBalancer loadBalancer = actualRestClient.getLoadBalancer();
-    assertTrue(loadBalancer instanceof BaseLoadBalancer);
-    IRule rule = ((BaseLoadBalancer) loadBalancer).getRule();
-    assertTrue(rule instanceof RoundRobinRule);
-    RetryHandler retryHandler = actualRestClient.getRetryHandler();
-    assertTrue(retryHandler instanceof HttpClientLoadBalancerErrorHandler);
     Timer executeTracer = actualRestClient.getExecuteTracer();
     assertTrue(executeTracer instanceof BasicTimer);
     List<Monitor<?>> monitors = ((BasicTimer) executeTracer).getMonitors();
     assertEquals(4, monitors.size());
     assertTrue(monitors.get(1) instanceof StepCounter);
-    assertEquals(
-        7, ((HttpClientLoadBalancerErrorHandler) retryHandler).getRetriableExceptions().size());
-    assertSame(loadBalancer, rule.getLoadBalancer());
+    assertSame(lb, actualRestClient.getLoadBalancer());
+  }
+
+  /**
+   * Test {@link RestClient#RestClient(ILoadBalancer)}.
+   *
+   * <ul>
+   *   <li>Then return LoadBalancer is {@link ZoneAwareLoadBalancer#ZoneAwareLoadBalancer()}.
+   * </ul>
+   *
+   * <p>Method under test: {@link RestClient#RestClient(ILoadBalancer)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void RestClient.<init>(ILoadBalancer)"})
+  public void testNewRestClient_thenReturnLoadBalancerIsZoneAwareLoadBalancer2() {
+    // Arrange
+    ZoneAwareLoadBalancer<Server> lb = new ZoneAwareLoadBalancer<>();
+    lb.addServerStatusChangeListener(mock(ServerStatusChangeListener.class));
+    lb.addServerStatusChangeListener(mock(ServerStatusChangeListener.class));
+    lb.setPing(mock(IPing.class));
+
+    // Act
+    RestClient actualRestClient = new RestClient(lb);
+
+    // Assert
+    Timer executeTracer = actualRestClient.getExecuteTracer();
+    assertTrue(executeTracer instanceof BasicTimer);
+    List<Monitor<?>> monitors = ((BasicTimer) executeTracer).getMonitors();
+    assertEquals(4, monitors.size());
+    assertTrue(monitors.get(1) instanceof StepCounter);
+    assertSame(lb, actualRestClient.getLoadBalancer());
   }
 
   /**
@@ -1242,35 +289,6 @@ public class RestClientDiffblueTest {
     assertEquals(4, monitors.size());
     assertTrue(monitors.get(1) instanceof StepCounter);
     assertSame(lb, actualRestClient.getLoadBalancer());
-  }
-
-  /**
-   * Test {@link RestClient#RestClient(ILoadBalancer, Client)}.
-   *
-   * <ul>
-   *   <li>When {@link BaseLoadBalancer#BaseLoadBalancer()}.
-   *   <li>Then return LoadBalancer Ping is {@code null}.
-   * </ul>
-   *
-   * <p>Method under test: {@link RestClient#RestClient(ILoadBalancer, Client)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void RestClient.<init>(ILoadBalancer, Client)"})
-  public void testNewRestClient_whenBaseLoadBalancer_thenReturnLoadBalancerPingIsNull() {
-    // Arrange
-    BaseLoadBalancer lb = new BaseLoadBalancer();
-    Client jerseyClient = new Client();
-
-    // Act
-    RestClient actualRestClient = new RestClient(lb, jerseyClient);
-
-    // Assert
-    ILoadBalancer loadBalancer = actualRestClient.getLoadBalancer();
-    assertTrue(loadBalancer instanceof BaseLoadBalancer);
-    assertNull(((BaseLoadBalancer) loadBalancer).getPing());
-    assertSame(jerseyClient, actualRestClient.getJerseyClient());
   }
 
   /**
@@ -1345,173 +363,303 @@ public class RestClientDiffblueTest {
   }
 
   /**
-   * Test {@link RestClient#deriveHostAndPortFromVipAddress(String)}.
-   *
-   * <ul>
-   *   <li>Then return first is {@code example.org}.
-   * </ul>
-   *
-   * <p>Method under test: {@link RestClient#deriveHostAndPortFromVipAddress(String)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"Pair RestClient.deriveHostAndPortFromVipAddress(String)"})
-  public void testDeriveHostAndPortFromVipAddress_thenReturnFirstIsExampleOrg()
-      throws ClientException, URISyntaxException {
-    // Arrange and Act
-    Pair<String, Integer> actualDeriveHostAndPortFromVipAddressResult =
-        new RestClient().deriveHostAndPortFromVipAddress("https://example.org/example");
-
-    // Assert
-    assertEquals("example.org", actualDeriveHostAndPortFromVipAddressResult.first());
-    assertEquals(443, actualDeriveHostAndPortFromVipAddressResult.second().intValue());
-  }
-
-  /**
-   * Test {@link RestClient#deriveHostAndPortFromVipAddress(String)}.
-   *
-   * <ul>
-   *   <li>When {@code 42}.
-   *   <li>Then return first is {@code 42}.
-   * </ul>
-   *
-   * <p>Method under test: {@link RestClient#deriveHostAndPortFromVipAddress(String)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"Pair RestClient.deriveHostAndPortFromVipAddress(String)"})
-  public void testDeriveHostAndPortFromVipAddress_when42_thenReturnFirstIs42()
-      throws ClientException, URISyntaxException {
-    // Arrange and Act
-    Pair<String, Integer> actualDeriveHostAndPortFromVipAddressResult =
-        new RestClient().deriveHostAndPortFromVipAddress("42");
-
-    // Assert
-    assertEquals("42", actualDeriveHostAndPortFromVipAddressResult.first());
-    assertEquals(80, actualDeriveHostAndPortFromVipAddressResult.second().intValue());
-  }
-
-  /**
-   * Test {@link RestClient#deriveHostAndPortFromVipAddress(String)}.
+   * Test {@link RestClient#getDefaultPortFromScheme(String)}.
    *
    * <ul>
    *   <li>When {@code http}.
-   *   <li>Then return first is {@code http}.
+   *   <li>Then return eighty.
    * </ul>
    *
-   * <p>Method under test: {@link RestClient#deriveHostAndPortFromVipAddress(String)}
+   * <p>Method under test: {@link RestClient#getDefaultPortFromScheme(String)}
    */
   @Test
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
-  @MethodsUnderTest({"Pair RestClient.deriveHostAndPortFromVipAddress(String)"})
-  public void testDeriveHostAndPortFromVipAddress_whenHttp_thenReturnFirstIsHttp()
-      throws ClientException, URISyntaxException {
-    // Arrange and Act
-    Pair<String, Integer> actualDeriveHostAndPortFromVipAddressResult =
-        new RestClient().deriveHostAndPortFromVipAddress("http");
-
-    // Assert
-    assertEquals("http", actualDeriveHostAndPortFromVipAddressResult.first());
-    assertEquals(80, actualDeriveHostAndPortFromVipAddressResult.second().intValue());
+  @MethodsUnderTest({"int RestClient.getDefaultPortFromScheme(String)"})
+  public void testGetDefaultPortFromScheme_whenHttp_thenReturnEighty() {
+    // Arrange, Act and Assert
+    assertEquals(80, new RestClient().getDefaultPortFromScheme("http"));
   }
 
   /**
-   * Test {@link RestClient#getRequestSpecificRetryHandler(HttpRequest, IClientConfig)} with {@code
-   * HttpRequest}, {@code IClientConfig}.
-   *
-   * <p>Method under test: {@link RestClient#getRequestSpecificRetryHandler(HttpRequest,
-   * IClientConfig)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "RequestSpecificRetryHandler RestClient.getRequestSpecificRetryHandler(HttpRequest, IClientConfig)"
-  })
-  public void testGetRequestSpecificRetryHandlerWithHttpRequestIClientConfig() {
-    // Arrange
-    RestClient restClient = new RestClient();
-
-    HttpRequest request = mock(HttpRequest.class);
-    when(request.isRetriable()).thenReturn(false);
-
-    // Act
-    RequestSpecificRetryHandler actualRequestSpecificRetryHandler =
-        restClient.getRequestSpecificRetryHandler(
-            request, DefaultClientConfigImpl.getEmptyConfig());
-
-    // Assert
-    verify(request).isRetriable();
-    assertEquals(0, actualRequestSpecificRetryHandler.getMaxRetriesOnNextServer());
-    assertEquals(0, actualRequestSpecificRetryHandler.getMaxRetriesOnSameServer());
-  }
-
-  /**
-   * Test {@link RestClient#getRequestSpecificRetryHandler(HttpRequest, IClientConfig)} with {@code
-   * HttpRequest}, {@code IClientConfig}.
-   *
-   * <p>Method under test: {@link RestClient#getRequestSpecificRetryHandler(HttpRequest,
-   * IClientConfig)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "RequestSpecificRetryHandler RestClient.getRequestSpecificRetryHandler(HttpRequest, IClientConfig)"
-  })
-  public void testGetRequestSpecificRetryHandlerWithHttpRequestIClientConfig2() {
-    // Arrange
-    RestClient restClient = new RestClient();
-
-    HttpRequest request = mock(HttpRequest.class);
-    when(request.isRetriable()).thenReturn(false);
-
-    // Act
-    RequestSpecificRetryHandler actualRequestSpecificRetryHandler =
-        restClient.getRequestSpecificRetryHandler(
-            request,
-            DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space"));
-
-    // Assert
-    verify(request).isRetriable();
-    assertEquals(0, actualRequestSpecificRetryHandler.getMaxRetriesOnSameServer());
-    assertEquals(1, actualRequestSpecificRetryHandler.getMaxRetriesOnNextServer());
-  }
-
-  /**
-   * Test {@link RestClient#getRequestSpecificRetryHandler(HttpRequest, IClientConfig)} with {@code
-   * HttpRequest}, {@code IClientConfig}.
+   * Test {@link RestClient#getDefaultPortFromScheme(String)}.
    *
    * <ul>
-   *   <li>When {@code null}.
+   *   <li>When {@code https://example.org/example}.
+   *   <li>Then return eighty.
    * </ul>
    *
-   * <p>Method under test: {@link RestClient#getRequestSpecificRetryHandler(HttpRequest,
-   * IClientConfig)}
+   * <p>Method under test: {@link RestClient#getDefaultPortFromScheme(String)}
    */
   @Test
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
-  @MethodsUnderTest({
-    "RequestSpecificRetryHandler RestClient.getRequestSpecificRetryHandler(HttpRequest, IClientConfig)"
-  })
-  public void testGetRequestSpecificRetryHandlerWithHttpRequestIClientConfig_whenNull() {
+  @MethodsUnderTest({"int RestClient.getDefaultPortFromScheme(String)"})
+  public void testGetDefaultPortFromScheme_whenHttpsExampleOrgExample_thenReturnEighty() {
+    // Arrange, Act and Assert
+    assertEquals(80, new RestClient().getDefaultPortFromScheme("https://example.org/example"));
+  }
+
+  /**
+   * Test {@link RestClient#getDefaultPortFromScheme(String)}.
+   *
+   * <ul>
+   *   <li>When {@code https}.
+   *   <li>Then return four hundred forty-three.
+   * </ul>
+   *
+   * <p>Method under test: {@link RestClient#getDefaultPortFromScheme(String)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"int RestClient.getDefaultPortFromScheme(String)"})
+  public void testGetDefaultPortFromScheme_whenHttps_thenReturnFourHundredFortyThree() {
+    // Arrange, Act and Assert
+    assertEquals(443, new RestClient().getDefaultPortFromScheme("https"));
+  }
+
+  /**
+   * Test {@link RestClient#isRetriableException(Throwable)}.
+   *
+   * <p>Method under test: {@link RestClient#isRetriableException(Throwable)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"boolean RestClient.isRetriableException(Throwable)"})
+  public void testIsRetriableException() {
     // Arrange
     RestClient restClient = new RestClient();
 
-    HttpRequest request = mock(HttpRequest.class);
-    when(request.isRetriable()).thenReturn(false);
+    // Act and Assert
+    assertFalse(restClient.isRetriableException(new Throwable()));
+  }
+
+  /**
+   * Test {@link RestClient#isCircuitBreakerException(Throwable)}.
+   *
+   * <p>Method under test: {@link RestClient#isCircuitBreakerException(Throwable)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"boolean RestClient.isCircuitBreakerException(Throwable)"})
+  public void testIsCircuitBreakerException() {
+    // Arrange
+    RestClient restClient = new RestClient();
+
+    // Act and Assert
+    assertFalse(restClient.isCircuitBreakerException(new Throwable()));
+  }
+
+  /**
+   * Test {@link RestClient#shutdown()}.
+   *
+   * <p>Method under test: {@link RestClient#shutdown()}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void RestClient.shutdown()"})
+  public void testShutdown() {
+    // Arrange
+    IPing ping = mock(IPing.class);
+    when(ping.isAlive(Mockito.<Server>any())).thenThrow(new IllegalArgumentException());
+
+    ServerStatusChangeListener listener = mock(ServerStatusChangeListener.class);
+    doThrow(new IllegalArgumentException())
+        .when(listener)
+        .serverStatusChanged(Mockito.<Collection<Server>>any());
+
+    DynamicServerListLoadBalancer<Server> lb = new DynamicServerListLoadBalancer<>();
+    lb.addServerStatusChangeListener(listener);
+    lb.addServer(new Server("42"));
+    lb.setPing(ping);
 
     // Act
-    RequestSpecificRetryHandler actualRequestSpecificRetryHandler =
-        restClient.getRequestSpecificRetryHandler(request, null);
+    new RestClient(lb).shutdown();
 
     // Assert
-    verify(request).isRetriable();
-    assertEquals(0, actualRequestSpecificRetryHandler.getMaxRetriesOnNextServer());
-    assertEquals(0, actualRequestSpecificRetryHandler.getMaxRetriesOnSameServer());
+    verify(ping).isAlive(isA(Server.class));
+    verify(listener).serverStatusChanged(isA(Collection.class));
+  }
+
+  /**
+   * Test {@link RestClient#shutdown()}.
+   *
+   * <p>Method under test: {@link RestClient#shutdown()}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void RestClient.shutdown()"})
+  public void testShutdown2() {
+    // Arrange
+    IPing ping = mock(IPing.class);
+    when(ping.isAlive(Mockito.<Server>any())).thenThrow(new IllegalArgumentException());
+
+    ServerStatusChangeListener listener = mock(ServerStatusChangeListener.class);
+    doNothing().when(listener).serverStatusChanged(Mockito.<Collection<Server>>any());
+
+    ServerStatusChangeListener listener2 = mock(ServerStatusChangeListener.class);
+    doNothing().when(listener2).serverStatusChanged(Mockito.<Collection<Server>>any());
+
+    ServerStatusChangeListener listener3 = mock(ServerStatusChangeListener.class);
+    doNothing().when(listener3).serverStatusChanged(Mockito.<Collection<Server>>any());
+
+    ServerStatusChangeListener listener4 = mock(ServerStatusChangeListener.class);
+    doNothing().when(listener4).serverStatusChanged(Mockito.<Collection<Server>>any());
+
+    ServerStatusChangeListener listener5 = mock(ServerStatusChangeListener.class);
+    doNothing().when(listener5).serverStatusChanged(Mockito.<Collection<Server>>any());
+
+    ServerStatusChangeListener listener6 = mock(ServerStatusChangeListener.class);
+    doNothing().when(listener6).serverStatusChanged(Mockito.<Collection<Server>>any());
+
+    ServerStatusChangeListener listener7 = mock(ServerStatusChangeListener.class);
+    doNothing().when(listener7).serverStatusChanged(Mockito.<Collection<Server>>any());
+
+    ServerStatusChangeListener listener8 = mock(ServerStatusChangeListener.class);
+    doNothing().when(listener8).serverStatusChanged(Mockito.<Collection<Server>>any());
+
+    ServerStatusChangeListener listener9 = mock(ServerStatusChangeListener.class);
+    doNothing().when(listener9).serverStatusChanged(Mockito.<Collection<Server>>any());
+
+    ServerStatusChangeListener listener10 = mock(ServerStatusChangeListener.class);
+    doNothing().when(listener10).serverStatusChanged(Mockito.<Collection<Server>>any());
+
+    ServerStatusChangeListener listener11 = mock(ServerStatusChangeListener.class);
+    doNothing().when(listener11).serverStatusChanged(Mockito.<Collection<Server>>any());
+
+    ServerStatusChangeListener listener12 = mock(ServerStatusChangeListener.class);
+    doNothing().when(listener12).serverStatusChanged(Mockito.<Collection<Server>>any());
+
+    ServerStatusChangeListener listener13 = mock(ServerStatusChangeListener.class);
+    doNothing().when(listener13).serverStatusChanged(Mockito.<Collection<Server>>any());
+
+    ServerStatusChangeListener listener14 = mock(ServerStatusChangeListener.class);
+    doNothing().when(listener14).serverStatusChanged(Mockito.<Collection<Server>>any());
+
+    ServerStatusChangeListener listener15 = mock(ServerStatusChangeListener.class);
+    doNothing().when(listener15).serverStatusChanged(Mockito.<Collection<Server>>any());
+
+    ServerStatusChangeListener listener16 = mock(ServerStatusChangeListener.class);
+    doNothing().when(listener16).serverStatusChanged(Mockito.<Collection<Server>>any());
+
+    ServerStatusChangeListener listener17 = mock(ServerStatusChangeListener.class);
+    doNothing().when(listener17).serverStatusChanged(Mockito.<Collection<Server>>any());
+
+    ServerStatusChangeListener listener18 = mock(ServerStatusChangeListener.class);
+    doThrow(new IllegalStateException())
+        .when(listener18)
+        .serverStatusChanged(Mockito.<Collection<Server>>any());
+
+    DynamicServerListLoadBalancer<Server> lb = new DynamicServerListLoadBalancer<>();
+    lb.addServerStatusChangeListener(listener18);
+    lb.addServerStatusChangeListener(listener17);
+    lb.addServerStatusChangeListener(listener16);
+    lb.addServerStatusChangeListener(listener15);
+    lb.addServerStatusChangeListener(listener14);
+    lb.addServerStatusChangeListener(listener13);
+    lb.addServerStatusChangeListener(listener12);
+    lb.addServerStatusChangeListener(listener11);
+    lb.addServerStatusChangeListener(listener10);
+    lb.addServerStatusChangeListener(listener9);
+    lb.addServerStatusChangeListener(listener8);
+    lb.addServerStatusChangeListener(listener7);
+    lb.addServerStatusChangeListener(listener6);
+    lb.addServerStatusChangeListener(listener5);
+    lb.addServerStatusChangeListener(listener4);
+    lb.addServerStatusChangeListener(listener3);
+    lb.addServerStatusChangeListener(listener2);
+    lb.addServerStatusChangeListener(listener);
+    lb.addServer(new Server("42"));
+    lb.setPing(ping);
+
+    // Act
+    new RestClient(lb).shutdown();
+
+    // Assert
+    verify(ping).isAlive(isA(Server.class));
+    verify(listener18).serverStatusChanged(isA(Collection.class));
+    verify(listener17).serverStatusChanged(isA(Collection.class));
+    verify(listener16).serverStatusChanged(isA(Collection.class));
+    verify(listener15).serverStatusChanged(isA(Collection.class));
+    verify(listener14).serverStatusChanged(isA(Collection.class));
+    verify(listener13).serverStatusChanged(isA(Collection.class));
+    verify(listener12).serverStatusChanged(isA(Collection.class));
+    verify(listener11).serverStatusChanged(isA(Collection.class));
+    verify(listener10).serverStatusChanged(isA(Collection.class));
+    verify(listener9).serverStatusChanged(isA(Collection.class));
+    verify(listener8).serverStatusChanged(isA(Collection.class));
+    verify(listener7).serverStatusChanged(isA(Collection.class));
+    verify(listener6).serverStatusChanged(isA(Collection.class));
+    verify(listener5).serverStatusChanged(isA(Collection.class));
+    verify(listener4).serverStatusChanged(isA(Collection.class));
+    verify(listener3).serverStatusChanged(isA(Collection.class));
+    verify(listener2).serverStatusChanged(isA(Collection.class));
+    verify(listener).serverStatusChanged(isA(Collection.class));
+  }
+
+  /**
+   * Test {@link RestClient#shutdown()}.
+   *
+   * <ul>
+   *   <li>Given {@link IPing} {@link IPing#isAlive(Server)} return {@code true}.
+   *   <li>Then calls {@link IPing#isAlive(Server)}.
+   * </ul>
+   *
+   * <p>Method under test: {@link RestClient#shutdown()}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void RestClient.shutdown()"})
+  public void testShutdown_givenIPingIsAliveReturnTrue_thenCallsIsAlive() {
+    // Arrange
+    IPing ping = mock(IPing.class);
+    when(ping.isAlive(Mockito.<Server>any())).thenReturn(true);
+
+    DynamicServerListLoadBalancer<Server> lb = new DynamicServerListLoadBalancer<>();
+    lb.addServer(new Server("42"));
+    lb.setPing(ping);
+
+    // Act
+    new RestClient(lb).shutdown();
+
+    // Assert
+    verify(ping).isAlive(isA(Server.class));
+  }
+
+  /**
+   * Test {@link RestClient#shutdown()}.
+   *
+   * <ul>
+   *   <li>Given {@link IPing} {@link IPing#isAlive(Server)} throw {@link
+   *       IllegalArgumentException#IllegalArgumentException()}.
+   *   <li>Then calls {@link IPing#isAlive(Server)}.
+   * </ul>
+   *
+   * <p>Method under test: {@link RestClient#shutdown()}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void RestClient.shutdown()"})
+  public void testShutdown_givenIPingIsAliveThrowIllegalArgumentException_thenCallsIsAlive() {
+    // Arrange
+    IPing ping = mock(IPing.class);
+    when(ping.isAlive(Mockito.<Server>any())).thenThrow(new IllegalArgumentException());
+
+    DynamicServerListLoadBalancer<Server> lb = new DynamicServerListLoadBalancer<>();
+    lb.addServer(new Server("42"));
+    lb.setPing(ping);
+
+    // Act
+    new RestClient(lb).shutdown();
+
+    // Assert
+    verify(ping).isAlive(isA(Server.class));
   }
 }

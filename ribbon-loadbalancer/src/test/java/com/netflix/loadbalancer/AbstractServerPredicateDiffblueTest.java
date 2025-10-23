@@ -67,72 +67,12 @@ public class AbstractServerPredicateDiffblueTest {
   @MethodsUnderTest({"LoadBalancerStats AbstractServerPredicate.getLBStats()"})
   public void testGetLBStats_thenReturnLoadBalancerStats() {
     // Arrange
-    AvailabilityPredicate availabilityPredicate = new AvailabilityPredicate(null);
+    CompositePredicate compositePredicate = new CompositePredicate();
     LoadBalancerStats stats = new LoadBalancerStats();
-    availabilityPredicate.setLoadBalancerStats(stats);
+    compositePredicate.setLoadBalancerStats(stats);
 
     // Act and Assert
-    assertSame(stats, availabilityPredicate.getLBStats());
-  }
-
-  /**
-   * Test {@link AbstractServerPredicate#getLBStats()}.
-   *
-   * <ul>
-   *   <li>Then return Name is {@code default}.
-   * </ul>
-   *
-   * <p>Method under test: {@link AbstractServerPredicate#getLBStats()}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"LoadBalancerStats AbstractServerPredicate.getLBStats()"})
-  public void testGetLBStats_thenReturnNameIsDefault() {
-    // Arrange
-    AvailabilityFilteringRule rule = new AvailabilityFilteringRule();
-    rule.setLoadBalancer(new BaseLoadBalancer());
-
-    AvailabilityPredicate availabilityPredicate = new AvailabilityPredicate(rule);
-    availabilityPredicate.setLoadBalancerStats(null);
-
-    // Act
-    LoadBalancerStats actualLBStats = availabilityPredicate.getLBStats();
-
-    // Assert
-    assertEquals("default", actualLBStats.getName());
-    assertEquals(0, actualLBStats.getCircuitBreakerTrippedCount());
-    assertEquals(10, actualLBStats.getCircuitTrippedTimeoutFactor().get());
-    assertEquals(3, actualLBStats.getConnectionFailureCountThreshold().get());
-    assertEquals(30, actualLBStats.getCircuitTripMaxTimeoutSeconds().get());
-    assertEquals(600, actualLBStats.getActiveRequestsCountTimeout().get());
-    assertTrue(actualLBStats.getServerStats().isEmpty());
-    assertTrue(actualLBStats.getZoneStats().isEmpty());
-    assertTrue(actualLBStats.upServerListZoneMap.isEmpty());
-    assertTrue(actualLBStats.getAvailableZones().isEmpty());
-  }
-
-  /**
-   * Test {@link AbstractServerPredicate#getLBStats()}.
-   *
-   * <ul>
-   *   <li>Then return {@code null}.
-   * </ul>
-   *
-   * <p>Method under test: {@link AbstractServerPredicate#getLBStats()}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"LoadBalancerStats AbstractServerPredicate.getLBStats()"})
-  public void testGetLBStats_thenReturnNull() {
-    // Arrange
-    AvailabilityPredicate availabilityPredicate =
-        new AvailabilityPredicate(new AvailabilityFilteringRule());
-    availabilityPredicate.setLoadBalancerStats(null);
-
-    // Act and Assert
-    assertNull(availabilityPredicate.getLBStats());
+    assertSame(stats, compositePredicate.getLBStats());
   }
 
   /**

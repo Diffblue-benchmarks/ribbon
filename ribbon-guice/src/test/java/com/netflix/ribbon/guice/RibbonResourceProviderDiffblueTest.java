@@ -34,7 +34,7 @@ public class RibbonResourceProviderDiffblueTest {
   public void testGet_givenDefaultResourceFactoryFromReturnFrom_thenReturnFrom() {
     // Arrange
     DefaultResourceFactory factory = mock(DefaultResourceFactory.class);
-    when(factory.from(Mockito.<Class<Object>>any())).thenReturn("From");
+    when(factory.from(Object.class)).thenReturn("From");
     Class<Object> contract = Object.class;
 
     RibbonResourceProvider<Object> ribbonResourceProvider = new RibbonResourceProvider<>(contract);

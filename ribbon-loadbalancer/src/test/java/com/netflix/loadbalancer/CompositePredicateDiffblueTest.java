@@ -42,17 +42,13 @@ public class CompositePredicateDiffblueTest {
   /**
    * Test Builder {@link Builder#addFallbackPredicate(AbstractServerPredicate)}.
    *
-   * <ul>
-   *   <li>Then return withPredicate withPredicates build.
-   * </ul>
-   *
    * <p>Method under test: {@link Builder#addFallbackPredicate(AbstractServerPredicate)}
    */
   @Test
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"Builder Builder.addFallbackPredicate(AbstractServerPredicate)"})
-  public void testBuilderAddFallbackPredicate_thenReturnWithPredicateWithPredicatesBuild() {
+  public void testBuilderAddFallbackPredicate() {
     // Arrange
     CompositePredicate primaryPredicate = CompositePredicate.withPredicates().build();
     Builder withPredicateResult = CompositePredicate.withPredicate(primaryPredicate);

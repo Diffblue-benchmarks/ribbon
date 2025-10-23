@@ -1,21 +1,21 @@
 {
   "meta" : {
-    "reportVersion" : "2.7"
+    "reportVersion" : "2.8"
   },
   "run" : {
-    "version" : "2025.09.01-44e352d-licensed",
-    "creationTimestamp" : "2025-10-15T15:52:22.961Z",
+    "version" : "2025.11.01-SNAPSHOT-d123506-licensed",
+    "creationTimestamp" : "2025-10-23T13:39:20.231Z",
     "command" : "dcover create --exclude=com.netflix.ribbon.proxy.Utils --exclude=com.netflix.ribbon.proxy.RibbonDynamicProxy --coverage-reports --upload http://localhost:8080 --project-name ribbon --name with-diffblue-tests",
-    "totalTime" : 120.159,
-    "environmentDetectionTime" : 0.403,
-    "indexingTime" : 0.367,
-    "entryPointsTime" : 0.377,
-    "generationTime" : 25.828,
-    "timeToFirstTest" : 64.053,
-    "timeToLastTest" : 68.389,
-    "indexQueryTime" : 5.3420000000000005,
-    "verificationTime" : 1.703,
-    "validationTime" : 20.42
+    "totalTime" : 115.347,
+    "environmentDetectionTime" : 1.794,
+    "indexingTime" : 0.31,
+    "entryPointsTime" : 1.757,
+    "generationTime" : 20.853,
+    "timeToFirstTest" : 54.844,
+    "timeToLastTest" : 58.861,
+    "indexQueryTime" : 2.748,
+    "verificationTime" : 2.305,
+    "validationTime" : 22.451
   },
   "codes" : {
     "R000" : "Success",
@@ -153,5 +153,48 @@
       ]
     }
   },
-  "validationMetrics" : { }
+  "validationMetrics" : { },
+  "outputCodes" : [
+    {
+      "baseMessage" : "{\"__type\":\"com.diffblue.cover.message.limitation.MissingObserverMessage\",\"fields\":[{\"className\":{\"descriptor\":\"Lcom/google/inject/AbstractModule;\",\"simpleNames\":[\"AbstractModule\"]},\"fieldName\":\"binder\"}],\"serializableCause\":null}",
+      "methodGroup" : {
+        "methods" : [
+          {
+            "binaryClassName" : "com.netflix.ribbon.guice.RibbonModule",
+            "descriptor" : "()V",
+            "methodName" : "<init>"
+          }
+        ]
+      }
+    },
+    {
+      "baseMessage" : "{\"__type\":\"com.diffblue.cover.message.limitation.NoNonThrowingInputsMessage\",\"serializableCause\":{\"cause\":null,\"message\":\"The binder can only be used inside configure()\",\"originalClassName\":\"java.lang.IllegalStateException\",\"stackTrace\":[{\"className\":\"com.google.common.base.Preconditions\",\"fileName\":\"Preconditions.java\",\"lineNumber\":174,\"methodName\":\"checkState\",\"nativeMethod\":false},{\"className\":\"com.google.inject.AbstractModule\",\"fileName\":\"AbstractModule.java\",\"lineNumber\":78,\"methodName\":\"binder\",\"nativeMethod\":false},{\"className\":\"com.google.inject.AbstractModule\",\"fileName\":\"AbstractModule.java\",\"lineNumber\":108,\"methodName\":\"bind\",\"nativeMethod\":false},{\"className\":\"com.netflix.ribbon.guice.RibbonModule\",\"fileName\":\"RibbonModule.java\",\"lineNumber\":37,\"methodName\":\"configure\",\"nativeMethod\":false},{\"className\":\"sun.reflect.NativeMethodAccessorImpl\",\"fileName\":\"NativeMethodAccessorImpl.java\",\"lineNumber\":-2,\"methodName\":\"invoke0\",\"nativeMethod\":true},{\"className\":\"sun.reflect.NativeMethodAccessorImpl\",\"fileName\":\"NativeMethodAccessorImpl.java\",\"lineNumber\":62,\"methodName\":\"invoke\",\"nativeMethod\":false},{\"className\":\"sun.reflect.DelegatingMethodAccessorImpl\",\"fileName\":\"DelegatingMethodAccessorImpl.java\",\"lineNumber\":43,\"methodName\":\"invoke\",\"nativeMethod\":false},{\"className\":\"java.lang.reflect.Method\",\"fileName\":\"Method.java\",\"lineNumber\":498,\"methodName\":\"invoke\",\"nativeMethod\":false},{\"className\":\"com.diffblue.tir.executor.InvokeUserMethod\",\"fileName\":\"InvokeUserMethod.java\",\"lineNumber\":140,\"methodName\":\"invoke\",\"nativeMethod\":false},{\"className\":\"com.diffblue.tir.executor.InvokeUserMethod\",\"fileName\":\"InvokeUserMethod.java\",\"lineNumber\":77,\"methodName\":\"invokeRecordingWritesAndCoverage\",\"nativeMethod\":false},{\"className\":\"com.diffblue.tir.executor.backend.ReflectiveBackend\",\"fileName\":\"ReflectiveBackend.java\",\"lineNumber\":852,\"methodName\":\"invokeMethod\",\"nativeMethod\":false},{\"className\":\"com.diffblue.tir.executor.ExecutionVisitor\",\"fileName\":\"ExecutionVisitor.java\",\"lineNumber\":463,\"methodName\":\"visit\",\"nativeMethod\":false},{\"className\":\"com.diffblue.tir.executor.ExecutionVisitor\",\"fileName\":\"ExecutionVisitor.java\",\"lineNumber\":99,\"methodName\":\"visit\",\"nativeMethod\":false},{\"className\":\"com.diffblue.tir.step.InvokeInstanceMethodExpr\",\"fileName\":\"InvokeInstanceMethodExpr.java\",\"lineNumber\":51,\"methodName\":\"accept\",\"nativeMethod\":false},{\"className\":\"com.diffblue.tir.executor.Executor\",\"fileName\":\"Executor.java\",\"lineNumber\":368,\"methodName\":\"execute\",\"nativeMethod\":false},{\"className\":\"com.diffblue.tir.executor.Executor\",\"fileName\":\"Executor.java\",\"lineNumber\":261,\"methodName\":\"executeStepsThrowsDirectly\",\"nativeMethod\":false},{\"className\":\"com.diffblue.fuzztest.dfuzz.DFuzzLoop\",\"fileName\":\"DFuzzLoop.java\",\"lineNumber\":1101,\"methodName\":\"lambda$executeTir$10\",\"nativeMethod\":false},{\"className\":\"com.diffblue.cover.sandbox.execution.SafeTimedExecutor\",\"fileName\":\"SafeTimedExecutor.java\",\"lineNumber\":171,\"methodName\":\"lambda$runWithLoopIterationLimit$5\",\"nativeMethod\":false},{\"className\":\"com.diffblue.cover.sandbox.execution.TimedCallableExecutor$CallableFuture\",\"fileName\":\"TimedCallableExecutor.java\",\"lineNumber\":29,\"methodName\":\"executeTask\",\"nativeMethod\":false},{\"className\":\"com.diffblue.cover.sandbox.execution.TaskQueueRunner\",\"fileName\":\"TaskQueueRunner.java\",\"lineNumber\":39,\"methodName\":\"run\",\"nativeMethod\":false},{\"className\":\"com.diffblue.cover.sandbox.execution.WorkerThread\",\"fileName\":\"WorkerThread.java\",\"lineNumber\":265,\"methodName\":\"run\",\"nativeMethod\":false}]}}",
+      "methodGroup" : {
+        "methods" : [
+          {
+            "binaryClassName" : "com.netflix.ribbon.guice.RibbonModule",
+            "descriptor" : "()V",
+            "methodName" : "configure"
+          }
+        ]
+      }
+    },
+    {
+      "baseMessage" : "{\"__type\":\"com.diffblue.cover.message.limitation.MissingObserverMessage\",\"fields\":[{\"className\":{\"descriptor\":\"Lcom/netflix/ribbon/guice/RibbonResourceProvider;\",\"simpleNames\":[\"RibbonResourceProvider\"]},\"fieldName\":\"contract\"},{\"className\":{\"descriptor\":\"Lcom/netflix/ribbon/guice/RibbonResourceProvider;\",\"simpleNames\":[\"RibbonResourceProvider\"]},\"fieldName\":\"factory\"}],\"serializableCause\":null}",
+      "methodGroup" : {
+        "methods" : [
+          {
+            "binaryClassName" : "com.netflix.ribbon.guice.RibbonResourceProvider",
+            "descriptor" : "(Ljava/lang/Class;)V",
+            "methodName" : "<init>"
+          },
+          {
+            "binaryClassName" : "com.netflix.ribbon.guice.RibbonResourceProvider",
+            "descriptor" : "(Lcom/netflix/ribbon/RibbonResourceFactory;)V",
+            "methodName" : "initialize"
+          }
+        ]
+      }
+    }
+  ]
 }

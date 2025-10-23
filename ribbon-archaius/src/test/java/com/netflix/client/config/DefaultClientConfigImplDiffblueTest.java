@@ -12,14 +12,10 @@ import com.diffblue.cover.annotations.ManagedByDiffblue;
 import com.diffblue.cover.annotations.MethodsUnderTest;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.junit.rules.ExpectedException;
 
 public class DefaultClientConfigImplDiffblueTest {
-  @Rule public ExpectedException thrown = ExpectedException.none();
-
   /**
    * Test getters and setters.
    *
@@ -286,6 +282,8 @@ public class DefaultClientConfigImplDiffblueTest {
     DefaultClientConfigImpl actualDefaultClientConfigImpl = new DefaultClientConfigImpl();
 
     // Assert
+    assertTrue(
+        actualDefaultClientConfigImpl.getPropertyResolver() instanceof ArchaiusPropertyResolver);
     assertEquals("", actualDefaultClientConfigImpl.getClientName());
     assertNull(actualDefaultClientConfigImpl.getResolver());
     assertNull(actualDefaultClientConfigImpl.getAppName());
@@ -410,6 +408,8 @@ public class DefaultClientConfigImplDiffblueTest {
         new DefaultClientConfigImpl("Name Space");
 
     // Assert
+    assertTrue(
+        actualDefaultClientConfigImpl.getPropertyResolver() instanceof ArchaiusPropertyResolver);
     assertEquals("", actualDefaultClientConfigImpl.getClientName());
     assertNull(actualDefaultClientConfigImpl.getResolver());
     assertNull(actualDefaultClientConfigImpl.getAppName());
@@ -551,203 +551,6 @@ public class DefaultClientConfigImplDiffblueTest {
   }
 
   /**
-   * Test {@link DefaultClientConfigImpl#setPropertyInternal(IClientConfigKey, Object)}.
-   *
-   * <ul>
-   *   <li>When {@code Value}.
-   *   <li>Then throw {@link IllegalArgumentException}.
-   * </ul>
-   *
-   * <p>Method under test: {@link DefaultClientConfigImpl#setPropertyInternal(IClientConfigKey,
-   * Object)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void DefaultClientConfigImpl.setPropertyInternal(IClientConfigKey, Object)"})
-  public void testSetPropertyInternal_whenValue_thenThrowIllegalArgumentException() {
-    // Arrange
-    DefaultClientConfigImpl emptyConfig = DefaultClientConfigImpl.getEmptyConfig();
-
-    IClientConfigKey propName = mock(IClientConfigKey.class);
-    Class<Object> forNameResult = Object.class;
-    when(propName.type()).thenReturn(forNameResult);
-    when(propName.key()).thenReturn("Key");
-
-    // Act and Assert
-    thrown.expect(IllegalArgumentException.class);
-    emptyConfig.setPropertyInternal(propName, "Value");
-    verify(propName).key();
-    verify(propName).type();
-  }
-
-  /**
-   * Test {@link DefaultClientConfigImpl#putDefaultIntegerProperty(IClientConfigKey, Integer)}.
-   *
-   * <p>Method under test: {@link
-   * DefaultClientConfigImpl#putDefaultIntegerProperty(IClientConfigKey, Integer)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "void DefaultClientConfigImpl.putDefaultIntegerProperty(IClientConfigKey, Integer)"
-  })
-  public void testPutDefaultIntegerProperty() {
-    // Arrange
-    DefaultClientConfigImpl emptyConfig = DefaultClientConfigImpl.getEmptyConfig();
-
-    IClientConfigKey propName = mock(IClientConfigKey.class);
-    Class<Object> forNameResult = Object.class;
-    when(propName.type()).thenReturn(forNameResult);
-    when(propName.key()).thenReturn("Key");
-
-    // Act and Assert
-    thrown.expect(IllegalArgumentException.class);
-    emptyConfig.putDefaultIntegerProperty(propName, 42);
-    verify(propName).key();
-    verify(propName).type();
-  }
-
-  /**
-   * Test {@link DefaultClientConfigImpl#putDefaultLongProperty(IClientConfigKey, Long)}.
-   *
-   * <p>Method under test: {@link DefaultClientConfigImpl#putDefaultLongProperty(IClientConfigKey,
-   * Long)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void DefaultClientConfigImpl.putDefaultLongProperty(IClientConfigKey, Long)"})
-  public void testPutDefaultLongProperty() {
-    // Arrange
-    DefaultClientConfigImpl emptyConfig = DefaultClientConfigImpl.getEmptyConfig();
-
-    IClientConfigKey propName = mock(IClientConfigKey.class);
-    Class<Object> forNameResult = Object.class;
-    when(propName.type()).thenReturn(forNameResult);
-    when(propName.key()).thenReturn("Key");
-
-    // Act and Assert
-    thrown.expect(IllegalArgumentException.class);
-    emptyConfig.putDefaultLongProperty(propName, 42L);
-    verify(propName).key();
-    verify(propName).type();
-  }
-
-  /**
-   * Test {@link DefaultClientConfigImpl#putDefaultFloatProperty(IClientConfigKey, Float)}.
-   *
-   * <p>Method under test: {@link DefaultClientConfigImpl#putDefaultFloatProperty(IClientConfigKey,
-   * Float)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "void DefaultClientConfigImpl.putDefaultFloatProperty(IClientConfigKey, Float)"
-  })
-  public void testPutDefaultFloatProperty() {
-    // Arrange
-    DefaultClientConfigImpl emptyConfig = DefaultClientConfigImpl.getEmptyConfig();
-
-    IClientConfigKey propName = mock(IClientConfigKey.class);
-    Class<Object> forNameResult = Object.class;
-    when(propName.type()).thenReturn(forNameResult);
-    when(propName.key()).thenReturn("Key");
-
-    // Act and Assert
-    thrown.expect(IllegalArgumentException.class);
-    emptyConfig.putDefaultFloatProperty(propName, 10.0f);
-    verify(propName).key();
-    verify(propName).type();
-  }
-
-  /**
-   * Test {@link DefaultClientConfigImpl#putDefaultTimeUnitProperty(IClientConfigKey, TimeUnit)}.
-   *
-   * <p>Method under test: {@link
-   * DefaultClientConfigImpl#putDefaultTimeUnitProperty(IClientConfigKey, TimeUnit)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "void DefaultClientConfigImpl.putDefaultTimeUnitProperty(IClientConfigKey, TimeUnit)"
-  })
-  public void testPutDefaultTimeUnitProperty() {
-    // Arrange
-    DefaultClientConfigImpl emptyConfig = DefaultClientConfigImpl.getEmptyConfig();
-
-    IClientConfigKey propName = mock(IClientConfigKey.class);
-    Class<Object> forNameResult = Object.class;
-    when(propName.type()).thenReturn(forNameResult);
-    when(propName.key()).thenReturn("Key");
-
-    // Act and Assert
-    thrown.expect(IllegalArgumentException.class);
-    emptyConfig.putDefaultTimeUnitProperty(propName, TimeUnit.NANOSECONDS);
-    verify(propName).key();
-    verify(propName).type();
-  }
-
-  /**
-   * Test {@link DefaultClientConfigImpl#putDefaultStringProperty(IClientConfigKey, String)}.
-   *
-   * <p>Method under test: {@link DefaultClientConfigImpl#putDefaultStringProperty(IClientConfigKey,
-   * String)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "void DefaultClientConfigImpl.putDefaultStringProperty(IClientConfigKey, String)"
-  })
-  public void testPutDefaultStringProperty() {
-    // Arrange
-    DefaultClientConfigImpl emptyConfig = DefaultClientConfigImpl.getEmptyConfig();
-
-    IClientConfigKey propName = mock(IClientConfigKey.class);
-    Class<Object> forNameResult = Object.class;
-    when(propName.type()).thenReturn(forNameResult);
-    when(propName.key()).thenReturn("Key");
-
-    // Act and Assert
-    thrown.expect(IllegalArgumentException.class);
-    emptyConfig.putDefaultStringProperty(propName, "42");
-    verify(propName).key();
-    verify(propName).type();
-  }
-
-  /**
-   * Test {@link DefaultClientConfigImpl#putDefaultBooleanProperty(IClientConfigKey, Boolean)}.
-   *
-   * <p>Method under test: {@link
-   * DefaultClientConfigImpl#putDefaultBooleanProperty(IClientConfigKey, Boolean)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "void DefaultClientConfigImpl.putDefaultBooleanProperty(IClientConfigKey, Boolean)"
-  })
-  public void testPutDefaultBooleanProperty() {
-    // Arrange
-    DefaultClientConfigImpl emptyConfig = DefaultClientConfigImpl.getEmptyConfig();
-
-    IClientConfigKey propName = mock(IClientConfigKey.class);
-    Class<Object> forNameResult = Object.class;
-    when(propName.type()).thenReturn(forNameResult);
-    when(propName.key()).thenReturn("Key");
-
-    // Act and Assert
-    thrown.expect(IllegalArgumentException.class);
-    emptyConfig.putDefaultBooleanProperty(propName, true);
-    verify(propName).key();
-    verify(propName).type();
-  }
-
-  /**
    * Test {@link DefaultClientConfigImpl#getDefaultPropName(IClientConfigKey)} with {@code
    * IClientConfigKey}.
    *
@@ -798,7 +601,7 @@ public class DefaultClientConfigImplDiffblueTest {
    * restClientName}, {@code configKey}.
    *
    * <ul>
-   *   <li>Then return {@code Dr Jane Doe.ribbon.Key}.
+   *   <li>Then return {@code Dr Jane Doe.foo.Key}.
    * </ul>
    *
    * <p>Method under test: {@link DefaultClientConfigImpl#getInstancePropName(String,
@@ -810,19 +613,21 @@ public class DefaultClientConfigImplDiffblueTest {
   @MethodsUnderTest({
     "String DefaultClientConfigImpl.getInstancePropName(String, IClientConfigKey)"
   })
-  public void testGetInstancePropNameWithRestClientNameConfigKey_thenReturnDrJaneDoeRibbonKey() {
+  public void testGetInstancePropNameWithRestClientNameConfigKey_thenReturnDrJaneDoeFooKey() {
     // Arrange
-    DefaultClientConfigImpl emptyConfig = DefaultClientConfigImpl.getEmptyConfig();
+    DefaultClientConfigImpl defaultClientConfigImpl = new DefaultClientConfigImpl("Name Space");
+    defaultClientConfigImpl.setNameSpace("foo");
 
     IClientConfigKey configKey = mock(IClientConfigKey.class);
     when(configKey.key()).thenReturn("Key");
 
     // Act
-    String actualInstancePropName = emptyConfig.getInstancePropName("Dr Jane Doe", configKey);
+    String actualInstancePropName =
+        defaultClientConfigImpl.getInstancePropName("Dr Jane Doe", configKey);
 
     // Assert
     verify(configKey).key();
-    assertEquals("Dr Jane Doe.ribbon.Key", actualInstancePropName);
+    assertEquals("Dr Jane Doe.foo.Key", actualInstancePropName);
   }
 
   /**
@@ -847,33 +652,6 @@ public class DefaultClientConfigImplDiffblueTest {
   }
 
   /**
-   * Test {@link DefaultClientConfigImpl#withProperty(IClientConfigKey, Object)}.
-   *
-   * <p>Method under test: {@link DefaultClientConfigImpl#withProperty(IClientConfigKey, Object)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "DefaultClientConfigImpl DefaultClientConfigImpl.withProperty(IClientConfigKey, Object)"
-  })
-  public void testWithProperty() {
-    // Arrange
-    DefaultClientConfigImpl emptyConfig = DefaultClientConfigImpl.getEmptyConfig();
-
-    IClientConfigKey key = mock(IClientConfigKey.class);
-    Class<Object> forNameResult = Object.class;
-    when(key.type()).thenReturn(forNameResult);
-    when(key.key()).thenReturn("Key");
-
-    // Act and Assert
-    thrown.expect(IllegalArgumentException.class);
-    emptyConfig.withProperty(key, "Value");
-    verify(key).key();
-    verify(key).type();
-  }
-
-  /**
    * Test {@link DefaultClientConfigImpl#getEmptyConfig()}.
    *
    * <p>Method under test: {@link DefaultClientConfigImpl#getEmptyConfig()}
@@ -887,6 +665,7 @@ public class DefaultClientConfigImplDiffblueTest {
     DefaultClientConfigImpl actualEmptyConfig = DefaultClientConfigImpl.getEmptyConfig();
 
     // Assert
+    assertTrue(actualEmptyConfig.getPropertyResolver() instanceof ArchaiusPropertyResolver);
     assertEquals("", actualEmptyConfig.getClientName());
     assertNull(actualEmptyConfig.getResolver());
     assertNull(actualEmptyConfig.getAppName());
@@ -1009,6 +788,9 @@ public class DefaultClientConfigImplDiffblueTest {
         DefaultClientConfigImpl.getClientConfigWithDefaultValues();
 
     // Assert
+    assertTrue(
+        actualClientConfigWithDefaultValues.getPropertyResolver()
+            instanceof ArchaiusPropertyResolver);
     assertEquals("default", actualClientConfigWithDefaultValues.getClientName());
     assertNull(actualClientConfigWithDefaultValues.getResolver());
     assertNull(actualClientConfigWithDefaultValues.getAppName());
@@ -1143,6 +925,9 @@ public class DefaultClientConfigImplDiffblueTest {
         DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe");
 
     // Assert
+    assertTrue(
+        actualClientConfigWithDefaultValues.getPropertyResolver()
+            instanceof ArchaiusPropertyResolver);
     assertEquals("Dr Jane Doe", actualClientConfigWithDefaultValues.getClientName());
     assertNull(actualClientConfigWithDefaultValues.getResolver());
     assertNull(actualClientConfigWithDefaultValues.getAppName());
@@ -1278,6 +1063,9 @@ public class DefaultClientConfigImplDiffblueTest {
         DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space");
 
     // Assert
+    assertTrue(
+        actualClientConfigWithDefaultValues.getPropertyResolver()
+            instanceof ArchaiusPropertyResolver);
     assertEquals("Dr Jane Doe", actualClientConfigWithDefaultValues.getClientName());
     assertNull(actualClientConfigWithDefaultValues.getResolver());
     assertNull(actualClientConfigWithDefaultValues.getAppName());

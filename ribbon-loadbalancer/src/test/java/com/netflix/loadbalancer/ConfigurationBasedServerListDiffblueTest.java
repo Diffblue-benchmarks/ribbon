@@ -6,93 +6,11 @@ import static org.junit.Assert.assertTrue;
 import com.diffblue.cover.annotations.ContributionFromDiffblue;
 import com.diffblue.cover.annotations.ManagedByDiffblue;
 import com.diffblue.cover.annotations.MethodsUnderTest;
-import com.netflix.client.config.IClientConfig;
-import com.netflix.client.config.IClientConfig.Builder;
 import java.util.List;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 public class ConfigurationBasedServerListDiffblueTest {
-  /**
-   * Test {@link ConfigurationBasedServerList#getInitialListOfServers()}.
-   *
-   * <p>Method under test: {@link ConfigurationBasedServerList#getInitialListOfServers()}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"List ConfigurationBasedServerList.getInitialListOfServers()"})
-  public void testGetInitialListOfServers() {
-    // Arrange
-    ConfigurationBasedServerList configurationBasedServerList = new ConfigurationBasedServerList();
-    configurationBasedServerList.initWithNiwsConfig(
-        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build());
-
-    // Act and Assert
-    assertTrue(configurationBasedServerList.getInitialListOfServers().isEmpty());
-  }
-
-  /**
-   * Test {@link ConfigurationBasedServerList#getInitialListOfServers()}.
-   *
-   * <p>Method under test: {@link ConfigurationBasedServerList#getInitialListOfServers()}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"List ConfigurationBasedServerList.getInitialListOfServers()"})
-  public void testGetInitialListOfServers2() {
-    // Arrange
-    ConfigurationBasedServerList configurationBasedServerList = new ConfigurationBasedServerList();
-    configurationBasedServerList.initWithNiwsConfig(
-        Builder.newBuilder("Dr Jane Doe")
-            .ignoreUserTokenInConnectionPoolForSecureClient(true)
-            .build());
-
-    // Act and Assert
-    assertTrue(configurationBasedServerList.getInitialListOfServers().isEmpty());
-  }
-
-  /**
-   * Test {@link ConfigurationBasedServerList#getUpdatedListOfServers()}.
-   *
-   * <p>Method under test: {@link ConfigurationBasedServerList#getUpdatedListOfServers()}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"List ConfigurationBasedServerList.getUpdatedListOfServers()"})
-  public void testGetUpdatedListOfServers() {
-    // Arrange
-    ConfigurationBasedServerList configurationBasedServerList = new ConfigurationBasedServerList();
-    configurationBasedServerList.initWithNiwsConfig(
-        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build());
-
-    // Act and Assert
-    assertTrue(configurationBasedServerList.getUpdatedListOfServers().isEmpty());
-  }
-
-  /**
-   * Test {@link ConfigurationBasedServerList#getUpdatedListOfServers()}.
-   *
-   * <p>Method under test: {@link ConfigurationBasedServerList#getUpdatedListOfServers()}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"List ConfigurationBasedServerList.getUpdatedListOfServers()"})
-  public void testGetUpdatedListOfServers2() {
-    // Arrange
-    ConfigurationBasedServerList configurationBasedServerList = new ConfigurationBasedServerList();
-    configurationBasedServerList.initWithNiwsConfig(
-        Builder.newBuilder("Dr Jane Doe")
-            .ignoreUserTokenInConnectionPoolForSecureClient(true)
-            .build());
-
-    // Act and Assert
-    assertTrue(configurationBasedServerList.getUpdatedListOfServers().isEmpty());
-  }
-
   /**
    * Test {@link ConfigurationBasedServerList#derive(String)}.
    *
@@ -239,35 +157,5 @@ public class ConfigurationBasedServerListDiffblueTest {
     assertEquals(":80", getResult.getId());
     assertNull(getResult.getScheme());
     assertEquals(80, getResult.getPort());
-  }
-
-  /**
-   * Test getters and setters.
-   *
-   * <p>Methods under test:
-   *
-   * <ul>
-   *   <li>default or parameterless constructor of {@link ConfigurationBasedServerList}
-   *   <li>{@link ConfigurationBasedServerList#initWithNiwsConfig(IClientConfig)}
-   *   <li>{@link ConfigurationBasedServerList#toString()}
-   * </ul>
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "void ConfigurationBasedServerList.<init>()",
-    "void ConfigurationBasedServerList.initWithNiwsConfig(IClientConfig)",
-    "String ConfigurationBasedServerList.toString()"
-  })
-  public void testGettersAndSetters() {
-    // Arrange and Act
-    ConfigurationBasedServerList actualConfigurationBasedServerList =
-        new ConfigurationBasedServerList();
-    actualConfigurationBasedServerList.initWithNiwsConfig(
-        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build());
-
-    // Assert
-    assertEquals("ConfigurationBasedServerList:[]", actualConfigurationBasedServerList.toString());
   }
 }

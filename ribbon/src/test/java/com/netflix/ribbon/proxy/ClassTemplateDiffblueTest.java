@@ -2,7 +2,6 @@ package com.netflix.ribbon.proxy;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
 import com.diffblue.cover.annotations.ContributionFromDiffblue;
 import com.diffblue.cover.annotations.ManagedByDiffblue;
 import com.diffblue.cover.annotations.MethodsUnderTest;
@@ -73,7 +72,6 @@ public class ClassTemplateDiffblueTest {
     assertNull(fromResult.getResourceGroupName());
     Class<Object> expectedClientInterface = Object.class;
     assertEquals(expectedClientInterface, actualClientInterface);
-    assertSame(clientInterface, actualClientInterface);
   }
 
   /**

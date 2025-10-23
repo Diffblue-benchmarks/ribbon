@@ -15,22 +15,28 @@ import com.diffblue.cover.annotations.MethodsUnderTest;
 import com.netflix.client.DefaultLoadBalancerRetryHandler;
 import com.netflix.client.config.DefaultClientConfigImpl;
 import com.netflix.client.config.IClientConfig;
-import com.netflix.client.config.IClientConfig.Builder;
 import com.netflix.client.config.IClientConfigKey;
 import com.netflix.loadbalancer.BaseLoadBalancer;
 import com.netflix.loadbalancer.LoadBalancerContext;
 import com.netflix.loadbalancer.Server;
-import com.netflix.ribbon.transport.netty.tcp.LoadBalancingTcpClient;
+import com.netflix.ribbon.transport.netty.http.LoadBalancingHttpClient;
+import com.netflix.ribbon.transport.netty.http.LoadBalancingHttpClient.Builder;
+import com.netflix.ribbon.transport.netty.http.SSEClient;
 import com.netflix.ribbon.transport.netty.udp.LoadBalancingUdpClient;
-import io.reactivex.netty.client.RxClient;
-import io.reactivex.netty.client.RxClientImpl;
+import io.netty.channel.local.LocalEventLoopGroup;
 import io.reactivex.netty.metrics.MetricEventsListener;
 import io.reactivex.netty.pipeline.PipelineConfigurator;
-import io.reactivex.netty.protocol.udp.client.UdpClient;
+import io.reactivex.netty.protocol.http.client.HttpClient;
+import io.reactivex.netty.protocol.http.client.HttpClientImpl;
+import io.reactivex.netty.protocol.text.sse.ServerSentEvent;
 import io.reactivex.netty.servo.http.HttpClientListener;
+import java.util.ArrayList;
+import java.util.concurrent.ScheduledExecutorService;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import rx.Subscription;
+import rx.functions.Func1;
+import rx.functions.Func2;
 import rx.subscriptions.BooleanSubscription;
 
 public class LoadBalancingRxClientDiffblueTest {
@@ -45,19 +51,36 @@ public class LoadBalancingRxClientDiffblueTest {
   @MethodsUnderTest({"IClientConfig LoadBalancingRxClient.getClientConfig()"})
   public void testGetClientConfig() {
     // Arrange
-    BaseLoadBalancer lb = new BaseLoadBalancer();
-    IClientConfig config =
-        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build();
+    Builder<Object, Object> builderResult = LoadBalancingHttpClient.builder();
 
-    LoadBalancingUdpClient<Object, Object> loadBalancingUdpClient =
-        new LoadBalancingUdpClient<>(
-            lb, config, new DefaultLoadBalancerRetryHandler(), mock(PipelineConfigurator.class));
+    Builder<Object, Object> withBackoffStrategyResult =
+        builderResult.withBackoffStrategy(mock(Func1.class));
+
+    Builder<Object, Object> withClientConfigResult =
+        withBackoffStrategyResult.withClientConfig(
+            IClientConfig.Builder.newBuilder()
+                .ignoreUserTokenInConnectionPoolForSecureClient(true)
+                .build());
+
+    Builder<Object, Object> withLoadBalancerResult =
+        withClientConfigResult.withLoadBalancer(new BaseLoadBalancer());
+
+    Builder<Object, Object> withResponseToErrorPolicyResult =
+        withLoadBalancerResult
+            .withExecutorListeners(new ArrayList<>())
+            .withPipelineConfigurator(mock(PipelineConfigurator.class))
+            .withPoolCleanerScheduler(RibbonTransport.poolCleanerScheduler)
+            .withResponseToErrorPolicy(mock(Func2.class));
+    LoadBalancingHttpClient<Object, Object> loadBalancingHttpClient =
+        withResponseToErrorPolicyResult
+            .withRetryHandler(new DefaultLoadBalancerRetryHandler())
+            .build();
 
     // Act
-    IClientConfig actualClientConfig = loadBalancingUdpClient.getClientConfig();
+    IClientConfig actualClientConfig = loadBalancingHttpClient.getClientConfig();
 
     // Assert
-    assertSame(loadBalancingUdpClient.clientConfig, actualClientConfig);
+    assertSame(loadBalancingHttpClient.clientConfig, actualClientConfig);
   }
 
   /**
@@ -75,42 +98,34 @@ public class LoadBalancingRxClientDiffblueTest {
   @MethodsUnderTest({"int LoadBalancingRxClient.getResponseTimeOut()"})
   public void testGetResponseTimeOut_thenReturn7000() {
     // Arrange
-    BaseLoadBalancer lb = new BaseLoadBalancer();
-    IClientConfig config =
-        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build();
+    Builder<Object, Object> builderResult = LoadBalancingHttpClient.builder();
 
-    LoadBalancingUdpClient<Object, Object> loadBalancingUdpClient =
-        new LoadBalancingUdpClient<>(
-            lb, config, new DefaultLoadBalancerRetryHandler(), mock(PipelineConfigurator.class));
+    Builder<Object, Object> withBackoffStrategyResult =
+        builderResult.withBackoffStrategy(mock(Func1.class));
 
-    // Act and Assert
-    assertEquals(7000, loadBalancingUdpClient.getResponseTimeOut());
-  }
+    Builder<Object, Object> withClientConfigResult =
+        withBackoffStrategyResult.withClientConfig(
+            IClientConfig.Builder.newBuilder()
+                .ignoreUserTokenInConnectionPoolForSecureClient(true)
+                .build());
 
-  /**
-   * Test {@link LoadBalancingRxClient#getResponseTimeOut()}.
-   *
-   * <ul>
-   *   <li>Then return {@code 14000}.
-   * </ul>
-   *
-   * <p>Method under test: {@link LoadBalancingRxClient#getResponseTimeOut()}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"int LoadBalancingRxClient.getResponseTimeOut()"})
-  public void testGetResponseTimeOut_thenReturn14000() {
-    // Arrange
-    BaseLoadBalancer lb = new BaseLoadBalancer();
-    IClientConfig config =
-        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build();
+    Builder<Object, Object> withLoadBalancerResult =
+        withClientConfigResult.withLoadBalancer(new BaseLoadBalancer());
 
-    LoadBalancingUdpClient<Object, Object> loadBalancingUdpClient =
-        new LoadBalancingUdpClient<>(lb, config, null, mock(PipelineConfigurator.class));
+    Builder<Object, Object> withResponseToErrorPolicyResult =
+        withLoadBalancerResult
+            .withExecutorListeners(new ArrayList<>())
+            .withPipelineConfigurator(mock(PipelineConfigurator.class))
+            .withPoolCleanerScheduler(RibbonTransport.poolCleanerScheduler)
+            .withResponseToErrorPolicy(mock(Func2.class));
 
     // Act and Assert
-    assertEquals(14000, loadBalancingUdpClient.getResponseTimeOut());
+    assertEquals(
+        7000,
+        withResponseToErrorPolicyResult
+            .withRetryHandler(new DefaultLoadBalancerRetryHandler())
+            .build()
+            .getResponseTimeOut());
   }
 
   /**
@@ -130,7 +145,9 @@ public class LoadBalancingRxClientDiffblueTest {
     // Arrange
     BaseLoadBalancer lb = new BaseLoadBalancer();
     IClientConfig config =
-        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build();
+        IClientConfig.Builder.newBuilder()
+            .ignoreUserTokenInConnectionPoolForSecureClient(true)
+            .build();
 
     LoadBalancingUdpClient<Object, Object> loadBalancingUdpClient =
         new LoadBalancingUdpClient<>(
@@ -138,6 +155,57 @@ public class LoadBalancingRxClientDiffblueTest {
 
     // Act and Assert
     assertEquals(-1, loadBalancingUdpClient.getMaxConcurrentRequests());
+  }
+
+  /**
+   * Test {@link LoadBalancingRxClient#getProperty(IClientConfigKey, IClientConfig, Object)}.
+   *
+   * <p>Method under test: {@link LoadBalancingRxClient#getProperty(IClientConfigKey, IClientConfig,
+   * Object)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "Object LoadBalancingRxClient.getProperty(IClientConfigKey, IClientConfig, Object)"
+  })
+  public void testGetProperty() {
+    // Arrange
+    Builder<Object, Object> builderResult = LoadBalancingHttpClient.builder();
+
+    Builder<Object, Object> withBackoffStrategyResult =
+        builderResult.withBackoffStrategy(mock(Func1.class));
+
+    Builder<Object, Object> withClientConfigResult =
+        withBackoffStrategyResult.withClientConfig(
+            IClientConfig.Builder.newBuilder()
+                .ignoreUserTokenInConnectionPoolForSecureClient(true)
+                .build());
+
+    Builder<Object, Object> withLoadBalancerResult =
+        withClientConfigResult.withLoadBalancer(new BaseLoadBalancer());
+
+    Builder<Object, Object> withResponseToErrorPolicyResult =
+        withLoadBalancerResult
+            .withExecutorListeners(new ArrayList<>())
+            .withPipelineConfigurator(mock(PipelineConfigurator.class))
+            .withPoolCleanerScheduler(RibbonTransport.poolCleanerScheduler)
+            .withResponseToErrorPolicy(mock(Func2.class));
+    LoadBalancingHttpClient<Object, Object> loadBalancingHttpClient =
+        withResponseToErrorPolicyResult
+            .withRetryHandler(new DefaultLoadBalancerRetryHandler())
+            .build();
+    IClientConfigKey<Object> key = mock(IClientConfigKey.class);
+
+    // Act and Assert
+    assertEquals(
+        "Default Value",
+        loadBalancingHttpClient.getProperty(
+            key,
+            IClientConfig.Builder.newBuilder()
+                .ignoreUserTokenInConnectionPoolForSecureClient(true)
+                .build(),
+            "Default Value"));
   }
 
   /**
@@ -158,13 +226,30 @@ public class LoadBalancingRxClientDiffblueTest {
   })
   public void testGetProperty_whenClientConfigWithDefaultValuesDrJaneDoeIsNameSpace() {
     // Arrange
-    BaseLoadBalancer lb = new BaseLoadBalancer();
-    IClientConfig config =
-        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build();
+    Builder<Object, Object> builderResult = LoadBalancingHttpClient.builder();
 
-    LoadBalancingUdpClient<Object, Object> loadBalancingUdpClient =
-        new LoadBalancingUdpClient<>(
-            lb, config, new DefaultLoadBalancerRetryHandler(), mock(PipelineConfigurator.class));
+    Builder<Object, Object> withBackoffStrategyResult =
+        builderResult.withBackoffStrategy(mock(Func1.class));
+
+    Builder<Object, Object> withClientConfigResult =
+        withBackoffStrategyResult.withClientConfig(
+            IClientConfig.Builder.newBuilder()
+                .ignoreUserTokenInConnectionPoolForSecureClient(true)
+                .build());
+
+    Builder<Object, Object> withLoadBalancerResult =
+        withClientConfigResult.withLoadBalancer(new BaseLoadBalancer());
+
+    Builder<Object, Object> withResponseToErrorPolicyResult =
+        withLoadBalancerResult
+            .withExecutorListeners(new ArrayList<>())
+            .withPipelineConfigurator(mock(PipelineConfigurator.class))
+            .withPoolCleanerScheduler(RibbonTransport.poolCleanerScheduler)
+            .withResponseToErrorPolicy(mock(Func2.class));
+    LoadBalancingHttpClient<Object, Object> loadBalancingHttpClient =
+        withResponseToErrorPolicyResult
+            .withRetryHandler(new DefaultLoadBalancerRetryHandler())
+            .build();
 
     IClientConfigKey<Object> key = mock(IClientConfigKey.class);
     Class<Object> forNameResult = Object.class;
@@ -173,7 +258,7 @@ public class LoadBalancingRxClientDiffblueTest {
 
     // Act
     Object actualProperty =
-        loadBalancingUdpClient.getProperty(
+        loadBalancingHttpClient.getProperty(
             key,
             DefaultClientConfigImpl.getClientConfigWithDefaultValues("Dr Jane Doe", "Name Space"),
             "Default Value");
@@ -202,13 +287,30 @@ public class LoadBalancingRxClientDiffblueTest {
   })
   public void testGetProperty_whenClientConfigWithDefaultValuesEmptyStringIsNameSpace() {
     // Arrange
-    BaseLoadBalancer lb = new BaseLoadBalancer();
-    IClientConfig config =
-        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build();
+    Builder<Object, Object> builderResult = LoadBalancingHttpClient.builder();
 
-    LoadBalancingUdpClient<Object, Object> loadBalancingUdpClient =
-        new LoadBalancingUdpClient<>(
-            lb, config, new DefaultLoadBalancerRetryHandler(), mock(PipelineConfigurator.class));
+    Builder<Object, Object> withBackoffStrategyResult =
+        builderResult.withBackoffStrategy(mock(Func1.class));
+
+    Builder<Object, Object> withClientConfigResult =
+        withBackoffStrategyResult.withClientConfig(
+            IClientConfig.Builder.newBuilder()
+                .ignoreUserTokenInConnectionPoolForSecureClient(true)
+                .build());
+
+    Builder<Object, Object> withLoadBalancerResult =
+        withClientConfigResult.withLoadBalancer(new BaseLoadBalancer());
+
+    Builder<Object, Object> withResponseToErrorPolicyResult =
+        withLoadBalancerResult
+            .withExecutorListeners(new ArrayList<>())
+            .withPipelineConfigurator(mock(PipelineConfigurator.class))
+            .withPoolCleanerScheduler(RibbonTransport.poolCleanerScheduler)
+            .withResponseToErrorPolicy(mock(Func2.class));
+    LoadBalancingHttpClient<Object, Object> loadBalancingHttpClient =
+        withResponseToErrorPolicyResult
+            .withRetryHandler(new DefaultLoadBalancerRetryHandler())
+            .build();
 
     IClientConfigKey<Object> key = mock(IClientConfigKey.class);
     Class<Object> forNameResult = Object.class;
@@ -217,7 +319,7 @@ public class LoadBalancingRxClientDiffblueTest {
 
     // Act
     Object actualProperty =
-        loadBalancingUdpClient.getProperty(
+        loadBalancingHttpClient.getProperty(
             key,
             DefaultClientConfigImpl.getClientConfigWithDefaultValues("", "Name Space"),
             "Default Value");
@@ -247,13 +349,30 @@ public class LoadBalancingRxClientDiffblueTest {
   })
   public void testGetProperty_whenClientConfigWithDefaultValuesNullIsNameSpace_thenCallsKey() {
     // Arrange
-    BaseLoadBalancer lb = new BaseLoadBalancer();
-    IClientConfig config =
-        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build();
+    Builder<Object, Object> builderResult = LoadBalancingHttpClient.builder();
 
-    LoadBalancingUdpClient<Object, Object> loadBalancingUdpClient =
-        new LoadBalancingUdpClient<>(
-            lb, config, new DefaultLoadBalancerRetryHandler(), mock(PipelineConfigurator.class));
+    Builder<Object, Object> withBackoffStrategyResult =
+        builderResult.withBackoffStrategy(mock(Func1.class));
+
+    Builder<Object, Object> withClientConfigResult =
+        withBackoffStrategyResult.withClientConfig(
+            IClientConfig.Builder.newBuilder()
+                .ignoreUserTokenInConnectionPoolForSecureClient(true)
+                .build());
+
+    Builder<Object, Object> withLoadBalancerResult =
+        withClientConfigResult.withLoadBalancer(new BaseLoadBalancer());
+
+    Builder<Object, Object> withResponseToErrorPolicyResult =
+        withLoadBalancerResult
+            .withExecutorListeners(new ArrayList<>())
+            .withPipelineConfigurator(mock(PipelineConfigurator.class))
+            .withPoolCleanerScheduler(RibbonTransport.poolCleanerScheduler)
+            .withResponseToErrorPolicy(mock(Func2.class));
+    LoadBalancingHttpClient<Object, Object> loadBalancingHttpClient =
+        withResponseToErrorPolicyResult
+            .withRetryHandler(new DefaultLoadBalancerRetryHandler())
+            .build();
 
     IClientConfigKey<Object> key = mock(IClientConfigKey.class);
     Class<Object> forNameResult = Object.class;
@@ -262,7 +381,7 @@ public class LoadBalancingRxClientDiffblueTest {
 
     // Act
     Object actualProperty =
-        loadBalancingUdpClient.getProperty(
+        loadBalancingHttpClient.getProperty(
             key,
             DefaultClientConfigImpl.getClientConfigWithDefaultValues(null, "Name Space"),
             "Default Value");
@@ -277,7 +396,7 @@ public class LoadBalancingRxClientDiffblueTest {
    * Test {@link LoadBalancingRxClient#getProperty(IClientConfigKey, IClientConfig, Object)}.
    *
    * <ul>
-   *   <li>When EmptyConfig.
+   *   <li>When {@link IClientConfigKey}.
    *   <li>Then return {@code Default Value}.
    * </ul>
    *
@@ -290,56 +409,36 @@ public class LoadBalancingRxClientDiffblueTest {
   @MethodsUnderTest({
     "Object LoadBalancingRxClient.getProperty(IClientConfigKey, IClientConfig, Object)"
   })
-  public void testGetProperty_whenEmptyConfig_thenReturnDefaultValue() {
+  public void testGetProperty_whenIClientConfigKey_thenReturnDefaultValue() {
     // Arrange
-    BaseLoadBalancer lb = new BaseLoadBalancer();
-    IClientConfig config =
-        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build();
+    Builder<Object, Object> builderResult = LoadBalancingHttpClient.builder();
 
-    LoadBalancingUdpClient<Object, Object> loadBalancingUdpClient =
-        new LoadBalancingUdpClient<>(
-            lb, config, new DefaultLoadBalancerRetryHandler(), mock(PipelineConfigurator.class));
+    Builder<Object, Object> withBackoffStrategyResult =
+        builderResult.withBackoffStrategy(mock(Func1.class));
+
+    Builder<Object, Object> withClientConfigResult =
+        withBackoffStrategyResult.withClientConfig(
+            IClientConfig.Builder.newBuilder()
+                .ignoreUserTokenInConnectionPoolForSecureClient(true)
+                .build());
+
+    Builder<Object, Object> withLoadBalancerResult =
+        withClientConfigResult.withLoadBalancer(new BaseLoadBalancer());
+
+    Builder<Object, Object> withResponseToErrorPolicyResult =
+        withLoadBalancerResult
+            .withExecutorListeners(new ArrayList<>())
+            .withPipelineConfigurator(mock(PipelineConfigurator.class))
+            .withPoolCleanerScheduler(RibbonTransport.poolCleanerScheduler)
+            .withResponseToErrorPolicy(mock(Func2.class));
 
     // Act and Assert
     assertEquals(
         "Default Value",
-        loadBalancingUdpClient.getProperty(
-            mock(IClientConfigKey.class),
-            DefaultClientConfigImpl.getEmptyConfig(),
-            "Default Value"));
-  }
-
-  /**
-   * Test {@link LoadBalancingRxClient#getProperty(IClientConfigKey, IClientConfig, Object)}.
-   *
-   * <ul>
-   *   <li>When {@code null}.
-   *   <li>Then return {@code Default Value}.
-   * </ul>
-   *
-   * <p>Method under test: {@link LoadBalancingRxClient#getProperty(IClientConfigKey, IClientConfig,
-   * Object)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "Object LoadBalancingRxClient.getProperty(IClientConfigKey, IClientConfig, Object)"
-  })
-  public void testGetProperty_whenNull_thenReturnDefaultValue() {
-    // Arrange
-    BaseLoadBalancer lb = new BaseLoadBalancer();
-    IClientConfig config =
-        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build();
-
-    LoadBalancingUdpClient<Object, Object> loadBalancingUdpClient =
-        new LoadBalancingUdpClient<>(
-            lb, config, new DefaultLoadBalancerRetryHandler(), mock(PipelineConfigurator.class));
-
-    // Act and Assert
-    assertEquals(
-        "Default Value",
-        loadBalancingUdpClient.getProperty(mock(IClientConfigKey.class), null, "Default Value"));
+        withResponseToErrorPolicyResult
+            .withRetryHandler(new DefaultLoadBalancerRetryHandler())
+            .build()
+            .getProperty(mock(IClientConfigKey.class), null, "Default Value"));
   }
 
   /**
@@ -360,16 +459,33 @@ public class LoadBalancingRxClientDiffblueTest {
   })
   public void testGetResourceForOptionalProperty_thenReturnNull() {
     // Arrange
-    BaseLoadBalancer lb = new BaseLoadBalancer();
-    IClientConfig config =
-        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build();
+    Builder<Object, Object> builderResult = LoadBalancingHttpClient.builder();
 
-    LoadBalancingUdpClient<Object, Object> loadBalancingUdpClient =
-        new LoadBalancingUdpClient<>(
-            lb, config, new DefaultLoadBalancerRetryHandler(), mock(PipelineConfigurator.class));
+    Builder<Object, Object> withBackoffStrategyResult =
+        builderResult.withBackoffStrategy(mock(Func1.class));
+
+    Builder<Object, Object> withClientConfigResult =
+        withBackoffStrategyResult.withClientConfig(
+            IClientConfig.Builder.newBuilder()
+                .ignoreUserTokenInConnectionPoolForSecureClient(true)
+                .build());
+
+    Builder<Object, Object> withLoadBalancerResult =
+        withClientConfigResult.withLoadBalancer(new BaseLoadBalancer());
+
+    Builder<Object, Object> withResponseToErrorPolicyResult =
+        withLoadBalancerResult
+            .withExecutorListeners(new ArrayList<>())
+            .withPipelineConfigurator(mock(PipelineConfigurator.class))
+            .withPoolCleanerScheduler(RibbonTransport.poolCleanerScheduler)
+            .withResponseToErrorPolicy(mock(Func2.class));
 
     // Act and Assert
-    assertNull(loadBalancingUdpClient.getResourceForOptionalProperty(mock(IClientConfigKey.class)));
+    assertNull(
+        withResponseToErrorPolicyResult
+            .withRetryHandler(new DefaultLoadBalancerRetryHandler())
+            .build()
+            .getResourceForOptionalProperty(mock(IClientConfigKey.class)));
   }
 
   /**
@@ -380,25 +496,43 @@ public class LoadBalancingRxClientDiffblueTest {
   @Test
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
-  @MethodsUnderTest({"RxClient LoadBalancingRxClient.getOrCreateRxClient(Server)"})
+  @MethodsUnderTest({
+    "io.reactivex.netty.client.RxClient LoadBalancingRxClient.getOrCreateRxClient(Server)"
+  })
   public void testGetOrCreateRxClient() {
     // Arrange
-    BaseLoadBalancer lb = new BaseLoadBalancer();
-    IClientConfig config =
-        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build();
+    Builder<Object, ServerSentEvent> sseClientBuilderResult = SSEClient.sseClientBuilder();
 
-    LoadBalancingUdpClient<Object, Object> loadBalancingUdpClient =
-        new LoadBalancingUdpClient<>(
-            lb, config, new DefaultLoadBalancerRetryHandler(), mock(PipelineConfigurator.class));
+    Builder<Object, ServerSentEvent> withBackoffStrategyResult =
+        sseClientBuilderResult.withBackoffStrategy(mock(Func1.class));
+
+    Builder<Object, ServerSentEvent> withClientConfigResult =
+        withBackoffStrategyResult.withClientConfig(
+            IClientConfig.Builder.newBuilder()
+                .ignoreUserTokenInConnectionPoolForSecureClient(true)
+                .build());
+
+    Builder<Object, ServerSentEvent> withLoadBalancerResult =
+        withClientConfigResult.withLoadBalancer(new BaseLoadBalancer());
+
+    Builder<Object, ServerSentEvent> withResponseToErrorPolicyResult =
+        withLoadBalancerResult
+            .withExecutorListeners(new ArrayList<>())
+            .withPipelineConfigurator(mock(PipelineConfigurator.class))
+            .withPoolCleanerScheduler(RibbonTransport.poolCleanerScheduler)
+            .withResponseToErrorPolicy(mock(Func2.class));
+    LoadBalancingHttpClient<Object, ServerSentEvent> loadBalancingHttpClient =
+        withResponseToErrorPolicyResult
+            .withRetryHandler(new DefaultLoadBalancerRetryHandler())
+            .build();
 
     // Act
-    RxClient<Object, Object> actualOrCreateRxClient =
-        loadBalancingUdpClient.getOrCreateRxClient(new Server("42"));
+    HttpClient<Object, ServerSentEvent> actualOrCreateRxClient =
+        loadBalancingHttpClient.getOrCreateRxClient(new Server("42"));
 
     // Assert
-    assertTrue(actualOrCreateRxClient instanceof UdpClient);
-    assertEquals("UdpClient--no-name", actualOrCreateRxClient.name());
-    assertEquals(1, loadBalancingUdpClient.rxClientCache.size());
+    assertTrue(actualOrCreateRxClient instanceof HttpClientImpl);
+    assertEquals("HttpClient--no-name", actualOrCreateRxClient.name());
   }
 
   /**
@@ -409,104 +543,151 @@ public class LoadBalancingRxClientDiffblueTest {
   @Test
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
-  @MethodsUnderTest({"RxClient LoadBalancingRxClient.getOrCreateRxClient(Server)"})
+  @MethodsUnderTest({
+    "io.reactivex.netty.client.RxClient LoadBalancingRxClient.getOrCreateRxClient(Server)"
+  })
   public void testGetOrCreateRxClient2() {
     // Arrange
-    BaseLoadBalancer lb = new BaseLoadBalancer();
-    IClientConfig config =
-        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build();
+    Builder<Object, Object> builderResult = LoadBalancingHttpClient.builder();
 
-    LoadBalancingUdpClient<Object, Object> loadBalancingUdpClient =
-        new LoadBalancingUdpClient<>(lb, config, new DefaultLoadBalancerRetryHandler(), null);
+    Builder<Object, Object> withBackoffStrategyResult =
+        builderResult.withBackoffStrategy(mock(Func1.class));
+
+    Builder<Object, Object> withClientConfigResult =
+        withBackoffStrategyResult.withClientConfig(
+            IClientConfig.Builder.newBuilder()
+                .ignoreUserTokenInConnectionPoolForSecureClient(true)
+                .build());
+
+    Builder<Object, Object> withLoadBalancerResult =
+        withClientConfigResult.withLoadBalancer(new BaseLoadBalancer());
+
+    Builder<Object, Object> withResponseToErrorPolicyResult =
+        withLoadBalancerResult
+            .withExecutorListeners(new ArrayList<>())
+            .withPipelineConfigurator(mock(PipelineConfigurator.class))
+            .withPoolCleanerScheduler(null)
+            .withResponseToErrorPolicy(mock(Func2.class));
+    LoadBalancingHttpClient<Object, Object> loadBalancingHttpClient =
+        withResponseToErrorPolicyResult
+            .withRetryHandler(new DefaultLoadBalancerRetryHandler())
+            .build();
 
     // Act
-    RxClient<Object, Object> actualOrCreateRxClient =
-        loadBalancingUdpClient.getOrCreateRxClient(new Server("42"));
+    HttpClient<Object, Object> actualOrCreateRxClient =
+        loadBalancingHttpClient.getOrCreateRxClient(new Server("42"));
 
     // Assert
-    assertTrue(actualOrCreateRxClient instanceof UdpClient);
-    assertEquals("UdpClient--no-name", actualOrCreateRxClient.name());
-    assertEquals(1, loadBalancingUdpClient.rxClientCache.size());
+    assertTrue(actualOrCreateRxClient instanceof HttpClientImpl);
+    assertEquals("HttpClient--no-name", actualOrCreateRxClient.name());
   }
 
   /**
    * Test {@link LoadBalancingRxClient#getOrCreateRxClient(Server)}.
-   *
-   * <ul>
-   *   <li>Then return {@link RxClientImpl}.
-   * </ul>
    *
    * <p>Method under test: {@link LoadBalancingRxClient#getOrCreateRxClient(Server)}
    */
   @Test
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
-  @MethodsUnderTest({"RxClient LoadBalancingRxClient.getOrCreateRxClient(Server)"})
-  public void testGetOrCreateRxClient_thenReturnRxClientImpl() {
+  @MethodsUnderTest({
+    "io.reactivex.netty.client.RxClient LoadBalancingRxClient.getOrCreateRxClient(Server)"
+  })
+  public void testGetOrCreateRxClient3() {
     // Arrange
-    BaseLoadBalancer lb = new BaseLoadBalancer();
-    IClientConfig config =
-        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build();
+    Builder<Object, Object> builderResult = LoadBalancingHttpClient.builder();
 
-    LoadBalancingTcpClient<Object, Object> loadBalancingTcpClient =
-        new LoadBalancingTcpClient<>(
-            lb,
-            config,
-            new DefaultLoadBalancerRetryHandler(),
-            mock(PipelineConfigurator.class),
-            null);
+    Builder<Object, Object> withBackoffStrategyResult =
+        builderResult.withBackoffStrategy(mock(Func1.class));
+
+    Builder<Object, Object> withClientConfigResult =
+        withBackoffStrategyResult.withClientConfig(
+            IClientConfig.Builder.newBuilder()
+                .ignoreUserTokenInConnectionPoolForSecureClient(true)
+                .build());
+
+    Builder<Object, Object> withLoadBalancerResult =
+        withClientConfigResult.withLoadBalancer(new BaseLoadBalancer());
+
+    Builder<Object, Object> withPipelineConfiguratorResult =
+        withLoadBalancerResult
+            .withExecutorListeners(new ArrayList<>())
+            .withPipelineConfigurator(mock(PipelineConfigurator.class));
+
+    Builder<Object, Object> withResponseToErrorPolicyResult =
+        withPipelineConfiguratorResult
+            .withPoolCleanerScheduler(new LocalEventLoopGroup())
+            .withResponseToErrorPolicy(mock(Func2.class));
+    LoadBalancingHttpClient<Object, Object> loadBalancingHttpClient =
+        withResponseToErrorPolicyResult
+            .withRetryHandler(new DefaultLoadBalancerRetryHandler())
+            .build();
 
     // Act
-    RxClient<Object, Object> actualOrCreateRxClient =
-        loadBalancingTcpClient.getOrCreateRxClient(new Server("42"));
+    HttpClient<Object, Object> actualOrCreateRxClient =
+        loadBalancingHttpClient.getOrCreateRxClient(new Server("42"));
 
     // Assert
-    assertTrue(actualOrCreateRxClient instanceof RxClientImpl);
-    assertEquals("TcpClient--no-name", actualOrCreateRxClient.name());
-    assertEquals(1, loadBalancingTcpClient.rxClientCache.size());
+    ScheduledExecutorService scheduledExecutorService =
+        loadBalancingHttpClient.poolCleanerScheduler;
+    assertTrue(scheduledExecutorService instanceof LocalEventLoopGroup);
+    assertTrue(actualOrCreateRxClient instanceof HttpClientImpl);
+    assertEquals("HttpClient--no-name", actualOrCreateRxClient.name());
+    assertTrue(((LocalEventLoopGroup) scheduledExecutorService).iterator().hasNext());
   }
 
   /**
    * Test {@link LoadBalancingRxClient#getOrCreateRxClient(Server)}.
-   *
-   * <ul>
-   *   <li>Then return {@link RxClientImpl}.
-   * </ul>
    *
    * <p>Method under test: {@link LoadBalancingRxClient#getOrCreateRxClient(Server)}
    */
   @Test
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
-  @MethodsUnderTest({"RxClient LoadBalancingRxClient.getOrCreateRxClient(Server)"})
-  public void testGetOrCreateRxClient_thenReturnRxClientImpl2() {
+  @MethodsUnderTest({
+    "io.reactivex.netty.client.RxClient LoadBalancingRxClient.getOrCreateRxClient(Server)"
+  })
+  public void testGetOrCreateRxClient4() {
     // Arrange
-    BaseLoadBalancer lb = new BaseLoadBalancer();
-    IClientConfig config =
-        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build();
+    Builder<Object, Object> builderResult = LoadBalancingHttpClient.builder();
 
-    LoadBalancingTcpClient<Object, Object> loadBalancingTcpClient =
-        new LoadBalancingTcpClient<>(
-            lb,
-            config,
-            new DefaultLoadBalancerRetryHandler(),
-            mock(PipelineConfigurator.class),
-            null);
+    Builder<Object, Object> withBackoffStrategyResult =
+        builderResult.withBackoffStrategy(mock(Func1.class));
+
+    Builder<Object, Object> withClientConfigResult =
+        withBackoffStrategyResult.withClientConfig(
+            IClientConfig.Builder.newBuilder()
+                .ignoreUserTokenInConnectionPoolForSecureClient(true)
+                .build());
+
+    Builder<Object, Object> withLoadBalancerResult =
+        withClientConfigResult.withLoadBalancer(new BaseLoadBalancer());
+
+    Builder<Object, Object> withResponseToErrorPolicyResult =
+        withLoadBalancerResult
+            .withExecutorListeners(new ArrayList<>())
+            .withPipelineConfigurator(mock(PipelineConfigurator.class))
+            .withPoolCleanerScheduler(null)
+            .withResponseToErrorPolicy(mock(Func2.class));
+    LoadBalancingHttpClient<Object, Object> loadBalancingHttpClient =
+        withResponseToErrorPolicyResult
+            .withRetryHandler(new DefaultLoadBalancerRetryHandler())
+            .build();
 
     // Act
-    RxClient<Object, Object> actualOrCreateRxClient =
-        loadBalancingTcpClient.getOrCreateRxClient(new Server(null));
+    HttpClient<Object, Object> actualOrCreateRxClient =
+        loadBalancingHttpClient.getOrCreateRxClient(new Server(null));
 
     // Assert
-    assertTrue(actualOrCreateRxClient instanceof RxClientImpl);
-    assertEquals("TcpClient--no-name", actualOrCreateRxClient.name());
-    assertEquals(1, loadBalancingTcpClient.rxClientCache.size());
+    assertTrue(actualOrCreateRxClient instanceof HttpClientImpl);
+    assertEquals("HttpClient--no-name", actualOrCreateRxClient.name());
   }
 
   /**
    * Test {@link LoadBalancingRxClient#removeClient(Server)}.
    *
    * <ul>
+   *   <li>When {@link Server#Server(String)} with id is {@code 42}.
    *   <li>Then return {@code null}.
    * </ul>
    *
@@ -515,20 +696,39 @@ public class LoadBalancingRxClientDiffblueTest {
   @Test
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
-  @MethodsUnderTest({"RxClient LoadBalancingRxClient.removeClient(Server)"})
-  public void testRemoveClient_thenReturnNull() {
+  @MethodsUnderTest({
+    "io.reactivex.netty.client.RxClient LoadBalancingRxClient.removeClient(Server)"
+  })
+  public void testRemoveClient_whenServerWithIdIs42_thenReturnNull() {
     // Arrange
-    BaseLoadBalancer lb = new BaseLoadBalancer();
-    IClientConfig config =
-        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build();
+    Builder<Object, Object> builderResult = LoadBalancingHttpClient.builder();
 
-    LoadBalancingUdpClient<Object, Object> loadBalancingUdpClient =
-        new LoadBalancingUdpClient<>(
-            lb, config, new DefaultLoadBalancerRetryHandler(), mock(PipelineConfigurator.class));
+    Builder<Object, Object> withBackoffStrategyResult =
+        builderResult.withBackoffStrategy(mock(Func1.class));
+
+    Builder<Object, Object> withClientConfigResult =
+        withBackoffStrategyResult.withClientConfig(
+            IClientConfig.Builder.newBuilder()
+                .ignoreUserTokenInConnectionPoolForSecureClient(true)
+                .build());
+
+    Builder<Object, Object> withLoadBalancerResult =
+        withClientConfigResult.withLoadBalancer(new BaseLoadBalancer());
+
+    Builder<Object, Object> withResponseToErrorPolicyResult =
+        withLoadBalancerResult
+            .withExecutorListeners(new ArrayList<>())
+            .withPipelineConfigurator(mock(PipelineConfigurator.class))
+            .withPoolCleanerScheduler(RibbonTransport.poolCleanerScheduler)
+            .withResponseToErrorPolicy(mock(Func2.class));
+    LoadBalancingHttpClient<Object, Object> loadBalancingHttpClient =
+        withResponseToErrorPolicyResult
+            .withRetryHandler(new DefaultLoadBalancerRetryHandler())
+            .build();
 
     // Act
-    RxClient<Object, Object> actualRemoveClientResult =
-        loadBalancingUdpClient.removeClient(new Server("42"));
+    HttpClient<Object, Object> actualRemoveClientResult =
+        loadBalancingHttpClient.removeClient(new Server("42"));
 
     // Assert
     assertNull(actualRemoveClientResult);
@@ -547,20 +747,39 @@ public class LoadBalancingRxClientDiffblueTest {
   @Test
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
-  @MethodsUnderTest({"RxClient LoadBalancingRxClient.removeClient(Server)"})
+  @MethodsUnderTest({
+    "io.reactivex.netty.client.RxClient LoadBalancingRxClient.removeClient(Server)"
+  })
   public void testRemoveClient_whenServerWithIdIsNull_thenReturnNull() {
     // Arrange
-    BaseLoadBalancer lb = new BaseLoadBalancer();
-    IClientConfig config =
-        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build();
+    Builder<Object, Object> builderResult = LoadBalancingHttpClient.builder();
 
-    LoadBalancingUdpClient<Object, Object> loadBalancingUdpClient =
-        new LoadBalancingUdpClient<>(
-            lb, config, new DefaultLoadBalancerRetryHandler(), mock(PipelineConfigurator.class));
+    Builder<Object, Object> withBackoffStrategyResult =
+        builderResult.withBackoffStrategy(mock(Func1.class));
+
+    Builder<Object, Object> withClientConfigResult =
+        withBackoffStrategyResult.withClientConfig(
+            IClientConfig.Builder.newBuilder()
+                .ignoreUserTokenInConnectionPoolForSecureClient(true)
+                .build());
+
+    Builder<Object, Object> withLoadBalancerResult =
+        withClientConfigResult.withLoadBalancer(new BaseLoadBalancer());
+
+    Builder<Object, Object> withResponseToErrorPolicyResult =
+        withLoadBalancerResult
+            .withExecutorListeners(new ArrayList<>())
+            .withPipelineConfigurator(mock(PipelineConfigurator.class))
+            .withPoolCleanerScheduler(RibbonTransport.poolCleanerScheduler)
+            .withResponseToErrorPolicy(mock(Func2.class));
+    LoadBalancingHttpClient<Object, Object> loadBalancingHttpClient =
+        withResponseToErrorPolicyResult
+            .withRetryHandler(new DefaultLoadBalancerRetryHandler())
+            .build();
 
     // Act
-    RxClient<Object, Object> actualRemoveClientResult =
-        loadBalancingUdpClient.removeClient(new Server(null));
+    HttpClient<Object, Object> actualRemoveClientResult =
+        loadBalancingHttpClient.removeClient(new Server(null));
 
     // Assert
     assertNull(actualRemoveClientResult);
@@ -581,24 +800,38 @@ public class LoadBalancingRxClientDiffblueTest {
   @MethodsUnderTest({"java.lang.String LoadBalancingRxClient.name()"})
   public void testName_thenReturnEmptyString() {
     // Arrange
-    BaseLoadBalancer lb = new BaseLoadBalancer();
-    IClientConfig config =
-        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build();
+    Builder<Object, Object> builderResult = LoadBalancingHttpClient.builder();
 
-    LoadBalancingUdpClient<Object, Object> loadBalancingUdpClient =
-        new LoadBalancingUdpClient<>(
-            lb, config, new DefaultLoadBalancerRetryHandler(), mock(PipelineConfigurator.class));
+    Builder<Object, Object> withBackoffStrategyResult =
+        builderResult.withBackoffStrategy(mock(Func1.class));
+
+    Builder<Object, Object> withClientConfigResult =
+        withBackoffStrategyResult.withClientConfig(
+            IClientConfig.Builder.newBuilder()
+                .ignoreUserTokenInConnectionPoolForSecureClient(true)
+                .build());
+
+    Builder<Object, Object> withLoadBalancerResult =
+        withClientConfigResult.withLoadBalancer(new BaseLoadBalancer());
+
+    Builder<Object, Object> withResponseToErrorPolicyResult =
+        withLoadBalancerResult
+            .withExecutorListeners(new ArrayList<>())
+            .withPipelineConfigurator(mock(PipelineConfigurator.class))
+            .withPoolCleanerScheduler(RibbonTransport.poolCleanerScheduler)
+            .withResponseToErrorPolicy(mock(Func2.class));
 
     // Act and Assert
-    assertEquals("", loadBalancingUdpClient.name());
+    assertEquals(
+        "",
+        withResponseToErrorPolicyResult
+            .withRetryHandler(new DefaultLoadBalancerRetryHandler())
+            .build()
+            .name());
   }
 
   /**
    * Test {@link LoadBalancingRxClient#subscribe(MetricEventsListener)}.
-   *
-   * <ul>
-   *   <li>Then return {@link BooleanSubscription}.
-   * </ul>
    *
    * <p>Method under test: {@link LoadBalancingRxClient#subscribe(MetricEventsListener)}
    */
@@ -606,19 +839,36 @@ public class LoadBalancingRxClientDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"Subscription LoadBalancingRxClient.subscribe(MetricEventsListener)"})
-  public void testSubscribe_thenReturnBooleanSubscription() {
+  public void testSubscribe() {
     // Arrange
-    BaseLoadBalancer lb = new BaseLoadBalancer();
-    IClientConfig config =
-        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build();
+    Builder<Object, Object> builderResult = LoadBalancingHttpClient.builder();
 
-    LoadBalancingUdpClient<Object, Object> loadBalancingUdpClient =
-        new LoadBalancingUdpClient<>(
-            lb, config, new DefaultLoadBalancerRetryHandler(), mock(PipelineConfigurator.class));
+    Builder<Object, Object> withBackoffStrategyResult =
+        builderResult.withBackoffStrategy(mock(Func1.class));
+
+    Builder<Object, Object> withClientConfigResult =
+        withBackoffStrategyResult.withClientConfig(
+            IClientConfig.Builder.newBuilder()
+                .ignoreUserTokenInConnectionPoolForSecureClient(true)
+                .build());
+
+    Builder<Object, Object> withLoadBalancerResult =
+        withClientConfigResult.withLoadBalancer(new BaseLoadBalancer());
+
+    Builder<Object, Object> withResponseToErrorPolicyResult =
+        withLoadBalancerResult
+            .withExecutorListeners(new ArrayList<>())
+            .withPipelineConfigurator(mock(PipelineConfigurator.class))
+            .withPoolCleanerScheduler(RibbonTransport.poolCleanerScheduler)
+            .withResponseToErrorPolicy(mock(Func2.class));
+    LoadBalancingHttpClient<Object, Object> loadBalancingHttpClient =
+        withResponseToErrorPolicyResult
+            .withRetryHandler(new DefaultLoadBalancerRetryHandler())
+            .build();
 
     // Act
     Subscription actualSubscribeResult =
-        loadBalancingUdpClient.subscribe(new DynamicPropertyBasedPoolStrategy(3, "Property Name"));
+        loadBalancingHttpClient.subscribe(new DynamicPropertyBasedPoolStrategy(3, "Property Name"));
 
     // Assert
     assertTrue(actualSubscribeResult instanceof BooleanSubscription);
@@ -641,17 +891,34 @@ public class LoadBalancingRxClientDiffblueTest {
   @MethodsUnderTest({"Subscription LoadBalancingRxClient.subscribe(MetricEventsListener)"})
   public void testSubscribe_whenNewHttpListenerEmptyString_thenReturnBooleanSubscription() {
     // Arrange
-    BaseLoadBalancer lb = new BaseLoadBalancer();
-    IClientConfig config =
-        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build();
+    Builder<Object, Object> builderResult = LoadBalancingHttpClient.builder();
 
-    LoadBalancingUdpClient<Object, Object> loadBalancingUdpClient =
-        new LoadBalancingUdpClient<>(
-            lb, config, new DefaultLoadBalancerRetryHandler(), mock(PipelineConfigurator.class));
+    Builder<Object, Object> withBackoffStrategyResult =
+        builderResult.withBackoffStrategy(mock(Func1.class));
+
+    Builder<Object, Object> withClientConfigResult =
+        withBackoffStrategyResult.withClientConfig(
+            IClientConfig.Builder.newBuilder()
+                .ignoreUserTokenInConnectionPoolForSecureClient(true)
+                .build());
+
+    Builder<Object, Object> withLoadBalancerResult =
+        withClientConfigResult.withLoadBalancer(new BaseLoadBalancer());
+
+    Builder<Object, Object> withResponseToErrorPolicyResult =
+        withLoadBalancerResult
+            .withExecutorListeners(new ArrayList<>())
+            .withPipelineConfigurator(mock(PipelineConfigurator.class))
+            .withPoolCleanerScheduler(RibbonTransport.poolCleanerScheduler)
+            .withResponseToErrorPolicy(mock(Func2.class));
+    LoadBalancingHttpClient<Object, Object> loadBalancingHttpClient =
+        withResponseToErrorPolicyResult
+            .withRetryHandler(new DefaultLoadBalancerRetryHandler())
+            .build();
 
     // Act
     Subscription actualSubscribeResult =
-        loadBalancingUdpClient.subscribe(HttpClientListener.newHttpListener(""));
+        loadBalancingHttpClient.subscribe(HttpClientListener.newHttpListener(""));
 
     // Assert
     assertTrue(actualSubscribeResult instanceof BooleanSubscription);
@@ -673,17 +940,34 @@ public class LoadBalancingRxClientDiffblueTest {
   @MethodsUnderTest({"Subscription LoadBalancingRxClient.subscribe(MetricEventsListener)"})
   public void testSubscribe_whenNewHttpListenerHttpsExampleOrgExample() {
     // Arrange
-    BaseLoadBalancer lb = new BaseLoadBalancer();
-    IClientConfig config =
-        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build();
+    Builder<Object, Object> builderResult = LoadBalancingHttpClient.builder();
 
-    LoadBalancingUdpClient<Object, Object> loadBalancingUdpClient =
-        new LoadBalancingUdpClient<>(
-            lb, config, new DefaultLoadBalancerRetryHandler(), mock(PipelineConfigurator.class));
+    Builder<Object, Object> withBackoffStrategyResult =
+        builderResult.withBackoffStrategy(mock(Func1.class));
+
+    Builder<Object, Object> withClientConfigResult =
+        withBackoffStrategyResult.withClientConfig(
+            IClientConfig.Builder.newBuilder()
+                .ignoreUserTokenInConnectionPoolForSecureClient(true)
+                .build());
+
+    Builder<Object, Object> withLoadBalancerResult =
+        withClientConfigResult.withLoadBalancer(new BaseLoadBalancer());
+
+    Builder<Object, Object> withResponseToErrorPolicyResult =
+        withLoadBalancerResult
+            .withExecutorListeners(new ArrayList<>())
+            .withPipelineConfigurator(mock(PipelineConfigurator.class))
+            .withPoolCleanerScheduler(RibbonTransport.poolCleanerScheduler)
+            .withResponseToErrorPolicy(mock(Func2.class));
+    LoadBalancingHttpClient<Object, Object> loadBalancingHttpClient =
+        withResponseToErrorPolicyResult
+            .withRetryHandler(new DefaultLoadBalancerRetryHandler())
+            .build();
 
     // Act
     Subscription actualSubscribeResult =
-        loadBalancingUdpClient.subscribe(
+        loadBalancingHttpClient.subscribe(
             HttpClientListener.newHttpListener("https://example.org/example"));
 
     // Assert
@@ -702,18 +986,36 @@ public class LoadBalancingRxClientDiffblueTest {
   @MethodsUnderTest({"LoadBalancerContext LoadBalancingRxClient.getLoadBalancerContext()"})
   public void testGetLoadBalancerContext() {
     // Arrange
-    BaseLoadBalancer lb = new BaseLoadBalancer();
-    IClientConfig config =
-        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build();
+    Builder<Object, Object> builderResult = LoadBalancingHttpClient.builder();
 
-    LoadBalancingUdpClient<Object, Object> loadBalancingUdpClient =
-        new LoadBalancingUdpClient<>(
-            lb, config, new DefaultLoadBalancerRetryHandler(), mock(PipelineConfigurator.class));
+    Builder<Object, Object> withBackoffStrategyResult =
+        builderResult.withBackoffStrategy(mock(Func1.class));
+
+    Builder<Object, Object> withClientConfigResult =
+        withBackoffStrategyResult.withClientConfig(
+            IClientConfig.Builder.newBuilder()
+                .ignoreUserTokenInConnectionPoolForSecureClient(true)
+                .build());
+
+    Builder<Object, Object> withLoadBalancerResult =
+        withClientConfigResult.withLoadBalancer(new BaseLoadBalancer());
+
+    Builder<Object, Object> withResponseToErrorPolicyResult =
+        withLoadBalancerResult
+            .withExecutorListeners(new ArrayList<>())
+            .withPipelineConfigurator(mock(PipelineConfigurator.class))
+            .withPoolCleanerScheduler(RibbonTransport.poolCleanerScheduler)
+            .withResponseToErrorPolicy(mock(Func2.class));
+    LoadBalancingHttpClient<Object, Object> loadBalancingHttpClient =
+        withResponseToErrorPolicyResult
+            .withRetryHandler(new DefaultLoadBalancerRetryHandler())
+            .build();
 
     // Act
-    LoadBalancerContext actualLoadBalancerContext = loadBalancingUdpClient.getLoadBalancerContext();
+    LoadBalancerContext actualLoadBalancerContext =
+        loadBalancingHttpClient.getLoadBalancerContext();
 
     // Assert
-    assertSame(loadBalancingUdpClient.lbContext, actualLoadBalancerContext);
+    assertSame(loadBalancingHttpClient.lbContext, actualLoadBalancerContext);
   }
 }

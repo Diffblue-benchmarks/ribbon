@@ -5,7 +5,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.doNothing;
@@ -15,8 +14,6 @@ import static org.mockito.Mockito.when;
 import com.diffblue.cover.annotations.ContributionFromDiffblue;
 import com.diffblue.cover.annotations.ManagedByDiffblue;
 import com.diffblue.cover.annotations.MethodsUnderTest;
-import com.netflix.client.config.IClientConfig;
-import com.netflix.client.config.IClientConfigKey;
 import com.netflix.loadbalancer.ResponseTimeWeightedRule.DynamicServerWeightTask;
 import java.util.ArrayList;
 import java.util.List;
@@ -73,6 +70,31 @@ public class ResponseTimeWeightedRuleDiffblueTest {
   /**
    * Test {@link ResponseTimeWeightedRule#setLoadBalancer(ILoadBalancer)}.
    *
+   * <p>Method under test: {@link ResponseTimeWeightedRule#setLoadBalancer(ILoadBalancer)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void ResponseTimeWeightedRule.setLoadBalancer(ILoadBalancer)"})
+  public void testSetLoadBalancer() {
+    // Arrange
+    ResponseTimeWeightedRule responseTimeWeightedRule = new ResponseTimeWeightedRule();
+
+    DynamicServerListLoadBalancer<Server> lb = new DynamicServerListLoadBalancer<>();
+    lb.addServers(new ArrayList<>());
+    lb.addServer(new Server("42"));
+
+    // Act
+    responseTimeWeightedRule.setLoadBalancer(lb);
+
+    // Assert
+    assertEquals("default", responseTimeWeightedRule.name);
+    assertSame(lb, responseTimeWeightedRule.getLoadBalancer());
+  }
+
+  /**
+   * Test {@link ResponseTimeWeightedRule#setLoadBalancer(ILoadBalancer)}.
+   *
    * <ul>
    *   <li>Given {@link ResponseTimeWeightedRule#ResponseTimeWeightedRule()} initialize {@link
    *       BaseLoadBalancer#BaseLoadBalancer()}.
@@ -89,34 +111,6 @@ public class ResponseTimeWeightedRuleDiffblueTest {
     ResponseTimeWeightedRule responseTimeWeightedRule = new ResponseTimeWeightedRule();
     responseTimeWeightedRule.initialize(new BaseLoadBalancer());
     BaseLoadBalancer lb = new BaseLoadBalancer();
-
-    // Act
-    responseTimeWeightedRule.setLoadBalancer(lb);
-
-    // Assert
-    assertEquals("default", responseTimeWeightedRule.name);
-    assertSame(lb, responseTimeWeightedRule.getLoadBalancer());
-  }
-
-  /**
-   * Test {@link ResponseTimeWeightedRule#setLoadBalancer(ILoadBalancer)}.
-   *
-   * <ul>
-   *   <li>Given {@link Server#Server(String)} with id is {@code 42}.
-   * </ul>
-   *
-   * <p>Method under test: {@link ResponseTimeWeightedRule#setLoadBalancer(ILoadBalancer)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void ResponseTimeWeightedRule.setLoadBalancer(ILoadBalancer)"})
-  public void testSetLoadBalancer_givenServerWithIdIs42() {
-    // Arrange
-    ResponseTimeWeightedRule responseTimeWeightedRule = new ResponseTimeWeightedRule();
-
-    BaseLoadBalancer lb = new BaseLoadBalancer();
-    lb.addServer(new Server("42"));
 
     // Act
     responseTimeWeightedRule.setLoadBalancer(lb);
@@ -183,6 +177,35 @@ public class ResponseTimeWeightedRuleDiffblueTest {
    * Test {@link ResponseTimeWeightedRule#setLoadBalancer(ILoadBalancer)}.
    *
    * <ul>
+   *   <li>When {@link BaseLoadBalancer#BaseLoadBalancer()} addServer {@link Server#Server(String)}
+   *       with id is {@code 42}.
+   * </ul>
+   *
+   * <p>Method under test: {@link ResponseTimeWeightedRule#setLoadBalancer(ILoadBalancer)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void ResponseTimeWeightedRule.setLoadBalancer(ILoadBalancer)"})
+  public void testSetLoadBalancer_whenBaseLoadBalancerAddServerServerWithIdIs42() {
+    // Arrange
+    ResponseTimeWeightedRule responseTimeWeightedRule = new ResponseTimeWeightedRule();
+
+    BaseLoadBalancer lb = new BaseLoadBalancer();
+    lb.addServer(new Server("42"));
+
+    // Act
+    responseTimeWeightedRule.setLoadBalancer(lb);
+
+    // Assert
+    assertEquals("default", responseTimeWeightedRule.name);
+    assertSame(lb, responseTimeWeightedRule.getLoadBalancer());
+  }
+
+  /**
+   * Test {@link ResponseTimeWeightedRule#setLoadBalancer(ILoadBalancer)}.
+   *
+   * <ul>
    *   <li>When {@code null}.
    *   <li>Then {@link ResponseTimeWeightedRule#ResponseTimeWeightedRule()} {@link
    *       ResponseTimeWeightedRule#name} is {@code unknown}.
@@ -210,6 +233,7 @@ public class ResponseTimeWeightedRuleDiffblueTest {
    *
    * <ul>
    *   <li>Given {@link ArrayList#ArrayList()} add {@code null}.
+   *   <li>When {@link BaseLoadBalancer#BaseLoadBalancer()}.
    *   <li>Then calls {@link BaseLoadBalancer#getAllServers()}.
    * </ul>
    *
@@ -219,7 +243,7 @@ public class ResponseTimeWeightedRuleDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void ResponseTimeWeightedRule.initialize(ILoadBalancer)"})
-  public void testInitialize_givenArrayListAddNull_thenCallsGetAllServers() {
+  public void testInitialize_givenArrayListAddNull_whenBaseLoadBalancer_thenCallsGetAllServers() {
     // Arrange
     ArrayList<Server> serverList = new ArrayList<>();
     serverList.add(null);
@@ -315,6 +339,41 @@ public class ResponseTimeWeightedRuleDiffblueTest {
    * Test {@link ResponseTimeWeightedRule#initialize(ILoadBalancer)}.
    *
    * <ul>
+   *   <li>Given {@link LoadBalancerStats#LoadBalancerStats()}.
+   * </ul>
+   *
+   * <p>Method under test: {@link ResponseTimeWeightedRule#initialize(ILoadBalancer)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void ResponseTimeWeightedRule.initialize(ILoadBalancer)"})
+  public void testInitialize_givenLoadBalancerStats() {
+    // Arrange
+    BaseLoadBalancer lb = mock(BaseLoadBalancer.class);
+    when(lb.getAllServers()).thenReturn(new ArrayList<>());
+    when(lb.getLoadBalancerStats()).thenReturn(new LoadBalancerStats());
+    when(lb.getName()).thenReturn("Name");
+
+    ResponseTimeWeightedRule responseTimeWeightedRule = new ResponseTimeWeightedRule();
+    responseTimeWeightedRule.setLoadBalancer(lb);
+
+    BaseLoadBalancer lb2 = new BaseLoadBalancer();
+    lb2.setLoadBalancerStats(new LoadBalancerStats());
+
+    // Act
+    responseTimeWeightedRule.initialize(lb2);
+
+    // Assert
+    verify(lb, atLeast(1)).getAllServers();
+    verify(lb, atLeast(1)).getLoadBalancerStats();
+    verify(lb).getName();
+  }
+
+  /**
+   * Test {@link ResponseTimeWeightedRule#initialize(ILoadBalancer)}.
+   *
+   * <ul>
    *   <li>Then calls {@link LoadBalancerStats#getSingleServerStat(Server)}.
    * </ul>
    *
@@ -352,6 +411,47 @@ public class ResponseTimeWeightedRuleDiffblueTest {
   }
 
   /**
+   * Test {@link ResponseTimeWeightedRule#initialize(ILoadBalancer)}.
+   *
+   * <ul>
+   *   <li>When {@link BaseLoadBalancer}.
+   *   <li>Then calls {@link LoadBalancerStats#getSingleServerStat(Server)}.
+   * </ul>
+   *
+   * <p>Method under test: {@link ResponseTimeWeightedRule#initialize(ILoadBalancer)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void ResponseTimeWeightedRule.initialize(ILoadBalancer)"})
+  public void testInitialize_whenBaseLoadBalancer_thenCallsGetSingleServerStat() {
+    // Arrange
+    LoadBalancerStats loadBalancerStats = mock(LoadBalancerStats.class);
+    when(loadBalancerStats.getSingleServerStat(Mockito.<Server>any()))
+        .thenReturn(new ServerStats());
+
+    ArrayList<Server> serverList = new ArrayList<>();
+    serverList.add(new Server("42"));
+
+    BaseLoadBalancer lb = mock(BaseLoadBalancer.class);
+    when(lb.getAllServers()).thenReturn(serverList);
+    when(lb.getLoadBalancerStats()).thenReturn(loadBalancerStats);
+    when(lb.getName()).thenReturn("Name");
+
+    ResponseTimeWeightedRule responseTimeWeightedRule = new ResponseTimeWeightedRule();
+    responseTimeWeightedRule.setLoadBalancer(lb);
+
+    // Act
+    responseTimeWeightedRule.initialize(mock(BaseLoadBalancer.class));
+
+    // Assert
+    verify(lb, atLeast(1)).getAllServers();
+    verify(lb, atLeast(1)).getLoadBalancerStats();
+    verify(lb).getName();
+    verify(loadBalancerStats, atLeast(1)).getSingleServerStat(isA(Server.class));
+  }
+
+  /**
    * Test {@link ResponseTimeWeightedRule#choose(ILoadBalancer, Object)} with {@code lb}, {@code
    * key}.
    *
@@ -377,7 +477,7 @@ public class ResponseTimeWeightedRuleDiffblueTest {
    * key}.
    *
    * <ul>
-   *   <li>Then {@link BaseLoadBalancer#BaseLoadBalancer()} AllServers size is one.
+   *   <li>Then return Host is {@code New Servers}.
    * </ul>
    *
    * <p>Method under test: {@link ResponseTimeWeightedRule#choose(ILoadBalancer, Object)}
@@ -386,26 +486,28 @@ public class ResponseTimeWeightedRuleDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"Server ResponseTimeWeightedRule.choose(ILoadBalancer, Object)"})
-  public void testChooseWithLbKey_thenBaseLoadBalancerAllServersSizeIsOne() {
+  public void testChooseWithLbKey_thenReturnHostIsNewServers() {
     // Arrange
     IPing ping = mock(IPing.class);
     when(ping.isAlive(Mockito.<Server>any())).thenReturn(true);
 
-    BaseLoadBalancer lb = new BaseLoadBalancer();
-    Server newServer = new Server("42");
-    lb.addServer(newServer);
-    lb.setPing(ping);
+    BaseLoadBalancer lb = new BaseLoadBalancer(ping, new AvailabilityFilteringRule());
+    lb.addServers(new Object[] {"New Servers"});
+    lb.setEnablePrimingConnections(true);
     lb.addServer(new Server("42"));
 
     ResponseTimeWeightedRule responseTimeWeightedRule = new ResponseTimeWeightedRule();
     responseTimeWeightedRule.setLoadBalancer(lb);
+
+    IPing ping2 = mock(IPing.class);
+    when(ping2.isAlive(Mockito.<Server>any())).thenReturn(true);
 
     ServerListChangeListener listener = mock(ServerListChangeListener.class);
     doNothing()
         .when(listener)
         .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
 
-    BaseLoadBalancer lb2 = new BaseLoadBalancer();
+    BaseLoadBalancer lb2 = new BaseLoadBalancer(ping2, new AvailabilityFilteringRule());
     lb2.addServerListChangeListener(listener);
     lb2.addServer(new Server("42"));
 
@@ -413,14 +515,17 @@ public class ResponseTimeWeightedRuleDiffblueTest {
     Server actualChooseResult = responseTimeWeightedRule.choose(lb2, "Key");
 
     // Assert
-    verify(ping, atLeast(1)).isAlive(isA(Server.class));
+    verify(ping2).isAlive(isA(Server.class));
+    verify(ping, atLeast(1)).isAlive(Mockito.<Server>any());
     verify(listener).serverListChanged(isA(List.class), isA(List.class));
-    ILoadBalancer loadBalancer = responseTimeWeightedRule.getLoadBalancer();
-    assertTrue(loadBalancer instanceof BaseLoadBalancer);
-    assertEquals(1, lb2.getAllServers().size());
-    assertEquals(1, lb2.getReachableServers().size());
-    assertEquals(newServer, actualChooseResult);
-    assertEquals(lb.allServerList, loadBalancer.getReachableServers());
+    assertEquals("New Servers", actualChooseResult.getHost());
+    assertEquals("New Servers:80", actualChooseResult.getHostPort());
+    assertEquals("New Servers:80", actualChooseResult.getId());
+    assertNull(actualChooseResult.getScheme());
+    assertEquals(80, actualChooseResult.getPort());
+    assertTrue(actualChooseResult.isAlive());
+    assertTrue(actualChooseResult.isReadyToServe());
+    assertEquals(Server.UNKNOWN_ZONE, actualChooseResult.getZone());
   }
 
   /**
@@ -446,20 +551,17 @@ public class ResponseTimeWeightedRuleDiffblueTest {
     ResponseTimeWeightedRule responseTimeWeightedRule = new ResponseTimeWeightedRule();
     responseTimeWeightedRule.setLoadBalancer(lb);
 
-    ServerListChangeListener listener = mock(ServerListChangeListener.class);
-    doNothing()
-        .when(listener)
-        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
+    IPing ping = mock(IPing.class);
+    when(ping.isAlive(Mockito.<Server>any())).thenReturn(true);
 
-    BaseLoadBalancer lb2 = new BaseLoadBalancer();
-    lb2.addServerListChangeListener(listener);
+    BaseLoadBalancer lb2 = new BaseLoadBalancer(ping, new AvailabilityFilteringRule());
     lb2.addServer(new Server("42"));
 
     // Act
     Server actualChooseResult = responseTimeWeightedRule.choose(lb2, "Key");
 
     // Assert
-    verify(listener).serverListChanged(isA(List.class), isA(List.class));
+    verify(ping).isAlive(isA(Server.class));
     assertSame(newServer, actualChooseResult);
   }
 
@@ -469,7 +571,7 @@ public class ResponseTimeWeightedRuleDiffblueTest {
    *
    * <ul>
    *   <li>When {@link BaseLoadBalancer#BaseLoadBalancer()}.
-   *   <li>Then {@link BaseLoadBalancer#BaseLoadBalancer()} AllServers Empty.
+   *   <li>Then return {@code null}.
    * </ul>
    *
    * <p>Method under test: {@link ResponseTimeWeightedRule#choose(ILoadBalancer, Object)}
@@ -478,49 +580,11 @@ public class ResponseTimeWeightedRuleDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"Server ResponseTimeWeightedRule.choose(ILoadBalancer, Object)"})
-  public void testChooseWithLbKey_whenBaseLoadBalancer_thenBaseLoadBalancerAllServersEmpty() {
+  public void testChooseWithLbKey_whenBaseLoadBalancer_thenReturnNull() {
     // Arrange
     ResponseTimeWeightedRule responseTimeWeightedRule = new ResponseTimeWeightedRule();
-    BaseLoadBalancer lb = new BaseLoadBalancer();
 
     // Act and Assert
-    assertNull(responseTimeWeightedRule.choose(lb, "Key"));
-    assertTrue(lb.getAllServers().isEmpty());
-    assertTrue(lb.getReachableServers().isEmpty());
-  }
-
-  /**
-   * Test {@link ResponseTimeWeightedRule#initWithNiwsConfig(IClientConfig)} with {@code
-   * clientConfig}.
-   *
-   * <p>Method under test: {@link ResponseTimeWeightedRule#initWithNiwsConfig(IClientConfig)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void ResponseTimeWeightedRule.initWithNiwsConfig(IClientConfig)"})
-  public void testInitWithNiwsConfigWithClientConfig() {
-    // Arrange
-    BaseLoadBalancer lb = mock(BaseLoadBalancer.class);
-    when(lb.getLoadBalancerStats()).thenReturn(null);
-    when(lb.getName()).thenReturn("Name");
-    doNothing().when(lb).addServerListChangeListener(Mockito.<ServerListChangeListener>any());
-    lb.addServerListChangeListener(mock(ServerListChangeListener.class));
-
-    ResponseTimeWeightedRule responseTimeWeightedRule = new ResponseTimeWeightedRule();
-    responseTimeWeightedRule.setLoadBalancer(lb);
-
-    IClientConfig clientConfig = mock(IClientConfig.class);
-    when(clientConfig.get(Mockito.<IClientConfigKey<Integer>>any(), Mockito.<Integer>any()))
-        .thenReturn(1);
-
-    // Act
-    responseTimeWeightedRule.initWithNiwsConfig(clientConfig);
-
-    // Assert
-    verify(clientConfig).get(isA(IClientConfigKey.class), eq(30000));
-    verify(lb).addServerListChangeListener(isA(ServerListChangeListener.class));
-    verify(lb, atLeast(1)).getLoadBalancerStats();
-    verify(lb).getName();
+    assertNull(responseTimeWeightedRule.choose(new BaseLoadBalancer(), "Key"));
   }
 }

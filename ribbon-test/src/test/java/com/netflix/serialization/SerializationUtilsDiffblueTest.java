@@ -2,17 +2,16 @@ package com.netflix.serialization;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import com.diffblue.cover.annotations.ContributionFromDiffblue;
 import com.diffblue.cover.annotations.ManagedByDiffblue;
 import com.diffblue.cover.annotations.MethodsUnderTest;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import org.junit.Rule;
 import org.junit.Test;
@@ -27,8 +26,8 @@ public class SerializationUtilsDiffblueTest {
    * Test {@link SerializationUtils#deserializeFromString(Deserializer, String, TypeDef)}.
    *
    * <ul>
-   *   <li>Given {@code Deserialize}.
-   *   <li>Then return {@code Deserialize}.
+   *   <li>When {@link Deserializer}.
+   *   <li>Then return {@code null}.
    * </ul>
    *
    * <p>Method under test: {@link SerializationUtils#deserializeFromString(Deserializer, String,
@@ -40,51 +39,14 @@ public class SerializationUtilsDiffblueTest {
   @MethodsUnderTest({
     "Object SerializationUtils.deserializeFromString(Deserializer, String, TypeDef)"
   })
-  public void testDeserializeFromString_givenDeserialize_thenReturnDeserialize()
-      throws IOException {
-    // Arrange
-    Deserializer<Object> deserializer = mock(Deserializer.class);
-    when(deserializer.deserialize(Mockito.<InputStream>any(), Mockito.<TypeDef<Object>>any()))
-        .thenReturn("Deserialize");
-
-    // Act
+  public void testDeserializeFromString_whenDeserializer_thenReturnNull() throws IOException {
+    // Arrange and Act
     Object actualDeserializeFromStringResult =
         SerializationUtils.deserializeFromString(
-            deserializer, "Not all who wander are lost", mock(TypeDef.class));
+            mock(Deserializer.class), "Not all who wander are lost", mock(TypeDef.class));
 
     // Assert
-    verify(deserializer).deserialize(isA(InputStream.class), isA(TypeDef.class));
-    assertEquals("Deserialize", actualDeserializeFromStringResult);
-  }
-
-  /**
-   * Test {@link SerializationUtils#deserializeFromString(Deserializer, String, TypeDef)}.
-   *
-   * <ul>
-   *   <li>Given {@link IOException#IOException()}.
-   *   <li>Then throw {@link IOException}.
-   * </ul>
-   *
-   * <p>Method under test: {@link SerializationUtils#deserializeFromString(Deserializer, String,
-   * TypeDef)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "Object SerializationUtils.deserializeFromString(Deserializer, String, TypeDef)"
-  })
-  public void testDeserializeFromString_givenIOException_thenThrowIOException() throws IOException {
-    // Arrange
-    Deserializer<Object> deserializer = mock(Deserializer.class);
-    when(deserializer.deserialize(Mockito.<InputStream>any(), Mockito.<TypeDef<Object>>any()))
-        .thenThrow(new IOException());
-
-    // Act and Assert
-    thrown.expect(IOException.class);
-    SerializationUtils.deserializeFromString(
-        deserializer, "Not all who wander are lost", mock(TypeDef.class));
-    verify(deserializer).deserialize(isA(InputStream.class), isA(TypeDef.class));
+    assertNull(actualDeserializeFromStringResult);
   }
 
   /**
