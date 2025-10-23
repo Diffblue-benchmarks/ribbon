@@ -16,6 +16,7 @@ import com.netflix.loadbalancer.ILoadBalancer;
 import com.netflix.loadbalancer.IPing;
 import com.netflix.loadbalancer.IRule;
 import com.netflix.loadbalancer.LoadBalancerStats;
+import com.netflix.loadbalancer.PollingServerListUpdater;
 import com.netflix.loadbalancer.Server;
 import com.netflix.loadbalancer.ServerListFilter;
 import com.netflix.loadbalancer.ZoneAffinityServerListFilter;
@@ -73,17 +74,13 @@ public class ClientFactoryDiffblueTest {
   /**
    * Test {@link ClientFactory#getNamedLoadBalancer(String)} with {@code name}.
    *
-   * <ul>
-   *   <li>Then return ClientConfig ClientName is {@code ribbon}.
-   * </ul>
-   *
    * <p>Method under test: {@link ClientFactory#getNamedLoadBalancer(String)}
    */
   @Test
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"ILoadBalancer ClientFactory.getNamedLoadBalancer(String)"})
-  public void testGetNamedLoadBalancerWithName_thenReturnClientConfigClientNameIsRibbon() {
+  public void testGetNamedLoadBalancerWithName2() {
     // Arrange and Act
     ILoadBalancer actualNamedLoadBalancer = ClientFactory.getNamedLoadBalancer("ribbon");
 
@@ -95,6 +92,9 @@ public class ClientFactoryDiffblueTest {
     assertTrue(rule instanceof AvailabilityFilteringRule);
     IPing ping = ((ZoneAwareLoadBalancer<Server>) actualNamedLoadBalancer).getPing();
     assertTrue(ping instanceof DummyPing);
+    assertTrue(
+        ((ZoneAwareLoadBalancer<Server>) actualNamedLoadBalancer).getServerListUpdater()
+            instanceof PollingServerListUpdater);
     ServerListFilter<Server> filter =
         ((ZoneAwareLoadBalancer<Server>) actualNamedLoadBalancer).getFilter();
     assertTrue(filter instanceof ZoneAffinityServerListFilter);

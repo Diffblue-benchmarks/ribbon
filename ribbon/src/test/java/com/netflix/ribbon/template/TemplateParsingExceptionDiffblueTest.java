@@ -11,45 +11,7 @@ import org.junit.experimental.categories.Category;
 
 public class TemplateParsingExceptionDiffblueTest {
   /**
-   * Test {@link TemplateParsingException#TemplateParsingException(String)}.
-   *
-   * <ul>
-   *   <li>When a string.
-   *   <li>Then return Cause is {@code null}.
-   * </ul>
-   *
-   * <p>Method under test: {@link TemplateParsingException#TemplateParsingException(String)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "void TemplateParsingException.<init>(String)",
-    "void TemplateParsingException.<init>(String, Throwable)"
-  })
-  public void testNewTemplateParsingException_whenAString_thenReturnCauseIsNull() {
-    // Arrange and Act
-    TemplateParsingException actualTemplateParsingException =
-        new TemplateParsingException(
-            "\"Error occurred while parsing the Ribbon template. Invalid syntax or unsupported template structure"
-                + " detected.\"");
-
-    // Assert
-    assertEquals(
-        "\"Error occurred while parsing the Ribbon template. Invalid syntax or unsupported template structure"
-            + " detected.\"",
-        actualTemplateParsingException.getMessage());
-    assertNull(actualTemplateParsingException.getCause());
-    assertEquals(0, actualTemplateParsingException.getSuppressed().length);
-  }
-
-  /**
    * Test {@link TemplateParsingException#TemplateParsingException(String, Throwable)}.
-   *
-   * <ul>
-   *   <li>When {@link Throwable#Throwable()}.
-   *   <li>Then return Cause is {@link Throwable#Throwable()}.
-   * </ul>
    *
    * <p>Method under test: {@link TemplateParsingException#TemplateParsingException(String,
    * Throwable)}
@@ -61,23 +23,54 @@ public class TemplateParsingExceptionDiffblueTest {
     "void TemplateParsingException.<init>(String)",
     "void TemplateParsingException.<init>(String, Throwable)"
   })
-  public void testNewTemplateParsingException_whenThrowable_thenReturnCauseIsThrowable() {
+  public void testNewTemplateParsingException() {
     // Arrange
     Throwable arg1 = new Throwable();
 
     // Act
     TemplateParsingException actualTemplateParsingException =
         new TemplateParsingException(
-            "\"Failed to parse the provided template due to unexpected syntax at line 10, column 5. Please check the"
-                + " template for errors.\"",
+            "\"Failed to parse the template due to unexpected syntax at line 10, column 5.\"",
             arg1);
 
     // Assert
     assertEquals(
-        "\"Failed to parse the provided template due to unexpected syntax at line 10, column 5. Please check the"
-            + " template for errors.\"",
+        "\"Failed to parse the template due to unexpected syntax at line 10, column 5.\"",
         actualTemplateParsingException.getMessage());
     assertEquals(0, actualTemplateParsingException.getSuppressed().length);
     assertSame(arg1, actualTemplateParsingException.getCause());
+  }
+
+  /**
+   * Test {@link TemplateParsingException#TemplateParsingException(String)}.
+   *
+   * <ul>
+   *   <li>When a string.
+   *   <li>Then return Message is a string.
+   * </ul>
+   *
+   * <p>Method under test: {@link TemplateParsingException#TemplateParsingException(String)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "void TemplateParsingException.<init>(String)",
+    "void TemplateParsingException.<init>(String, Throwable)"
+  })
+  public void testNewTemplateParsingException_whenAString_thenReturnMessageIsAString() {
+    // Arrange and Act
+    TemplateParsingException actualTemplateParsingException =
+        new TemplateParsingException(
+            "\"Failed to parse the template. Invalid syntax at line 5: expected '}' but found '>'. Please check the"
+                + " template syntax.\"");
+
+    // Assert
+    assertEquals(
+        "\"Failed to parse the template. Invalid syntax at line 5: expected '}' but found '>'. Please check the"
+            + " template syntax.\"",
+        actualTemplateParsingException.getMessage());
+    assertNull(actualTemplateParsingException.getCause());
+    assertEquals(0, actualTemplateParsingException.getSuppressed().length);
   }
 }

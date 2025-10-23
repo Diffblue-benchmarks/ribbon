@@ -64,6 +64,49 @@ public class MonitoredConnectionManagerDiffblueTest {
   }
 
   /**
+   * Test {@link MonitoredConnectionManager#MonitoredConnectionManager(String, SchemeRegistry, long,
+   * TimeUnit)}.
+   *
+   * <ul>
+   *   <li>Then ConnectionPool return {@link NamedConnectionPool}.
+   * </ul>
+   *
+   * <p>Method under test: {@link MonitoredConnectionManager#MonitoredConnectionManager(String,
+   * SchemeRegistry, long, TimeUnit)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "void MonitoredConnectionManager.<init>(String, SchemeRegistry, long, TimeUnit)"
+  })
+  public void testNewMonitoredConnectionManager_thenConnectionPoolReturnNamedConnectionPool2() {
+    // Arrange
+    SchemeRegistry schreg = new SchemeRegistry();
+
+    // Act
+    MonitoredConnectionManager actualMonitoredConnectionManager =
+        new MonitoredConnectionManager(
+            "\"TestConnectionManager\"", schreg, 1L, TimeUnit.NANOSECONDS);
+
+    // Assert
+    ConnPoolByRoute connectionPool = actualMonitoredConnectionManager.getConnectionPool();
+    assertTrue(connectionPool instanceof NamedConnectionPool);
+    assertEquals(0, ((NamedConnectionPool) connectionPool).getConnectionCount());
+    assertEquals(0, connectionPool.getConnectionsInPool());
+    assertEquals(0, actualMonitoredConnectionManager.getConnectionsInPool());
+    assertEquals(0L, ((NamedConnectionPool) connectionPool).getCreatedEntryCount());
+    assertEquals(0L, ((NamedConnectionPool) connectionPool).getDeleteCount());
+    assertEquals(0L, ((NamedConnectionPool) connectionPool).getFreeEntryCount());
+    assertEquals(0L, ((NamedConnectionPool) connectionPool).getReleaseCount());
+    assertEquals(0L, ((NamedConnectionPool) connectionPool).getRequestsCount());
+    assertEquals(2, actualMonitoredConnectionManager.getDefaultMaxPerRoute());
+    assertEquals(20, connectionPool.getMaxTotalConnections());
+    assertEquals(20, actualMonitoredConnectionManager.getMaxTotal());
+    assertSame(schreg, actualMonitoredConnectionManager.getSchemeRegistry());
+  }
+
+  /**
    * Test {@link MonitoredConnectionManager#MonitoredConnectionManager(String, SchemeRegistry)}.
    *
    * <ul>
@@ -107,48 +150,6 @@ public class MonitoredConnectionManagerDiffblueTest {
   }
 
   /**
-   * Test {@link MonitoredConnectionManager#MonitoredConnectionManager(String, SchemeRegistry, long,
-   * TimeUnit)}.
-   *
-   * <ul>
-   *   <li>When {@code cannot be empty}.
-   * </ul>
-   *
-   * <p>Method under test: {@link MonitoredConnectionManager#MonitoredConnectionManager(String,
-   * SchemeRegistry, long, TimeUnit)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "void MonitoredConnectionManager.<init>(String, SchemeRegistry, long, TimeUnit)"
-  })
-  public void testNewMonitoredConnectionManager_whenCannotBeEmpty() {
-    // Arrange
-    SchemeRegistry schreg = new SchemeRegistry();
-
-    // Act
-    MonitoredConnectionManager actualMonitoredConnectionManager =
-        new MonitoredConnectionManager(" cannot be empty", schreg, -1L, TimeUnit.NANOSECONDS);
-
-    // Assert
-    ConnPoolByRoute connectionPool = actualMonitoredConnectionManager.getConnectionPool();
-    assertTrue(connectionPool instanceof NamedConnectionPool);
-    assertEquals(0, ((NamedConnectionPool) connectionPool).getConnectionCount());
-    assertEquals(0, connectionPool.getConnectionsInPool());
-    assertEquals(0, actualMonitoredConnectionManager.getConnectionsInPool());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getCreatedEntryCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getDeleteCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getFreeEntryCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getReleaseCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getRequestsCount());
-    assertEquals(2, actualMonitoredConnectionManager.getDefaultMaxPerRoute());
-    assertEquals(20, connectionPool.getMaxTotalConnections());
-    assertEquals(20, actualMonitoredConnectionManager.getMaxTotal());
-    assertSame(schreg, actualMonitoredConnectionManager.getSchemeRegistry());
-  }
-
-  /**
    * Test {@link MonitoredConnectionManager#MonitoredConnectionManager(String)}.
    *
    * <ul>
@@ -184,52 +185,10 @@ public class MonitoredConnectionManagerDiffblueTest {
   }
 
   /**
-   * Test {@link MonitoredConnectionManager#MonitoredConnectionManager(String, SchemeRegistry, long,
-   * TimeUnit)}.
-   *
-   * <ul>
-   *   <li>When {@code class}.
-   * </ul>
-   *
-   * <p>Method under test: {@link MonitoredConnectionManager#MonitoredConnectionManager(String,
-   * SchemeRegistry, long, TimeUnit)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "void MonitoredConnectionManager.<init>(String, SchemeRegistry, long, TimeUnit)"
-  })
-  public void testNewMonitoredConnectionManager_whenClass2() {
-    // Arrange
-    SchemeRegistry schreg = new SchemeRegistry();
-
-    // Act
-    MonitoredConnectionManager actualMonitoredConnectionManager =
-        new MonitoredConnectionManager("class", schreg, -1L, TimeUnit.NANOSECONDS);
-
-    // Assert
-    ConnPoolByRoute connectionPool = actualMonitoredConnectionManager.getConnectionPool();
-    assertTrue(connectionPool instanceof NamedConnectionPool);
-    assertEquals(0, ((NamedConnectionPool) connectionPool).getConnectionCount());
-    assertEquals(0, connectionPool.getConnectionsInPool());
-    assertEquals(0, actualMonitoredConnectionManager.getConnectionsInPool());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getCreatedEntryCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getDeleteCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getFreeEntryCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getReleaseCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getRequestsCount());
-    assertEquals(2, actualMonitoredConnectionManager.getDefaultMaxPerRoute());
-    assertEquals(20, connectionPool.getMaxTotalConnections());
-    assertEquals(20, actualMonitoredConnectionManager.getMaxTotal());
-    assertSame(schreg, actualMonitoredConnectionManager.getSchemeRegistry());
-  }
-
-  /**
    * Test {@link MonitoredConnectionManager#MonitoredConnectionManager(String)}.
    *
    * <ul>
-   *   <li>When {@code DefaultPublishingPolicy}.
+   *   <li>When {@code id}.
    * </ul>
    *
    * <p>Method under test: {@link MonitoredConnectionManager#MonitoredConnectionManager(String)}
@@ -238,10 +197,10 @@ public class MonitoredConnectionManagerDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void MonitoredConnectionManager.<init>(String)"})
-  public void testNewMonitoredConnectionManager_whenDefaultPublishingPolicy() {
+  public void testNewMonitoredConnectionManager_whenId() {
     // Arrange and Act
     MonitoredConnectionManager actualMonitoredConnectionManager =
-        new MonitoredConnectionManager("DefaultPublishingPolicy");
+        new MonitoredConnectionManager("id");
 
     // Assert
     ConnPoolByRoute connectionPool = actualMonitoredConnectionManager.getConnectionPool();
@@ -261,229 +220,21 @@ public class MonitoredConnectionManagerDiffblueTest {
   }
 
   /**
-   * Test {@link MonitoredConnectionManager#MonitoredConnectionManager(String, SchemeRegistry, long,
-   * TimeUnit)}.
-   *
-   * <ul>
-   *   <li>When {@code _Delete}.
-   * </ul>
-   *
-   * <p>Method under test: {@link MonitoredConnectionManager#MonitoredConnectionManager(String,
-   * SchemeRegistry, long, TimeUnit)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "void MonitoredConnectionManager.<init>(String, SchemeRegistry, long, TimeUnit)"
-  })
-  public void testNewMonitoredConnectionManager_whenDelete() {
-    // Arrange
-    SchemeRegistry schreg = new SchemeRegistry();
-
-    // Act
-    MonitoredConnectionManager actualMonitoredConnectionManager =
-        new MonitoredConnectionManager("_Delete", schreg, -1L, TimeUnit.NANOSECONDS);
-
-    // Assert
-    ConnPoolByRoute connectionPool = actualMonitoredConnectionManager.getConnectionPool();
-    assertTrue(connectionPool instanceof NamedConnectionPool);
-    assertEquals(0, ((NamedConnectionPool) connectionPool).getConnectionCount());
-    assertEquals(0, connectionPool.getConnectionsInPool());
-    assertEquals(0, actualMonitoredConnectionManager.getConnectionsInPool());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getCreatedEntryCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getDeleteCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getFreeEntryCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getReleaseCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getRequestsCount());
-    assertEquals(2, actualMonitoredConnectionManager.getDefaultMaxPerRoute());
-    assertEquals(20, connectionPool.getMaxTotalConnections());
-    assertEquals(20, actualMonitoredConnectionManager.getMaxTotal());
-    assertSame(schreg, actualMonitoredConnectionManager.getSchemeRegistry());
-  }
-
-  /**
-   * Test {@link MonitoredConnectionManager#MonitoredConnectionManager(String, SchemeRegistry, long,
-   * TimeUnit)}.
-   *
-   * <ul>
-   *   <li>When eight.
-   * </ul>
-   *
-   * <p>Method under test: {@link MonitoredConnectionManager#MonitoredConnectionManager(String,
-   * SchemeRegistry, long, TimeUnit)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "void MonitoredConnectionManager.<init>(String, SchemeRegistry, long, TimeUnit)"
-  })
-  public void testNewMonitoredConnectionManager_whenEight() {
-    // Arrange
-    SchemeRegistry schreg = new SchemeRegistry();
-
-    // Act
-    MonitoredConnectionManager actualMonitoredConnectionManager =
-        new MonitoredConnectionManager(" cannot be empty", schreg, 8L, TimeUnit.NANOSECONDS);
-
-    // Assert
-    ConnPoolByRoute connectionPool = actualMonitoredConnectionManager.getConnectionPool();
-    assertTrue(connectionPool instanceof NamedConnectionPool);
-    assertEquals(0, ((NamedConnectionPool) connectionPool).getConnectionCount());
-    assertEquals(0, connectionPool.getConnectionsInPool());
-    assertEquals(0, actualMonitoredConnectionManager.getConnectionsInPool());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getCreatedEntryCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getDeleteCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getFreeEntryCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getReleaseCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getRequestsCount());
-    assertEquals(2, actualMonitoredConnectionManager.getDefaultMaxPerRoute());
-    assertEquals(20, connectionPool.getMaxTotalConnections());
-    assertEquals(20, actualMonitoredConnectionManager.getMaxTotal());
-    assertSame(schreg, actualMonitoredConnectionManager.getSchemeRegistry());
-  }
-
-  /**
-   * Test {@link MonitoredConnectionManager#MonitoredConnectionManager(String, SchemeRegistry, long,
-   * TimeUnit)}.
-   *
-   * <ul>
-   *   <li>When fourteen.
-   * </ul>
-   *
-   * <p>Method under test: {@link MonitoredConnectionManager#MonitoredConnectionManager(String,
-   * SchemeRegistry, long, TimeUnit)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "void MonitoredConnectionManager.<init>(String, SchemeRegistry, long, TimeUnit)"
-  })
-  public void testNewMonitoredConnectionManager_whenFourteen() {
-    // Arrange
-    SchemeRegistry schreg = new SchemeRegistry();
-
-    // Act
-    MonitoredConnectionManager actualMonitoredConnectionManager =
-        new MonitoredConnectionManager("class", schreg, 14L, TimeUnit.NANOSECONDS);
-
-    // Assert
-    ConnPoolByRoute connectionPool = actualMonitoredConnectionManager.getConnectionPool();
-    assertTrue(connectionPool instanceof NamedConnectionPool);
-    assertEquals(0, ((NamedConnectionPool) connectionPool).getConnectionCount());
-    assertEquals(0, connectionPool.getConnectionsInPool());
-    assertEquals(0, actualMonitoredConnectionManager.getConnectionsInPool());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getCreatedEntryCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getDeleteCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getFreeEntryCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getReleaseCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getRequestsCount());
-    assertEquals(2, actualMonitoredConnectionManager.getDefaultMaxPerRoute());
-    assertEquals(20, connectionPool.getMaxTotalConnections());
-    assertEquals(20, actualMonitoredConnectionManager.getMaxTotal());
-    assertSame(schreg, actualMonitoredConnectionManager.getSchemeRegistry());
-  }
-
-  /**
    * Test {@link MonitoredConnectionManager#MonitoredConnectionManager(String)}.
-   *
-   * <ul>
-   *   <li>When {@code https://example.org/example}.
-   * </ul>
-   *
-   * <p>Method under test: {@link MonitoredConnectionManager#MonitoredConnectionManager(String)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void MonitoredConnectionManager.<init>(String)"})
-  public void testNewMonitoredConnectionManager_whenHttpsExampleOrgExample() {
-    // Arrange and Act
-    MonitoredConnectionManager actualMonitoredConnectionManager =
-        new MonitoredConnectionManager("https://example.org/example");
-
-    // Assert
-    ConnPoolByRoute connectionPool = actualMonitoredConnectionManager.getConnectionPool();
-    assertTrue(connectionPool instanceof NamedConnectionPool);
-    assertEquals(0, ((NamedConnectionPool) connectionPool).getConnectionCount());
-    assertEquals(0, connectionPool.getConnectionsInPool());
-    assertEquals(0, actualMonitoredConnectionManager.getConnectionsInPool());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getCreatedEntryCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getDeleteCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getFreeEntryCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getReleaseCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getRequestsCount());
-    assertEquals(2, actualMonitoredConnectionManager.getSchemeRegistry().getSchemeNames().size());
-    assertEquals(2, actualMonitoredConnectionManager.getDefaultMaxPerRoute());
-    assertEquals(20, connectionPool.getMaxTotalConnections());
-    assertEquals(20, actualMonitoredConnectionManager.getMaxTotal());
-  }
-
-  /**
-   * Test {@link MonitoredConnectionManager#MonitoredConnectionManager(String, SchemeRegistry, long,
-   * TimeUnit)}.
-   *
-   * <ul>
-   *   <li>When {@code MICROSECONDS}.
-   * </ul>
-   *
-   * <p>Method under test: {@link MonitoredConnectionManager#MonitoredConnectionManager(String,
-   * SchemeRegistry, long, TimeUnit)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "void MonitoredConnectionManager.<init>(String, SchemeRegistry, long, TimeUnit)"
-  })
-  public void testNewMonitoredConnectionManager_whenMicroseconds() {
-    // Arrange
-    SchemeRegistry schreg = new SchemeRegistry();
-
-    // Act
-    MonitoredConnectionManager actualMonitoredConnectionManager =
-        new MonitoredConnectionManager("class", schreg, 14L, TimeUnit.MICROSECONDS);
-
-    // Assert
-    ConnPoolByRoute connectionPool = actualMonitoredConnectionManager.getConnectionPool();
-    assertTrue(connectionPool instanceof NamedConnectionPool);
-    assertEquals(0, ((NamedConnectionPool) connectionPool).getConnectionCount());
-    assertEquals(0, connectionPool.getConnectionsInPool());
-    assertEquals(0, actualMonitoredConnectionManager.getConnectionsInPool());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getCreatedEntryCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getDeleteCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getFreeEntryCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getReleaseCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getRequestsCount());
-    assertEquals(2, actualMonitoredConnectionManager.getDefaultMaxPerRoute());
-    assertEquals(20, connectionPool.getMaxTotalConnections());
-    assertEquals(20, actualMonitoredConnectionManager.getMaxTotal());
-    assertSame(schreg, actualMonitoredConnectionManager.getSchemeRegistry());
-  }
-
-  /**
-   * Test {@link MonitoredConnectionManager#MonitoredConnectionManager(String, SchemeRegistry, long, TimeUnit)}.
    * <ul>
    *   <li>When {@code MonitorConfig{name=}.</li>
    * </ul>
    * <p>
-   * Method under test: {@link MonitoredConnectionManager#MonitoredConnectionManager(String, SchemeRegistry, long, TimeUnit)}
+   * Method under test: {@link MonitoredConnectionManager#MonitoredConnectionManager(String)}
    */
   @Test
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
-  @MethodsUnderTest({
-    "void MonitoredConnectionManager.<init>(String, SchemeRegistry, long, TimeUnit)"
-  })
+  @MethodsUnderTest({"void MonitoredConnectionManager.<init>(String)"})
   public void testNewMonitoredConnectionManager_whenMonitorConfigName() {
-    // Arrange
-    SchemeRegistry schreg = new SchemeRegistry();
-
-    // Act
+    // Arrange and Act
     MonitoredConnectionManager actualMonitoredConnectionManager =
-        new MonitoredConnectionManager("MonitorConfig{name=", schreg, 2L, TimeUnit.NANOSECONDS);
+        new MonitoredConnectionManager("MonitorConfig{name=");
 
     // Assert
     ConnPoolByRoute connectionPool = actualMonitoredConnectionManager.getConnectionPool();
@@ -496,10 +247,10 @@ public class MonitoredConnectionManagerDiffblueTest {
     assertEquals(0L, ((NamedConnectionPool) connectionPool).getFreeEntryCount());
     assertEquals(0L, ((NamedConnectionPool) connectionPool).getReleaseCount());
     assertEquals(0L, ((NamedConnectionPool) connectionPool).getRequestsCount());
+    assertEquals(2, actualMonitoredConnectionManager.getSchemeRegistry().getSchemeNames().size());
     assertEquals(2, actualMonitoredConnectionManager.getDefaultMaxPerRoute());
     assertEquals(20, connectionPool.getMaxTotalConnections());
     assertEquals(20, actualMonitoredConnectionManager.getMaxTotal());
-    assertSame(schreg, actualMonitoredConnectionManager.getSchemeRegistry());
   }
 
   /**
@@ -538,76 +289,10 @@ public class MonitoredConnectionManagerDiffblueTest {
   }
 
   /**
-   * Test {@link MonitoredConnectionManager#MonitoredConnectionManager(String, SchemeRegistry, long,
-   * TimeUnit)}.
-   *
-   * <ul>
-   *   <li>When {@code null}.
-   *   <li>Then throw {@link IllegalArgumentException}.
-   * </ul>
-   *
-   * <p>Method under test: {@link MonitoredConnectionManager#MonitoredConnectionManager(String,
-   * SchemeRegistry, long, TimeUnit)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "void MonitoredConnectionManager.<init>(String, SchemeRegistry, long, TimeUnit)"
-  })
-  public void testNewMonitoredConnectionManager_whenNull_thenThrowIllegalArgumentException() {
-    // Arrange, Act and Assert
-    thrown.expect(IllegalArgumentException.class);
-    new MonitoredConnectionManager("class", null, 2L, TimeUnit.NANOSECONDS);
-  }
-
-  /**
-   * Test {@link MonitoredConnectionManager#MonitoredConnectionManager(String, SchemeRegistry, long,
-   * TimeUnit)}.
-   *
-   * <ul>
-   *   <li>When {@code parts}.
-   * </ul>
-   *
-   * <p>Method under test: {@link MonitoredConnectionManager#MonitoredConnectionManager(String,
-   * SchemeRegistry, long, TimeUnit)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "void MonitoredConnectionManager.<init>(String, SchemeRegistry, long, TimeUnit)"
-  })
-  public void testNewMonitoredConnectionManager_whenParts() {
-    // Arrange
-    SchemeRegistry schreg = new SchemeRegistry();
-
-    // Act
-    MonitoredConnectionManager actualMonitoredConnectionManager =
-        new MonitoredConnectionManager("parts", schreg, -1L, TimeUnit.NANOSECONDS);
-
-    // Assert
-    ConnPoolByRoute connectionPool = actualMonitoredConnectionManager.getConnectionPool();
-    assertTrue(connectionPool instanceof NamedConnectionPool);
-    assertEquals(0, ((NamedConnectionPool) connectionPool).getConnectionCount());
-    assertEquals(0, connectionPool.getConnectionsInPool());
-    assertEquals(0, actualMonitoredConnectionManager.getConnectionsInPool());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getCreatedEntryCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getDeleteCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getFreeEntryCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getReleaseCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getRequestsCount());
-    assertEquals(2, actualMonitoredConnectionManager.getDefaultMaxPerRoute());
-    assertEquals(20, connectionPool.getMaxTotalConnections());
-    assertEquals(20, actualMonitoredConnectionManager.getMaxTotal());
-    assertSame(schreg, actualMonitoredConnectionManager.getSchemeRegistry());
-  }
-
-  /**
    * Test {@link MonitoredConnectionManager#MonitoredConnectionManager(String)}.
    *
    * <ul>
-   *   <li>When {@code tagArrayNamedConnectionPool}.
+   *   <li>When {@code namename}.
    * </ul>
    *
    * <p>Method under test: {@link MonitoredConnectionManager#MonitoredConnectionManager(String)}
@@ -616,10 +301,10 @@ public class MonitoredConnectionManagerDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void MonitoredConnectionManager.<init>(String)"})
-  public void testNewMonitoredConnectionManager_whenTagArraycomNetflixHttp4NamedConnectionPool() {
+  public void testNewMonitoredConnectionManager_whenNamename() {
     // Arrange and Act
     MonitoredConnectionManager actualMonitoredConnectionManager =
-        new MonitoredConnectionManager("tagArraycom.netflix.http4.NamedConnectionPool");
+        new MonitoredConnectionManager("namename");
 
     // Assert
     ConnPoolByRoute connectionPool = actualMonitoredConnectionManager.getConnectionPool();
@@ -639,29 +324,22 @@ public class MonitoredConnectionManagerDiffblueTest {
   }
 
   /**
-   * Test {@link MonitoredConnectionManager#MonitoredConnectionManager(String, SchemeRegistry, long,
-   * TimeUnit)}.
+   * Test {@link MonitoredConnectionManager#MonitoredConnectionManager(String)}.
    *
    * <ul>
-   *   <li>When {@code , tags=}.
+   *   <li>When space.
    * </ul>
    *
-   * <p>Method under test: {@link MonitoredConnectionManager#MonitoredConnectionManager(String,
-   * SchemeRegistry, long, TimeUnit)}
+   * <p>Method under test: {@link MonitoredConnectionManager#MonitoredConnectionManager(String)}
    */
   @Test
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
-  @MethodsUnderTest({
-    "void MonitoredConnectionManager.<init>(String, SchemeRegistry, long, TimeUnit)"
-  })
-  public void testNewMonitoredConnectionManager_whenTags() {
-    // Arrange
-    SchemeRegistry schreg = new SchemeRegistry();
-
-    // Act
+  @MethodsUnderTest({"void MonitoredConnectionManager.<init>(String)"})
+  public void testNewMonitoredConnectionManager_whenSpace() {
+    // Arrange and Act
     MonitoredConnectionManager actualMonitoredConnectionManager =
-        new MonitoredConnectionManager(", tags=", schreg, -1L, TimeUnit.NANOSECONDS);
+        new MonitoredConnectionManager(" ");
 
     // Assert
     ConnPoolByRoute connectionPool = actualMonitoredConnectionManager.getConnectionPool();
@@ -674,52 +352,10 @@ public class MonitoredConnectionManagerDiffblueTest {
     assertEquals(0L, ((NamedConnectionPool) connectionPool).getFreeEntryCount());
     assertEquals(0L, ((NamedConnectionPool) connectionPool).getReleaseCount());
     assertEquals(0L, ((NamedConnectionPool) connectionPool).getRequestsCount());
+    assertEquals(2, actualMonitoredConnectionManager.getSchemeRegistry().getSchemeNames().size());
     assertEquals(2, actualMonitoredConnectionManager.getDefaultMaxPerRoute());
     assertEquals(20, connectionPool.getMaxTotalConnections());
     assertEquals(20, actualMonitoredConnectionManager.getMaxTotal());
-    assertSame(schreg, actualMonitoredConnectionManager.getSchemeRegistry());
-  }
-
-  /**
-   * Test {@link MonitoredConnectionManager#MonitoredConnectionManager(String, SchemeRegistry, long,
-   * TimeUnit)}.
-   *
-   * <ul>
-   *   <li>When {@code , tags=}.
-   * </ul>
-   *
-   * <p>Method under test: {@link MonitoredConnectionManager#MonitoredConnectionManager(String,
-   * SchemeRegistry, long, TimeUnit)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "void MonitoredConnectionManager.<init>(String, SchemeRegistry, long, TimeUnit)"
-  })
-  public void testNewMonitoredConnectionManager_whenTags2() {
-    // Arrange
-    SchemeRegistry schreg = new SchemeRegistry();
-
-    // Act
-    MonitoredConnectionManager actualMonitoredConnectionManager =
-        new MonitoredConnectionManager(", tags=", schreg, 1L, TimeUnit.NANOSECONDS);
-
-    // Assert
-    ConnPoolByRoute connectionPool = actualMonitoredConnectionManager.getConnectionPool();
-    assertTrue(connectionPool instanceof NamedConnectionPool);
-    assertEquals(0, ((NamedConnectionPool) connectionPool).getConnectionCount());
-    assertEquals(0, connectionPool.getConnectionsInPool());
-    assertEquals(0, actualMonitoredConnectionManager.getConnectionsInPool());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getCreatedEntryCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getDeleteCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getFreeEntryCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getReleaseCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getRequestsCount());
-    assertEquals(2, actualMonitoredConnectionManager.getDefaultMaxPerRoute());
-    assertEquals(20, connectionPool.getMaxTotalConnections());
-    assertEquals(20, actualMonitoredConnectionManager.getMaxTotal());
-    assertSame(schreg, actualMonitoredConnectionManager.getSchemeRegistry());
   }
 
   /**
@@ -758,30 +394,22 @@ public class MonitoredConnectionManagerDiffblueTest {
   }
 
   /**
-   * Test {@link MonitoredConnectionManager#MonitoredConnectionManager(String, SchemeRegistry, long,
-   * TimeUnit)}.
+   * Test {@link MonitoredConnectionManager#MonitoredConnectionManager(String)}.
    *
    * <ul>
-   *   <li>When {@code "TestConnectionManager"}.
+   *   <li>When {@code "TestConnectionManager"_}.
    * </ul>
    *
-   * <p>Method under test: {@link MonitoredConnectionManager#MonitoredConnectionManager(String,
-   * SchemeRegistry, long, TimeUnit)}
+   * <p>Method under test: {@link MonitoredConnectionManager#MonitoredConnectionManager(String)}
    */
   @Test
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
-  @MethodsUnderTest({
-    "void MonitoredConnectionManager.<init>(String, SchemeRegistry, long, TimeUnit)"
-  })
+  @MethodsUnderTest({"void MonitoredConnectionManager.<init>(String)"})
   public void testNewMonitoredConnectionManager_whenTestConnectionManager2() {
-    // Arrange
-    SchemeRegistry schreg = new SchemeRegistry();
-
-    // Act
+    // Arrange and Act
     MonitoredConnectionManager actualMonitoredConnectionManager =
-        new MonitoredConnectionManager(
-            "\"TestConnectionManager\"", schreg, 1L, TimeUnit.NANOSECONDS);
+        new MonitoredConnectionManager("\"TestConnectionManager\"_");
 
     // Assert
     ConnPoolByRoute connectionPool = actualMonitoredConnectionManager.getConnectionPool();
@@ -794,136 +422,10 @@ public class MonitoredConnectionManagerDiffblueTest {
     assertEquals(0L, ((NamedConnectionPool) connectionPool).getFreeEntryCount());
     assertEquals(0L, ((NamedConnectionPool) connectionPool).getReleaseCount());
     assertEquals(0L, ((NamedConnectionPool) connectionPool).getRequestsCount());
+    assertEquals(2, actualMonitoredConnectionManager.getSchemeRegistry().getSchemeNames().size());
     assertEquals(2, actualMonitoredConnectionManager.getDefaultMaxPerRoute());
     assertEquals(20, connectionPool.getMaxTotalConnections());
     assertEquals(20, actualMonitoredConnectionManager.getMaxTotal());
-    assertSame(schreg, actualMonitoredConnectionManager.getSchemeRegistry());
-  }
-
-  /**
-   * Test {@link MonitoredConnectionManager#MonitoredConnectionManager(String, SchemeRegistry, long,
-   * TimeUnit)}.
-   *
-   * <ul>
-   *   <li>When thirty-one.
-   * </ul>
-   *
-   * <p>Method under test: {@link MonitoredConnectionManager#MonitoredConnectionManager(String,
-   * SchemeRegistry, long, TimeUnit)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "void MonitoredConnectionManager.<init>(String, SchemeRegistry, long, TimeUnit)"
-  })
-  public void testNewMonitoredConnectionManager_whenThirtyOne() {
-    // Arrange
-    SchemeRegistry schreg = new SchemeRegistry();
-
-    // Act
-    MonitoredConnectionManager actualMonitoredConnectionManager =
-        new MonitoredConnectionManager(", tags=", schreg, 31L, TimeUnit.NANOSECONDS);
-
-    // Assert
-    ConnPoolByRoute connectionPool = actualMonitoredConnectionManager.getConnectionPool();
-    assertTrue(connectionPool instanceof NamedConnectionPool);
-    assertEquals(0, ((NamedConnectionPool) connectionPool).getConnectionCount());
-    assertEquals(0, connectionPool.getConnectionsInPool());
-    assertEquals(0, actualMonitoredConnectionManager.getConnectionsInPool());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getCreatedEntryCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getDeleteCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getFreeEntryCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getReleaseCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getRequestsCount());
-    assertEquals(2, actualMonitoredConnectionManager.getDefaultMaxPerRoute());
-    assertEquals(20, connectionPool.getMaxTotalConnections());
-    assertEquals(20, actualMonitoredConnectionManager.getMaxTotal());
-    assertSame(schreg, actualMonitoredConnectionManager.getSchemeRegistry());
-  }
-
-  /**
-   * Test {@link MonitoredConnectionManager#MonitoredConnectionManager(String, SchemeRegistry, long,
-   * TimeUnit)}.
-   *
-   * <ul>
-   *   <li>When two.
-   * </ul>
-   *
-   * <p>Method under test: {@link MonitoredConnectionManager#MonitoredConnectionManager(String,
-   * SchemeRegistry, long, TimeUnit)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "void MonitoredConnectionManager.<init>(String, SchemeRegistry, long, TimeUnit)"
-  })
-  public void testNewMonitoredConnectionManager_whenTwo() {
-    // Arrange
-    SchemeRegistry schreg = new SchemeRegistry();
-
-    // Act
-    MonitoredConnectionManager actualMonitoredConnectionManager =
-        new MonitoredConnectionManager("class", schreg, 2L, TimeUnit.NANOSECONDS);
-
-    // Assert
-    ConnPoolByRoute connectionPool = actualMonitoredConnectionManager.getConnectionPool();
-    assertTrue(connectionPool instanceof NamedConnectionPool);
-    assertEquals(0, ((NamedConnectionPool) connectionPool).getConnectionCount());
-    assertEquals(0, connectionPool.getConnectionsInPool());
-    assertEquals(0, actualMonitoredConnectionManager.getConnectionsInPool());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getCreatedEntryCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getDeleteCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getFreeEntryCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getReleaseCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getRequestsCount());
-    assertEquals(2, actualMonitoredConnectionManager.getDefaultMaxPerRoute());
-    assertEquals(20, connectionPool.getMaxTotalConnections());
-    assertEquals(20, actualMonitoredConnectionManager.getMaxTotal());
-    assertSame(schreg, actualMonitoredConnectionManager.getSchemeRegistry());
-  }
-
-  /**
-   * Test {@link MonitoredConnectionManager#MonitoredConnectionManager(String, SchemeRegistry, long,
-   * TimeUnit)}.
-   *
-   * <ul>
-   *   <li>When {@code value}.
-   * </ul>
-   *
-   * <p>Method under test: {@link MonitoredConnectionManager#MonitoredConnectionManager(String,
-   * SchemeRegistry, long, TimeUnit)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "void MonitoredConnectionManager.<init>(String, SchemeRegistry, long, TimeUnit)"
-  })
-  public void testNewMonitoredConnectionManager_whenValue() {
-    // Arrange
-    SchemeRegistry schreg = new SchemeRegistry();
-
-    // Act
-    MonitoredConnectionManager actualMonitoredConnectionManager =
-        new MonitoredConnectionManager("value", schreg, -1L, TimeUnit.NANOSECONDS);
-
-    // Assert
-    ConnPoolByRoute connectionPool = actualMonitoredConnectionManager.getConnectionPool();
-    assertTrue(connectionPool instanceof NamedConnectionPool);
-    assertEquals(0, ((NamedConnectionPool) connectionPool).getConnectionCount());
-    assertEquals(0, connectionPool.getConnectionsInPool());
-    assertEquals(0, actualMonitoredConnectionManager.getConnectionsInPool());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getCreatedEntryCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getDeleteCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getFreeEntryCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getReleaseCount());
-    assertEquals(0L, ((NamedConnectionPool) connectionPool).getRequestsCount());
-    assertEquals(2, actualMonitoredConnectionManager.getDefaultMaxPerRoute());
-    assertEquals(20, connectionPool.getMaxTotalConnections());
-    assertEquals(20, actualMonitoredConnectionManager.getMaxTotal());
-    assertSame(schreg, actualMonitoredConnectionManager.getSchemeRegistry());
   }
 
   /**
@@ -942,7 +444,7 @@ public class MonitoredConnectionManagerDiffblueTest {
     // Arrange and Act
     ConnPoolByRoute actualCreateConnectionPoolResult =
         new MonitoredConnectionManager("\"TestConnectionManager\"")
-            .createConnectionPool(1L, TimeUnit.SECONDS);
+            .createConnectionPool(1L, TimeUnit.NANOSECONDS);
 
     // Assert
     assertTrue(actualCreateConnectionPoolResult instanceof NamedConnectionPool);
@@ -966,11 +468,12 @@ public class MonitoredConnectionManagerDiffblueTest {
   public void testCreateConnectionPoolWithConnTTLConnTTLTimeUnit2() {
     // Arrange
     MonitoredConnectionManager monitoredConnectionManager =
-        new MonitoredConnectionManager("\"TestConnectionManager\"", new SchemeRegistry());
+        new MonitoredConnectionManager("\"TestConnectionManager\"");
+    monitoredConnectionManager.setMaxTotal(3);
 
     // Act
     ConnPoolByRoute actualCreateConnectionPoolResult =
-        monitoredConnectionManager.createConnectionPool(1L, TimeUnit.SECONDS);
+        monitoredConnectionManager.createConnectionPool(1L, TimeUnit.NANOSECONDS);
 
     // Assert
     assertTrue(actualCreateConnectionPoolResult instanceof NamedConnectionPool);
@@ -994,12 +497,12 @@ public class MonitoredConnectionManagerDiffblueTest {
   public void testCreateConnectionPoolWithConnTTLConnTTLTimeUnit3() {
     // Arrange
     MonitoredConnectionManager monitoredConnectionManager =
-        new MonitoredConnectionManager(
-            "\"TestConnectionManager\"", new SchemeRegistry(), 20L, TimeUnit.NANOSECONDS);
+        new MonitoredConnectionManager("\"TestConnectionManager\"");
+    monitoredConnectionManager.setDefaultMaxPerRoute(3);
 
     // Act
     ConnPoolByRoute actualCreateConnectionPoolResult =
-        monitoredConnectionManager.createConnectionPool(1L, TimeUnit.SECONDS);
+        monitoredConnectionManager.createConnectionPool(1L, TimeUnit.NANOSECONDS);
 
     // Assert
     assertTrue(actualCreateConnectionPoolResult instanceof NamedConnectionPool);
@@ -1023,12 +526,13 @@ public class MonitoredConnectionManagerDiffblueTest {
   public void testCreateConnectionPoolWithConnTTLConnTTLTimeUnit4() {
     // Arrange
     MonitoredConnectionManager monitoredConnectionManager =
-        new MonitoredConnectionManager("\"TestConnectionManager\"", new SchemeRegistry());
-    monitoredConnectionManager.setMaxTotal(3);
+        new MonitoredConnectionManager("\"TestConnectionManager\"");
+    monitoredConnectionManager.setMaxForRoute(
+        new HttpRoute(new HttpHost("\"www.example.com\"")), 3);
 
     // Act
     ConnPoolByRoute actualCreateConnectionPoolResult =
-        monitoredConnectionManager.createConnectionPool(1L, TimeUnit.SECONDS);
+        monitoredConnectionManager.createConnectionPool(1L, TimeUnit.NANOSECONDS);
 
     // Assert
     assertTrue(actualCreateConnectionPoolResult instanceof NamedConnectionPool);
@@ -1053,7 +557,7 @@ public class MonitoredConnectionManagerDiffblueTest {
     // Arrange and Act
     ConnPoolByRoute actualCreateConnectionPoolResult =
         new MonitoredConnectionManager("https://example.org/example")
-            .createConnectionPool(1L, TimeUnit.SECONDS);
+            .createConnectionPool(1L, TimeUnit.NANOSECONDS);
 
     // Assert
     assertTrue(actualCreateConnectionPoolResult instanceof NamedConnectionPool);
@@ -1077,7 +581,7 @@ public class MonitoredConnectionManagerDiffblueTest {
   public void testCreateConnectionPoolWithConnTTLConnTTLTimeUnit6() {
     // Arrange and Act
     ConnPoolByRoute actualCreateConnectionPoolResult =
-        new MonitoredConnectionManager("config").createConnectionPool(1L, TimeUnit.SECONDS);
+        new MonitoredConnectionManager(" ").createConnectionPool(1L, TimeUnit.NANOSECONDS);
 
     // Assert
     assertTrue(actualCreateConnectionPoolResult instanceof NamedConnectionPool);
@@ -1099,188 +603,10 @@ public class MonitoredConnectionManagerDiffblueTest {
     "ConnPoolByRoute MonitoredConnectionManager.createConnectionPool(long, TimeUnit)"
   })
   public void testCreateConnectionPoolWithConnTTLConnTTLTimeUnit7() {
-    // Arrange
-    MonitoredConnectionManager monitoredConnectionManager =
-        new MonitoredConnectionManager("config");
-    monitoredConnectionManager.setMaxTotal(3);
-
-    // Act
-    ConnPoolByRoute actualCreateConnectionPoolResult =
-        monitoredConnectionManager.createConnectionPool(1L, TimeUnit.SECONDS);
-
-    // Assert
-    assertTrue(actualCreateConnectionPoolResult instanceof NamedConnectionPool);
-    assertEquals(0, ((NamedConnectionPool) actualCreateConnectionPoolResult).getConnectionCount());
-    assertEquals(0, actualCreateConnectionPoolResult.getConnectionsInPool());
-    assertEquals(20, actualCreateConnectionPoolResult.getMaxTotalConnections());
-  }
-
-  /**
-   * Test {@link MonitoredConnectionManager#createConnectionPool(long, TimeUnit)} with {@code
-   * connTTL}, {@code connTTLTimeUnit}.
-   *
-   * <p>Method under test: {@link MonitoredConnectionManager#createConnectionPool(long, TimeUnit)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "ConnPoolByRoute MonitoredConnectionManager.createConnectionPool(long, TimeUnit)"
-  })
-  public void testCreateConnectionPoolWithConnTTLConnTTLTimeUnit8() {
-    // Arrange
-    MonitoredConnectionManager monitoredConnectionManager =
-        new MonitoredConnectionManager("config");
-    monitoredConnectionManager.setMaxForRoute(
-        new HttpRoute(new HttpHost("\"www.example.com\"")), 3);
-
-    // Act
-    ConnPoolByRoute actualCreateConnectionPoolResult =
-        monitoredConnectionManager.createConnectionPool(1L, TimeUnit.SECONDS);
-
-    // Assert
-    assertTrue(actualCreateConnectionPoolResult instanceof NamedConnectionPool);
-    assertEquals(0, ((NamedConnectionPool) actualCreateConnectionPoolResult).getConnectionCount());
-    assertEquals(0, actualCreateConnectionPoolResult.getConnectionsInPool());
-    assertEquals(20, actualCreateConnectionPoolResult.getMaxTotalConnections());
-  }
-
-  /**
-   * Test {@link MonitoredConnectionManager#createConnectionPool(long, TimeUnit)} with {@code
-   * connTTL}, {@code connTTLTimeUnit}.
-   *
-   * <p>Method under test: {@link MonitoredConnectionManager#createConnectionPool(long, TimeUnit)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "ConnPoolByRoute MonitoredConnectionManager.createConnectionPool(long, TimeUnit)"
-  })
-  public void testCreateConnectionPoolWithConnTTLConnTTLTimeUnit9() {
-    // Arrange
-    MonitoredConnectionManager monitoredConnectionManager =
-        new MonitoredConnectionManager("\"TestConnectionManager\"", new SchemeRegistry());
-
-    // Act
-    ConnPoolByRoute actualCreateConnectionPoolResult =
-        monitoredConnectionManager.createConnectionPool(16L, TimeUnit.SECONDS);
-
-    // Assert
-    assertTrue(actualCreateConnectionPoolResult instanceof NamedConnectionPool);
-    assertEquals(0, ((NamedConnectionPool) actualCreateConnectionPoolResult).getConnectionCount());
-    assertEquals(0, actualCreateConnectionPoolResult.getConnectionsInPool());
-    assertEquals(20, actualCreateConnectionPoolResult.getMaxTotalConnections());
-  }
-
-  /**
-   * Test {@link MonitoredConnectionManager#createConnectionPool(long, TimeUnit)} with {@code
-   * connTTL}, {@code connTTLTimeUnit}.
-   *
-   * <ul>
-   *   <li>When {@code NANOSECONDS}.
-   * </ul>
-   *
-   * <p>Method under test: {@link MonitoredConnectionManager#createConnectionPool(long, TimeUnit)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "ConnPoolByRoute MonitoredConnectionManager.createConnectionPool(long, TimeUnit)"
-  })
-  public void testCreateConnectionPoolWithConnTTLConnTTLTimeUnit_whenNanoseconds() {
     // Arrange and Act
     ConnPoolByRoute actualCreateConnectionPoolResult =
-        new MonitoredConnectionManager("\"TestConnectionManager\"")
+        new MonitoredConnectionManager("com.netflix.http4.NamedConnectionPool")
             .createConnectionPool(1L, TimeUnit.NANOSECONDS);
-
-    // Assert
-    assertTrue(actualCreateConnectionPoolResult instanceof NamedConnectionPool);
-    assertEquals(0, ((NamedConnectionPool) actualCreateConnectionPoolResult).getConnectionCount());
-    assertEquals(0, actualCreateConnectionPoolResult.getConnectionsInPool());
-    assertEquals(20, actualCreateConnectionPoolResult.getMaxTotalConnections());
-  }
-
-  /**
-   * Test {@link MonitoredConnectionManager#createConnectionPool(long, TimeUnit)} with {@code
-   * connTTL}, {@code connTTLTimeUnit}.
-   *
-   * <ul>
-   *   <li>When seven.
-   * </ul>
-   *
-   * <p>Method under test: {@link MonitoredConnectionManager#createConnectionPool(long, TimeUnit)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "ConnPoolByRoute MonitoredConnectionManager.createConnectionPool(long, TimeUnit)"
-  })
-  public void testCreateConnectionPoolWithConnTTLConnTTLTimeUnit_whenSeven() {
-    // Arrange and Act
-    ConnPoolByRoute actualCreateConnectionPoolResult =
-        new MonitoredConnectionManager("\"TestConnectionManager\"")
-            .createConnectionPool(7L, TimeUnit.SECONDS);
-
-    // Assert
-    assertTrue(actualCreateConnectionPoolResult instanceof NamedConnectionPool);
-    assertEquals(0, ((NamedConnectionPool) actualCreateConnectionPoolResult).getConnectionCount());
-    assertEquals(0, actualCreateConnectionPoolResult.getConnectionsInPool());
-    assertEquals(20, actualCreateConnectionPoolResult.getMaxTotalConnections());
-  }
-
-  /**
-   * Test {@link MonitoredConnectionManager#createConnectionPool(long, TimeUnit)} with {@code
-   * connTTL}, {@code connTTLTimeUnit}.
-   *
-   * <ul>
-   *   <li>When sixteen.
-   * </ul>
-   *
-   * <p>Method under test: {@link MonitoredConnectionManager#createConnectionPool(long, TimeUnit)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "ConnPoolByRoute MonitoredConnectionManager.createConnectionPool(long, TimeUnit)"
-  })
-  public void testCreateConnectionPoolWithConnTTLConnTTLTimeUnit_whenSixteen() {
-    // Arrange and Act
-    ConnPoolByRoute actualCreateConnectionPoolResult =
-        new MonitoredConnectionManager("\"TestConnectionManager\"")
-            .createConnectionPool(16L, TimeUnit.SECONDS);
-
-    // Assert
-    assertTrue(actualCreateConnectionPoolResult instanceof NamedConnectionPool);
-    assertEquals(0, ((NamedConnectionPool) actualCreateConnectionPoolResult).getConnectionCount());
-    assertEquals(0, actualCreateConnectionPoolResult.getConnectionsInPool());
-    assertEquals(20, actualCreateConnectionPoolResult.getMaxTotalConnections());
-  }
-
-  /**
-   * Test {@link MonitoredConnectionManager#createConnectionPool(long, TimeUnit)} with {@code
-   * connTTL}, {@code connTTLTimeUnit}.
-   *
-   * <ul>
-   *   <li>When three.
-   * </ul>
-   *
-   * <p>Method under test: {@link MonitoredConnectionManager#createConnectionPool(long, TimeUnit)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "ConnPoolByRoute MonitoredConnectionManager.createConnectionPool(long, TimeUnit)"
-  })
-  public void testCreateConnectionPoolWithConnTTLConnTTLTimeUnit_whenThree() {
-    // Arrange and Act
-    ConnPoolByRoute actualCreateConnectionPoolResult =
-        new MonitoredConnectionManager("\"TestConnectionManager\"")
-            .createConnectionPool(3L, TimeUnit.SECONDS);
 
     // Assert
     assertTrue(actualCreateConnectionPoolResult instanceof NamedConnectionPool);
@@ -1304,21 +630,10 @@ public class MonitoredConnectionManagerDiffblueTest {
     // Arrange
     MonitoredConnectionManager monitoredConnectionManager =
         new MonitoredConnectionManager("\"TestConnectionManager\"");
-    BasicHttpParams aparams = new BasicHttpParams();
-    BasicHttpParams aparams2 = new BasicHttpParams();
-    BasicHttpParams cparams = new BasicHttpParams();
-    BasicHttpParams rparams = new BasicHttpParams();
-
-    ClientParamsStack cparams2 =
-        new ClientParamsStack(aparams2, cparams, rparams, new BasicHttpParams());
-    BasicHttpParams rparams2 = new BasicHttpParams();
-
-    ClientParamsStack stack =
-        new ClientParamsStack(aparams, cparams2, rparams2, new BasicHttpParams());
 
     // Act
     AbstractConnPool actualCreateConnectionPoolResult =
-        monitoredConnectionManager.createConnectionPool(new ClientParamsStack(stack));
+        monitoredConnectionManager.createConnectionPool(new BasicHttpParams());
 
     // Assert
     assertTrue(actualCreateConnectionPoolResult instanceof NamedConnectionPool);
@@ -1343,22 +658,20 @@ public class MonitoredConnectionManagerDiffblueTest {
   public void testCreateConnectionPoolWithParams2() {
     // Arrange
     MonitoredConnectionManager monitoredConnectionManager =
-        new MonitoredConnectionManager("\"TestConnectionManager\"", new SchemeRegistry());
+        new MonitoredConnectionManager(
+            "\"TestConnectionManager\"com.netflix.http4.NamedConnectionPool");
+    monitoredConnectionManager.setMaxForRoute(
+        new HttpRoute(new HttpHost("\"www.example.com\"")), 3);
     BasicHttpParams aparams = new BasicHttpParams();
-    BasicHttpParams aparams2 = new BasicHttpParams();
     BasicHttpParams cparams = new BasicHttpParams();
     BasicHttpParams rparams = new BasicHttpParams();
 
-    ClientParamsStack cparams2 =
-        new ClientParamsStack(aparams2, cparams, rparams, new BasicHttpParams());
-    BasicHttpParams rparams2 = new BasicHttpParams();
-
-    ClientParamsStack stack =
-        new ClientParamsStack(aparams, cparams2, rparams2, new BasicHttpParams());
+    ClientParamsStack params =
+        new ClientParamsStack(aparams, cparams, rparams, new BasicHttpParams());
 
     // Act
     AbstractConnPool actualCreateConnectionPoolResult =
-        monitoredConnectionManager.createConnectionPool(new ClientParamsStack(stack));
+        monitoredConnectionManager.createConnectionPool(params);
 
     // Assert
     assertTrue(actualCreateConnectionPoolResult instanceof NamedConnectionPool);
@@ -1383,27 +696,19 @@ public class MonitoredConnectionManagerDiffblueTest {
   public void testCreateConnectionPoolWithParams3() {
     // Arrange
     MonitoredConnectionManager monitoredConnectionManager =
-        new MonitoredConnectionManager("\"TestConnectionManager\"");
+        new MonitoredConnectionManager("\"TestConnectionManager\"", new SchemeRegistry());
+    monitoredConnectionManager.setMaxForRoute(
+        new HttpRoute(new HttpHost("\"www.example.com\"")), 3);
     BasicHttpParams aparams = new BasicHttpParams();
     BasicHttpParams cparams = new BasicHttpParams();
     BasicHttpParams rparams = new BasicHttpParams();
 
-    ClientParamsStack aparams2 =
+    ClientParamsStack params =
         new ClientParamsStack(aparams, cparams, rparams, new BasicHttpParams());
-    BasicHttpParams aparams3 = new BasicHttpParams();
-    BasicHttpParams cparams2 = new BasicHttpParams();
-    BasicHttpParams rparams2 = new BasicHttpParams();
-
-    ClientParamsStack cparams3 =
-        new ClientParamsStack(aparams3, cparams2, rparams2, new BasicHttpParams());
-    BasicHttpParams rparams3 = new BasicHttpParams();
-
-    ClientParamsStack stack =
-        new ClientParamsStack(aparams2, cparams3, rparams3, new BasicHttpParams());
 
     // Act
     AbstractConnPool actualCreateConnectionPoolResult =
-        monitoredConnectionManager.createConnectionPool(new ClientParamsStack(stack));
+        monitoredConnectionManager.createConnectionPool(params);
 
     // Assert
     assertTrue(actualCreateConnectionPoolResult instanceof NamedConnectionPool);
@@ -1428,27 +733,20 @@ public class MonitoredConnectionManagerDiffblueTest {
   public void testCreateConnectionPoolWithParams4() {
     // Arrange
     MonitoredConnectionManager monitoredConnectionManager =
-        new MonitoredConnectionManager("\"TestConnectionManager\"");
+        new MonitoredConnectionManager(
+            "\"TestConnectionManager\"", new SchemeRegistry(), 1L, TimeUnit.NANOSECONDS);
+    monitoredConnectionManager.setMaxForRoute(
+        new HttpRoute(new HttpHost("\"www.example.com\"")), 3);
     BasicHttpParams aparams = new BasicHttpParams();
-    BasicHttpParams aparams2 = new BasicHttpParams();
     BasicHttpParams cparams = new BasicHttpParams();
     BasicHttpParams rparams = new BasicHttpParams();
 
-    ClientParamsStack aparams3 =
-        new ClientParamsStack(aparams2, cparams, rparams, new BasicHttpParams());
-    BasicHttpParams cparams2 = new BasicHttpParams();
-    BasicHttpParams rparams2 = new BasicHttpParams();
-
-    ClientParamsStack cparams3 =
-        new ClientParamsStack(aparams3, cparams2, rparams2, new BasicHttpParams());
-    BasicHttpParams rparams3 = new BasicHttpParams();
-
-    ClientParamsStack stack =
-        new ClientParamsStack(aparams, cparams3, rparams3, new BasicHttpParams());
+    ClientParamsStack params =
+        new ClientParamsStack(aparams, cparams, rparams, new BasicHttpParams());
 
     // Act
     AbstractConnPool actualCreateConnectionPoolResult =
-        monitoredConnectionManager.createConnectionPool(new ClientParamsStack(stack));
+        monitoredConnectionManager.createConnectionPool(params);
 
     // Assert
     assertTrue(actualCreateConnectionPoolResult instanceof NamedConnectionPool);
@@ -1473,21 +771,25 @@ public class MonitoredConnectionManagerDiffblueTest {
   public void testCreateConnectionPoolWithParams5() {
     // Arrange
     MonitoredConnectionManager monitoredConnectionManager =
-        new MonitoredConnectionManager("\"TestConnectionManager\"");
+        new MonitoredConnectionManager(
+            "\"TestConnectionManager\"com.netflix.http4.NamedConnectionPool");
+    monitoredConnectionManager.setMaxForRoute(
+        new HttpRoute(new HttpHost("\"www.example.com\"")), 3);
     BasicHttpParams aparams = new BasicHttpParams();
     BasicHttpParams aparams2 = new BasicHttpParams();
+    BasicHttpParams cparams = new BasicHttpParams();
     BasicHttpParams rparams = new BasicHttpParams();
 
-    ClientParamsStack cparams =
-        new ClientParamsStack(aparams2, null, rparams, new BasicHttpParams());
+    ClientParamsStack cparams2 =
+        new ClientParamsStack(aparams2, cparams, rparams, new BasicHttpParams());
     BasicHttpParams rparams2 = new BasicHttpParams();
 
-    ClientParamsStack stack =
-        new ClientParamsStack(aparams, cparams, rparams2, new BasicHttpParams());
+    ClientParamsStack params =
+        new ClientParamsStack(aparams, cparams2, rparams2, new BasicHttpParams());
 
     // Act
     AbstractConnPool actualCreateConnectionPoolResult =
-        monitoredConnectionManager.createConnectionPool(new ClientParamsStack(stack));
+        monitoredConnectionManager.createConnectionPool(params);
 
     // Assert
     assertTrue(actualCreateConnectionPoolResult instanceof NamedConnectionPool);
@@ -1512,27 +814,25 @@ public class MonitoredConnectionManagerDiffblueTest {
   public void testCreateConnectionPoolWithParams6() {
     // Arrange
     MonitoredConnectionManager monitoredConnectionManager =
-        new MonitoredConnectionManager("\"TestConnectionManager\"");
+        new MonitoredConnectionManager(
+            "\"TestConnectionManager\"com.netflix.http4.NamedConnectionPool");
+    monitoredConnectionManager.setMaxForRoute(
+        new HttpRoute(new HttpHost("\"www.example.com\"")), 3);
     BasicHttpParams aparams = new BasicHttpParams();
-    BasicHttpParams aparams2 = new BasicHttpParams();
     BasicHttpParams cparams = new BasicHttpParams();
-    BasicHttpParams aparams3 = new BasicHttpParams();
-    BasicHttpParams cparams2 = new BasicHttpParams();
     BasicHttpParams rparams = new BasicHttpParams();
+    BasicHttpParams aparams2 = new BasicHttpParams();
+    BasicHttpParams cparams2 = new BasicHttpParams();
+    BasicHttpParams rparams2 = new BasicHttpParams();
 
-    ClientParamsStack rparams2 =
-        new ClientParamsStack(aparams3, cparams2, rparams, new BasicHttpParams());
+    ClientParamsStack oparams =
+        new ClientParamsStack(aparams2, cparams2, rparams2, new BasicHttpParams());
 
-    ClientParamsStack cparams3 =
-        new ClientParamsStack(aparams2, cparams, rparams2, new BasicHttpParams());
-    BasicHttpParams rparams3 = new BasicHttpParams();
-
-    ClientParamsStack stack =
-        new ClientParamsStack(aparams, cparams3, rparams3, new BasicHttpParams());
+    ClientParamsStack params = new ClientParamsStack(aparams, cparams, rparams, oparams);
 
     // Act
     AbstractConnPool actualCreateConnectionPoolResult =
-        monitoredConnectionManager.createConnectionPool(new ClientParamsStack(stack));
+        monitoredConnectionManager.createConnectionPool(params);
 
     // Assert
     assertTrue(actualCreateConnectionPoolResult instanceof NamedConnectionPool);
@@ -1557,21 +857,18 @@ public class MonitoredConnectionManagerDiffblueTest {
   public void testCreateConnectionPoolWithParams7() {
     // Arrange
     MonitoredConnectionManager monitoredConnectionManager =
-        new MonitoredConnectionManager("\"TestConnectionManager\"");
+        new MonitoredConnectionManager(
+            "\"TestConnectionManager\"com.netflix.http4.NamedConnectionPool");
+    monitoredConnectionManager.setMaxForRoute(
+        new HttpRoute(new HttpHost("\"www.example.com\"")), 3);
     BasicHttpParams aparams = new BasicHttpParams();
-    BasicHttpParams aparams2 = new BasicHttpParams();
     BasicHttpParams cparams = new BasicHttpParams();
 
-    ClientParamsStack cparams2 =
-        new ClientParamsStack(aparams2, cparams, null, new BasicHttpParams());
-    BasicHttpParams rparams = new BasicHttpParams();
-
-    ClientParamsStack stack =
-        new ClientParamsStack(aparams, cparams2, rparams, new BasicHttpParams());
+    ClientParamsStack params = new ClientParamsStack(aparams, cparams, new BasicHttpParams(), null);
 
     // Act
     AbstractConnPool actualCreateConnectionPoolResult =
-        monitoredConnectionManager.createConnectionPool(new ClientParamsStack(stack));
+        monitoredConnectionManager.createConnectionPool(params);
 
     // Assert
     assertTrue(actualCreateConnectionPoolResult instanceof NamedConnectionPool);
@@ -1596,22 +893,21 @@ public class MonitoredConnectionManagerDiffblueTest {
   public void testCreateConnectionPoolWithParams8() {
     // Arrange
     MonitoredConnectionManager monitoredConnectionManager =
-        new MonitoredConnectionManager("\"TestConnectionManager\"");
+        new MonitoredConnectionManager(
+            "\"TestConnectionManager\"com.netflix.http4.NamedConnectionPool");
+    monitoredConnectionManager.setMaxTotal(3);
+    monitoredConnectionManager.setMaxForRoute(
+        new HttpRoute(new HttpHost("\"www.example.com\"")), 3);
     BasicHttpParams aparams = new BasicHttpParams();
-    BasicHttpParams aparams2 = new BasicHttpParams();
     BasicHttpParams cparams = new BasicHttpParams();
     BasicHttpParams rparams = new BasicHttpParams();
 
-    ClientParamsStack cparams2 =
-        new ClientParamsStack(aparams2, cparams, rparams, new SyncBasicHttpParams());
-    BasicHttpParams rparams2 = new BasicHttpParams();
-
-    ClientParamsStack stack =
-        new ClientParamsStack(aparams, cparams2, rparams2, new BasicHttpParams());
+    ClientParamsStack params =
+        new ClientParamsStack(aparams, cparams, rparams, new BasicHttpParams());
 
     // Act
     AbstractConnPool actualCreateConnectionPoolResult =
-        monitoredConnectionManager.createConnectionPool(new ClientParamsStack(stack));
+        monitoredConnectionManager.createConnectionPool(params);
 
     // Assert
     assertTrue(actualCreateConnectionPoolResult instanceof NamedConnectionPool);
@@ -1636,20 +932,19 @@ public class MonitoredConnectionManagerDiffblueTest {
   public void testCreateConnectionPoolWithParams9() {
     // Arrange
     MonitoredConnectionManager monitoredConnectionManager =
-        new MonitoredConnectionManager("\"TestConnectionManager\"");
-    BasicHttpParams aparams = new BasicHttpParams();
-    BasicHttpParams aparams2 = new BasicHttpParams();
+        new MonitoredConnectionManager("\"TestConnectionManager\"", new SchemeRegistry());
+    monitoredConnectionManager.setMaxForRoute(
+        new HttpRoute(new HttpHost("\"www.example.com\"")), 3);
+    SyncBasicHttpParams aparams = new SyncBasicHttpParams();
     BasicHttpParams cparams = new BasicHttpParams();
     BasicHttpParams rparams = new BasicHttpParams();
 
-    ClientParamsStack cparams2 =
-        new ClientParamsStack(aparams2, cparams, rparams, new BasicHttpParams());
-
-    ClientParamsStack stack = new ClientParamsStack(aparams, cparams2, new BasicHttpParams(), null);
+    ClientParamsStack params =
+        new ClientParamsStack(aparams, cparams, rparams, new BasicHttpParams());
 
     // Act
     AbstractConnPool actualCreateConnectionPoolResult =
-        monitoredConnectionManager.createConnectionPool(new ClientParamsStack(stack));
+        monitoredConnectionManager.createConnectionPool(params);
 
     // Assert
     assertTrue(actualCreateConnectionPoolResult instanceof NamedConnectionPool);
@@ -1674,23 +969,18 @@ public class MonitoredConnectionManagerDiffblueTest {
   public void testCreateConnectionPoolWithParams10() {
     // Arrange
     MonitoredConnectionManager monitoredConnectionManager =
-        new MonitoredConnectionManager("\"TestConnectionManager\"");
-    monitoredConnectionManager.setDefaultMaxPerRoute(3);
+        new MonitoredConnectionManager(
+            "\"TestConnectionManager\"", new SchemeRegistry(), 1L, TimeUnit.NANOSECONDS);
+    monitoredConnectionManager.setMaxForRoute(
+        new HttpRoute(new HttpHost("\"www.example.com\"")), 3);
     BasicHttpParams aparams = new BasicHttpParams();
-    BasicHttpParams aparams2 = new BasicHttpParams();
-    BasicHttpParams cparams = new BasicHttpParams();
     BasicHttpParams rparams = new BasicHttpParams();
 
-    ClientParamsStack cparams2 =
-        new ClientParamsStack(aparams2, cparams, rparams, new BasicHttpParams());
-    BasicHttpParams rparams2 = new BasicHttpParams();
-
-    ClientParamsStack stack =
-        new ClientParamsStack(aparams, cparams2, rparams2, new BasicHttpParams());
+    ClientParamsStack params = new ClientParamsStack(aparams, null, rparams, new BasicHttpParams());
 
     // Act
     AbstractConnPool actualCreateConnectionPoolResult =
-        monitoredConnectionManager.createConnectionPool(new ClientParamsStack(stack));
+        monitoredConnectionManager.createConnectionPool(params);
 
     // Assert
     assertTrue(actualCreateConnectionPoolResult instanceof NamedConnectionPool);
@@ -1715,186 +1005,20 @@ public class MonitoredConnectionManagerDiffblueTest {
   public void testCreateConnectionPoolWithParams11() {
     // Arrange
     MonitoredConnectionManager monitoredConnectionManager =
-        new MonitoredConnectionManager("com.netflix.http4.NamedConnectionPool");
+        new MonitoredConnectionManager(
+            "\"TestConnectionManager\"", new SchemeRegistry(), 1L, TimeUnit.NANOSECONDS);
+    monitoredConnectionManager.setMaxForRoute(
+        new HttpRoute(new HttpHost("\"www.example.com\"")), 3);
     BasicHttpParams aparams = new BasicHttpParams();
-    BasicHttpParams aparams2 = new BasicHttpParams();
     BasicHttpParams cparams = new BasicHttpParams();
     BasicHttpParams rparams = new BasicHttpParams();
 
-    ClientParamsStack cparams2 =
-        new ClientParamsStack(aparams2, cparams, rparams, new BasicHttpParams());
-
-    ClientParamsStack stack = new ClientParamsStack(aparams, cparams2, new BasicHttpParams(), null);
+    ClientParamsStack params =
+        new ClientParamsStack(aparams, cparams, rparams, new SyncBasicHttpParams());
 
     // Act
     AbstractConnPool actualCreateConnectionPoolResult =
-        monitoredConnectionManager.createConnectionPool(new ClientParamsStack(stack));
-
-    // Assert
-    assertTrue(actualCreateConnectionPoolResult instanceof NamedConnectionPool);
-    assertEquals(0, ((NamedConnectionPool) actualCreateConnectionPoolResult).getConnectionCount());
-    assertEquals(
-        0, ((NamedConnectionPool) actualCreateConnectionPoolResult).getConnectionsInPool());
-    assertEquals(
-        20, ((NamedConnectionPool) actualCreateConnectionPoolResult).getMaxTotalConnections());
-  }
-
-  /**
-   * Test {@link MonitoredConnectionManager#createConnectionPool(HttpParams)} with {@code params}.
-   *
-   * <p>Method under test: {@link MonitoredConnectionManager#createConnectionPool(HttpParams)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "AbstractConnPool MonitoredConnectionManager.createConnectionPool(HttpParams)"
-  })
-  public void testCreateConnectionPoolWithParams12() {
-    // Arrange
-    MonitoredConnectionManager monitoredConnectionManager =
-        new MonitoredConnectionManager("com.netflix.http4.NamedConnectionPool");
-    BasicHttpParams aparams = new BasicHttpParams();
-    BasicHttpParams aparams2 = new BasicHttpParams();
-    BasicHttpParams aparams3 = new BasicHttpParams();
-    BasicHttpParams cparams = new BasicHttpParams();
-    BasicHttpParams rparams = new BasicHttpParams();
-
-    ClientParamsStack cparams2 =
-        new ClientParamsStack(aparams3, cparams, rparams, new BasicHttpParams());
-    BasicHttpParams rparams2 = new BasicHttpParams();
-
-    ClientParamsStack cparams3 =
-        new ClientParamsStack(aparams2, cparams2, rparams2, new BasicHttpParams());
-
-    ClientParamsStack stack = new ClientParamsStack(aparams, cparams3, new BasicHttpParams(), null);
-
-    // Act
-    AbstractConnPool actualCreateConnectionPoolResult =
-        monitoredConnectionManager.createConnectionPool(new ClientParamsStack(stack));
-
-    // Assert
-    assertTrue(actualCreateConnectionPoolResult instanceof NamedConnectionPool);
-    assertEquals(0, ((NamedConnectionPool) actualCreateConnectionPoolResult).getConnectionCount());
-    assertEquals(
-        0, ((NamedConnectionPool) actualCreateConnectionPoolResult).getConnectionsInPool());
-    assertEquals(
-        20, ((NamedConnectionPool) actualCreateConnectionPoolResult).getMaxTotalConnections());
-  }
-
-  /**
-   * Test {@link MonitoredConnectionManager#createConnectionPool(HttpParams)} with {@code params}.
-   *
-   * <p>Method under test: {@link MonitoredConnectionManager#createConnectionPool(HttpParams)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "AbstractConnPool MonitoredConnectionManager.createConnectionPool(HttpParams)"
-  })
-  public void testCreateConnectionPoolWithParams13() {
-    // Arrange
-    MonitoredConnectionManager monitoredConnectionManager =
-        new MonitoredConnectionManager("com.netflix.http4.NamedConnectionPool");
-    BasicHttpParams aparams = new BasicHttpParams();
-    BasicHttpParams aparams2 = new BasicHttpParams();
-    BasicHttpParams rparams = new BasicHttpParams();
-
-    ClientParamsStack cparams =
-        new ClientParamsStack(aparams2, null, rparams, new BasicHttpParams());
-
-    ClientParamsStack stack = new ClientParamsStack(aparams, cparams, new BasicHttpParams(), null);
-
-    // Act
-    AbstractConnPool actualCreateConnectionPoolResult =
-        monitoredConnectionManager.createConnectionPool(new ClientParamsStack(stack));
-
-    // Assert
-    assertTrue(actualCreateConnectionPoolResult instanceof NamedConnectionPool);
-    assertEquals(0, ((NamedConnectionPool) actualCreateConnectionPoolResult).getConnectionCount());
-    assertEquals(
-        0, ((NamedConnectionPool) actualCreateConnectionPoolResult).getConnectionsInPool());
-    assertEquals(
-        20, ((NamedConnectionPool) actualCreateConnectionPoolResult).getMaxTotalConnections());
-  }
-
-  /**
-   * Test {@link MonitoredConnectionManager#createConnectionPool(HttpParams)} with {@code params}.
-   *
-   * <p>Method under test: {@link MonitoredConnectionManager#createConnectionPool(HttpParams)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "AbstractConnPool MonitoredConnectionManager.createConnectionPool(HttpParams)"
-  })
-  public void testCreateConnectionPoolWithParams14() {
-    // Arrange
-    MonitoredConnectionManager monitoredConnectionManager =
-        new MonitoredConnectionManager("com.netflix.http4.NamedConnectionPool");
-    BasicHttpParams aparams = new BasicHttpParams();
-    BasicHttpParams aparams2 = new BasicHttpParams();
-    BasicHttpParams cparams = new BasicHttpParams();
-    BasicHttpParams aparams3 = new BasicHttpParams();
-    BasicHttpParams cparams2 = new BasicHttpParams();
-    BasicHttpParams rparams = new BasicHttpParams();
-
-    ClientParamsStack rparams2 =
-        new ClientParamsStack(aparams3, cparams2, rparams, new BasicHttpParams());
-
-    ClientParamsStack cparams3 =
-        new ClientParamsStack(aparams2, cparams, rparams2, new BasicHttpParams());
-
-    ClientParamsStack stack = new ClientParamsStack(aparams, cparams3, new BasicHttpParams(), null);
-
-    // Act
-    AbstractConnPool actualCreateConnectionPoolResult =
-        monitoredConnectionManager.createConnectionPool(new ClientParamsStack(stack));
-
-    // Assert
-    assertTrue(actualCreateConnectionPoolResult instanceof NamedConnectionPool);
-    assertEquals(0, ((NamedConnectionPool) actualCreateConnectionPoolResult).getConnectionCount());
-    assertEquals(
-        0, ((NamedConnectionPool) actualCreateConnectionPoolResult).getConnectionsInPool());
-    assertEquals(
-        20, ((NamedConnectionPool) actualCreateConnectionPoolResult).getMaxTotalConnections());
-  }
-
-  /**
-   * Test {@link MonitoredConnectionManager#createConnectionPool(HttpParams)} with {@code params}.
-   *
-   * <p>Method under test: {@link MonitoredConnectionManager#createConnectionPool(HttpParams)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "AbstractConnPool MonitoredConnectionManager.createConnectionPool(HttpParams)"
-  })
-  public void testCreateConnectionPoolWithParams15() {
-    // Arrange
-    MonitoredConnectionManager monitoredConnectionManager =
-        new MonitoredConnectionManager("com.netflix.http4.NamedConnectionPool");
-    BasicHttpParams aparams = new BasicHttpParams();
-    BasicHttpParams aparams2 = new BasicHttpParams();
-    BasicHttpParams cparams = new BasicHttpParams();
-    BasicHttpParams rparams = new BasicHttpParams();
-    BasicHttpParams aparams3 = new BasicHttpParams();
-    BasicHttpParams cparams2 = new BasicHttpParams();
-    BasicHttpParams rparams2 = new BasicHttpParams();
-
-    ClientParamsStack oparams =
-        new ClientParamsStack(aparams3, cparams2, rparams2, new BasicHttpParams());
-
-    ClientParamsStack cparams3 = new ClientParamsStack(aparams2, cparams, rparams, oparams);
-
-    ClientParamsStack stack = new ClientParamsStack(aparams, cparams3, new BasicHttpParams(), null);
-
-    // Act
-    AbstractConnPool actualCreateConnectionPoolResult =
-        monitoredConnectionManager.createConnectionPool(new ClientParamsStack(stack));
+        monitoredConnectionManager.createConnectionPool(params);
 
     // Assert
     assertTrue(actualCreateConnectionPoolResult instanceof NamedConnectionPool);
@@ -1923,11 +1047,50 @@ public class MonitoredConnectionManagerDiffblueTest {
   public void testCreateConnectionPoolWithParams_whenBasicHttpParams() {
     // Arrange
     MonitoredConnectionManager monitoredConnectionManager =
-        new MonitoredConnectionManager("\"TestConnectionManager\"");
+        new MonitoredConnectionManager(
+            "\"TestConnectionManager\"com.netflix.http4.NamedConnectionPool");
+    monitoredConnectionManager.setMaxForRoute(
+        new HttpRoute(new HttpHost("\"www.example.com\"")), 3);
 
     // Act
     AbstractConnPool actualCreateConnectionPoolResult =
         monitoredConnectionManager.createConnectionPool(new BasicHttpParams());
+
+    // Assert
+    assertTrue(actualCreateConnectionPoolResult instanceof NamedConnectionPool);
+    assertEquals(0, ((NamedConnectionPool) actualCreateConnectionPoolResult).getConnectionCount());
+    assertEquals(
+        0, ((NamedConnectionPool) actualCreateConnectionPoolResult).getConnectionsInPool());
+    assertEquals(
+        20, ((NamedConnectionPool) actualCreateConnectionPoolResult).getMaxTotalConnections());
+  }
+
+  /**
+   * Test {@link MonitoredConnectionManager#createConnectionPool(HttpParams)} with {@code params}.
+   *
+   * <ul>
+   *   <li>When {@link SyncBasicHttpParams} (default constructor).
+   * </ul>
+   *
+   * <p>Method under test: {@link MonitoredConnectionManager#createConnectionPool(HttpParams)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "AbstractConnPool MonitoredConnectionManager.createConnectionPool(HttpParams)"
+  })
+  public void testCreateConnectionPoolWithParams_whenSyncBasicHttpParams() {
+    // Arrange
+    MonitoredConnectionManager monitoredConnectionManager =
+        new MonitoredConnectionManager(
+            "\"TestConnectionManager\"", new SchemeRegistry(), 1L, TimeUnit.NANOSECONDS);
+    monitoredConnectionManager.setMaxForRoute(
+        new HttpRoute(new HttpHost("\"www.example.com\"")), 3);
+
+    // Act
+    AbstractConnPool actualCreateConnectionPoolResult =
+        monitoredConnectionManager.createConnectionPool(new SyncBasicHttpParams());
 
     // Assert
     assertTrue(actualCreateConnectionPoolResult instanceof NamedConnectionPool);
@@ -1973,6 +1136,309 @@ public class MonitoredConnectionManagerDiffblueTest {
     // Act
     monitoredConnectionManager.requestConnection(
         new HttpRoute(new HttpHost("\"www.example.com\"")), "State");
+
+    // Assert
+    ConnPoolByRoute connectionPool = monitoredConnectionManager.getConnectionPool();
+    assertTrue(connectionPool instanceof NamedConnectionPool);
+    assertEquals(1L, ((NamedConnectionPool) connectionPool).getRequestsCount());
+  }
+
+  /**
+   * Test {@link MonitoredConnectionManager#requestConnection(HttpRoute, Object)}.
+   *
+   * <p>Method under test: {@link MonitoredConnectionManager#requestConnection(HttpRoute, Object)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "org.apache.http.conn.ClientConnectionRequest MonitoredConnectionManager.requestConnection(HttpRoute, Object)"
+  })
+  public void testRequestConnection2() {
+    // Arrange
+    MonitoredConnectionManager monitoredConnectionManager =
+        new MonitoredConnectionManager("com.netflix.http4.NamedConnectionPool");
+
+    // Act
+    monitoredConnectionManager.requestConnection(
+        new HttpRoute(new HttpHost("\"www.example.com\"")), "\"activeConnectionState\"");
+
+    // Assert
+    ConnPoolByRoute connectionPool = monitoredConnectionManager.getConnectionPool();
+    assertTrue(connectionPool instanceof NamedConnectionPool);
+    assertEquals(1L, ((NamedConnectionPool) connectionPool).getRequestsCount());
+  }
+
+  /**
+   * Test {@link MonitoredConnectionManager#requestConnection(HttpRoute, Object)}.
+   *
+   * <p>Method under test: {@link MonitoredConnectionManager#requestConnection(HttpRoute, Object)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "org.apache.http.conn.ClientConnectionRequest MonitoredConnectionManager.requestConnection(HttpRoute, Object)"
+  })
+  public void testRequestConnection3() {
+    // Arrange
+    MonitoredConnectionManager monitoredConnectionManager = new MonitoredConnectionManager("42");
+    monitoredConnectionManager.setDefaultMaxPerRoute(3);
+    monitoredConnectionManager.setMaxTotal(14);
+
+    // Act
+    monitoredConnectionManager.requestConnection(
+        new HttpRoute(new HttpHost("\"www.example.com\"")), "\"activeConnectionState\"");
+
+    // Assert
+    ConnPoolByRoute connectionPool = monitoredConnectionManager.getConnectionPool();
+    assertTrue(connectionPool instanceof NamedConnectionPool);
+    assertEquals(1L, ((NamedConnectionPool) connectionPool).getRequestsCount());
+  }
+
+  /**
+   * Test {@link MonitoredConnectionManager#requestConnection(HttpRoute, Object)}.
+   *
+   * <ul>
+   *   <li>Given {@link HttpHost#HttpHost(String)} with hostname is {@code "www.example.com"}.
+   * </ul>
+   *
+   * <p>Method under test: {@link MonitoredConnectionManager#requestConnection(HttpRoute, Object)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "org.apache.http.conn.ClientConnectionRequest MonitoredConnectionManager.requestConnection(HttpRoute, Object)"
+  })
+  public void testRequestConnection_givenHttpHostWithHostnameIsWwwExampleCom() {
+    // Arrange
+    MonitoredConnectionManager monitoredConnectionManager =
+        new MonitoredConnectionManager("com.netflix.http4.NamedConnectionPool");
+    monitoredConnectionManager.setMaxForRoute(
+        new HttpRoute(new HttpHost("\"www.example.com\"")), 3);
+
+    // Act
+    monitoredConnectionManager.requestConnection(
+        new HttpRoute(new HttpHost("\"www.example.com\"")), "\"activeConnectionState\"");
+
+    // Assert
+    ConnPoolByRoute connectionPool = monitoredConnectionManager.getConnectionPool();
+    assertTrue(connectionPool instanceof NamedConnectionPool);
+    assertEquals(1L, ((NamedConnectionPool) connectionPool).getRequestsCount());
+  }
+
+  /**
+   * Test {@link MonitoredConnectionManager#requestConnection(HttpRoute, Object)}.
+   *
+   * <ul>
+   *   <li>Given {@link MonitoredConnectionManager#MonitoredConnectionManager(String)} with name is
+   *       {@code 42}.
+   * </ul>
+   *
+   * <p>Method under test: {@link MonitoredConnectionManager#requestConnection(HttpRoute, Object)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "org.apache.http.conn.ClientConnectionRequest MonitoredConnectionManager.requestConnection(HttpRoute, Object)"
+  })
+  public void testRequestConnection_givenMonitoredConnectionManagerWithNameIs42() {
+    // Arrange
+    MonitoredConnectionManager monitoredConnectionManager = new MonitoredConnectionManager("42");
+
+    // Act
+    monitoredConnectionManager.requestConnection(
+        new HttpRoute(new HttpHost("\"www.example.com\"")), "\"activeConnectionState\"");
+
+    // Assert
+    ConnPoolByRoute connectionPool = monitoredConnectionManager.getConnectionPool();
+    assertTrue(connectionPool instanceof NamedConnectionPool);
+    assertEquals(1L, ((NamedConnectionPool) connectionPool).getRequestsCount());
+  }
+
+  /**
+   * Test {@link MonitoredConnectionManager#requestConnection(HttpRoute, Object)}.
+   *
+   * <ul>
+   *   <li>Given {@link MonitoredConnectionManager#MonitoredConnectionManager(String)} with name is
+   *       {@code 42} MaxTotal is four.
+   * </ul>
+   *
+   * <p>Method under test: {@link MonitoredConnectionManager#requestConnection(HttpRoute, Object)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "org.apache.http.conn.ClientConnectionRequest MonitoredConnectionManager.requestConnection(HttpRoute, Object)"
+  })
+  public void testRequestConnection_givenMonitoredConnectionManagerWithNameIs42MaxTotalIsFour() {
+    // Arrange
+    MonitoredConnectionManager monitoredConnectionManager = new MonitoredConnectionManager("42");
+    monitoredConnectionManager.setMaxTotal(4);
+
+    // Act
+    monitoredConnectionManager.requestConnection(
+        new HttpRoute(new HttpHost("\"www.example.com\"")), "\"activeConnectionState\"");
+
+    // Assert
+    ConnPoolByRoute connectionPool = monitoredConnectionManager.getConnectionPool();
+    assertTrue(connectionPool instanceof NamedConnectionPool);
+    assertEquals(1L, ((NamedConnectionPool) connectionPool).getRequestsCount());
+  }
+
+  /**
+   * Test {@link MonitoredConnectionManager#requestConnection(HttpRoute, Object)}.
+   *
+   * <ul>
+   *   <li>Given {@link MonitoredConnectionManager#MonitoredConnectionManager(String)} with name is
+   *       {@code 42} MaxTotal is four.
+   * </ul>
+   *
+   * <p>Method under test: {@link MonitoredConnectionManager#requestConnection(HttpRoute, Object)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "org.apache.http.conn.ClientConnectionRequest MonitoredConnectionManager.requestConnection(HttpRoute, Object)"
+  })
+  public void testRequestConnection_givenMonitoredConnectionManagerWithNameIs42MaxTotalIsFour2() {
+    // Arrange
+    MonitoredConnectionManager monitoredConnectionManager = new MonitoredConnectionManager("42");
+    monitoredConnectionManager.setDefaultMaxPerRoute(3);
+    monitoredConnectionManager.setMaxTotal(4);
+
+    // Act
+    monitoredConnectionManager.requestConnection(
+        new HttpRoute(new HttpHost("\"www.example.com\"")), "\"activeConnectionState\"");
+
+    // Assert
+    ConnPoolByRoute connectionPool = monitoredConnectionManager.getConnectionPool();
+    assertTrue(connectionPool instanceof NamedConnectionPool);
+    assertEquals(1L, ((NamedConnectionPool) connectionPool).getRequestsCount());
+  }
+
+  /**
+   * Test {@link MonitoredConnectionManager#requestConnection(HttpRoute, Object)}.
+   *
+   * <ul>
+   *   <li>Given {@link MonitoredConnectionManager#MonitoredConnectionManager(String)} with name is
+   *       {@code 42} MaxTotal is seven.
+   * </ul>
+   *
+   * <p>Method under test: {@link MonitoredConnectionManager#requestConnection(HttpRoute, Object)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "org.apache.http.conn.ClientConnectionRequest MonitoredConnectionManager.requestConnection(HttpRoute, Object)"
+  })
+  public void testRequestConnection_givenMonitoredConnectionManagerWithNameIs42MaxTotalIsSeven() {
+    // Arrange
+    MonitoredConnectionManager monitoredConnectionManager = new MonitoredConnectionManager("42");
+    monitoredConnectionManager.setDefaultMaxPerRoute(3);
+    monitoredConnectionManager.setMaxTotal(7);
+
+    // Act
+    monitoredConnectionManager.requestConnection(
+        new HttpRoute(new HttpHost("\"www.example.com\"")), "\"activeConnectionState\"");
+
+    // Assert
+    ConnPoolByRoute connectionPool = monitoredConnectionManager.getConnectionPool();
+    assertTrue(connectionPool instanceof NamedConnectionPool);
+    assertEquals(1L, ((NamedConnectionPool) connectionPool).getRequestsCount());
+  }
+
+  /**
+   * Test {@link MonitoredConnectionManager#requestConnection(HttpRoute, Object)}.
+   *
+   * <ul>
+   *   <li>Given {@link MonitoredConnectionManager#MonitoredConnectionManager(String)} with name is
+   *       {@code 42} MaxTotal is three.
+   * </ul>
+   *
+   * <p>Method under test: {@link MonitoredConnectionManager#requestConnection(HttpRoute, Object)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "org.apache.http.conn.ClientConnectionRequest MonitoredConnectionManager.requestConnection(HttpRoute, Object)"
+  })
+  public void testRequestConnection_givenMonitoredConnectionManagerWithNameIs42MaxTotalIsThree() {
+    // Arrange
+    MonitoredConnectionManager monitoredConnectionManager = new MonitoredConnectionManager("42");
+    monitoredConnectionManager.setMaxTotal(3);
+
+    // Act
+    monitoredConnectionManager.requestConnection(
+        new HttpRoute(new HttpHost("\"www.example.com\"")), "\"activeConnectionState\"");
+
+    // Assert
+    ConnPoolByRoute connectionPool = monitoredConnectionManager.getConnectionPool();
+    assertTrue(connectionPool instanceof NamedConnectionPool);
+    assertEquals(1L, ((NamedConnectionPool) connectionPool).getRequestsCount());
+  }
+
+  /**
+   * Test {@link MonitoredConnectionManager#requestConnection(HttpRoute, Object)}.
+   *
+   * <ul>
+   *   <li>Given {@link MonitoredConnectionManager#MonitoredConnectionManager(String)} with name is
+   *       {@code 42} MaxTotal is three.
+   * </ul>
+   *
+   * <p>Method under test: {@link MonitoredConnectionManager#requestConnection(HttpRoute, Object)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "org.apache.http.conn.ClientConnectionRequest MonitoredConnectionManager.requestConnection(HttpRoute, Object)"
+  })
+  public void testRequestConnection_givenMonitoredConnectionManagerWithNameIs42MaxTotalIsThree2() {
+    // Arrange
+    MonitoredConnectionManager monitoredConnectionManager = new MonitoredConnectionManager("42");
+    monitoredConnectionManager.setDefaultMaxPerRoute(3);
+    monitoredConnectionManager.setMaxTotal(3);
+
+    // Act
+    monitoredConnectionManager.requestConnection(
+        new HttpRoute(new HttpHost("\"www.example.com\"")), "\"activeConnectionState\"");
+
+    // Assert
+    ConnPoolByRoute connectionPool = monitoredConnectionManager.getConnectionPool();
+    assertTrue(connectionPool instanceof NamedConnectionPool);
+    assertEquals(1L, ((NamedConnectionPool) connectionPool).getRequestsCount());
+  }
+
+  /**
+   * Test {@link MonitoredConnectionManager#requestConnection(HttpRoute, Object)}.
+   *
+   * <ul>
+   *   <li>When {@link HttpHost#HttpHost(String)} with {@code Hostname}.
+   * </ul>
+   *
+   * <p>Method under test: {@link MonitoredConnectionManager#requestConnection(HttpRoute, Object)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "org.apache.http.conn.ClientConnectionRequest MonitoredConnectionManager.requestConnection(HttpRoute, Object)"
+  })
+  public void testRequestConnection_whenHttpHostWithHostname() {
+    // Arrange
+    MonitoredConnectionManager monitoredConnectionManager =
+        new MonitoredConnectionManager("com.netflix.http4.NamedConnectionPool");
+
+    // Act
+    monitoredConnectionManager.requestConnection(
+        new HttpRoute(new HttpHost("Hostname")), "\"activeConnectionState\"");
 
     // Assert
     ConnPoolByRoute connectionPool = monitoredConnectionManager.getConnectionPool();

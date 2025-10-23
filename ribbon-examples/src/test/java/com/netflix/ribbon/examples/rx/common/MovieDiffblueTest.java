@@ -51,8 +51,8 @@ public class MovieDiffblueTest {
             "\"1234567890\"",
             "\"The Shawshank Redemption\"",
             "\"Action\"",
-            "\"18-24\"",
-            "\"http://content.netflix.com/Movies/ID123\"");
+            "\"Adults\"",
+            "\"http://content.netflix.com/Movie/Inception\"");
     String actualToStringResult = actualMovie.toString();
     String actualAgeGroup = actualMovie.getAgeGroup();
     String actualCategory = actualMovie.getCategory();
@@ -61,13 +61,13 @@ public class MovieDiffblueTest {
 
     // Assert
     assertEquals("\"1234567890\"", actualId);
-    assertEquals("\"18-24\"", actualAgeGroup);
     assertEquals("\"Action\"", actualCategory);
+    assertEquals("\"Adults\"", actualAgeGroup);
     assertEquals("\"The Shawshank Redemption\"", actualMovie.getName());
-    assertEquals("\"http://content.netflix.com/Movies/ID123\"", actualContentURI);
+    assertEquals("\"http://content.netflix.com/Movie/Inception\"", actualContentURI);
     assertEquals(
-        "{id='\"1234567890\"', name='\"The Shawshank Redemption\"', category='\"Action\"', ageGroup='\"18-24\"',"
-            + " contentURI='\"http://content.netflix.com/Movies/ID123\"'}",
+        "{id='\"1234567890\"', name='\"The Shawshank Redemption\"', category='\"Action\"', ageGroup='\"Adults\"',"
+            + " contentURI='\"http://content.netflix.com/Movie/Inception\"'}",
         actualToStringResult);
   }
 
@@ -126,15 +126,15 @@ public class MovieDiffblueTest {
             "\"1234567890\"",
             "\"The Shawshank Redemption\"",
             "\"Action\"",
-            "\"18-24\"",
-            "\"http://content.netflix.com/Movies/ID123\"");
+            "\"Adults\"",
+            "\"http://content.netflix.com/Movie/Inception\"");
     Movie movie2 =
         new Movie(
             "\"1234567890\"",
             "\"The Shawshank Redemption\"",
             "\"Action\"",
-            "\"18-24\"",
-            "\"http://content.netflix.com/Movies/ID123\"");
+            "\"Adults\"",
+            "\"http://content.netflix.com/Movie/Inception\"");
 
     // Act and Assert
     assertEquals(movie, movie2);
@@ -167,15 +167,15 @@ public class MovieDiffblueTest {
             null,
             "\"The Shawshank Redemption\"",
             "\"Action\"",
-            "\"18-24\"",
-            "\"http://content.netflix.com/Movies/ID123\"");
+            "\"Adults\"",
+            "\"http://content.netflix.com/Movie/Inception\"");
     Movie movie2 =
         new Movie(
             null,
             "\"The Shawshank Redemption\"",
             "\"Action\"",
-            "\"18-24\"",
-            "\"http://content.netflix.com/Movies/ID123\"");
+            "\"Adults\"",
+            "\"http://content.netflix.com/Movie/Inception\"");
 
     // Act and Assert
     assertEquals(movie, movie2);
@@ -208,15 +208,15 @@ public class MovieDiffblueTest {
             "\"1234567890\"",
             null,
             "\"Action\"",
-            "\"18-24\"",
-            "\"http://content.netflix.com/Movies/ID123\"");
+            "\"Adults\"",
+            "\"http://content.netflix.com/Movie/Inception\"");
     Movie movie2 =
         new Movie(
             "\"1234567890\"",
             null,
             "\"Action\"",
-            "\"18-24\"",
-            "\"http://content.netflix.com/Movies/ID123\"");
+            "\"Adults\"",
+            "\"http://content.netflix.com/Movie/Inception\"");
 
     // Act and Assert
     assertEquals(movie, movie2);
@@ -249,15 +249,15 @@ public class MovieDiffblueTest {
             "\"1234567890\"",
             "\"The Shawshank Redemption\"",
             null,
-            "\"18-24\"",
-            "\"http://content.netflix.com/Movies/ID123\"");
+            "\"Adults\"",
+            "\"http://content.netflix.com/Movie/Inception\"");
     Movie movie2 =
         new Movie(
             "\"1234567890\"",
             "\"The Shawshank Redemption\"",
             null,
-            "\"18-24\"",
-            "\"http://content.netflix.com/Movies/ID123\"");
+            "\"Adults\"",
+            "\"http://content.netflix.com/Movie/Inception\"");
 
     // Act and Assert
     assertEquals(movie, movie2);
@@ -287,10 +287,10 @@ public class MovieDiffblueTest {
     // Arrange
     Movie movie =
         new Movie(
-            "\"1234567890\"", "\"The Shawshank Redemption\"", "\"Action\"", "\"18-24\"", null);
+            "\"1234567890\"", "\"The Shawshank Redemption\"", "\"Action\"", "\"Adults\"", null);
     Movie movie2 =
         new Movie(
-            "\"1234567890\"", "\"The Shawshank Redemption\"", "\"Action\"", "\"18-24\"", null);
+            "\"1234567890\"", "\"The Shawshank Redemption\"", "\"Action\"", "\"Adults\"", null);
 
     // Act and Assert
     assertEquals(movie, movie2);
@@ -366,8 +366,8 @@ public class MovieDiffblueTest {
             "\"1234567890\"",
             "\"The Shawshank Redemption\"",
             "\"Action\"",
-            "\"18-24\"",
-            "\"http://content.netflix.com/Movies/ID123\""),
+            "\"Adults\"",
+            "\"http://content.netflix.com/Movie/Inception\""),
         Movie.BREAKING_BAD);
   }
 
@@ -393,7 +393,7 @@ public class MovieDiffblueTest {
             "\"The Shawshank Redemption\"",
             "\"Action\"",
             null,
-            "\"http://content.netflix.com/Movies/ID123\""),
+            "\"http://content.netflix.com/Movie/Inception\""),
         Movie.BREAKING_BAD);
   }
 
@@ -418,8 +418,8 @@ public class MovieDiffblueTest {
             "42",
             "\"The Shawshank Redemption\"",
             "\"Action\"",
-            "\"18-24\"",
-            "\"http://content.netflix.com/Movies/ID123\"");
+            "\"Adults\"",
+            "\"http://content.netflix.com/Movie/Inception\"");
 
     // Act and Assert
     assertNotEquals(
@@ -428,8 +428,8 @@ public class MovieDiffblueTest {
             "\"1234567890\"",
             "\"The Shawshank Redemption\"",
             "\"Action\"",
-            "\"18-24\"",
-            "\"http://content.netflix.com/Movies/ID123\""));
+            "\"Adults\"",
+            "\"http://content.netflix.com/Movie/Inception\""));
   }
 
   /**
@@ -453,8 +453,8 @@ public class MovieDiffblueTest {
             null,
             "\"The Shawshank Redemption\"",
             "\"Action\"",
-            "\"18-24\"",
-            "\"http://content.netflix.com/Movies/ID123\"");
+            "\"Adults\"",
+            "\"http://content.netflix.com/Movie/Inception\"");
 
     // Act and Assert
     assertNotEquals(
@@ -463,8 +463,8 @@ public class MovieDiffblueTest {
             "\"1234567890\"",
             "\"The Shawshank Redemption\"",
             "\"Action\"",
-            "\"18-24\"",
-            "\"http://content.netflix.com/Movies/ID123\""));
+            "\"Adults\"",
+            "\"http://content.netflix.com/Movie/Inception\""));
   }
 
   /**
@@ -486,10 +486,10 @@ public class MovieDiffblueTest {
     Movie movie =
         new Movie(
             "\"1234567890\"",
-            "\"18-24\"",
+            "\"Adults\"",
             "\"Action\"",
-            "\"18-24\"",
-            "\"http://content.netflix.com/Movies/ID123\"");
+            "\"Adults\"",
+            "\"http://content.netflix.com/Movie/Inception\"");
 
     // Act and Assert
     assertNotEquals(
@@ -498,8 +498,8 @@ public class MovieDiffblueTest {
             "\"1234567890\"",
             "\"The Shawshank Redemption\"",
             "\"Action\"",
-            "\"18-24\"",
-            "\"http://content.netflix.com/Movies/ID123\""));
+            "\"Adults\"",
+            "\"http://content.netflix.com/Movie/Inception\""));
   }
 
   /**
@@ -523,8 +523,8 @@ public class MovieDiffblueTest {
             "\"1234567890\"",
             null,
             "\"Action\"",
-            "\"18-24\"",
-            "\"http://content.netflix.com/Movies/ID123\"");
+            "\"Adults\"",
+            "\"http://content.netflix.com/Movie/Inception\"");
 
     // Act and Assert
     assertNotEquals(
@@ -533,8 +533,8 @@ public class MovieDiffblueTest {
             "\"1234567890\"",
             "\"The Shawshank Redemption\"",
             "\"Action\"",
-            "\"18-24\"",
-            "\"http://content.netflix.com/Movies/ID123\""));
+            "\"Adults\"",
+            "\"http://content.netflix.com/Movie/Inception\""));
   }
 
   /**
@@ -558,8 +558,8 @@ public class MovieDiffblueTest {
             "\"1234567890\"",
             "\"The Shawshank Redemption\"",
             null,
-            "\"18-24\"",
-            "\"http://content.netflix.com/Movies/ID123\"");
+            "\"Adults\"",
+            "\"http://content.netflix.com/Movie/Inception\"");
 
     // Act and Assert
     assertNotEquals(
@@ -568,8 +568,8 @@ public class MovieDiffblueTest {
             "\"1234567890\"",
             "\"The Shawshank Redemption\"",
             "\"Action\"",
-            "\"18-24\"",
-            "\"http://content.netflix.com/Movies/ID123\""));
+            "\"Adults\"",
+            "\"http://content.netflix.com/Movie/Inception\""));
   }
 
   /**
@@ -593,7 +593,7 @@ public class MovieDiffblueTest {
             "\"1234567890\"",
             "\"The Shawshank Redemption\"",
             "\"Action\"",
-            "\"18-24\"",
+            "\"Adults\"",
             "Not all who wander are lost");
 
     // Act and Assert
@@ -603,8 +603,8 @@ public class MovieDiffblueTest {
             "\"1234567890\"",
             "\"The Shawshank Redemption\"",
             "\"Action\"",
-            "\"18-24\"",
-            "\"http://content.netflix.com/Movies/ID123\""));
+            "\"Adults\"",
+            "\"http://content.netflix.com/Movie/Inception\""));
   }
 
   /**
@@ -625,7 +625,7 @@ public class MovieDiffblueTest {
     // Arrange
     Movie movie =
         new Movie(
-            "\"1234567890\"", "\"The Shawshank Redemption\"", "\"Action\"", "\"18-24\"", null);
+            "\"1234567890\"", "\"The Shawshank Redemption\"", "\"Action\"", "\"Adults\"", null);
 
     // Act and Assert
     assertNotEquals(
@@ -634,8 +634,8 @@ public class MovieDiffblueTest {
             "\"1234567890\"",
             "\"The Shawshank Redemption\"",
             "\"Action\"",
-            "\"18-24\"",
-            "\"http://content.netflix.com/Movies/ID123\""));
+            "\"Adults\"",
+            "\"http://content.netflix.com/Movie/Inception\""));
   }
 
   /**
@@ -739,7 +739,7 @@ public class MovieDiffblueTest {
     // Arrange, Act and Assert
     thrown.expect(IllegalArgumentException.class);
     Movie.from(
-        "\"Title: The Matrix, Director: Lana Wachowski, Lilly Wachowski, Release Year: 1999, Genre: Science"
-            + " Fiction, Duration: 136 minutes\"");
+        "\"Title: The Godfather, Director: Francis Ford Coppola, Genre: Crime, Drama, Year: 1972, Duration: 175"
+            + " minutes, Rating: 9.2\"");
   }
 }

@@ -28,11 +28,11 @@ public class UnsuccessfulResponseExceptionDiffblueTest {
     // Arrange and Act
     UnsuccessfulResponseException actualUnsuccessfulResponseException =
         new UnsuccessfulResponseException(
-            "\"Failed to retrieve data from Netflix server. Please check your network connection and try again.\"");
+            "\"Error: Unsuccessful response received from the server while trying to stream a Netflix movie.\"");
 
     // Assert
     assertEquals(
-        "\"Failed to retrieve data from Netflix server. Please check your network connection and try again.\"",
+        "\"Error: Unsuccessful response received from the server while trying to stream a Netflix movie.\"",
         actualUnsuccessfulResponseException.getMessage());
     assertNull(actualUnsuccessfulResponseException.getCause());
     assertEquals(0, actualUnsuccessfulResponseException.getSuppressed().length);
@@ -96,14 +96,14 @@ public class UnsuccessfulResponseExceptionDiffblueTest {
     // Act
     UnsuccessfulResponseException actualUnsuccessfulResponseException =
         new UnsuccessfulResponseException(
-            "\"Failed to process the request due to server error. Please check the server status and try again"
-                + " later.\"",
+            "\"Failed to retrieve data from Netflix server due to a timeout exception. Please check your network"
+                + " connection and try again.\"",
             arg1);
 
     // Assert
     assertEquals(
-        "\"Failed to process the request due to server error. Please check the server status and try again"
-            + " later.\"",
+        "\"Failed to retrieve data from Netflix server due to a timeout exception. Please check your network"
+            + " connection and try again.\"",
         actualUnsuccessfulResponseException.getMessage());
     assertEquals(0, actualUnsuccessfulResponseException.getSuppressed().length);
     assertSame(arg1, actualUnsuccessfulResponseException.getCause());

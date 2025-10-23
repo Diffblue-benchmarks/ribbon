@@ -1,0 +1,1 @@
+{"id":"chatcmpl-CToNHkFZIU7VtSOgWCePYJ1f0BeN9","object":"chat.completion","created":1761221187,"model":"gpt-4-0613","choices":[{"message":{"role":"assistant","content":"\"Invalid class exception occurred: Class version mismatch. Expected 1.0 but got 1.1\""},"index":0,"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":216,"completion_tokens":22,"total_tokens":238}}

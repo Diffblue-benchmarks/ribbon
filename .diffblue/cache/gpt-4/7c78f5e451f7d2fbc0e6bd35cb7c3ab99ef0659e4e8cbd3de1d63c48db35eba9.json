@@ -1,0 +1,1 @@
+{"id":"chatcmpl-CToQ9jXM8CdKEtVhkBZ4RjtFVouE1","object":"chat.completion","created":1761221365,"model":"gpt-4-0613","choices":[{"message":{"role":"assistant","content":"\"Failed to establish connection. Socket timeout exceeded.\""},"index":0,"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":213,"completion_tokens":10,"total_tokens":223}}

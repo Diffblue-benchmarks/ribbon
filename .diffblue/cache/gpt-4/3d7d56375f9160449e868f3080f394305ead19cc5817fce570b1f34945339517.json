@@ -1,0 +1,1 @@
+{"id":"chatcmpl-CTnWgkA9XjPen8KSiAySe2YgY8ehB","object":"chat.completion","created":1761217926,"model":"gpt-4-0613","choices":[{"message":{"role":"assistant","content":"\"TestRibbonTransportClient\""},"index":0,"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":292,"completion_tokens":7,"total_tokens":299}}

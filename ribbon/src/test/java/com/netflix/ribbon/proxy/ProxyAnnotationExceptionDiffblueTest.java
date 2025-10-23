@@ -22,13 +22,13 @@ public class ProxyAnnotationExceptionDiffblueTest {
     // Arrange and Act
     ProxyAnnotationException actualProxyAnnotationException =
         new ProxyAnnotationException(
-            "\"Invalid proxy annotation detected. Please ensure all annotations are correctly defined and try"
-                + " again.\"");
+            "\"Invalid proxy annotation detected. Please ensure all annotations are correctly defined and compatible"
+                + " with the Ribbon proxy framework.\"");
 
     // Assert
     assertEquals(
-        "\"Invalid proxy annotation detected. Please ensure all annotations are correctly defined and try"
-            + " again.\"",
+        "\"Invalid proxy annotation detected. Please ensure all annotations are correctly defined and compatible"
+            + " with the Ribbon proxy framework.\"",
         actualProxyAnnotationException.getMessage());
     assertNull(actualProxyAnnotationException.getCause());
     assertEquals(0, actualProxyAnnotationException.getSuppressed().length);

@@ -31,13 +31,13 @@ public class CacheFaultExceptionDiffblueTest {
     // Arrange and Act
     CacheFaultException actualCacheFaultException =
         new CacheFaultException(
-            "\"CacheFaultException occurred: Unable to retrieve data from cache due to connection timeout. Please"
-                + " check your cache server status and network connectivity.\"");
+            "\"Failed to retrieve data from cache due to unexpected server error. Please check server status and"
+                + " connectivity.\"");
 
     // Assert
     assertEquals(
-        "\"CacheFaultException occurred: Unable to retrieve data from cache due to connection timeout. Please"
-            + " check your cache server status and network connectivity.\"",
+        "\"Failed to retrieve data from cache due to unexpected server error. Please check server status and"
+            + " connectivity.\"",
         actualCacheFaultException.getMessage());
     assertNull(actualCacheFaultException.getCause());
     assertEquals(0, actualCacheFaultException.getSuppressed().length);
@@ -67,13 +67,13 @@ public class CacheFaultExceptionDiffblueTest {
     // Act
     CacheFaultException actualCacheFaultException =
         new CacheFaultException(
-            "\"Failed to access cache due to unexpected server error. Please check server status and"
+            "\"Failed to retrieve data from cache due to unexpected server error. Please check server status and"
                 + " connectivity.\"",
             cause);
 
     // Assert
     assertEquals(
-        "\"Failed to access cache due to unexpected server error. Please check server status and"
+        "\"Failed to retrieve data from cache due to unexpected server error. Please check server status and"
             + " connectivity.\"",
         actualCacheFaultException.getMessage());
     assertEquals(0, actualCacheFaultException.getSuppressed().length);

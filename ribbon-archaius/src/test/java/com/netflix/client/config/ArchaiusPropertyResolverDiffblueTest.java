@@ -29,7 +29,7 @@ public class ArchaiusPropertyResolverDiffblueTest {
 
     // Act and Assert
     assertFalse(
-        ArchaiusPropertyResolver.INSTANCE.get("\"ribbon.MaxAutoRetries\"", type).isPresent());
+        ArchaiusPropertyResolver.INSTANCE.get("\"loadBalancer.ruleClassName\"", type).isPresent());
   }
 
   /**
@@ -52,7 +52,7 @@ public class ArchaiusPropertyResolverDiffblueTest {
 
     // Act and Assert
     assertFalse(
-        ArchaiusPropertyResolver.INSTANCE.get("\"ribbon.MaxAutoRetries\"", type).isPresent());
+        ArchaiusPropertyResolver.INSTANCE.get("\"loadBalancer.ruleClassName\"", type).isPresent());
   }
 
   /**
@@ -75,7 +75,7 @@ public class ArchaiusPropertyResolverDiffblueTest {
 
     // Act and Assert
     assertFalse(
-        ArchaiusPropertyResolver.INSTANCE.get("\"ribbon.MaxAutoRetries\"", type).isPresent());
+        ArchaiusPropertyResolver.INSTANCE.get("\"loadBalancer.ruleClassName\"", type).isPresent());
   }
 
   /**
@@ -98,7 +98,7 @@ public class ArchaiusPropertyResolverDiffblueTest {
 
     // Act and Assert
     assertFalse(
-        ArchaiusPropertyResolver.INSTANCE.get("\"ribbon.MaxAutoRetries\"", type).isPresent());
+        ArchaiusPropertyResolver.INSTANCE.get("\"loadBalancer.ruleClassName\"", type).isPresent());
   }
 
   /**
@@ -121,7 +121,7 @@ public class ArchaiusPropertyResolverDiffblueTest {
 
     // Act and Assert
     assertFalse(
-        ArchaiusPropertyResolver.INSTANCE.get("\"ribbon.MaxAutoRetries\"", type).isPresent());
+        ArchaiusPropertyResolver.INSTANCE.get("\"loadBalancer.ruleClassName\"", type).isPresent());
   }
 
   /**
@@ -144,7 +144,7 @@ public class ArchaiusPropertyResolverDiffblueTest {
 
     // Act and Assert
     assertFalse(
-        ArchaiusPropertyResolver.INSTANCE.get("\"ribbon.MaxAutoRetries\"", type).isPresent());
+        ArchaiusPropertyResolver.INSTANCE.get("\"loadBalancer.ruleClassName\"", type).isPresent());
   }
 
   /**

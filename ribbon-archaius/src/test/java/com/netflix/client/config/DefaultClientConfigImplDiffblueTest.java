@@ -615,11 +615,11 @@ public class DefaultClientConfigImplDiffblueTest {
 
     // Act
     String actualInstancePropName =
-        defaultClientConfigImpl.getInstancePropName("\"myRestClient\"", configKey);
+        defaultClientConfigImpl.getInstancePropName("\"myNetflixClient\"", configKey);
 
     // Assert
     verify(configKey).key();
-    assertEquals("\"myRestClient\".foo.\"LoadBalancerRuleConfig\"", actualInstancePropName);
+    assertEquals("\"myNetflixClient\".foo.\"LoadBalancerRuleConfig\"", actualInstancePropName);
   }
 
   /**
@@ -1049,14 +1049,13 @@ public class DefaultClientConfigImplDiffblueTest {
   public void testGetClientConfigWithDefaultValuesWithClientNameNameSpace() {
     // Arrange and Act
     DefaultClientConfigImpl actualClientConfigWithDefaultValues =
-        DefaultClientConfigImpl.getClientConfigWithDefaultValues(
-            "\"myNetflixClient\"", "\"myCustomNamespace\"");
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues("\"testClient\"", "\"ribbon\"");
 
     // Assert
     assertTrue(
         actualClientConfigWithDefaultValues.getPropertyResolver()
             instanceof ArchaiusPropertyResolver);
-    assertEquals("\"myNetflixClient\"", actualClientConfigWithDefaultValues.getClientName());
+    assertEquals("\"testClient\"", actualClientConfigWithDefaultValues.getClientName());
     assertNull(actualClientConfigWithDefaultValues.getResolver());
     assertNull(actualClientConfigWithDefaultValues.getAppName());
     assertNull(actualClientConfigWithDefaultValues.getVersion());

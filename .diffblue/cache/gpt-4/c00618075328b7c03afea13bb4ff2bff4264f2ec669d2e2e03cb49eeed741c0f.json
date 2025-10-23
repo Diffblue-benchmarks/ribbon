@@ -1,0 +1,1 @@
+{"id":"chatcmpl-CTnEbOy5t23dv3C1JxPnNI3z9PD6U","object":"chat.completion","created":1761216805,"model":"gpt-4-0613","choices":[{"message":{"role":"assistant","content":"\"http://content.netflix.com/Movie/Inception\""},"index":0,"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":251,"completion_tokens":11,"total_tokens":262}}

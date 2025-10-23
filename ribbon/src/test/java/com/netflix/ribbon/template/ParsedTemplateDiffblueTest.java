@@ -54,7 +54,8 @@ public class ParsedTemplateDiffblueTest {
    * Test {@link ParsedTemplate#create(String)}.
    *
    * <ul>
-   *   <li>Then return Parsed size is thirteen.
+   *   <li>When a string.
+   *   <li>Then return Parsed size is nineteen.
    * </ul>
    *
    * <p>Method under test: {@link ParsedTemplate#create(String)}
@@ -63,28 +64,30 @@ public class ParsedTemplateDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"ParsedTemplate ParsedTemplate.create(String)"})
-  public void testCreate_thenReturnParsedSizeIsThirteen() {
+  public void testCreate_whenAString_thenReturnParsedSizeIsNineteen() {
     // Arrange and Act
     ParsedTemplate actualCreateResult =
         ParsedTemplate.create(
-            "\"http://{hostName}:{portNumber}/{contextPath}/{apiVersion}/{resourcePath}?{queryParameters}\"");
+            "\"http://{hostName}:{portNumber}/{contextPath}/{apiVersion}/{resourcePath}?{queryParam1}={value1}&"
+                + "{queryParam2}={value2}\"");
 
     // Assert
     List<Object> parsed = actualCreateResult.getParsed();
-    assertEquals(13, parsed.size());
+    assertEquals(19, parsed.size());
     Object getResult = parsed.get(1);
     assertTrue(getResult instanceof PathVar);
-    Object getResult2 = parsed.get(11);
+    Object getResult2 = parsed.get(17);
     assertTrue(getResult2 instanceof PathVar);
     assertEquals(":", parsed.get(2));
-    assertEquals("?", parsed.get(10));
-    assertEquals("\"", parsed.get(12));
+    assertEquals("=", parsed.get(Short.SIZE));
+    assertEquals("\"", parsed.get(18));
     assertEquals("\"http://", parsed.get(0));
     assertEquals(
-        "\"http://{hostName}:{portNumber}/{contextPath}/{apiVersion}/{resourcePath}?{queryParameters}\"",
+        "\"http://{hostName}:{portNumber}/{contextPath}/{apiVersion}/{resourcePath}?{queryParam1}={value1}&"
+            + "{queryParam2}={value2}\"",
         actualCreateResult.getTemplate());
     assertEquals("hostName", getResult.toString());
-    assertEquals("queryParameters", getResult2.toString());
+    assertEquals("value2", getResult2.toString());
   }
 
   /**

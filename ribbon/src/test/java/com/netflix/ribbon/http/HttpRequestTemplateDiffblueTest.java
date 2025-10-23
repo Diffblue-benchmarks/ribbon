@@ -36,7 +36,8 @@ public class HttpRequestTemplateDiffblueTest {
     // Arrange
     ParsedTemplate keyTemplate =
         ParsedTemplate.create(
-            "\"http://{hostName}:{portNumber}/{contextPath}/{apiVersion}/{resourcePath}?{queryParameters}\"");
+            "\"http://{hostName}:{portNumber}/{contextPath}/{apiVersion}/{resourcePath}?{queryParam1}={value1}&"
+                + "{queryParam2}={value2}\"");
     CacheProvider<Object> provider = mock(CacheProvider.class);
 
     // Act

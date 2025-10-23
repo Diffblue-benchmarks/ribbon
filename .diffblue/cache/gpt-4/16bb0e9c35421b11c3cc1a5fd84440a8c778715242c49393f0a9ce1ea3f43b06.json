@@ -1,0 +1,1 @@
+{"id":"chatcmpl-CTnhfgFt8w3Lw42lVt8rnWZqfdhgI","object":"chat.completion","created":1761218607,"model":"gpt-4-0613","choices":[{"message":{"role":"assistant","content":"\"myTrustStorePassword123\""},"index":0,"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":521,"completion_tokens":7,"total_tokens":528}}

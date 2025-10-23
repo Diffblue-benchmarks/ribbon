@@ -162,16 +162,16 @@ public class DiscoveryEnabledNIWSServerListDiffblueTest {
 
     // Act
     discoveryEnabledNIWSServerList.setVipAddresses(
-        "\"test-vip-address-1,test-vip-address-2,test-vip-address-3\"");
+        "\"test-service-vip1,test-service-vip2,test-service-vip3\"");
     String actualToStringResult = discoveryEnabledNIWSServerList.toString();
 
     // Assert
     assertEquals(
-        "DiscoveryEnabledNIWSServerList:; clientName:null; Effective vipAddresses:\"test-vip-address-1,test-vip"
-            + "-address-2,test-vip-address-3\"; isSecure:false; datacenter:null",
+        "DiscoveryEnabledNIWSServerList:; clientName:null; Effective vipAddresses:\"test-service-vip1,test-service"
+            + "-vip2,test-service-vip3\"; isSecure:false; datacenter:null",
         actualToStringResult);
     assertEquals(
-        "\"test-vip-address-1,test-vip-address-2,test-vip-address-3\"",
+        "\"test-service-vip1,test-service-vip2,test-service-vip3\"",
         discoveryEnabledNIWSServerList.getVipAddresses());
   }
 }

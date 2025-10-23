@@ -16,7 +16,6 @@ import java.util.Optional;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import org.apache.http.conn.ClientConnectionManager;
-import org.apache.http.conn.DnsResolver;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.impl.conn.PoolingClientConnectionManager;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
@@ -175,12 +174,9 @@ public class ConnectionPoolCleanerDiffblueTest {
   @MethodsUnderTest({"void ConnectionPoolCleaner.initTask()"})
   public void testInitTask3() {
     // Arrange
-    PoolingClientConnectionManager connMgr =
-        new PoolingClientConnectionManager(new SchemeRegistry(), mock(DnsResolver.class));
-
     ConnectionPoolCleaner connectionPoolCleaner =
         new ConnectionPoolCleaner(
-            "\"IdleConnectionCleaner\"", connMgr, new ScheduledThreadPoolExecutor(1));
+            "\"IdleConnectionCleaner\"", null, new ScheduledThreadPoolExecutor(1));
     connectionPoolCleaner.setEnableConnectionPoolCleanerTask(true);
 
     // Act
@@ -205,11 +201,9 @@ public class ConnectionPoolCleanerDiffblueTest {
     // Arrange
     ScheduledThreadPoolExecutor scheduler = new ScheduledThreadPoolExecutor(1);
     scheduler.setContinueExistingPeriodicTasksAfterShutdownPolicy(true);
-    PoolingClientConnectionManager connMgr =
-        new PoolingClientConnectionManager(new SchemeRegistry(), mock(DnsResolver.class));
 
     ConnectionPoolCleaner connectionPoolCleaner =
-        new ConnectionPoolCleaner("\"IdleConnectionCleaner\"", connMgr, scheduler);
+        new ConnectionPoolCleaner("\"IdleConnectionCleaner\"", null, scheduler);
     connectionPoolCleaner.setEnableConnectionPoolCleanerTask(true);
 
     // Act
@@ -232,12 +226,12 @@ public class ConnectionPoolCleanerDiffblueTest {
   @MethodsUnderTest({"void ConnectionPoolCleaner.initTask()"})
   public void testInitTask5() {
     // Arrange
-    ThreadSafeClientConnManager connMgr = new ThreadSafeClientConnManager();
+    ScheduledThreadPoolExecutor scheduler = new ScheduledThreadPoolExecutor(1);
+    scheduler.setRemoveOnCancelPolicy(true);
 
     ConnectionPoolCleaner connectionPoolCleaner =
         new ConnectionPoolCleaner(
-            "\"IdleConnectionCleaner\"", connMgr, new ScheduledThreadPoolExecutor(1));
-    connectionPoolCleaner.setConnectionCleanerTimerDelay(1L);
+            "https://example.org/example", new ThreadSafeClientConnManager(), scheduler);
     connectionPoolCleaner.setEnableConnectionPoolCleanerTask(true);
 
     // Act
@@ -260,7 +254,91 @@ public class ConnectionPoolCleanerDiffblueTest {
   @MethodsUnderTest({"void ConnectionPoolCleaner.initTask()"})
   public void testInitTask6() {
     // Arrange
-    PoolingClientConnectionManager connMgr = new PoolingClientConnectionManager();
+    ScheduledThreadPoolExecutor scheduler = new ScheduledThreadPoolExecutor(1);
+    scheduler.setRemoveOnCancelPolicy(true);
+
+    ConnectionPoolCleaner connectionPoolCleaner =
+        new ConnectionPoolCleaner(
+            "https://example.org/example", new ThreadSafeClientConnManager(), scheduler);
+    connectionPoolCleaner.setConnectionCleanerRepeatInterval(42L);
+    connectionPoolCleaner.setEnableConnectionPoolCleanerTask(true);
+
+    // Act
+    connectionPoolCleaner.initTask();
+
+    // Assert
+    ScheduledExecutorService scheduledExecutorService = connectionPoolCleaner.scheduler;
+    assertTrue(scheduledExecutorService instanceof ScheduledThreadPoolExecutor);
+    assertEquals(1, ((ScheduledThreadPoolExecutor) scheduledExecutorService).getLargestPoolSize());
+  }
+
+  /**
+   * Test {@link ConnectionPoolCleaner#initTask()}.
+   *
+   * <p>Method under test: {@link ConnectionPoolCleaner#initTask()}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void ConnectionPoolCleaner.initTask()"})
+  public void testInitTask7() {
+    // Arrange
+    ScheduledThreadPoolExecutor scheduler = new ScheduledThreadPoolExecutor(1);
+    scheduler.setRemoveOnCancelPolicy(true);
+
+    ConnectionPoolCleaner connectionPoolCleaner =
+        new ConnectionPoolCleaner(
+            "https://example.org/example", new ThreadSafeClientConnManager(), scheduler);
+    connectionPoolCleaner.setConnectionCleanerTimerDelay(1L);
+    connectionPoolCleaner.setConnectionCleanerRepeatInterval(42L);
+    connectionPoolCleaner.setEnableConnectionPoolCleanerTask(true);
+
+    // Act
+    connectionPoolCleaner.initTask();
+
+    // Assert
+    ScheduledExecutorService scheduledExecutorService = connectionPoolCleaner.scheduler;
+    assertTrue(scheduledExecutorService instanceof ScheduledThreadPoolExecutor);
+    assertEquals(1, ((ScheduledThreadPoolExecutor) scheduledExecutorService).getLargestPoolSize());
+  }
+
+  /**
+   * Test {@link ConnectionPoolCleaner#initTask()}.
+   *
+   * <p>Method under test: {@link ConnectionPoolCleaner#initTask()}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void ConnectionPoolCleaner.initTask()"})
+  public void testInitTask8() {
+    // Arrange
+    ConnectionPoolCleaner connectionPoolCleaner =
+        new ConnectionPoolCleaner("default", null, new ScheduledThreadPoolExecutor(1));
+    connectionPoolCleaner.setEnableConnectionPoolCleanerTask(true);
+
+    // Act
+    connectionPoolCleaner.initTask();
+
+    // Assert
+    ScheduledExecutorService scheduledExecutorService = connectionPoolCleaner.scheduler;
+    assertTrue(scheduledExecutorService instanceof ScheduledThreadPoolExecutor);
+    assertEquals(1, ((ScheduledThreadPoolExecutor) scheduledExecutorService).getLargestPoolSize());
+  }
+
+  /**
+   * Test {@link ConnectionPoolCleaner#initTask()}.
+   *
+   * <p>Method under test: {@link ConnectionPoolCleaner#initTask()}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void ConnectionPoolCleaner.initTask()"})
+  public void testInitTask9() {
+    // Arrange
+    PoolingClientConnectionManager connMgr =
+        new PoolingClientConnectionManager(new SchemeRegistry());
 
     ConnectionPoolCleaner connectionPoolCleaner =
         new ConnectionPoolCleaner(
@@ -281,7 +359,7 @@ public class ConnectionPoolCleanerDiffblueTest {
    *
    * <ul>
    *   <li>Given {@link ScheduledThreadPoolExecutor#ScheduledThreadPoolExecutor(int)} with one
-   *       RemoveOnCancelPolicy is {@code true}.
+   *       MaximumPoolSize is three.
    * </ul>
    *
    * <p>Method under test: {@link ConnectionPoolCleaner#initTask()}
@@ -290,15 +368,46 @@ public class ConnectionPoolCleanerDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void ConnectionPoolCleaner.initTask()"})
-  public void testInitTask_givenScheduledThreadPoolExecutorWithOneRemoveOnCancelPolicyIsTrue() {
+  public void testInitTask_givenScheduledThreadPoolExecutorWithOneMaximumPoolSizeIsThree() {
     // Arrange
     ScheduledThreadPoolExecutor scheduler = new ScheduledThreadPoolExecutor(1);
-    scheduler.setRemoveOnCancelPolicy(true);
+    scheduler.setMaximumPoolSize(3);
+
+    ConnectionPoolCleaner connectionPoolCleaner =
+        new ConnectionPoolCleaner("default", null, scheduler);
+    connectionPoolCleaner.setEnableConnectionPoolCleanerTask(true);
+
+    // Act
+    connectionPoolCleaner.initTask();
+
+    // Assert
+    ScheduledExecutorService scheduledExecutorService = connectionPoolCleaner.scheduler;
+    assertTrue(scheduledExecutorService instanceof ScheduledThreadPoolExecutor);
+    assertEquals(1, ((ScheduledThreadPoolExecutor) scheduledExecutorService).getLargestPoolSize());
+  }
+
+  /**
+   * Test {@link ConnectionPoolCleaner#initTask()}.
+   *
+   * <ul>
+   *   <li>Given {@link ThreadSafeClientConnManager#ThreadSafeClientConnManager()}
+   *       DefaultMaxPerRoute is three.
+   * </ul>
+   *
+   * <p>Method under test: {@link ConnectionPoolCleaner#initTask()}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void ConnectionPoolCleaner.initTask()"})
+  public void testInitTask_givenThreadSafeClientConnManagerDefaultMaxPerRouteIsThree() {
+    // Arrange
+    ThreadSafeClientConnManager connMgr = new ThreadSafeClientConnManager();
+    connMgr.setDefaultMaxPerRoute(3);
 
     ConnectionPoolCleaner connectionPoolCleaner =
         new ConnectionPoolCleaner(
-            "\"IdleConnectionCleaner\"", new ThreadSafeClientConnManager(), scheduler);
-    connectionPoolCleaner.setConnectionCleanerTimerDelay(1L);
+            "\"IdleConnectionCleaner\"", connMgr, new ScheduledThreadPoolExecutor(1));
     connectionPoolCleaner.setEnableConnectionPoolCleanerTask(true);
 
     // Act

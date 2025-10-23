@@ -53,7 +53,7 @@ public class EvCacheOptionsDiffblueTest {
             true,
             1,
             transcoder,
-            "\"User::Profile::{userId}\"");
+            "\"User::Profile::Data::{userId}\"");
     String actualAppName = actualEvCacheOptions.getAppName();
     String actualCacheKeyTemplate = actualEvCacheOptions.getCacheKeyTemplate();
     String actualCacheName = actualEvCacheOptions.getCacheName();
@@ -63,7 +63,7 @@ public class EvCacheOptionsDiffblueTest {
     // Assert
     assertTrue(actualTranscoder instanceof SampleEVCacheTranscoder);
     assertEquals("\"TestNetflixApp\"", actualAppName);
-    assertEquals("\"User::Profile::{userId}\"", actualCacheKeyTemplate);
+    assertEquals("\"User::Profile::Data::{userId}\"", actualCacheKeyTemplate);
     assertEquals("\"UserSessionCache\"", actualCacheName);
     assertEquals(1, actualTimeToLive);
     assertTrue(actualEvCacheOptions.isEnableZoneFallback());

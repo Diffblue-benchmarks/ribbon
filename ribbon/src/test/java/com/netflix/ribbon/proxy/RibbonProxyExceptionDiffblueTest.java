@@ -60,13 +60,13 @@ public class RibbonProxyExceptionDiffblueTest {
     // Act
     RibbonProxyException actualRibbonProxyException =
         new RibbonProxyException(
-            "\"Failed to establish connection with the Ribbon Proxy server. Please check your network settings and"
+            "\"Failed to establish connection with the Ribbon Proxy Server. Please check your network settings and"
                 + " try again.\"",
             cause);
 
     // Assert
     assertEquals(
-        "\"Failed to establish connection with the Ribbon Proxy server. Please check your network settings and"
+        "\"Failed to establish connection with the Ribbon Proxy Server. Please check your network settings and"
             + " try again.\"",
         actualRibbonProxyException.getMessage());
     assertEquals(0, actualRibbonProxyException.getSuppressed().length);

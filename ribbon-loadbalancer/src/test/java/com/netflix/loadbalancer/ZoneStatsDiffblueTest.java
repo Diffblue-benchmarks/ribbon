@@ -13,6 +13,36 @@ public class ZoneStatsDiffblueTest {
    * Test {@link ZoneStats#ZoneStats(String, String, LoadBalancerStats)}.
    *
    * <ul>
+   *   <li>When {@link LoadBalancerStats#LoadBalancerStats()}.
+   *   <li>Then return {@link ZoneStats#monitorId} is {@code "us-east-1a":"us-east-1a"}.
+   * </ul>
+   *
+   * <p>Method under test: {@link ZoneStats#ZoneStats(String, String, LoadBalancerStats)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void ZoneStats.<init>(String, String, LoadBalancerStats)"})
+  public void testNewZoneStats_whenLoadBalancerStats_thenReturnMonitorIdIsUsEast1aUsEast1a() {
+    // Arrange and Act
+    ZoneStats<Server> actualZoneStats =
+        new ZoneStats<>("\"us-east-1a\"", "\"us-east-1a\"", new LoadBalancerStats());
+
+    // Assert
+    assertEquals("\"us-east-1a\"", actualZoneStats.getZone());
+    assertEquals("\"us-east-1a\":\"us-east-1a\"", actualZoneStats.monitorId);
+    assertEquals(0, actualZoneStats.getActiveRequestsCount());
+    assertEquals(0, actualZoneStats.getCircuitBreakerTrippedCount());
+    assertEquals(0, actualZoneStats.getInstanceCount());
+    assertEquals(0.0d, actualZoneStats.getActiveRequestsPerServer(), 0.0);
+    assertEquals(0.0d, actualZoneStats.getCircuitBreakerTrippedPercentage(), 0.0);
+    assertEquals(0L, actualZoneStats.getMeasuredZoneHits());
+  }
+
+  /**
+   * Test {@link ZoneStats#ZoneStats(String, String, LoadBalancerStats)}.
+   *
+   * <ul>
    *   <li>When space.
    *   <li>Then return {@link ZoneStats#monitorId} is {@code :"us-east-1a"}.
    * </ul>
@@ -40,36 +70,6 @@ public class ZoneStatsDiffblueTest {
   }
 
   /**
-   * Test {@link ZoneStats#ZoneStats(String, String, LoadBalancerStats)}.
-   *
-   * <ul>
-   *   <li>When {@code "US-East-1a"}.
-   *   <li>Then return {@link ZoneStats#monitorId} is {@code "US-East-1a":"us-east-1a"}.
-   * </ul>
-   *
-   * <p>Method under test: {@link ZoneStats#ZoneStats(String, String, LoadBalancerStats)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void ZoneStats.<init>(String, String, LoadBalancerStats)"})
-  public void testNewZoneStats_whenUsEast1a_thenReturnMonitorIdIsUsEast1aUsEast1a() {
-    // Arrange and Act
-    ZoneStats<Server> actualZoneStats =
-        new ZoneStats<>("\"US-East-1a\"", "\"us-east-1a\"", new LoadBalancerStats());
-
-    // Assert
-    assertEquals("\"US-East-1a\":\"us-east-1a\"", actualZoneStats.monitorId);
-    assertEquals("\"us-east-1a\"", actualZoneStats.getZone());
-    assertEquals(0, actualZoneStats.getActiveRequestsCount());
-    assertEquals(0, actualZoneStats.getCircuitBreakerTrippedCount());
-    assertEquals(0, actualZoneStats.getInstanceCount());
-    assertEquals(0.0d, actualZoneStats.getActiveRequestsPerServer(), 0.0);
-    assertEquals(0.0d, actualZoneStats.getCircuitBreakerTrippedPercentage(), 0.0);
-    assertEquals(0L, actualZoneStats.getMeasuredZoneHits());
-  }
-
-  /**
    * Test getters and setters.
    *
    * <p>Methods under test:
@@ -86,7 +86,7 @@ public class ZoneStatsDiffblueTest {
   public void testGettersAndSetters() {
     // Arrange
     ZoneStats<Server> zoneStats =
-        new ZoneStats<>("\"US-East-1a\"", "\"us-east-1a\"", new LoadBalancerStats());
+        new ZoneStats<>("\"us-east-1a\"", "\"us-east-1a\"", new LoadBalancerStats());
 
     // Act
     String actualToStringResult = zoneStats.toString();
@@ -111,7 +111,7 @@ public class ZoneStatsDiffblueTest {
   public void testGetActiveRequestsCount() {
     // Arrange
     ZoneStats<Server> zoneStats =
-        new ZoneStats<>("\"US-East-1a\"", "\"us-east-1a\"", new LoadBalancerStats());
+        new ZoneStats<>("\"us-east-1a\"", "\"us-east-1a\"", new LoadBalancerStats());
 
     // Act and Assert
     assertEquals(0, zoneStats.getActiveRequestsCount());
@@ -130,7 +130,7 @@ public class ZoneStatsDiffblueTest {
     // Arrange
     LoadBalancerStats loadBalancerStats = new LoadBalancerStats("\"TestLoadBalancerStats\"");
     loadBalancerStats.updateZoneServerMapping(new HashMap<>());
-    ZoneStats<Server> zoneStats = new ZoneStats<>("\"US-East-1a\"", null, loadBalancerStats);
+    ZoneStats<Server> zoneStats = new ZoneStats<>("\"us-east-1a\"", null, loadBalancerStats);
 
     // Act and Assert
     assertEquals(0, zoneStats.getActiveRequestsCount());
@@ -148,7 +148,7 @@ public class ZoneStatsDiffblueTest {
   public void testGetInstanceCount() {
     // Arrange
     ZoneStats<Server> zoneStats =
-        new ZoneStats<>("\"US-East-1a\"", "\"us-east-1a\"", new LoadBalancerStats());
+        new ZoneStats<>("\"us-east-1a\"", "\"us-east-1a\"", new LoadBalancerStats());
 
     // Act and Assert
     assertEquals(0, zoneStats.getInstanceCount());
@@ -167,7 +167,7 @@ public class ZoneStatsDiffblueTest {
     // Arrange
     LoadBalancerStats loadBalancerStats = new LoadBalancerStats("\"TestLoadBalancerStats\"");
     loadBalancerStats.updateZoneServerMapping(new HashMap<>());
-    ZoneStats<Server> zoneStats = new ZoneStats<>("\"US-East-1a\"", null, loadBalancerStats);
+    ZoneStats<Server> zoneStats = new ZoneStats<>("\"us-east-1a\"", null, loadBalancerStats);
 
     // Act and Assert
     assertEquals(0, zoneStats.getInstanceCount());
@@ -185,7 +185,7 @@ public class ZoneStatsDiffblueTest {
   public void testGetCircuitBreakerTrippedCount() {
     // Arrange
     ZoneStats<Server> zoneStats =
-        new ZoneStats<>("\"US-East-1a\"", "\"us-east-1a\"", new LoadBalancerStats());
+        new ZoneStats<>("\"us-east-1a\"", "\"us-east-1a\"", new LoadBalancerStats());
 
     // Act and Assert
     assertEquals(0, zoneStats.getCircuitBreakerTrippedCount());
@@ -204,7 +204,7 @@ public class ZoneStatsDiffblueTest {
     // Arrange
     LoadBalancerStats loadBalancerStats = new LoadBalancerStats("\"TestLoadBalancerStats\"");
     loadBalancerStats.updateZoneServerMapping(new HashMap<>());
-    ZoneStats<Server> zoneStats = new ZoneStats<>("\"US-East-1a\"", null, loadBalancerStats);
+    ZoneStats<Server> zoneStats = new ZoneStats<>("\"us-east-1a\"", null, loadBalancerStats);
 
     // Act and Assert
     assertEquals(0, zoneStats.getCircuitBreakerTrippedCount());
@@ -222,7 +222,7 @@ public class ZoneStatsDiffblueTest {
   public void testGetActiveRequestsPerServer() {
     // Arrange
     ZoneStats<Server> zoneStats =
-        new ZoneStats<>("\"US-East-1a\"", "\"us-east-1a\"", new LoadBalancerStats());
+        new ZoneStats<>("\"us-east-1a\"", "\"us-east-1a\"", new LoadBalancerStats());
 
     // Act and Assert
     assertEquals(0.0d, zoneStats.getActiveRequestsPerServer(), 0.0);
@@ -241,7 +241,7 @@ public class ZoneStatsDiffblueTest {
     // Arrange
     LoadBalancerStats loadBalancerStats = new LoadBalancerStats("\"TestLoadBalancerStats\"");
     loadBalancerStats.updateZoneServerMapping(new HashMap<>());
-    ZoneStats<Server> zoneStats = new ZoneStats<>("\"US-East-1a\"", null, loadBalancerStats);
+    ZoneStats<Server> zoneStats = new ZoneStats<>("\"us-east-1a\"", null, loadBalancerStats);
 
     // Act and Assert
     assertEquals(0.0d, zoneStats.getActiveRequestsPerServer(), 0.0);
@@ -259,7 +259,7 @@ public class ZoneStatsDiffblueTest {
   public void testGetMeasuredZoneHits() {
     // Arrange
     ZoneStats<Server> zoneStats =
-        new ZoneStats<>("\"US-East-1a\"", "\"us-east-1a\"", new LoadBalancerStats());
+        new ZoneStats<>("\"us-east-1a\"", "\"us-east-1a\"", new LoadBalancerStats());
 
     // Act and Assert
     assertEquals(0L, zoneStats.getMeasuredZoneHits());
@@ -278,7 +278,7 @@ public class ZoneStatsDiffblueTest {
     // Arrange
     LoadBalancerStats loadBalancerStats = new LoadBalancerStats("\"TestLoadBalancerStats\"");
     loadBalancerStats.updateZoneServerMapping(new HashMap<>());
-    ZoneStats<Server> zoneStats = new ZoneStats<>("\"US-East-1a\"", null, loadBalancerStats);
+    ZoneStats<Server> zoneStats = new ZoneStats<>("\"us-east-1a\"", null, loadBalancerStats);
 
     // Act and Assert
     assertEquals(0L, zoneStats.getMeasuredZoneHits());
@@ -296,7 +296,7 @@ public class ZoneStatsDiffblueTest {
   public void testGetCircuitBreakerTrippedPercentage() {
     // Arrange
     ZoneStats<Server> zoneStats =
-        new ZoneStats<>("\"US-East-1a\"", "\"us-east-1a\"", new LoadBalancerStats());
+        new ZoneStats<>("\"us-east-1a\"", "\"us-east-1a\"", new LoadBalancerStats());
 
     // Act and Assert
     assertEquals(0.0d, zoneStats.getCircuitBreakerTrippedPercentage(), 0.0);
@@ -315,7 +315,7 @@ public class ZoneStatsDiffblueTest {
     // Arrange
     LoadBalancerStats loadBalancerStats = new LoadBalancerStats("\"TestLoadBalancerStats\"");
     loadBalancerStats.updateZoneServerMapping(new HashMap<>());
-    ZoneStats<Server> zoneStats = new ZoneStats<>("\"US-East-1a\"", null, loadBalancerStats);
+    ZoneStats<Server> zoneStats = new ZoneStats<>("\"us-east-1a\"", null, loadBalancerStats);
 
     // Act and Assert
     assertEquals(0.0d, zoneStats.getCircuitBreakerTrippedPercentage(), 0.0);

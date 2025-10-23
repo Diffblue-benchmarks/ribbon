@@ -54,7 +54,8 @@ public class PropertyUtilsDiffblueTest {
 
     // Act
     Optional<Object> actualResolveWithValueOfResult =
-        PropertyUtils.resolveWithValueOf(type, "\"com.netflix.client.config.PropertyUtils\"");
+        PropertyUtils.resolveWithValueOf(
+            type, "\"com.netflix.client.config.DefaultClientConfigImpl\"");
 
     // Assert
     assertFalse(actualResolveWithValueOfResult.isPresent());

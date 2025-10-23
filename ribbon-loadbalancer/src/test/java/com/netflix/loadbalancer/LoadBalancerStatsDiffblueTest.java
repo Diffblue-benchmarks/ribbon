@@ -335,6 +335,42 @@ public class LoadBalancerStatsDiffblueTest {
    * Test {@link LoadBalancerStats#updateZoneServerMapping(Map)}.
    *
    * <ul>
+   *   <li>Then {@link LoadBalancerStats#LoadBalancerStats()} {@link
+   *       LoadBalancerStats#upServerListZoneMap} size is two.
+   * </ul>
+   *
+   * <p>Method under test: {@link LoadBalancerStats#updateZoneServerMapping(Map)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void LoadBalancerStats.updateZoneServerMapping(Map)"})
+  public void testUpdateZoneServerMapping_thenLoadBalancerStatsUpServerListZoneMapSizeIsTwo() {
+    // Arrange
+    LoadBalancerStats loadBalancerStats = new LoadBalancerStats();
+
+    HashMap<String, List<Server>> map = new HashMap<>();
+    ArrayList<Server> serverList = new ArrayList<>();
+    map.putIfAbsent("\"testKey\"", serverList);
+    map.put("\"TestKey\"", new ArrayList<>());
+
+    // Act
+    loadBalancerStats.updateZoneServerMapping(map);
+
+    // Assert
+    Map<String, List<? extends Server>> stringListMap = loadBalancerStats.upServerListZoneMap;
+    assertEquals(2, stringListMap.size());
+    Set<String> availableZones = loadBalancerStats.getAvailableZones();
+    assertEquals(2, availableZones.size());
+    assertTrue(stringListMap.containsKey("\"TestKey\""));
+    assertTrue(availableZones.contains("\"testKey\""));
+    assertSame(serverList, stringListMap.get("\"testKey\""));
+  }
+
+  /**
+   * Test {@link LoadBalancerStats#updateZoneServerMapping(Map)}.
+   *
+   * <ul>
    *   <li>When {@link HashMap#HashMap()}.
    *   <li>Then {@link HashMap#HashMap()} Empty.
    * </ul>
@@ -457,7 +493,7 @@ public class LoadBalancerStatsDiffblueTest {
    *
    * <ul>
    *   <li>Given {@link LoadBalancerStats#LoadBalancerStats()}.
-   *   <li>When {@code "us-west-2"}.
+   *   <li>When {@code "us-east-1"}.
    * </ul>
    *
    * <p>Method under test: {@link LoadBalancerStats#getActiveRequestsPerServer(String)}
@@ -466,9 +502,9 @@ public class LoadBalancerStatsDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"double LoadBalancerStats.getActiveRequestsPerServer(String)"})
-  public void testGetActiveRequestsPerServer_givenLoadBalancerStats_whenUsWest2() {
+  public void testGetActiveRequestsPerServer_givenLoadBalancerStats_whenUsEast1() {
     // Arrange, Act and Assert
-    assertEquals(0.0d, new LoadBalancerStats().getActiveRequestsPerServer("\"us-west-2\""), 0.0);
+    assertEquals(0.0d, new LoadBalancerStats().getActiveRequestsPerServer("\"us-east-1\""), 0.0);
   }
 
   /**

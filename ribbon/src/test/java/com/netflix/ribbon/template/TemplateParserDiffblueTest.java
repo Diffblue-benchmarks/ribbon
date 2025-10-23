@@ -21,7 +21,8 @@ public class TemplateParserDiffblueTest {
    * Test {@link TemplateParser#parseTemplate(String)}.
    *
    * <ul>
-   *   <li>Then return size is three.
+   *   <li>When a string.
+   *   <li>Then return size is five.
    * </ul>
    *
    * <p>Method under test: {@link TemplateParser#parseTemplate(String)}
@@ -30,20 +31,25 @@ public class TemplateParserDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"List TemplateParser.parseTemplate(String)"})
-  public void testParseTemplate_thenReturnSizeIsThree() {
+  public void testParseTemplate_whenAString_thenReturnSizeIsFive() {
     // Arrange and Act
     List<Object> actualParseTemplateResult =
         TemplateParser.parseTemplate(
-            "\"{name:John, age:30, city:New York, occupation:Engineer, hobbies:[reading, traveling, cooking]}\"");
+            "\"{name: 'John Doe', age: 30, address: {street: '123 Main St', city: 'Springfield', state: 'IL', zip:"
+                + " '62701'}, hobbies: ['reading', 'coding', 'hiking']}\"");
 
     // Assert
-    assertEquals(3, actualParseTemplateResult.size());
-    Object getResult = actualParseTemplateResult.get(1);
+    assertEquals(5, actualParseTemplateResult.size());
+    Object getResult = actualParseTemplateResult.get(2);
     assertTrue(getResult instanceof PathVar);
+    Object getResult2 = actualParseTemplateResult.get(3);
+    assertTrue(getResult2 instanceof PathVar);
+    assertEquals(", hobbies: ['reading', 'coding', 'hiking']", getResult2.toString());
     assertEquals("\"", actualParseTemplateResult.get(0));
-    assertEquals("\"", actualParseTemplateResult.get(2));
+    assertEquals("\"", actualParseTemplateResult.get(4));
+    assertEquals("name: 'John Doe', age: 30, address: ", actualParseTemplateResult.get(1));
     assertEquals(
-        "name:John, age:30, city:New York, occupation:Engineer, hobbies:[reading, traveling, cooking]",
+        "street: '123 Main St', city: 'Springfield', state: 'IL', zip: '62701'",
         getResult.toString());
   }
 
@@ -105,28 +111,6 @@ public class TemplateParserDiffblueTest {
     // Arrange
     HashMap<String, Object> variables = new HashMap<>();
 
-    // Act and Assert
-    thrown.expect(TemplateParsingException.class);
-    TemplateParser.toData(
-        variables,
-        ParsedTemplate.create(
-            "\"http://{hostName}:{portNumber}/{contextPath}/{apiVersion}/{resourcePath}?{queryParameters}\""));
-  }
-
-  /**
-   * Test {@link TemplateParser#toData(Map, ParsedTemplate)} with {@code variables}, {@code
-   * parsedTemplate}.
-   *
-   * <p>Method under test: {@link TemplateParser#toData(Map, ParsedTemplate)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"String TemplateParser.toData(Map, ParsedTemplate)"})
-  public void testToDataWithVariablesParsedTemplate2() throws TemplateParsingException {
-    // Arrange
-    HashMap<String, Object> variables = new HashMap<>();
-
     ArrayList<Object> parsed = new ArrayList<>();
     parsed.add(new TemplateVar("\"http://localhost:8080/api/v1/users/{userId}/posts/{postId}\""));
 
@@ -164,7 +148,8 @@ public class TemplateParserDiffblueTest {
     TemplateParser.toData(
         variables,
         ParsedTemplate.create(
-            "\"http://{hostName}:{portNumber}/{contextPath}/{apiVersion}/{resourcePath}?{queryParameters}\""));
+            "\"http://{hostName}:{portNumber}/{contextPath}/{apiVersion}/{resourcePath}?{queryParam1}={value1}&"
+                + "{queryParam2}={value2}\""));
   }
 
   /**
@@ -187,7 +172,7 @@ public class TemplateParserDiffblueTest {
     HashMap<String, Object> variables = new HashMap<>();
 
     ArrayList<Object> parsed = new ArrayList<>();
-    parsed.add(new MatrixVar("\"movieId;genre;year;rating\""));
+    parsed.add(new MatrixVar("\"matrixParam1=value1;matrixParam2=value2;matrixParam3=value3\""));
 
     // Act
     String actualToDataResult =
@@ -198,6 +183,34 @@ public class TemplateParserDiffblueTest {
 
     // Assert
     assertEquals("", actualToDataResult);
+  }
+
+  /**
+   * Test {@link TemplateParser#toData(Map, ParsedTemplate)} with {@code variables}, {@code
+   * parsedTemplate}.
+   *
+   * <ul>
+   *   <li>When create a string.
+   * </ul>
+   *
+   * <p>Method under test: {@link TemplateParser#toData(Map, ParsedTemplate)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"String TemplateParser.toData(Map, ParsedTemplate)"})
+  public void testToDataWithVariablesParsedTemplate_whenCreateAString()
+      throws TemplateParsingException {
+    // Arrange
+    HashMap<String, Object> variables = new HashMap<>();
+
+    // Act and Assert
+    thrown.expect(TemplateParsingException.class);
+    TemplateParser.toData(
+        variables,
+        ParsedTemplate.create(
+            "\"http://{hostName}:{portNumber}/{contextPath}/{apiVersion}/{resourcePath}?{queryParam1}={value1}&"
+                + "{queryParam2}={value2}\""));
   }
 
   /**
@@ -239,7 +252,8 @@ public class TemplateParserDiffblueTest {
     HashMap<String, Object> variables = new HashMap<>();
 
     ArrayList<Object> parsedList = new ArrayList<>();
-    parsedList.add(new MatrixVar("\"movieId;genre;year;rating\""));
+    parsedList.add(
+        new MatrixVar("\"matrixParam1=value1;matrixParam2=value2;matrixParam3=value3\""));
 
     // Act
     String actualToDataResult =

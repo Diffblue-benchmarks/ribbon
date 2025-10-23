@@ -32,13 +32,13 @@ public class ServerErrorDiffblueTest {
     // Arrange and Act
     ServerError actualServerError =
         new ServerError(
-            "\"ServerError occurred while processing the request. Possible causes: Network issues, server overload,"
-                + " or unexpected data format. Please check the server logs for more details.\"");
+            "\"ServerError occurred: Unable to establish connection with the server. Please check your network"
+                + " settings and try again.\"");
 
     // Assert
     assertEquals(
-        "\"ServerError occurred while processing the request. Possible causes: Network issues, server overload,"
-            + " or unexpected data format. Please check the server logs for more details.\"",
+        "\"ServerError occurred: Unable to establish connection with the server. Please check your network"
+            + " settings and try again.\"",
         actualServerError.getMessage());
     assertNull(actualServerError.getCause());
     assertEquals(0, actualServerError.getSuppressed().length);

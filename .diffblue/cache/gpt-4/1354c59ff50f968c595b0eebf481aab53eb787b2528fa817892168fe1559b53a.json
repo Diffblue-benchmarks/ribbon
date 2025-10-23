@@ -1,0 +1,1 @@
+{"id":"chatcmpl-CTnly0oetGhS8ERaUdO9YvRaDmMAr","object":"chat.completion","created":1761218874,"model":"gpt-4-0613","choices":[{"message":{"role":"assistant","content":"\"Failed to parse the template due to unexpected syntax at line 10, column 5.\""},"index":0,"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":228,"completion_tokens":19,"total_tokens":247}}

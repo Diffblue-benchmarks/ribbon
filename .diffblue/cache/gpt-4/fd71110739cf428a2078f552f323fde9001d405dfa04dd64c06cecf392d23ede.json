@@ -1,0 +1,1 @@
+{"id":"chatcmpl-CTnU2WjIItlFAfrD7hK6s536dcb0y","object":"chat.completion","created":1761217762,"model":"gpt-4-0613","choices":[{"message":{"role":"assistant","content":"\"<p>This is a test paragraph for HTMLDocument.insertAfterStart method.</p>\""},"index":0,"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":231,"completion_tokens":17,"total_tokens":248}}

@@ -20,6 +20,8 @@ public class MatrixVarDiffblueTest {
   public void testNewMatrixVar() {
     // Arrange, Act and Assert
     assertEquals(
-        "\"movieId;genre;year;rating\"", new MatrixVar("\"movieId;genre;year;rating\"").toString());
+        "\"matrixParam1=value1;matrixParam2=value2;matrixParam3=value3\"",
+        new MatrixVar("\"matrixParam1=value1;matrixParam2=value2;matrixParam3=value3\"")
+            .toString());
   }
 }

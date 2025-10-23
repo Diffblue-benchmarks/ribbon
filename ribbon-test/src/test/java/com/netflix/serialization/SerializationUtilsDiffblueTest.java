@@ -44,8 +44,8 @@ public class SerializationUtilsDiffblueTest {
     Object actualDeserializeFromStringResult =
         SerializationUtils.deserializeFromString(
             mock(Deserializer.class),
-            "{\"name\":\"John Doe\",\"age\":30,\"email\":\"johndoe@example.com\",\"address\":{\"street\":\"123 Main St\",\"city\":"
-                + "\"Springfield\",\"state\":\"IL\",\"zip\":\"62701\"}}",
+            "\"{\\\"name\\\":\\\"Breaking Bad\\\",\\\"genre\\\":\\\"Drama\\\",\\\"seasons\\\":5,\\\"rating\\\":9.5,\\\"streamingPlatform\\\":\\"
+                + "\"Netflix\\\"}\"",
             mock(TypeDef.class));
 
     // Assert

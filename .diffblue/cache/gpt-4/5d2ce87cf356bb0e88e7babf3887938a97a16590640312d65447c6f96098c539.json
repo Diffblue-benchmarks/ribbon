@@ -1,0 +1,1 @@
+{"id":"chatcmpl-CToNFChr7A7dIRMYQ7uVaOiKsU0tL","object":"chat.completion","created":1761221185,"model":"gpt-4-0613","choices":[{"message":{"role":"assistant","content":"\"Thread interrupted while performing IO operation.\""},"index":0,"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":216,"completion_tokens":8,"total_tokens":224}}
