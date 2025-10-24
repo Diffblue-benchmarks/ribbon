@@ -38,7 +38,7 @@ public class RecommendationServiceResponseValidatorDiffblueTest {
     // Arrange
     RecommendationServiceResponseValidator recommendationServiceResponseValidator =
         new RecommendationServiceResponseValidator();
-    HttpVersion version = new HttpVersion("https://example.org/example", 1, 1, true);
+    HttpVersion version = new HttpVersion("\"HTTP/1.1\"", 1, 1, true);
     DefaultFullHttpResponse nettyResponse =
         new DefaultFullHttpResponse(version, HttpResponseStatus.valueOf(1));
     HttpClientResponse<ByteBuf> response = new HttpClientResponse<>(nettyResponse, null);

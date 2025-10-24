@@ -31,13 +31,13 @@ public class UnexpectedHttpResponseExceptionDiffblueTest {
   public void testGettersAndSetters() {
     // Arrange and Act
     UnexpectedHttpResponseException actualUnexpectedHttpResponseException =
-        new UnexpectedHttpResponseException(1, "https://example.org/example");
+        new UnexpectedHttpResponseException(1, "\"HTTP/1.1 404 Not Found\"");
     int actualStatusCode = actualUnexpectedHttpResponseException.getStatusCode();
 
     // Assert
     assertEquals(
-        "https://example.org/example", actualUnexpectedHttpResponseException.getStatusLine());
-    assertEquals("https://example.org/example", actualUnexpectedHttpResponseException.getMessage());
+        "\"HTTP/1.1 404 Not Found\"", actualUnexpectedHttpResponseException.getStatusLine());
+    assertEquals("\"HTTP/1.1 404 Not Found\"", actualUnexpectedHttpResponseException.getMessage());
     assertNull(actualUnexpectedHttpResponseException.getCause());
     assertEquals(0, actualUnexpectedHttpResponseException.getSuppressed().length);
     assertEquals(1, actualStatusCode);

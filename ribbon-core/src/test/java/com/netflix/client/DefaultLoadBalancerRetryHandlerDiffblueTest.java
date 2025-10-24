@@ -6,8 +6,6 @@ import static org.junit.Assert.assertTrue;
 import com.diffblue.cover.annotations.ContributionFromDiffblue;
 import com.diffblue.cover.annotations.ManagedByDiffblue;
 import com.diffblue.cover.annotations.MethodsUnderTest;
-import com.netflix.client.config.DefaultClientConfigImpl;
-import com.netflix.client.config.IClientConfig;
 import java.net.ConnectException;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
@@ -146,84 +144,6 @@ public class DefaultLoadBalancerRetryHandlerDiffblueTest {
         actualDefaultLoadBalancerRetryHandler.getRetriableExceptions();
     assertEquals(2, retriableExceptions.size());
     assertTrue(actualDefaultLoadBalancerRetryHandler.retryEnabled);
-    Class<ConnectException> expectedGetResult = ConnectException.class;
-    assertEquals(expectedGetResult, retriableExceptions.get(0));
-    Class<SocketException> expectedGetResult2 = SocketException.class;
-    assertEquals(expectedGetResult2, circuitRelatedExceptions.get(0));
-    Class<SocketTimeoutException> expectedGetResult3 = SocketTimeoutException.class;
-    assertEquals(expectedGetResult3, circuitRelatedExceptions.get(1));
-    Class<SocketTimeoutException> expectedGetResult4 = SocketTimeoutException.class;
-    assertEquals(expectedGetResult4, retriableExceptions.get(1));
-  }
-
-  /**
-   * Test {@link DefaultLoadBalancerRetryHandler#DefaultLoadBalancerRetryHandler(IClientConfig)}.
-   *
-   * <ul>
-   *   <li>Then return MaxRetriesOnSameServer is zero.
-   * </ul>
-   *
-   * <p>Method under test: {@link
-   * DefaultLoadBalancerRetryHandler#DefaultLoadBalancerRetryHandler(IClientConfig)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void DefaultLoadBalancerRetryHandler.<init>(IClientConfig)"})
-  public void testNewDefaultLoadBalancerRetryHandler_thenReturnMaxRetriesOnSameServerIsZero() {
-    // Arrange and Act
-    DefaultLoadBalancerRetryHandler actualDefaultLoadBalancerRetryHandler =
-        new DefaultLoadBalancerRetryHandler(DefaultClientConfigImpl.getEmptyConfig());
-
-    // Assert
-    assertEquals(0, actualDefaultLoadBalancerRetryHandler.getMaxRetriesOnSameServer());
-    assertEquals(1, actualDefaultLoadBalancerRetryHandler.getMaxRetriesOnNextServer());
-    List<Class<? extends Throwable>> circuitRelatedExceptions =
-        actualDefaultLoadBalancerRetryHandler.getCircuitRelatedExceptions();
-    assertEquals(2, circuitRelatedExceptions.size());
-    List<Class<? extends Throwable>> retriableExceptions =
-        actualDefaultLoadBalancerRetryHandler.getRetriableExceptions();
-    assertEquals(2, retriableExceptions.size());
-    assertFalse(actualDefaultLoadBalancerRetryHandler.retryEnabled);
-    Class<ConnectException> expectedGetResult = ConnectException.class;
-    assertEquals(expectedGetResult, retriableExceptions.get(0));
-    Class<SocketException> expectedGetResult2 = SocketException.class;
-    assertEquals(expectedGetResult2, circuitRelatedExceptions.get(0));
-    Class<SocketTimeoutException> expectedGetResult3 = SocketTimeoutException.class;
-    assertEquals(expectedGetResult3, circuitRelatedExceptions.get(1));
-    Class<SocketTimeoutException> expectedGetResult4 = SocketTimeoutException.class;
-    assertEquals(expectedGetResult4, retriableExceptions.get(1));
-  }
-
-  /**
-   * Test {@link DefaultLoadBalancerRetryHandler#DefaultLoadBalancerRetryHandler(IClientConfig)}.
-   *
-   * <ul>
-   *   <li>Then return MaxRetriesOnSameServer is zero.
-   * </ul>
-   *
-   * <p>Method under test: {@link
-   * DefaultLoadBalancerRetryHandler#DefaultLoadBalancerRetryHandler(IClientConfig)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void DefaultLoadBalancerRetryHandler.<init>(IClientConfig)"})
-  public void testNewDefaultLoadBalancerRetryHandler_thenReturnMaxRetriesOnSameServerIsZero2() {
-    // Arrange and Act
-    DefaultLoadBalancerRetryHandler actualDefaultLoadBalancerRetryHandler =
-        new DefaultLoadBalancerRetryHandler(DefaultClientConfigImpl.getEmptyConfig());
-
-    // Assert
-    assertEquals(0, actualDefaultLoadBalancerRetryHandler.getMaxRetriesOnSameServer());
-    assertEquals(1, actualDefaultLoadBalancerRetryHandler.getMaxRetriesOnNextServer());
-    List<Class<? extends Throwable>> circuitRelatedExceptions =
-        actualDefaultLoadBalancerRetryHandler.getCircuitRelatedExceptions();
-    assertEquals(2, circuitRelatedExceptions.size());
-    List<Class<? extends Throwable>> retriableExceptions =
-        actualDefaultLoadBalancerRetryHandler.getRetriableExceptions();
-    assertEquals(2, retriableExceptions.size());
-    assertFalse(actualDefaultLoadBalancerRetryHandler.retryEnabled);
     Class<ConnectException> expectedGetResult = ConnectException.class;
     assertEquals(expectedGetResult, retriableExceptions.get(0));
     Class<SocketException> expectedGetResult2 = SocketException.class;

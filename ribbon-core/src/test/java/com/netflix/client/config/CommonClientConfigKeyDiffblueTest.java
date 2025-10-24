@@ -165,7 +165,7 @@ public class CommonClientConfigKeyDiffblueTest {
    * Test {@link CommonClientConfigKey#valueOf(String)}.
    *
    * <ul>
-   *   <li>When {@code Name}.
+   *   <li>When {@code "MaxConnectionsPerHost"}.
    *   <li>Then return defaultValue is {@code null}.
    * </ul>
    *
@@ -175,8 +175,8 @@ public class CommonClientConfigKeyDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"IClientConfigKey CommonClientConfigKey.valueOf(String)"})
-  public void testValueOf_whenName_thenReturnDefaultValueIsNull() {
+  public void testValueOf_whenMaxConnectionsPerHost_thenReturnDefaultValueIsNull() {
     // Arrange, Act and Assert
-    assertNull(CommonClientConfigKey.valueOf("Name").defaultValue());
+    assertNull(CommonClientConfigKey.valueOf("\"MaxConnectionsPerHost\"").defaultValue());
   }
 }

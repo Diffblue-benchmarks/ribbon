@@ -26,10 +26,16 @@ public class ClientSslSocketFactoryExceptionDiffblueTest {
 
     // Act
     ClientSslSocketFactoryException actualClientSslSocketFactoryException =
-        new ClientSslSocketFactoryException("An error occurred", cause);
+        new ClientSslSocketFactoryException(
+            "\"Failed to create SSL socket due to invalid SSL configuration. Please check the SSL certificate"
+                + " and key.\"",
+            cause);
 
     // Assert
-    assertEquals("An error occurred", actualClientSslSocketFactoryException.getMessage());
+    assertEquals(
+        "\"Failed to create SSL socket due to invalid SSL configuration. Please check the SSL certificate"
+            + " and key.\"",
+        actualClientSslSocketFactoryException.getMessage());
     assertEquals(0, actualClientSslSocketFactoryException.getSuppressed().length);
     assertSame(cause, actualClientSslSocketFactoryException.getCause());
   }

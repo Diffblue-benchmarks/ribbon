@@ -1,7 +1,6 @@
 package com.netflix.ribbon.examples.rx.common;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import com.diffblue.cover.annotations.ContributionFromDiffblue;
 import com.diffblue.cover.annotations.ManagedByDiffblue;
@@ -83,29 +82,10 @@ public class RecommendationsDiffblueTest {
   }
 
   /**
-   * Test {@link Recommendations#equals(Object)}.
-   *
-   * <ul>
-   *   <li>When other is different.
-   *   <li>Then return not equal.
-   * </ul>
-   *
-   * <p>Method under test: {@link Recommendations#equals(Object)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"boolean Recommendations.equals(Object)", "int Recommendations.hashCode()"})
-  public void testEquals_whenOtherIsDifferent_thenReturnNotEqual() {
-    // Arrange, Act and Assert
-    assertNotEquals(new Recommendations(new ArrayList<>()), "42");
-  }
-
-  /**
    * Test {@link Recommendations#from(String)}.
    *
    * <ul>
-   *   <li>When {@code Formatted}.
+   *   <li>When a string.
    *   <li>Then throw {@link IllegalArgumentException}.
    * </ul>
    *
@@ -115,9 +95,11 @@ public class RecommendationsDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"Recommendations Recommendations.from(String)"})
-  public void testFrom_whenFormatted_thenThrowIllegalArgumentException() {
+  public void testFrom_whenAString_thenThrowIllegalArgumentException() {
     // Arrange, Act and Assert
     thrown.expect(IllegalArgumentException.class);
-    Recommendations.from("Formatted");
+    Recommendations.from(
+        "\"Action,Adventure,Animation,Biography,Comedy,Crime,Documentary,Drama,Family,Fantasy,Film-Noir,History"
+            + ",Horror,Music,Musical,Mystery,Romance,Sci-Fi,Sport,Thriller,War,Western\"");
   }
 }

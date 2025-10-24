@@ -1,5 +1,6 @@
 package com.netflix.loadbalancer;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
@@ -37,65 +38,6 @@ public class CompositePredicateDiffblueTest {
 
     // Assert
     assertTrue(actualApplyResult);
-  }
-
-  /**
-   * Test Builder {@link Builder#addFallbackPredicate(AbstractServerPredicate)}.
-   *
-   * <p>Method under test: {@link Builder#addFallbackPredicate(AbstractServerPredicate)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"Builder Builder.addFallbackPredicate(AbstractServerPredicate)"})
-  public void testBuilderAddFallbackPredicate() {
-    // Arrange
-    CompositePredicate primaryPredicate = CompositePredicate.withPredicates().build();
-    Builder withPredicateResult = CompositePredicate.withPredicate(primaryPredicate);
-
-    // Act
-    Builder actualAddFallbackPredicateResult =
-        withPredicateResult.addFallbackPredicate(new CompositePredicate());
-
-    // Assert
-    assertSame(withPredicateResult, actualAddFallbackPredicateResult);
-  }
-
-  /**
-   * Test Builder {@link Builder#Builder(AbstractServerPredicate)}.
-   *
-   * <p>Method under test: {@link Builder#Builder(AbstractServerPredicate)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void Builder.<init>(AbstractServerPredicate)"})
-  public void testBuilderNewBuilder() {
-    // Arrange, Act and Assert
-    CompositePredicate compositePredicate = new Builder(new CompositePredicate()).build();
-    assertNull(compositePredicate.rule);
-    assertNull(compositePredicate.getLBStats());
-  }
-
-  /**
-   * Test Builder {@link Builder#Builder(AbstractServerPredicate[])}.
-   *
-   * <ul>
-   *   <li>When {@link CompositePredicate} (default constructor).
-   *   <li>Then return build {@link AbstractServerPredicate#rule} is {@code null}.
-   * </ul>
-   *
-   * <p>Method under test: {@link Builder#Builder(AbstractServerPredicate[])}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void Builder.<init>(AbstractServerPredicate[])"})
-  public void testBuilderNewBuilder_whenCompositePredicate_thenReturnBuildRuleIsNull() {
-    // Arrange, Act and Assert
-    CompositePredicate compositePredicate = new Builder(new CompositePredicate()).build();
-    assertNull(compositePredicate.rule);
-    assertNull(compositePredicate.getLBStats());
   }
 
   /**
@@ -141,6 +83,37 @@ public class CompositePredicateDiffblueTest {
 
     // Assert
     assertSame(withPredicateResult, actualSetFallbackThresholdAsMinimalFilteredPercentageResult);
+  }
+
+  /**
+   * Test {@link CompositePredicate#getEligibleServers(List, Object)} with {@code servers}, {@code
+   * loadBalancerKey}.
+   *
+   * <ul>
+   *   <li>Then return {@link ArrayList#ArrayList()}.
+   * </ul>
+   *
+   * <p>Method under test: {@link CompositePredicate#getEligibleServers(List, Object)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"List CompositePredicate.getEligibleServers(List, Object)"})
+  public void testGetEligibleServersWithServersLoadBalancerKey_thenReturnArrayList() {
+    // Arrange
+    CompositePredicate primaryPredicate = CompositePredicate.withPredicates().build();
+    CompositePredicate compositePredicate =
+        CompositePredicate.withPredicate(primaryPredicate).build();
+
+    ArrayList<Server> servers = new ArrayList<>();
+    servers.add(new Server("42"));
+
+    // Act
+    List<Server> actualEligibleServers =
+        compositePredicate.getEligibleServers(servers, "Load Balancer Key");
+
+    // Assert
+    assertEquals(servers, actualEligibleServers);
   }
 
   /**

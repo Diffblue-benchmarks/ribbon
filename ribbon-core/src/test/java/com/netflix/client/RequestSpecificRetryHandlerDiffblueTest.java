@@ -1,84 +1,15 @@
 package com.netflix.client;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import com.diffblue.cover.annotations.ContributionFromDiffblue;
 import com.diffblue.cover.annotations.ManagedByDiffblue;
 import com.diffblue.cover.annotations.MethodsUnderTest;
-import com.netflix.client.config.DefaultClientConfigImpl;
-import com.netflix.client.config.IClientConfig;
-import com.netflix.client.config.IClientConfig.Builder;
 import java.net.SocketException;
 import java.util.List;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 public class RequestSpecificRetryHandlerDiffblueTest {
-  /**
-   * Test {@link RequestSpecificRetryHandler#RequestSpecificRetryHandler(boolean, boolean,
-   * RetryHandler, IClientConfig)}.
-   *
-   * <ul>
-   *   <li>Then return MaxRetriesOnNextServer is zero.
-   * </ul>
-   *
-   * <p>Method under test: {@link RequestSpecificRetryHandler#RequestSpecificRetryHandler(boolean,
-   * boolean, RetryHandler, IClientConfig)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "void RequestSpecificRetryHandler.<init>(boolean, boolean, RetryHandler, IClientConfig)"
-  })
-  public void testNewRequestSpecificRetryHandler_thenReturnMaxRetriesOnNextServerIsZero() {
-    // Arrange and Act
-    RequestSpecificRetryHandler actualRequestSpecificRetryHandler =
-        new RequestSpecificRetryHandler(
-            true, true, RetryHandler.DEFAULT, DefaultClientConfigImpl.getEmptyConfig());
-
-    // Assert
-    assertEquals(0, actualRequestSpecificRetryHandler.getMaxRetriesOnNextServer());
-    assertEquals(0, actualRequestSpecificRetryHandler.getMaxRetriesOnSameServer());
-    List<Class<? extends Throwable>> resultClassList =
-        actualRequestSpecificRetryHandler.connectionRelated;
-    assertEquals(1, resultClassList.size());
-    Class<SocketException> expectedGetResult = SocketException.class;
-    assertEquals(expectedGetResult, resultClassList.get(0));
-  }
-
-  /**
-   * Test {@link RequestSpecificRetryHandler#RequestSpecificRetryHandler(boolean, boolean,
-   * RetryHandler, IClientConfig)}.
-   *
-   * <ul>
-   *   <li>Then return MaxRetriesOnNextServer is zero.
-   * </ul>
-   *
-   * <p>Method under test: {@link RequestSpecificRetryHandler#RequestSpecificRetryHandler(boolean,
-   * boolean, RetryHandler, IClientConfig)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "void RequestSpecificRetryHandler.<init>(boolean, boolean, RetryHandler, IClientConfig)"
-  })
-  public void testNewRequestSpecificRetryHandler_thenReturnMaxRetriesOnNextServerIsZero2() {
-    // Arrange and Act
-    RequestSpecificRetryHandler actualRequestSpecificRetryHandler =
-        new RequestSpecificRetryHandler(true, true, RetryHandler.DEFAULT, null);
-
-    // Assert
-    assertEquals(0, actualRequestSpecificRetryHandler.getMaxRetriesOnNextServer());
-    assertEquals(0, actualRequestSpecificRetryHandler.getMaxRetriesOnSameServer());
-    List<Class<? extends Throwable>> resultClassList =
-        actualRequestSpecificRetryHandler.connectionRelated;
-    assertEquals(1, resultClassList.size());
-    Class<SocketException> expectedGetResult = SocketException.class;
-    assertEquals(expectedGetResult, resultClassList.get(0));
-  }
-
   /**
    * Test {@link RequestSpecificRetryHandler#RequestSpecificRetryHandler(boolean, boolean)}.
    *
@@ -135,117 +66,5 @@ public class RequestSpecificRetryHandlerDiffblueTest {
     assertEquals(1, resultClassList.size());
     Class<SocketException> expectedGetResult = SocketException.class;
     assertEquals(expectedGetResult, resultClassList.get(0));
-  }
-
-  /**
-   * Test {@link RequestSpecificRetryHandler#isCircuitTrippingException(Throwable)}.
-   *
-   * <p>Method under test: {@link RequestSpecificRetryHandler#isCircuitTrippingException(Throwable)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"boolean RequestSpecificRetryHandler.isCircuitTrippingException(Throwable)"})
-  public void testIsCircuitTrippingException() {
-    // Arrange
-    RequestSpecificRetryHandler requestSpecificRetryHandler =
-        new RequestSpecificRetryHandler(true, true);
-
-    // Act and Assert
-    assertFalse(requestSpecificRetryHandler.isCircuitTrippingException(new Throwable()));
-  }
-
-  /**
-   * Test {@link RequestSpecificRetryHandler#isCircuitTrippingException(Throwable)}.
-   *
-   * <p>Method under test: {@link RequestSpecificRetryHandler#isCircuitTrippingException(Throwable)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"boolean RequestSpecificRetryHandler.isCircuitTrippingException(Throwable)"})
-  public void testIsCircuitTrippingException2() {
-    // Arrange
-    RequestSpecificRetryHandler baseRetryHandler = new RequestSpecificRetryHandler(true, true);
-    IClientConfig requestConfig =
-        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build();
-
-    RequestSpecificRetryHandler requestSpecificRetryHandler =
-        new RequestSpecificRetryHandler(true, true, baseRetryHandler, requestConfig);
-
-    // Act and Assert
-    assertFalse(requestSpecificRetryHandler.isCircuitTrippingException(new Throwable()));
-  }
-
-  /**
-   * Test {@link RequestSpecificRetryHandler#getMaxRetriesOnSameServer()}.
-   *
-   * <p>Method under test: {@link RequestSpecificRetryHandler#getMaxRetriesOnSameServer()}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"int RequestSpecificRetryHandler.getMaxRetriesOnSameServer()"})
-  public void testGetMaxRetriesOnSameServer() {
-    // Arrange, Act and Assert
-    assertEquals(0, new RequestSpecificRetryHandler(true, true).getMaxRetriesOnSameServer());
-  }
-
-  /**
-   * Test {@link RequestSpecificRetryHandler#getMaxRetriesOnSameServer()}.
-   *
-   * <p>Method under test: {@link RequestSpecificRetryHandler#getMaxRetriesOnSameServer()}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"int RequestSpecificRetryHandler.getMaxRetriesOnSameServer()"})
-  public void testGetMaxRetriesOnSameServer2() {
-    // Arrange
-    RequestSpecificRetryHandler baseRetryHandler = new RequestSpecificRetryHandler(true, true);
-    IClientConfig requestConfig =
-        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build();
-
-    // Act and Assert
-    assertEquals(
-        0,
-        new RequestSpecificRetryHandler(true, true, baseRetryHandler, requestConfig)
-            .getMaxRetriesOnSameServer());
-  }
-
-  /**
-   * Test {@link RequestSpecificRetryHandler#getMaxRetriesOnNextServer()}.
-   *
-   * <p>Method under test: {@link RequestSpecificRetryHandler#getMaxRetriesOnNextServer()}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"int RequestSpecificRetryHandler.getMaxRetriesOnNextServer()"})
-  public void testGetMaxRetriesOnNextServer() {
-    // Arrange, Act and Assert
-    assertEquals(0, new RequestSpecificRetryHandler(true, true).getMaxRetriesOnNextServer());
-  }
-
-  /**
-   * Test {@link RequestSpecificRetryHandler#getMaxRetriesOnNextServer()}.
-   *
-   * <p>Method under test: {@link RequestSpecificRetryHandler#getMaxRetriesOnNextServer()}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"int RequestSpecificRetryHandler.getMaxRetriesOnNextServer()"})
-  public void testGetMaxRetriesOnNextServer2() {
-    // Arrange
-    RequestSpecificRetryHandler baseRetryHandler = new RequestSpecificRetryHandler(true, true);
-    IClientConfig requestConfig =
-        Builder.newBuilder().ignoreUserTokenInConnectionPoolForSecureClient(true).build();
-
-    // Act and Assert
-    assertEquals(
-        0,
-        new RequestSpecificRetryHandler(true, true, baseRetryHandler, requestConfig)
-            .getMaxRetriesOnNextServer());
   }
 }

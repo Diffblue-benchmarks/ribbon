@@ -58,7 +58,7 @@ public class URLSslContextFactoryDiffblueTest {
    * Test {@link URLSslContextFactory#URLSslContextFactory(URL, String, URL, String)}.
    *
    * <ul>
-   *   <li>When {@code https://example.org/example}.
+   *   <li>When {@code "myTrustStorePassword123"}.
    * </ul>
    *
    * <p>Method under test: {@link URLSslContextFactory#URLSslContextFactory(URL, String, URL,
@@ -68,7 +68,7 @@ public class URLSslContextFactoryDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void URLSslContextFactory.<init>(URL, String, URL, String)"})
-  public void testNewURLSslContextFactory_whenHttpsExampleOrgExample()
+  public void testNewURLSslContextFactory_whenMyTrustStorePassword123()
       throws ClientSslSocketFactoryException, MalformedURLException {
     // Arrange
     URL trustStoreUrl = Paths.get(System.getProperty("java.io.tmpdir"), "test.txt").toUri().toURL();
@@ -77,7 +77,10 @@ public class URLSslContextFactoryDiffblueTest {
     // Act and Assert
     thrown.expect(ClientSslSocketFactoryException.class);
     new URLSslContextFactory(
-        trustStoreUrl, "https://example.org/example", keyStoreUrl, "https://example.org/example");
+        trustStoreUrl,
+        "\"myTrustStorePassword123\"",
+        keyStoreUrl,
+        "\"mySecureKeyStorePassword123\"");
   }
 
   /**
@@ -200,6 +203,9 @@ public class URLSslContextFactoryDiffblueTest {
     // Act and Assert
     thrown.expect(ClientSslSocketFactoryException.class);
     new URLSslContextFactory(
-        trustStoreUrl, "https://example.org/example", keyStoreUrl, "https://example.org/example");
+        trustStoreUrl,
+        "\"myTrustStorePassword123\"",
+        keyStoreUrl,
+        "\"mySecureKeyStorePassword123\"");
   }
 }

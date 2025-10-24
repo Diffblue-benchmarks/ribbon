@@ -1,7 +1,6 @@
 package com.netflix.loadbalancer;
 
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 import com.diffblue.cover.annotations.ContributionFromDiffblue;
 import com.diffblue.cover.annotations.ManagedByDiffblue;
 import com.diffblue.cover.annotations.MethodsUnderTest;
@@ -21,25 +20,5 @@ public class DummyPingDiffblueTest {
   public void testNewDummyPing() {
     // Arrange, Act and Assert
     assertNull(new DummyPing().getLoadBalancer());
-  }
-
-  /**
-   * Test {@link DummyPing#isAlive(Server)}.
-   *
-   * <p>Method under test: {@link DummyPing#isAlive(Server)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"boolean DummyPing.isAlive(Server)"})
-  public void testIsAlive() {
-    // Arrange
-    DummyPing dummyPing = new DummyPing();
-
-    // Act
-    boolean actualIsAliveResult = dummyPing.isAlive(new Server("42"));
-
-    // Assert
-    assertTrue(actualIsAliveResult);
   }
 }

@@ -19,6 +19,6 @@ public class PathVarDiffblueTest {
   @MethodsUnderTest({"void PathVar.<init>(String)"})
   public void testNewPathVar() {
     // Arrange, Act and Assert
-    assertEquals("Val", new PathVar("Val").toString());
+    assertEquals("\"userProfile\"", new PathVar("\"userProfile\"").toString());
   }
 }

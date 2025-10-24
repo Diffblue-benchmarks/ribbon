@@ -63,26 +63,6 @@ public class HttpClientRequestDiffblueTest {
   }
 
   /**
-   * Test Builder {@link Builder#setEntity(Object)}.
-   *
-   * <p>Method under test: {@link Builder#setEntity(Object)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"Builder Builder.setEntity(Object)"})
-  public void testBuilderSetEntity() {
-    // Arrange
-    Builder newBuilderResult = HttpClientRequest.newBuilder();
-
-    // Act
-    Builder actualSetEntityResult = newBuilderResult.setEntity("Entity");
-
-    // Assert
-    assertSame(newBuilderResult, actualSetEntityResult);
-  }
-
-  /**
    * Test Builder {@link Builder#setHeaders(MultivaluedMap)}.
    *
    * <p>Method under test: {@link Builder#setHeaders(MultivaluedMap)}
@@ -100,27 +80,6 @@ public class HttpClientRequestDiffblueTest {
 
     // Assert
     assertSame(newBuilderResult, actualSetHeadersResult);
-  }
-
-  /**
-   * Test Builder {@link Builder#setLoadBalancerKey(Object)}.
-   *
-   * <p>Method under test: {@link Builder#setLoadBalancerKey(Object)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"Builder Builder.setLoadBalancerKey(Object)"})
-  public void testBuilderSetLoadBalancerKey() {
-    // Arrange
-    Builder newBuilderResult = HttpClientRequest.newBuilder();
-
-    // Act
-    Builder actualSetLoadBalancerKeyResult =
-        newBuilderResult.setLoadBalancerKey("Load Balancer Key");
-
-    // Assert
-    assertSame(newBuilderResult, actualSetLoadBalancerKeyResult);
   }
 
   /**

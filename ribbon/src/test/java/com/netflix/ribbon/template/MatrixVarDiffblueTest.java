@@ -19,6 +19,9 @@ public class MatrixVarDiffblueTest {
   @MethodsUnderTest({"void MatrixVar.<init>(String)"})
   public void testNewMatrixVar() {
     // Arrange, Act and Assert
-    assertEquals("Val", new MatrixVar("Val").toString());
+    assertEquals(
+        "\"matrixParam1=value1;matrixParam2=value2;matrixParam3=value3\"",
+        new MatrixVar("\"matrixParam1=value1;matrixParam2=value2;matrixParam3=value3\"")
+            .toString());
   }
 }

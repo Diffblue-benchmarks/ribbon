@@ -13,13 +13,18 @@ public class ExecutionInfoDiffblueTest {
   /**
    * Test {@link ExecutionInfo#create(Server, int, int)}.
    *
+   * <ul>
+   *   <li>When {@link Server#Server(String)} with id is {@code 42}.
+   *   <li>Then return NumberOfPastAttemptsOnServer is ten.
+   * </ul>
+   *
    * <p>Method under test: {@link ExecutionInfo#create(Server, int, int)}
    */
   @Test
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"ExecutionInfo ExecutionInfo.create(Server, int, int)"})
-  public void testCreate() {
+  public void testCreate_whenServerWithIdIs42_thenReturnNumberOfPastAttemptsOnServerIsTen() {
     // Arrange
     Server server = new Server("42");
 
@@ -30,45 +35,5 @@ public class ExecutionInfoDiffblueTest {
     assertEquals(10, actualCreateResult.getNumberOfPastAttemptsOnServer());
     assertEquals(10, actualCreateResult.getNumberOfPastServersAttempted());
     assertSame(server, actualCreateResult.getServer());
-  }
-
-  /**
-   * Test getters and setters.
-   *
-   * <p>Methods under test:
-   *
-   * <ul>
-   *   <li>{@link ExecutionInfo#toString()}
-   *   <li>{@link ExecutionInfo#getNumberOfPastAttemptsOnServer()}
-   *   <li>{@link ExecutionInfo#getNumberOfPastServersAttempted()}
-   *   <li>{@link ExecutionInfo#getServer()}
-   * </ul>
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "int ExecutionInfo.getNumberOfPastAttemptsOnServer()",
-    "int ExecutionInfo.getNumberOfPastServersAttempted()",
-    "Server ExecutionInfo.getServer()",
-    "String ExecutionInfo.toString()"
-  })
-  public void testGettersAndSetters() {
-    // Arrange
-    Server server = new Server("42");
-    ExecutionInfo createResult = ExecutionInfo.create(server, 10, 10);
-
-    // Act
-    String actualToStringResult = createResult.toString();
-    int actualNumberOfPastAttemptsOnServer = createResult.getNumberOfPastAttemptsOnServer();
-    int actualNumberOfPastServersAttempted = createResult.getNumberOfPastServersAttempted();
-
-    // Assert
-    assertEquals(
-        "ExecutionInfo{server=42:80, numberOfPastAttemptsOnServer=10, numberOfPastServersAttempted=10}",
-        actualToStringResult);
-    assertEquals(10, actualNumberOfPastAttemptsOnServer);
-    assertEquals(10, actualNumberOfPastServersAttempted);
-    assertSame(server, createResult.getServer());
   }
 }

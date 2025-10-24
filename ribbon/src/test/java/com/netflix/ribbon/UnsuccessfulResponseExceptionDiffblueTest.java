@@ -46,7 +46,7 @@ public class UnsuccessfulResponseExceptionDiffblueTest {
    * Test {@link UnsuccessfulResponseException#UnsuccessfulResponseException(String)}.
    *
    * <ul>
-   *   <li>When {@code Arg0}.
+   *   <li>When a string.
    *   <li>Then return Cause is {@code null}.
    * </ul>
    *
@@ -61,13 +61,18 @@ public class UnsuccessfulResponseExceptionDiffblueTest {
     "void UnsuccessfulResponseException.<init>(String, Throwable)",
     "void UnsuccessfulResponseException.<init>(Throwable)"
   })
-  public void testNewUnsuccessfulResponseException_whenArg0_thenReturnCauseIsNull() {
+  public void testNewUnsuccessfulResponseException_whenAString_thenReturnCauseIsNull() {
     // Arrange and Act
     UnsuccessfulResponseException actualUnsuccessfulResponseException =
-        new UnsuccessfulResponseException("Arg0");
+        new UnsuccessfulResponseException(
+            "\"Error: Unsuccessful response received from the server while trying to stream a Netflix movie. Please"
+                + " check your internet connection and try again.\"");
 
     // Assert
-    assertEquals("Arg0", actualUnsuccessfulResponseException.getMessage());
+    assertEquals(
+        "\"Error: Unsuccessful response received from the server while trying to stream a Netflix movie. Please"
+            + " check your internet connection and try again.\"",
+        actualUnsuccessfulResponseException.getMessage());
     assertNull(actualUnsuccessfulResponseException.getCause());
     assertEquals(0, actualUnsuccessfulResponseException.getSuppressed().length);
   }
@@ -76,8 +81,8 @@ public class UnsuccessfulResponseExceptionDiffblueTest {
    * Test {@link UnsuccessfulResponseException#UnsuccessfulResponseException(String, Throwable)}.
    *
    * <ul>
-   *   <li>When {@code Arg0}.
-   *   <li>Then return Message is {@code Arg0}.
+   *   <li>When a string.
+   *   <li>Then return Message is a string.
    * </ul>
    *
    * <p>Method under test: {@link
@@ -91,16 +96,22 @@ public class UnsuccessfulResponseExceptionDiffblueTest {
     "void UnsuccessfulResponseException.<init>(String, Throwable)",
     "void UnsuccessfulResponseException.<init>(Throwable)"
   })
-  public void testNewUnsuccessfulResponseException_whenArg0_thenReturnMessageIsArg0() {
+  public void testNewUnsuccessfulResponseException_whenAString_thenReturnMessageIsAString() {
     // Arrange
     Throwable arg1 = new Throwable();
 
     // Act
     UnsuccessfulResponseException actualUnsuccessfulResponseException =
-        new UnsuccessfulResponseException("Arg0", arg1);
+        new UnsuccessfulResponseException(
+            "\"Failed to retrieve data from Netflix server due to a timeout exception. Please check your network"
+                + " connection and try again.\"",
+            arg1);
 
     // Assert
-    assertEquals("Arg0", actualUnsuccessfulResponseException.getMessage());
+    assertEquals(
+        "\"Failed to retrieve data from Netflix server due to a timeout exception. Please check your network"
+            + " connection and try again.\"",
+        actualUnsuccessfulResponseException.getMessage());
     assertEquals(0, actualUnsuccessfulResponseException.getSuppressed().length);
     assertSame(arg1, actualUnsuccessfulResponseException.getCause());
   }

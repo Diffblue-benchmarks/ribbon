@@ -24,6 +24,10 @@ public class TemplateVarDiffblueTest {
   @MethodsUnderTest({"void TemplateVar.<init>(String)", "String TemplateVar.toString()"})
   public void testGettersAndSetters() {
     // Arrange, Act and Assert
-    assertEquals("Val", new TemplateVar("Val").toString());
+    assertEquals(
+        "\"customerID:12345,orderID:67890,productID:111213,quantity:5,price:99.99\"",
+        new TemplateVar(
+                "\"customerID:12345,orderID:67890,productID:111213,quantity:5,price:99.99\"")
+            .toString());
   }
 }

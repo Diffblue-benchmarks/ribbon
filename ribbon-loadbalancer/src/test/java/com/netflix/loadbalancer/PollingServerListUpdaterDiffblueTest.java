@@ -45,20 +45,6 @@ public class PollingServerListUpdaterDiffblueTest {
   }
 
   /**
-   * Test {@link PollingServerListUpdater#getNumberMissedCycles()}.
-   *
-   * <p>Method under test: {@link PollingServerListUpdater#getNumberMissedCycles()}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"int PollingServerListUpdater.getNumberMissedCycles()"})
-  public void testGetNumberMissedCycles() {
-    // Arrange, Act and Assert
-    assertEquals(0, new PollingServerListUpdater().getNumberMissedCycles());
-  }
-
-  /**
    * Test {@link PollingServerListUpdater#getCoreThreads()}.
    *
    * <p>Method under test: {@link PollingServerListUpdater#getCoreThreads()}

@@ -1,6 +1,7 @@
 package com.netflix.loadbalancer;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import com.diffblue.cover.annotations.ContributionFromDiffblue;
@@ -11,33 +12,6 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 public class ConfigurationBasedServerListDiffblueTest {
-  /**
-   * Test {@link ConfigurationBasedServerList#derive(String)}.
-   *
-   * <ul>
-   *   <li>When {@code 42}.
-   *   <li>Then return first Host is {@code 42}.
-   * </ul>
-   *
-   * <p>Method under test: {@link ConfigurationBasedServerList#derive(String)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"List ConfigurationBasedServerList.derive(String)"})
-  public void testDerive_when42_thenReturnFirstHostIs42() {
-    // Arrange and Act
-    List<Server> actualDeriveResult = new ConfigurationBasedServerList().derive("42");
-
-    // Assert
-    assertEquals(1, actualDeriveResult.size());
-    Server getResult = actualDeriveResult.get(0);
-    assertEquals("42", getResult.getHost());
-    assertEquals("42:80", getResult.getHostPort());
-    assertEquals("42:80", getResult.getId());
-    assertNull(getResult.getScheme());
-  }
-
   /**
    * Test {@link ConfigurationBasedServerList#derive(String)}.
    *
@@ -55,6 +29,41 @@ public class ConfigurationBasedServerListDiffblueTest {
   public void testDerive_whenEmptyString_thenReturnEmpty() {
     // Arrange, Act and Assert
     assertTrue(new ConfigurationBasedServerList().derive("").isEmpty());
+  }
+
+  /**
+   * Test {@link ConfigurationBasedServerList#derive(String)}.
+   *
+   * <ul>
+   *   <li>When {@code foo,bar}.
+   *   <li>Then return size is two.
+   * </ul>
+   *
+   * <p>Method under test: {@link ConfigurationBasedServerList#derive(String)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"List ConfigurationBasedServerList.derive(String)"})
+  public void testDerive_whenFooBar_thenReturnSizeIsTwo() {
+    // Arrange and Act
+    List<Server> actualDeriveResult = new ConfigurationBasedServerList().derive("foo,bar");
+
+    // Assert
+    assertEquals(2, actualDeriveResult.size());
+    Server getResult = actualDeriveResult.get(1);
+    assertEquals("bar", getResult.getHost());
+    assertEquals("bar:80", getResult.getHostPort());
+    assertEquals("bar:80", getResult.getId());
+    Server getResult2 = actualDeriveResult.get(0);
+    assertEquals("foo", getResult2.getHost());
+    assertEquals("foo:80", getResult2.getHostPort());
+    assertEquals("foo:80", getResult2.getId());
+    assertNull(getResult.getScheme());
+    assertEquals(80, getResult.getPort());
+    assertFalse(getResult.isAlive());
+    assertTrue(getResult.isReadyToServe());
+    assertEquals(Server.UNKNOWN_ZONE, getResult.getZone());
   }
 
   /**
@@ -136,7 +145,7 @@ public class ConfigurationBasedServerListDiffblueTest {
    *
    * <ul>
    *   <li>When {@code /}.
-   *   <li>Then return first Host is empty string.
+   *   <li>Then return first Scheme is {@code null}.
    * </ul>
    *
    * <p>Method under test: {@link ConfigurationBasedServerList#derive(String)}
@@ -145,7 +154,7 @@ public class ConfigurationBasedServerListDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"List ConfigurationBasedServerList.derive(String)"})
-  public void testDerive_whenSlash_thenReturnFirstHostIsEmptyString() {
+  public void testDerive_whenSlash_thenReturnFirstSchemeIsNull() {
     // Arrange and Act
     List<Server> actualDeriveResult = new ConfigurationBasedServerList().derive("/");
 

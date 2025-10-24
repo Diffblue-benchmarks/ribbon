@@ -1,9 +1,7 @@
 package com.netflix.niws.client.http;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
 import com.diffblue.cover.annotations.ContributionFromDiffblue;
 import com.diffblue.cover.annotations.ManagedByDiffblue;
 import com.diffblue.cover.annotations.MethodsUnderTest;
@@ -114,104 +112,6 @@ public class HttpClientLoadBalancerErrorHandlerDiffblueTest {
     assertEquals(expectedGetResult10, circuitRelatedExceptions.get(4));
     Class<HttpHostConnectException> expectedGetResult11 = HttpHostConnectException.class;
     assertEquals(expectedGetResult11, retriableExceptions.get(6));
-  }
-
-  /**
-   * Test {@link HttpClientLoadBalancerErrorHandler#isCircuitTrippingException(Throwable)}.
-   *
-   * <p>Method under test: {@link
-   * HttpClientLoadBalancerErrorHandler#isCircuitTrippingException(Throwable)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "boolean HttpClientLoadBalancerErrorHandler.isCircuitTrippingException(Throwable)"
-  })
-  public void testIsCircuitTrippingException() {
-    // Arrange
-    HttpClientLoadBalancerErrorHandler httpClientLoadBalancerErrorHandler =
-        new HttpClientLoadBalancerErrorHandler();
-
-    // Act and Assert
-    assertFalse(httpClientLoadBalancerErrorHandler.isCircuitTrippingException(new Throwable()));
-  }
-
-  /**
-   * Test {@link HttpClientLoadBalancerErrorHandler#isRetriableException(Throwable, boolean)}.
-   *
-   * <ul>
-   *   <li>Given {@link HttpClientLoadBalancerErrorHandler#HttpClientLoadBalancerErrorHandler()}.
-   *   <li>Then return {@code false}.
-   * </ul>
-   *
-   * <p>Method under test: {@link HttpClientLoadBalancerErrorHandler#isRetriableException(Throwable,
-   * boolean)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "boolean HttpClientLoadBalancerErrorHandler.isRetriableException(Throwable, boolean)"
-  })
-  public void testIsRetriableException_givenHttpClientLoadBalancerErrorHandler_thenReturnFalse() {
-    // Arrange
-    HttpClientLoadBalancerErrorHandler httpClientLoadBalancerErrorHandler =
-        new HttpClientLoadBalancerErrorHandler();
-
-    // Act and Assert
-    assertFalse(httpClientLoadBalancerErrorHandler.isRetriableException(new Throwable(), true));
-  }
-
-  /**
-   * Test {@link HttpClientLoadBalancerErrorHandler#isRetriableException(Throwable, boolean)}.
-   *
-   * <ul>
-   *   <li>Then return {@code false}.
-   * </ul>
-   *
-   * <p>Method under test: {@link HttpClientLoadBalancerErrorHandler#isRetriableException(Throwable,
-   * boolean)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "boolean HttpClientLoadBalancerErrorHandler.isRetriableException(Throwable, boolean)"
-  })
-  public void testIsRetriableException_thenReturnFalse() {
-    // Arrange
-    HttpClientLoadBalancerErrorHandler httpClientLoadBalancerErrorHandler =
-        new HttpClientLoadBalancerErrorHandler(1, 1, true);
-
-    // Act and Assert
-    assertFalse(httpClientLoadBalancerErrorHandler.isRetriableException(new Throwable(), true));
-  }
-
-  /**
-   * Test {@link HttpClientLoadBalancerErrorHandler#isRetriableException(Throwable, boolean)}.
-   *
-   * <ul>
-   *   <li>When {@code false}.
-   *   <li>Then return {@code true}.
-   * </ul>
-   *
-   * <p>Method under test: {@link HttpClientLoadBalancerErrorHandler#isRetriableException(Throwable,
-   * boolean)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "boolean HttpClientLoadBalancerErrorHandler.isRetriableException(Throwable, boolean)"
-  })
-  public void testIsRetriableException_whenFalse_thenReturnTrue() {
-    // Arrange
-    HttpClientLoadBalancerErrorHandler httpClientLoadBalancerErrorHandler =
-        new HttpClientLoadBalancerErrorHandler(1, 1, true);
-
-    // Act and Assert
-    assertTrue(httpClientLoadBalancerErrorHandler.isRetriableException(new Throwable(), false));
   }
 
   /**

@@ -39,7 +39,7 @@ public class PingConstantDiffblueTest {
    * Test {@link PingConstant#setConstant(String)} with {@code constantStr}.
    *
    * <ul>
-   *   <li>When {@code Constant Str}.
+   *   <li>When {@code "ServerStatus:Alive"}.
    *   <li>Then not {@link PingConstant} (default constructor) Constant.
    * </ul>
    *
@@ -49,12 +49,12 @@ public class PingConstantDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void PingConstant.setConstant(String)"})
-  public void testSetConstantWithConstantStr_whenConstantStr_thenNotPingConstantConstant() {
+  public void testSetConstantWithConstantStr_whenServerStatusAlive_thenNotPingConstantConstant() {
     // Arrange
     PingConstant pingConstant = new PingConstant();
 
     // Act
-    pingConstant.setConstant("Constant Str");
+    pingConstant.setConstant("\"ServerStatus:Alive\"");
 
     // Assert
     assertFalse(pingConstant.getConstant());
@@ -89,7 +89,8 @@ public class PingConstantDiffblueTest {
    * Test {@link PingConstant#isAlive(Server)}.
    *
    * <ul>
-   *   <li>Given {@link PingConstant} (default constructor) Constant is {@code Constant Str}.
+   *   <li>Given {@link PingConstant} (default constructor) Constant is {@code
+   *       "ServerStatus:Alive"}.
    *   <li>Then return {@code false}.
    * </ul>
    *
@@ -99,10 +100,10 @@ public class PingConstantDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"boolean PingConstant.isAlive(Server)"})
-  public void testIsAlive_givenPingConstantConstantIsConstantStr_thenReturnFalse() {
+  public void testIsAlive_givenPingConstantConstantIsServerStatusAlive_thenReturnFalse() {
     // Arrange
     PingConstant pingConstant = new PingConstant();
-    pingConstant.setConstant("Constant Str");
+    pingConstant.setConstant("\"ServerStatus:Alive\"");
 
     // Act
     boolean actualIsAliveResult = pingConstant.isAlive(new Server("42"));
@@ -116,6 +117,7 @@ public class PingConstantDiffblueTest {
    *
    * <ul>
    *   <li>Given {@link PingConstant} (default constructor).
+   *   <li>When {@link Server#Server(String)} with id is {@code 42}.
    *   <li>Then return {@code true}.
    * </ul>
    *
@@ -125,7 +127,7 @@ public class PingConstantDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"boolean PingConstant.isAlive(Server)"})
-  public void testIsAlive_givenPingConstant_thenReturnTrue() {
+  public void testIsAlive_givenPingConstant_whenServerWithIdIs42_thenReturnTrue() {
     // Arrange
     PingConstant pingConstant = new PingConstant();
 

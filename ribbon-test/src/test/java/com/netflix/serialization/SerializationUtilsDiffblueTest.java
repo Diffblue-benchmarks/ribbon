@@ -43,7 +43,9 @@ public class SerializationUtilsDiffblueTest {
     // Arrange and Act
     Object actualDeserializeFromStringResult =
         SerializationUtils.deserializeFromString(
-            mock(Deserializer.class), "Not all who wander are lost", mock(TypeDef.class));
+            mock(Deserializer.class),
+            "\"{\\\"name\\\":\\\"Breaking Bad\\\",\\\"genre\\\":\\\"Drama\\\",\\\"seasons\\\":5,\\\"rating\\\":9.5}\"",
+            mock(TypeDef.class));
 
     // Assert
     assertNull(actualDeserializeFromStringResult);

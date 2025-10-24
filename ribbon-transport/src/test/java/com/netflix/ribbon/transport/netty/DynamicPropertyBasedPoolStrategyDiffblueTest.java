@@ -25,7 +25,7 @@ public class DynamicPropertyBasedPoolStrategyDiffblueTest {
   public void testNewDynamicPropertyBasedPoolStrategy_thenReturnAvailablePermitsIsFive() {
     // Arrange and Act
     DynamicPropertyBasedPoolStrategy actualDynamicPropertyBasedPoolStrategy =
-        new DynamicPropertyBasedPoolStrategy(5, "Property Name");
+        new DynamicPropertyBasedPoolStrategy(5, "\"maxConnectionsLimit\"");
 
     // Assert
     assertEquals(5, actualDynamicPropertyBasedPoolStrategy.getAvailablePermits());
@@ -49,7 +49,7 @@ public class DynamicPropertyBasedPoolStrategyDiffblueTest {
   public void testNewDynamicPropertyBasedPoolStrategy_thenReturnAvailablePermitsIsThree() {
     // Arrange and Act
     DynamicPropertyBasedPoolStrategy actualDynamicPropertyBasedPoolStrategy =
-        new DynamicPropertyBasedPoolStrategy(3, "Property Name");
+        new DynamicPropertyBasedPoolStrategy(3, "\"maxConnectionsLimit\"");
 
     // Assert
     assertEquals(3, actualDynamicPropertyBasedPoolStrategy.getAvailablePermits());

@@ -32,6 +32,96 @@ public class ClientExceptionDiffblueTest {
   }
 
   /**
+   * Test {@link ClientException#ClientException(int, String)}.
+   *
+   * <p>Method under test: {@link ClientException#ClientException(int, String)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void ClientException.<init>(int, String)"})
+  public void testNewClientException() {
+    // Arrange and Act
+    ClientException actualClientException =
+        new ClientException(
+            -1,
+            "\"Failed to establish connection with the server. Please check your network settings and try again.\"");
+
+    // Assert
+    assertEquals(
+        "\"Failed to establish connection with the server. Please check your network settings and try again.\"",
+        actualClientException.getErrorMessage());
+    assertEquals(
+        "\"Failed to establish connection with the server. Please check your network settings and try again.\"",
+        actualClientException.getLocalizedMessage());
+    assertEquals(
+        "\"Failed to establish connection with the server. Please check your network settings and try again.\"",
+        actualClientException.getMessage());
+    assertEquals("{no message: -1}", actualClientException.getInternalMessage());
+    assertEquals(-1, actualClientException.getErrorCode());
+  }
+
+  /**
+   * Test {@link ClientException#ClientException(ErrorType, String)}.
+   *
+   * <p>Method under test: {@link ClientException#ClientException(ErrorType, String)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void ClientException.<init>(ErrorType, String)"})
+  public void testNewClientException2() {
+    // Arrange and Act
+    ClientException actualClientException =
+        new ClientException(
+            ErrorType.GENERAL,
+            "\"Failed to establish connection with the server. Please check your network settings and try again.\"");
+
+    // Assert
+    assertEquals(
+        "\"Failed to establish connection with the server. Please check your network settings and try again.\"",
+        actualClientException.getErrorMessage());
+    assertEquals(
+        "\"Failed to establish connection with the server. Please check your network settings and try again.\"",
+        actualClientException.getLocalizedMessage());
+    assertEquals(
+        "\"Failed to establish connection with the server. Please check your network settings and try again.\"",
+        actualClientException.getMessage());
+    assertEquals("{no message: 0}", actualClientException.getInternalMessage());
+    assertEquals(0, actualClientException.getErrorCode());
+    assertEquals(ErrorType.GENERAL, actualClientException.getErrorType());
+  }
+
+  /**
+   * Test {@link ClientException#ClientException(ErrorType, String, Throwable)}.
+   *
+   * <p>Method under test: {@link ClientException#ClientException(ErrorType, String, Throwable)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void ClientException.<init>(ErrorType, String, Throwable)"})
+  public void testNewClientException3() {
+    // Arrange and Act
+    ClientException actualClientException =
+        new ClientException(
+            ErrorType.GENERAL,
+            "\"Failed to establish connection with the server. Please check your network settings and try again.\"",
+            new Throwable());
+
+    // Assert
+    assertEquals(
+        "\"Failed to establish connection with the server. Please check your network settings and try again.\"",
+        actualClientException.getErrorMessage());
+    assertEquals(
+        "\"Failed to establish connection with the server. Please check your network settings and try again.\"",
+        actualClientException.getLocalizedMessage());
+    assertEquals(
+        "\"Failed to establish connection with the server. Please check your network settings and try again.\"",
+        actualClientException.getMessage());
+  }
+
+  /**
    * Test {@link ClientException#ClientException(Throwable)}.
    *
    * <p>Method under test: {@link ClientException#ClientException(Throwable)}
@@ -40,7 +130,7 @@ public class ClientExceptionDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void ClientException.<init>(Throwable)"})
-  public void testNewClientException() {
+  public void testNewClientException4() {
     // Arrange
     Throwable chainedException = new Throwable();
 
@@ -57,137 +147,6 @@ public class ClientExceptionDiffblueTest {
     assertEquals(0, actualClientException.getSuppressed().length);
     assertEquals(ErrorType.GENERAL, actualClientException.getErrorType());
     assertSame(chainedException, actualClientException.getCause());
-  }
-
-  /**
-   * Test {@link ClientException#ClientException(int, String)}.
-   *
-   * <ul>
-   *   <li>Then return ErrorMessage is {@code An error occurred}.
-   * </ul>
-   *
-   * <p>Method under test: {@link ClientException#ClientException(int, String)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void ClientException.<init>(int, String)"})
-  public void testNewClientException_thenReturnErrorMessageIsAnErrorOccurred() {
-    // Arrange and Act
-    ClientException actualClientException = new ClientException(-1, "An error occurred");
-
-    // Assert
-    assertEquals("An error occurred", actualClientException.getErrorMessage());
-    assertEquals("An error occurred", actualClientException.getLocalizedMessage());
-    assertEquals("An error occurred", actualClientException.getMessage());
-    assertEquals("{no message: -1}", actualClientException.getInternalMessage());
-    assertEquals(-1, actualClientException.getErrorCode());
-  }
-
-  /**
-   * Test {@link ClientException#ClientException(int, String, Throwable)}.
-   *
-   * <ul>
-   *   <li>Then return ErrorMessage is {@code An error occurred}.
-   * </ul>
-   *
-   * <p>Method under test: {@link ClientException#ClientException(int, String, Throwable)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void ClientException.<init>(int, String, Throwable)"})
-  public void testNewClientException_thenReturnErrorMessageIsAnErrorOccurred2() {
-    // Arrange and Act
-    ClientException actualClientException =
-        new ClientException(-1, "An error occurred", new Throwable());
-
-    // Assert
-    assertEquals("An error occurred", actualClientException.getErrorMessage());
-    assertEquals("An error occurred", actualClientException.getLocalizedMessage());
-    assertEquals("An error occurred", actualClientException.getMessage());
-    assertEquals("{no message: -1}", actualClientException.getInternalMessage());
-    assertEquals(-1, actualClientException.getErrorCode());
-  }
-
-  /**
-   * Test {@link ClientException#ClientException(ErrorType, String)}.
-   *
-   * <ul>
-   *   <li>Then return ErrorMessage is {@code An error occurred}.
-   * </ul>
-   *
-   * <p>Method under test: {@link ClientException#ClientException(ErrorType, String)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void ClientException.<init>(ErrorType, String)"})
-  public void testNewClientException_thenReturnErrorMessageIsAnErrorOccurred3() {
-    // Arrange and Act
-    ClientException actualClientException =
-        new ClientException(ErrorType.GENERAL, "An error occurred");
-
-    // Assert
-    assertEquals("An error occurred", actualClientException.getErrorMessage());
-    assertEquals("An error occurred", actualClientException.getLocalizedMessage());
-    assertEquals("An error occurred", actualClientException.getMessage());
-    assertEquals("{no message: 0}", actualClientException.getInternalMessage());
-    assertEquals(0, actualClientException.getErrorCode());
-    assertEquals(ErrorType.GENERAL, actualClientException.getErrorType());
-  }
-
-  /**
-   * Test {@link ClientException#ClientException(String)}.
-   *
-   * <ul>
-   *   <li>Then return ErrorMessage is {@code An error occurred}.
-   * </ul>
-   *
-   * <p>Method under test: {@link ClientException#ClientException(String)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void ClientException.<init>(String)"})
-  public void testNewClientException_thenReturnErrorMessageIsAnErrorOccurred4() {
-    // Arrange and Act
-    ClientException actualClientException = new ClientException("An error occurred");
-
-    // Assert
-    assertEquals("An error occurred", actualClientException.getErrorMessage());
-    assertEquals("An error occurred", actualClientException.getLocalizedMessage());
-    assertEquals("An error occurred", actualClientException.getMessage());
-    assertEquals("{no message: 0}", actualClientException.getInternalMessage());
-    assertNull(actualClientException.getErrorObject());
-    assertNull(actualClientException.getCause());
-    assertEquals(0, actualClientException.getErrorCode());
-    assertEquals(0, actualClientException.getSuppressed().length);
-    assertEquals(ErrorType.GENERAL, actualClientException.getErrorType());
-  }
-
-  /**
-   * Test {@link ClientException#ClientException(String, Throwable)}.
-   *
-   * <ul>
-   *   <li>Then return ErrorMessage is {@code An error occurred}.
-   * </ul>
-   *
-   * <p>Method under test: {@link ClientException#ClientException(String, Throwable)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void ClientException.<init>(String, Throwable)"})
-  public void testNewClientException_thenReturnErrorMessageIsAnErrorOccurred5() {
-    // Arrange and Act
-    ClientException actualClientException =
-        new ClientException("An error occurred", new Throwable());
-
-    // Assert
-    assertEquals("An error occurred", actualClientException.getErrorMessage());
-    assertEquals("An error occurred", actualClientException.getLocalizedMessage());
-    assertEquals("An error occurred", actualClientException.getMessage());
   }
 
   /**
@@ -339,28 +298,122 @@ public class ClientExceptionDiffblueTest {
   }
 
   /**
-   * Test {@link ClientException#ClientException(ErrorType, String, Throwable)}.
+   * Test {@link ClientException#ClientException(int, String, Throwable)}.
    *
    * <ul>
-   *   <li>When {@code GENERAL}.
-   *   <li>Then return ErrorMessage is {@code An error occurred}.
+   *   <li>When a string.
+   *   <li>Then return ErrorMessage is a string.
    * </ul>
    *
-   * <p>Method under test: {@link ClientException#ClientException(ErrorType, String, Throwable)}
+   * <p>Method under test: {@link ClientException#ClientException(int, String, Throwable)}
    */
   @Test
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
-  @MethodsUnderTest({"void ClientException.<init>(ErrorType, String, Throwable)"})
-  public void testNewClientException_whenGeneral_thenReturnErrorMessageIsAnErrorOccurred() {
+  @MethodsUnderTest({"void ClientException.<init>(int, String, Throwable)"})
+  public void testNewClientException_whenAString_thenReturnErrorMessageIsAString() {
     // Arrange and Act
     ClientException actualClientException =
-        new ClientException(ErrorType.GENERAL, "An error occurred", new Throwable());
+        new ClientException(
+            -1,
+            "\"Failed to establish connection with the Netflix server. Please check your network settings and try"
+                + " again.\"",
+            new Throwable());
 
     // Assert
-    assertEquals("An error occurred", actualClientException.getErrorMessage());
-    assertEquals("An error occurred", actualClientException.getLocalizedMessage());
-    assertEquals("An error occurred", actualClientException.getMessage());
+    assertEquals(
+        "\"Failed to establish connection with the Netflix server. Please check your network settings and try"
+            + " again.\"",
+        actualClientException.getErrorMessage());
+    assertEquals(
+        "\"Failed to establish connection with the Netflix server. Please check your network settings and try"
+            + " again.\"",
+        actualClientException.getLocalizedMessage());
+    assertEquals(
+        "\"Failed to establish connection with the Netflix server. Please check your network settings and try"
+            + " again.\"",
+        actualClientException.getMessage());
+    assertEquals("{no message: -1}", actualClientException.getInternalMessage());
+    assertEquals(-1, actualClientException.getErrorCode());
+  }
+
+  /**
+   * Test {@link ClientException#ClientException(String)}.
+   *
+   * <ul>
+   *   <li>When a string.
+   *   <li>Then return ErrorMessage is a string.
+   * </ul>
+   *
+   * <p>Method under test: {@link ClientException#ClientException(String)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void ClientException.<init>(String)"})
+  public void testNewClientException_whenAString_thenReturnErrorMessageIsAString2() {
+    // Arrange and Act
+    ClientException actualClientException =
+        new ClientException(
+            "\"Failed to establish connection with the Netflix server. Please check your internet connection and try"
+                + " again.\"");
+
+    // Assert
+    assertEquals(
+        "\"Failed to establish connection with the Netflix server. Please check your internet connection and try"
+            + " again.\"",
+        actualClientException.getErrorMessage());
+    assertEquals(
+        "\"Failed to establish connection with the Netflix server. Please check your internet connection and try"
+            + " again.\"",
+        actualClientException.getLocalizedMessage());
+    assertEquals(
+        "\"Failed to establish connection with the Netflix server. Please check your internet connection and try"
+            + " again.\"",
+        actualClientException.getMessage());
+    assertEquals("{no message: 0}", actualClientException.getInternalMessage());
+    assertNull(actualClientException.getErrorObject());
+    assertNull(actualClientException.getCause());
+    assertEquals(0, actualClientException.getErrorCode());
+    assertEquals(0, actualClientException.getSuppressed().length);
+    assertEquals(ErrorType.GENERAL, actualClientException.getErrorType());
+  }
+
+  /**
+   * Test {@link ClientException#ClientException(String, Throwable)}.
+   *
+   * <ul>
+   *   <li>When a string.
+   *   <li>Then return ErrorMessage is a string.
+   * </ul>
+   *
+   * <p>Method under test: {@link ClientException#ClientException(String, Throwable)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void ClientException.<init>(String, Throwable)"})
+  public void testNewClientException_whenAString_thenReturnErrorMessageIsAString3() {
+    // Arrange and Act
+    ClientException actualClientException =
+        new ClientException(
+            "\"Failed to establish connection with Netflix server. Please check your network settings and try"
+                + " again.\"",
+            new Throwable());
+
+    // Assert
+    assertEquals(
+        "\"Failed to establish connection with Netflix server. Please check your network settings and try"
+            + " again.\"",
+        actualClientException.getErrorMessage());
+    assertEquals(
+        "\"Failed to establish connection with Netflix server. Please check your network settings and try"
+            + " again.\"",
+        actualClientException.getLocalizedMessage());
+    assertEquals(
+        "\"Failed to establish connection with Netflix server. Please check your network settings and try"
+            + " again.\"",
+        actualClientException.getMessage());
   }
 
   /**
