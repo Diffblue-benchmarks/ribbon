@@ -1,0 +1,620 @@
+{
+  "meta" : {
+    "reportVersion" : "2.6"
+  },
+  "run" : {
+    "version" : "2024.10.01-2ee2e3d-licensed",
+    "creationTimestamp" : "2025-11-05T14:57:46.305Z",
+    "command" : "dcover create --coverage-reports --upload http://localhost:8080 --project-name ribbon --name with-diffblue-tests",
+    "totalTime" : 8796.216,
+    "environmentDetectionTime" : 0.174,
+    "indexingTime" : 0.259,
+    "entryPointsTime" : 0.17,
+    "generationTime" : 5078.301,
+    "timeToFirstTest" : 76.517,
+    "timeToLastTest" : 78.437,
+    "indexQueryTime" : 6.596,
+    "verificationTime" : 87.571,
+    "validationTime" : 20.057
+  },
+  "codes" : {
+    "R000" : "Success",
+    "R002" : "Missing observers",
+    "R011" : "Sandboxing policy violation",
+    "R013" : "No inputs found that don't throw a trivial exception",
+    "T000" : "Method eligible for test creation",
+    "T001" : "Trivial getter",
+    "T003" : "Private method",
+    "T004" : "In anonymous inner class",
+    "T005" : "Trivial constructor",
+    "T010" : "Abstract or interface method",
+    "T012" : "Synthetic method",
+    "T021" : "Empty method body",
+    "V000" : "Validated successfully",
+    "V003" : "Tests discarded during validation"
+  },
+  "summary" : {
+    "classesCount" : 9,
+    "methodsCount" : 35,
+    "cumulativeDiffblueTestCount" : 4,
+    "cumulativeManualTestCount" : 9,
+    "completeTestCount" : 4,
+    "incompleteTestCount" : 0,
+    "skeletonTestCount" : 0,
+    "totalPhysicalLineCount" : 254,
+    "perMethodTestability" : {
+      "T000" : 6,
+      "T001" : 6,
+      "T003" : 4,
+      "T004" : 2,
+      "T005" : 5,
+      "T010" : 6,
+      "T012" : 5,
+      "T021" : 1
+    },
+    "perMethodOutcome" : {
+      "R000" : 10,
+      "R002" : 3,
+      "R011" : 1,
+      "R013" : 4,
+      "T003" : 4,
+      "T004" : 2,
+      "T010" : 6,
+      "T012" : 5
+    },
+    "perTestOutcome" : {
+      "R000" : 4
+    },
+    "perTestValidation" : {
+      "V000" : 4,
+      "V003" : 159
+    }
+  },
+  "classes" : {
+    "com.netflix.ribbon.evache.CacheFaultException" : {
+      "methodsCount" : 2,
+      "completeTestCount" : 2,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T005" : 2
+      },
+      "perMethodOutcome" : {
+        "R000" : 2
+      },
+      "perTestOutcome" : {
+        "R000" : 2
+      }
+    },
+    "com.netflix.ribbon.evache.CacheMissException" : {
+      "methodsCount" : 1,
+      "completeTestCount" : 1,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T005" : 1
+      },
+      "perMethodOutcome" : {
+        "R000" : 1
+      },
+      "perTestOutcome" : {
+        "R000" : 1
+      }
+    },
+    "com.netflix.ribbon.evache.EvCacheOptions" : {
+      "methodsCount" : 7,
+      "completeTestCount" : 1,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T001" : 6,
+        "T005" : 1
+      },
+      "perMethodOutcome" : {
+        "R000" : 7
+      },
+      "perTestOutcome" : {
+        "R000" : 1
+      }
+    },
+    "com.netflix.ribbon.evache.EvCacheProvider" : {
+      "methodsCount" : 6,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T000" : 2,
+        "T012" : 4
+      },
+      "perMethodOutcome" : {
+        "R013" : 2,
+        "T012" : 4
+      }
+    },
+    "com.netflix.ribbon.evache.EvCacheProvider$1" : {
+      "methodsCount" : 3,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T004" : 2,
+        "T012" : 1
+      },
+      "perMethodOutcome" : {
+        "T004" : 2,
+        "T012" : 1
+      }
+    },
+    "com.netflix.ribbon.evache.EvCacheProvider$FutureObserver" : {
+      "methodsCount" : 4,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T000" : 3,
+        "T003" : 1
+      },
+      "perMethodOutcome" : {
+        "R002" : 1,
+        "R011" : 1,
+        "R013" : 1,
+        "T003" : 1
+      }
+    },
+    "com.netflix.ribbon.proxy.annotation.EvCache" : {
+      "methodsCount" : 6,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T010" : 6
+      },
+      "perMethodOutcome" : {
+        "T010" : 6
+      }
+    },
+    "com.netflix.ribbon.proxy.processor.EVCacheAnnotationProcessor" : {
+      "methodsCount" : 3,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T000" : 1,
+        "T005" : 1,
+        "T021" : 1
+      },
+      "perMethodOutcome" : {
+        "R002" : 2,
+        "R013" : 1
+      }
+    },
+    "com.netflix.ribbon.proxy.processor.EVCacheAnnotationProcessor$CacheId" : {
+      "methodsCount" : 3,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T003" : 3
+      },
+      "perMethodOutcome" : {
+        "T003" : 3
+      }
+    }
+  },
+  "methods" : {
+    "com.netflix.ribbon.evache.CacheFaultException.<init>:(Ljava/lang/String;)V" : {
+      "completeTestCount" : 2,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T005",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 2
+      },
+      "lineNumbers" : [
+        26,
+        27
+      ]
+    },
+    "com.netflix.ribbon.evache.CacheFaultException.<init>:(Ljava/lang/String;Ljava/lang/Throwable;)V" : {
+      "completeTestCount" : 2,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T005",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 2
+      },
+      "lineNumbers" : [
+        30,
+        31
+      ]
+    },
+    "com.netflix.ribbon.evache.CacheMissException.<init>:()V" : {
+      "completeTestCount" : 1,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T005",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
+      "lineNumbers" : [
+        22
+      ]
+    },
+    "com.netflix.ribbon.evache.EvCacheOptions.<init>:(Ljava/lang/String;Ljava/lang/String;ZILcom/netflix/evcache/EVCacheTranscoder;Ljava/lang/String;)V" : {
+      "completeTestCount" : 1,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T005",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
+      "lineNumbers" : [
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40
+      ]
+    },
+    "com.netflix.ribbon.evache.EvCacheOptions.getAppName:()Ljava/lang/String;" : {
+      "completeTestCount" : 1,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T001",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
+      "lineNumbers" : [
+        43
+      ]
+    },
+    "com.netflix.ribbon.evache.EvCacheOptions.getCacheKeyTemplate:()Ljava/lang/String;" : {
+      "completeTestCount" : 1,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T001",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
+      "lineNumbers" : [
+        63
+      ]
+    },
+    "com.netflix.ribbon.evache.EvCacheOptions.getCacheName:()Ljava/lang/String;" : {
+      "completeTestCount" : 1,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T001",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
+      "lineNumbers" : [
+        47
+      ]
+    },
+    "com.netflix.ribbon.evache.EvCacheOptions.getTimeToLive:()I" : {
+      "completeTestCount" : 1,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T001",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
+      "lineNumbers" : [
+        55
+      ]
+    },
+    "com.netflix.ribbon.evache.EvCacheOptions.getTranscoder:()Lcom/netflix/evcache/EVCacheTranscoder;" : {
+      "completeTestCount" : 1,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T001",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
+      "lineNumbers" : [
+        59
+      ]
+    },
+    "com.netflix.ribbon.evache.EvCacheOptions.isEnableZoneFallback:()Z" : {
+      "completeTestCount" : 1,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T001",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
+      "lineNumbers" : [
+        51
+      ]
+    },
+    "com.netflix.ribbon.evache.EvCacheProvider$1.<init>:(Lcom/netflix/ribbon/evache/EvCacheProvider;Ljava/lang/String;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T004",
+      "perMethodOutcome" : "T004",
+      "lineNumbers" : [
+        69
+      ]
+    },
+    "com.netflix.ribbon.evache.EvCacheProvider$1.call:(Ljava/lang/Object;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T012",
+      "perMethodOutcome" : "T012",
+      "lineNumbers" : [
+        69
+      ]
+    },
+    "com.netflix.ribbon.evache.EvCacheProvider$1.call:(Lrx/Subscriber;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T004",
+      "perMethodOutcome" : "T004",
+      "lineNumbers" : [
+        74,
+        75,
+        77,
+        79,
+        82,
+        80,
+        81,
+        83
+      ]
+    },
+    "com.netflix.ribbon.evache.EvCacheProvider$FutureObserver.<init>:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "R002",
+      "lineNumbers" : [
+        92,
+        89,
+        93,
+        94
+      ]
+    },
+    "com.netflix.ribbon.evache.EvCacheProvider$FutureObserver.handleCompletedFuture:(Ljava/util/concurrent/Future;Lrx/Subscriber;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T003",
+      "perMethodOutcome" : "T003",
+      "lineNumbers" : [
+        126,
+        127,
+        130,
+        131,
+        132,
+        134,
+        135,
+        139,
+        137,
+        138,
+        141
+      ]
+    },
+    "com.netflix.ribbon.evache.EvCacheProvider$FutureObserver.run:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "R013",
+      "lineNumbers" : [
+        99,
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        107,
+        112,
+        113,
+        108,
+        109,
+        110,
+        112,
+        113,
+        115,
+        118,
+        121,
+        119,
+        121
+      ]
+    },
+    "com.netflix.ribbon.evache.EvCacheProvider$FutureObserver.watchFuture:(Ljava/util/concurrent/Future;Lrx/Subscriber;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "R011",
+      "lineNumbers" : [
+        144,
+        145
+      ]
+    },
+    "com.netflix.ribbon.evache.EvCacheProvider.<clinit>:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T012",
+      "perMethodOutcome" : "T012",
+      "lineNumbers" : [
+        40,
+        47,
+        48,
+        49
+      ]
+    },
+    "com.netflix.ribbon.evache.EvCacheProvider.<init>:(Lcom/netflix/ribbon/evache/EvCacheOptions;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "R013",
+      "lineNumbers" : [
+        54,
+        55,
+        56,
+        57,
+        58,
+        60,
+        61,
+        62,
+        63,
+        64
+      ]
+    },
+    "com.netflix.ribbon.evache.EvCacheProvider.access$000:(Lcom/netflix/ribbon/evache/EvCacheProvider;)Lcom/netflix/ribbon/evache/EvCacheOptions;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T012",
+      "perMethodOutcome" : "T012",
+      "lineNumbers" : [
+        38
+      ]
+    },
+    "com.netflix.ribbon.evache.EvCacheProvider.access$100:(Lcom/netflix/ribbon/evache/EvCacheProvider;)Lcom/netflix/evcache/EVCache;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T012",
+      "perMethodOutcome" : "T012",
+      "lineNumbers" : [
+        38
+      ]
+    },
+    "com.netflix.ribbon.evache.EvCacheProvider.access$200:()Lcom/netflix/ribbon/evache/EvCacheProvider$FutureObserver;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T012",
+      "perMethodOutcome" : "T012",
+      "lineNumbers" : [
+        38
+      ]
+    },
+    "com.netflix.ribbon.evache.EvCacheProvider.get:(Ljava/lang/String;Ljava/util/Map;)Lrx/Observable;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "R013",
+      "lineNumbers" : [
+        69
+      ]
+    },
+    "com.netflix.ribbon.proxy.annotation.EvCache.appName:()Ljava/lang/String;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T010",
+      "perMethodOutcome" : "T010"
+    },
+    "com.netflix.ribbon.proxy.annotation.EvCache.enableZoneFallback:()Z" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T010",
+      "perMethodOutcome" : "T010"
+    },
+    "com.netflix.ribbon.proxy.annotation.EvCache.key:()Ljava/lang/String;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T010",
+      "perMethodOutcome" : "T010"
+    },
+    "com.netflix.ribbon.proxy.annotation.EvCache.name:()Ljava/lang/String;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T010",
+      "perMethodOutcome" : "T010"
+    },
+    "com.netflix.ribbon.proxy.annotation.EvCache.transcoder:()[Ljava/lang/Class;" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T010",
+      "perMethodOutcome" : "T010"
+    },
+    "com.netflix.ribbon.proxy.annotation.EvCache.ttl:()I" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T010",
+      "perMethodOutcome" : "T010"
+    },
+    "com.netflix.ribbon.proxy.processor.EVCacheAnnotationProcessor$CacheId.<init>:(Ljava/lang/String;Ljava/lang/String;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T003",
+      "perMethodOutcome" : "T003",
+      "lineNumbers" : [
+        26,
+        27,
+        28,
+        29
+      ]
+    },
+    "com.netflix.ribbon.proxy.processor.EVCacheAnnotationProcessor$CacheId.equals:(Ljava/lang/Object;)Z" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T003",
+      "perMethodOutcome" : "T003",
+      "lineNumbers" : [
+        33,
+        34,
+        36,
+        37,
+        40,
+        42,
+        43,
+        45
+      ]
+    },
+    "com.netflix.ribbon.proxy.processor.EVCacheAnnotationProcessor$CacheId.hashCode:()I" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T003",
+      "perMethodOutcome" : "T003",
+      "lineNumbers" : [
+        50,
+        51,
+        52
+      ]
+    },
+    "com.netflix.ribbon.proxy.processor.EVCacheAnnotationProcessor.<init>:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T005",
+      "perMethodOutcome" : "R002",
+      "lineNumbers" : [
+        20,
+        56
+      ]
+    },
+    "com.netflix.ribbon.proxy.processor.EVCacheAnnotationProcessor.process:(Ljava/lang/String;Lcom/netflix/ribbon/ResourceGroup$GroupBuilder;Lcom/netflix/ribbon/RibbonResourceFactory;Ljava/lang/Class;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T021",
+      "perMethodOutcome" : "R002",
+      "lineNumbers" : [
+        96
+      ]
+    },
+    "com.netflix.ribbon.proxy.processor.EVCacheAnnotationProcessor.process:(Ljava/lang/String;Lcom/netflix/ribbon/ResourceGroup$TemplateBuilder;Ljava/lang/reflect/Method;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "R013",
+      "lineNumbers" : [
+        60,
+        61,
+        62,
+        65,
+        67,
+        68,
+        69,
+        70,
+        72,
+        75,
+        76,
+        77,
+        78,
+        79,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        89,
+        92
+      ]
+    }
+  }
+}

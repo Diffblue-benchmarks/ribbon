@@ -1,0 +1,156 @@
+{
+  "meta" : {
+    "reportVersion" : "2.6"
+  },
+  "run" : {
+    "version" : "2024.10.01-2ee2e3d-licensed",
+    "creationTimestamp" : "2025-11-05T14:57:46.305Z",
+    "command" : "dcover create --coverage-reports --upload http://localhost:8080 --project-name ribbon --name with-diffblue-tests",
+    "totalTime" : 120.964,
+    "environmentDetectionTime" : 0.538,
+    "indexingTime" : 0.222,
+    "entryPointsTime" : 0.411,
+    "generationTime" : 23.48,
+    "timeToFirstTest" : 76.517,
+    "timeToLastTest" : 78.437,
+    "indexQueryTime" : 6.8340000000000005,
+    "verificationTime" : 1.466,
+    "validationTime" : 20.455
+  },
+  "codes" : {
+    "R000" : "Success",
+    "R002" : "Missing observers",
+    "R013" : "No inputs found that don't throw a trivial exception",
+    "T000" : "Method eligible for test creation",
+    "T002" : "Trivial setter",
+    "T005" : "Trivial constructor",
+    "V000" : "Validated successfully"
+  },
+  "summary" : {
+    "classesCount" : 2,
+    "methodsCount" : 6,
+    "cumulativeDiffblueTestCount" : 2,
+    "cumulativeManualTestCount" : 4,
+    "completeTestCount" : 2,
+    "incompleteTestCount" : 0,
+    "skeletonTestCount" : 0,
+    "totalPhysicalLineCount" : 48,
+    "perMethodTestability" : {
+      "T000" : 3,
+      "T002" : 1,
+      "T005" : 2
+    },
+    "perMethodOutcome" : {
+      "R000" : 2,
+      "R002" : 3,
+      "R013" : 1
+    },
+    "perTestOutcome" : {
+      "R000" : 2
+    },
+    "perTestValidation" : {
+      "V000" : 2
+    }
+  },
+  "classes" : {
+    "com.netflix.ribbon.guice.RibbonModule" : {
+      "methodsCount" : 2,
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T000" : 1,
+        "T005" : 1
+      },
+      "perMethodOutcome" : {
+        "R002" : 1,
+        "R013" : 1
+      }
+    },
+    "com.netflix.ribbon.guice.RibbonResourceProvider" : {
+      "methodsCount" : 4,
+      "completeTestCount" : 2,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : {
+        "T000" : 2,
+        "T002" : 1,
+        "T005" : 1
+      },
+      "perMethodOutcome" : {
+        "R000" : 2,
+        "R002" : 2
+      },
+      "perTestOutcome" : {
+        "R000" : 2
+      }
+    }
+  },
+  "methods" : {
+    "com.netflix.ribbon.guice.RibbonModule.<init>:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T005",
+      "perMethodOutcome" : "R002",
+      "lineNumbers" : [
+        34
+      ]
+    },
+    "com.netflix.ribbon.guice.RibbonModule.configure:()V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "R013",
+      "lineNumbers" : [
+        37,
+        38,
+        39,
+        40,
+        41
+      ]
+    },
+    "com.netflix.ribbon.guice.RibbonResourceProvider.<init>:(Ljava/lang/Class;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T005",
+      "perMethodOutcome" : "R002",
+      "lineNumbers" : [
+        38,
+        39,
+        40
+      ]
+    },
+    "com.netflix.ribbon.guice.RibbonResourceProvider.acceptExtensionVisitor:(Lcom/google/inject/spi/BindingTargetVisitor;Lcom/google/inject/spi/ProviderInstanceBinding;)Ljava/lang/Object;" : {
+      "completeTestCount" : 1,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
+      "lineNumbers" : [
+        56
+      ]
+    },
+    "com.netflix.ribbon.guice.RibbonResourceProvider.get:()Ljava/lang/Object;" : {
+      "completeTestCount" : 1,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T000",
+      "perMethodOutcome" : "R000",
+      "perTestOutcome" : {
+        "R000" : 1
+      },
+      "lineNumbers" : [
+        45
+      ]
+    },
+    "com.netflix.ribbon.guice.RibbonResourceProvider.initialize:(Lcom/netflix/ribbon/RibbonResourceFactory;)V" : {
+      "completeTestCount" : 0,
+      "incompleteTestCount" : 0,
+      "perMethodTestability" : "T002",
+      "perMethodOutcome" : "R002",
+      "lineNumbers" : [
+        62,
+        63
+      ]
+    }
+  }
+}
