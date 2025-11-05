@@ -7,4 +7,5 @@ dependencies {
     testImplementation 'junit:junit:4.11'
     testImplementation "org.slf4j:slf4j-log4j12:${slf4j_version}"
     testImplementation project(":ribbon-archaius")
+    testImplementation("org.mockito:mockito-core:4.11.0")
 }

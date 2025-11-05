@@ -10,4 +10,5 @@ dependencies {
     api "junit:junit:${junit_version}"
     api "org.powermock:powermock-easymock-release-full:${powermock_version}"
     api "org.easymock:easymock:${easymock_version}"
+    testImplementation("org.mockito:mockito-core:4.11.0")
 }

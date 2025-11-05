@@ -9,4 +9,5 @@ dependencies {
     testImplementation "io.reactivex:rxnetty:${rx_netty_version}"
     testImplementation (project(':ribbon-examples')) {transitive=false}
     testImplementation "com.netflix.archaius:archaius-core:${archaius_version}"
+    testImplementation("org.mockito:mockito-core:4.11.0")
 }

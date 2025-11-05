@@ -15,4 +15,5 @@ dependencies {
     api "com.google.guava:guava:${guava_version}"
     api "com.netflix.archaius:archaius-core:${archaius_version}"
     testImplementation 'junit:junit:4.11'
+    testImplementation("org.mockito:mockito-core:4.11.0")
 }

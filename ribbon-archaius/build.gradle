@@ -9,4 +9,5 @@ dependencies {
     api project(':ribbon-core')
 
     testImplementation 'junit:junit:4.11' 
+    testImplementation("org.mockito:mockito-core:4.11.0")
 }
