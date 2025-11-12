@@ -8,5 +8,8 @@ dependencies {
 
     api project(':ribbon-core')
 
-    testImplementation 'junit:junit:4.11' 
+    testImplementation 'junit:junit:4.11'
+    testImplementation("org.mockito:mockito-core:4.11.0")
+    compileOnly("com.diffblue.cover:cover-annotations:1.7.0")
+    testImplementation("com.diffblue.cover:cover-annotations:1.7.0") 
 }

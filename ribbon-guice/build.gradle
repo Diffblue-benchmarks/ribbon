@@ -9,4 +9,8 @@ dependencies {
     testImplementation "io.reactivex:rxnetty:${rx_netty_version}"
     testImplementation (project(':ribbon-examples')) {transitive=false}
     testImplementation "com.netflix.archaius:archaius-core:${archaius_version}"
+    testImplementation("org.mockito:mockito-core:4.11.0")
+    compileOnly("com.diffblue.cover:cover-annotations:1.7.0")
+    testImplementation("com.diffblue.cover:cover-annotations:1.7.0")
+    testImplementation("org.springframework:spring-test:5.3.8")
 }

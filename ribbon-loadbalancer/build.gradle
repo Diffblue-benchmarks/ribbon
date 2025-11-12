@@ -13,4 +13,6 @@ dependencies {
     testImplementation 'org.awaitility:awaitility:3.0.0'
     testImplementation "org.slf4j:slf4j-log4j12:${slf4j_version}"
     testImplementation "com.sun.jersey:jersey-server:${jersey_version}"
+    compileOnly("com.diffblue.cover:cover-annotations:1.7.0")
+    testImplementation("com.diffblue.cover:cover-annotations:1.7.0")
 }

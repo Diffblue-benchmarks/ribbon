@@ -10,4 +10,9 @@ dependencies {
     api "junit:junit:${junit_version}"
     api "org.powermock:powermock-easymock-release-full:${powermock_version}"
     api "org.easymock:easymock:${easymock_version}"
+    testImplementation("org.mockito:mockito-core:4.11.0")
+    testImplementation("org.springframework:spring-test:5.3.8")
+    compileOnly("com.diffblue.cover:cover-annotations:1.7.0")
+    testImplementation("com.diffblue.cover:cover-annotations:1.7.0")
+    implementation("javax.servlet:javax.servlet-api:4.0.1")
 }
