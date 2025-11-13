@@ -1,0 +1,36 @@
+package com.netflix.client.config;
+
+import static org.junit.Assert.assertFalse;
+import com.diffblue.cover.annotations.ContributionFromDiffblue;
+import com.diffblue.cover.annotations.ManagedByDiffblue;
+import com.diffblue.cover.annotations.MethodsUnderTest;
+import java.util.Optional;
+import org.junit.Test;
+import org.junit.experimental.categories.Category;
+
+public class PropertyUtilsDiffblueTest {
+  /**
+   * Test {@link PropertyUtils#resolveWithValueOf(Class, String)}.
+   *
+   * <ul>
+   *   <li>When {@code Object}.
+   *   <li>Then return not Present.
+   * </ul>
+   *
+   * <p>Method under test: {@link PropertyUtils#resolveWithValueOf(Class, String)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"Optional PropertyUtils.resolveWithValueOf(Class, String)"})
+  public void testResolveWithValueOf_whenJavaLangObject_thenReturnNotPresent() {
+    // Arrange
+    Class<Object> type = Object.class;
+
+    // Act
+    Optional<Object> actualResolveWithValueOfResult = PropertyUtils.resolveWithValueOf(type, "42");
+
+    // Assert
+    assertFalse(actualResolveWithValueOfResult.isPresent());
+  }
+}

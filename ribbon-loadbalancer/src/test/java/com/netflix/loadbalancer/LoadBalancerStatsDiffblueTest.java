@@ -1,0 +1,754 @@
+package com.netflix.loadbalancer;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+import com.diffblue.cover.annotations.ContributionFromDiffblue;
+import com.diffblue.cover.annotations.ManagedByDiffblue;
+import com.diffblue.cover.annotations.MethodsUnderTest;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import org.junit.Test;
+import org.junit.experimental.categories.Category;
+
+public class LoadBalancerStatsDiffblueTest {
+  /**
+   * Test {@link LoadBalancerStats#LoadBalancerStats()}.
+   *
+   * <p>Method under test: {@link LoadBalancerStats#LoadBalancerStats()}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void LoadBalancerStats.<init>()"})
+  public void testNewLoadBalancerStats() {
+    // Arrange and Act
+    LoadBalancerStats actualLoadBalancerStats = new LoadBalancerStats();
+
+    // Assert
+    assertNull(actualLoadBalancerStats.getName());
+    assertEquals(0, actualLoadBalancerStats.getCircuitBreakerTrippedCount());
+    assertEquals(10, actualLoadBalancerStats.getCircuitTrippedTimeoutFactor().get());
+    assertEquals(3, actualLoadBalancerStats.getConnectionFailureCountThreshold().get());
+    assertEquals(30, actualLoadBalancerStats.getCircuitTripMaxTimeoutSeconds().get());
+    assertEquals(600, actualLoadBalancerStats.getActiveRequestsCountTimeout().get());
+    assertTrue(actualLoadBalancerStats.getServerStats().isEmpty());
+    assertTrue(actualLoadBalancerStats.getZoneStats().isEmpty());
+    assertTrue(actualLoadBalancerStats.upServerListZoneMap.isEmpty());
+    assertTrue(actualLoadBalancerStats.getAvailableZones().isEmpty());
+  }
+
+  /**
+   * Test {@link LoadBalancerStats#LoadBalancerStats(String)}.
+   *
+   * <ul>
+   *   <li>When {@code Name}.
+   *   <li>Then return {@code Name}.
+   * </ul>
+   *
+   * <p>Method under test: {@link LoadBalancerStats#LoadBalancerStats(String)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void LoadBalancerStats.<init>(String)"})
+  public void testNewLoadBalancerStats_whenName_thenReturnName() {
+    // Arrange and Act
+    LoadBalancerStats actualLoadBalancerStats = new LoadBalancerStats("Name");
+
+    // Assert
+    assertEquals("Name", actualLoadBalancerStats.getName());
+    assertEquals(0, actualLoadBalancerStats.getCircuitBreakerTrippedCount());
+    assertEquals(10, actualLoadBalancerStats.getCircuitTrippedTimeoutFactor().get());
+    assertEquals(3, actualLoadBalancerStats.getConnectionFailureCountThreshold().get());
+    assertEquals(30, actualLoadBalancerStats.getCircuitTripMaxTimeoutSeconds().get());
+    assertEquals(600, actualLoadBalancerStats.getActiveRequestsCountTimeout().get());
+    assertTrue(actualLoadBalancerStats.getServerStats().isEmpty());
+    assertTrue(actualLoadBalancerStats.getZoneStats().isEmpty());
+    assertTrue(actualLoadBalancerStats.upServerListZoneMap.isEmpty());
+    assertTrue(actualLoadBalancerStats.getAvailableZones().isEmpty());
+  }
+
+  /**
+   * Test {@link LoadBalancerStats#getServerStats()}.
+   *
+   * <p>Method under test: {@link LoadBalancerStats#getServerStats()}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"Map LoadBalancerStats.getServerStats()"})
+  public void testGetServerStats() {
+    // Arrange, Act and Assert
+    assertTrue(new LoadBalancerStats().getServerStats().isEmpty());
+  }
+
+  /**
+   * Test {@link LoadBalancerStats#getServerStats(Server)} with {@code Server}.
+   *
+   * <ul>
+   *   <li>Given {@link LoadBalancerStats#LoadBalancerStats()}.
+   *   <li>When {@code null}.
+   *   <li>Then return {@code null}.
+   * </ul>
+   *
+   * <p>Method under test: {@link LoadBalancerStats#getServerStats(Server)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"ServerStats LoadBalancerStats.getServerStats(Server)"})
+  public void testGetServerStatsWithServer_givenLoadBalancerStats_whenNull_thenReturnNull() {
+    // Arrange, Act and Assert
+    assertNull(new LoadBalancerStats().getServerStats(null));
+  }
+
+  /**
+   * Test {@link LoadBalancerStats#incrementZoneCounter(Server)}.
+   *
+   * <p>Method under test: {@link LoadBalancerStats#incrementZoneCounter(Server)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void LoadBalancerStats.incrementZoneCounter(Server)"})
+  public void testIncrementZoneCounter() {
+    // Arrange
+    LoadBalancerStats loadBalancerStats = new LoadBalancerStats();
+    loadBalancerStats.incrementZoneCounter(new Server("42"));
+
+    // Act
+    loadBalancerStats.incrementZoneCounter(new Server("42"));
+
+    // Assert that nothing has changed
+    Map<String, ZoneStats> zoneStats = loadBalancerStats.getZoneStats();
+    assertEquals(1, zoneStats.size());
+    ZoneStats getResult = zoneStats.get("unknown");
+    assertEquals("null:unknown", getResult.monitorId);
+    assertEquals("unknown", getResult.getZone());
+    assertEquals(0, getResult.getActiveRequestsCount());
+    assertEquals(0, getResult.getCircuitBreakerTrippedCount());
+    assertEquals(0, getResult.getInstanceCount());
+    assertEquals(0.0d, getResult.getActiveRequestsPerServer(), 0.0);
+    assertEquals(0.0d, getResult.getCircuitBreakerTrippedPercentage(), 0.0);
+    assertEquals(0L, getResult.getMeasuredZoneHits());
+  }
+
+  /**
+   * Test {@link LoadBalancerStats#incrementZoneCounter(Server)}.
+   *
+   * <ul>
+   *   <li>Given {@code null}.
+   *   <li>Then {@link LoadBalancerStats#LoadBalancerStats()} ZoneStats Empty.
+   * </ul>
+   *
+   * <p>Method under test: {@link LoadBalancerStats#incrementZoneCounter(Server)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void LoadBalancerStats.incrementZoneCounter(Server)"})
+  public void testIncrementZoneCounter_givenNull_thenLoadBalancerStatsZoneStatsEmpty() {
+    // Arrange
+    LoadBalancerStats loadBalancerStats = new LoadBalancerStats();
+
+    Server server = new Server("42");
+    server.setZone(null);
+
+    // Act
+    loadBalancerStats.incrementZoneCounter(server);
+
+    // Assert that nothing has changed
+    assertTrue(loadBalancerStats.getZoneStats().isEmpty());
+  }
+
+  /**
+   * Test {@link LoadBalancerStats#incrementZoneCounter(Server)}.
+   *
+   * <ul>
+   *   <li>Then {@link LoadBalancerStats#LoadBalancerStats(String)} with name is space ZoneStats
+   *       size is one.
+   * </ul>
+   *
+   * <p>Method under test: {@link LoadBalancerStats#incrementZoneCounter(Server)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void LoadBalancerStats.incrementZoneCounter(Server)"})
+  public void testIncrementZoneCounter_thenLoadBalancerStatsWithNameIsSpaceZoneStatsSizeIsOne() {
+    // Arrange
+    LoadBalancerStats loadBalancerStats = new LoadBalancerStats(" ");
+
+    // Act
+    loadBalancerStats.incrementZoneCounter(new Server("42"));
+
+    // Assert
+    Map<String, ZoneStats> zoneStats = loadBalancerStats.getZoneStats();
+    assertEquals(1, zoneStats.size());
+    ZoneStats getResult = zoneStats.get("unknown");
+    assertEquals(" :unknown", getResult.monitorId);
+    assertEquals("unknown", getResult.getZone());
+    assertEquals(0, getResult.getActiveRequestsCount());
+    assertEquals(0, getResult.getCircuitBreakerTrippedCount());
+    assertEquals(0, getResult.getInstanceCount());
+    assertEquals(0.0d, getResult.getActiveRequestsPerServer(), 0.0);
+    assertEquals(0.0d, getResult.getCircuitBreakerTrippedPercentage(), 0.0);
+    assertEquals(0L, getResult.getMeasuredZoneHits());
+  }
+
+  /**
+   * Test {@link LoadBalancerStats#incrementZoneCounter(Server)}.
+   *
+   * <ul>
+   *   <li>Then {@link LoadBalancerStats#LoadBalancerStats()} ZoneStats size is one.
+   * </ul>
+   *
+   * <p>Method under test: {@link LoadBalancerStats#incrementZoneCounter(Server)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void LoadBalancerStats.incrementZoneCounter(Server)"})
+  public void testIncrementZoneCounter_thenLoadBalancerStatsZoneStatsSizeIsOne() {
+    // Arrange
+    LoadBalancerStats loadBalancerStats = new LoadBalancerStats();
+
+    // Act
+    loadBalancerStats.incrementZoneCounter(new Server("42"));
+
+    // Assert
+    Map<String, ZoneStats> zoneStats = loadBalancerStats.getZoneStats();
+    assertEquals(1, zoneStats.size());
+    ZoneStats getResult = zoneStats.get("unknown");
+    assertEquals("null:unknown", getResult.monitorId);
+    assertEquals("unknown", getResult.getZone());
+    assertEquals(0, getResult.getActiveRequestsCount());
+    assertEquals(0, getResult.getCircuitBreakerTrippedCount());
+    assertEquals(0, getResult.getInstanceCount());
+    assertEquals(0.0d, getResult.getActiveRequestsPerServer(), 0.0);
+    assertEquals(0.0d, getResult.getCircuitBreakerTrippedPercentage(), 0.0);
+    assertEquals(0L, getResult.getMeasuredZoneHits());
+  }
+
+  /**
+   * Test {@link LoadBalancerStats#updateZoneServerMapping(Map)}.
+   *
+   * <p>Method under test: {@link LoadBalancerStats#updateZoneServerMapping(Map)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void LoadBalancerStats.updateZoneServerMapping(Map)"})
+  public void testUpdateZoneServerMapping() {
+    // Arrange
+    LoadBalancerStats loadBalancerStats = new LoadBalancerStats(" ");
+
+    HashMap<String, List<Server>> map = new HashMap<>();
+    ArrayList<Server> serverList = new ArrayList<>();
+    map.put("foo", serverList);
+
+    // Act
+    loadBalancerStats.updateZoneServerMapping(map);
+
+    // Assert
+    Map<String, ZoneStats> zoneStats = loadBalancerStats.getZoneStats();
+    assertEquals(1, zoneStats.size());
+    ZoneStats getResult = zoneStats.get("foo");
+    assertEquals(" :foo", getResult.monitorId);
+    assertEquals("foo", getResult.getZone());
+    assertEquals(0, getResult.getActiveRequestsCount());
+    assertEquals(0, getResult.getCircuitBreakerTrippedCount());
+    assertEquals(0, getResult.getInstanceCount());
+    assertEquals(0.0d, getResult.getActiveRequestsPerServer(), 0.0);
+    assertEquals(0.0d, getResult.getCircuitBreakerTrippedPercentage(), 0.0);
+    assertEquals(0L, getResult.getMeasuredZoneHits());
+    assertEquals(1, map.size());
+    Map<String, List<? extends Server>> stringListMap = loadBalancerStats.upServerListZoneMap;
+    assertEquals(1, stringListMap.size());
+    Set<String> availableZones = loadBalancerStats.getAvailableZones();
+    assertEquals(1, availableZones.size());
+    assertTrue(map.containsKey("foo"));
+    assertTrue(availableZones.contains("foo"));
+    assertSame(serverList, stringListMap.get("foo"));
+  }
+
+  /**
+   * Test {@link LoadBalancerStats#updateZoneServerMapping(Map)}.
+   *
+   * <ul>
+   *   <li>Given {@link LoadBalancerStats#LoadBalancerStats()}.
+   *   <li>When {@link HashMap#HashMap()}.
+   *   <li>Then {@link HashMap#HashMap()} Empty.
+   * </ul>
+   *
+   * <p>Method under test: {@link LoadBalancerStats#updateZoneServerMapping(Map)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void LoadBalancerStats.updateZoneServerMapping(Map)"})
+  public void testUpdateZoneServerMapping_givenLoadBalancerStats_whenHashMap_thenHashMapEmpty() {
+    // Arrange
+    LoadBalancerStats loadBalancerStats = new LoadBalancerStats();
+    HashMap<String, List<Server>> map = new HashMap<>();
+
+    // Act
+    loadBalancerStats.updateZoneServerMapping(map);
+
+    // Assert that nothing has changed
+    assertTrue(map.isEmpty());
+    assertTrue(loadBalancerStats.getZoneStats().isEmpty());
+    assertTrue(loadBalancerStats.upServerListZoneMap.isEmpty());
+    assertTrue(loadBalancerStats.getAvailableZones().isEmpty());
+  }
+
+  /**
+   * Test {@link LoadBalancerStats#updateZoneServerMapping(Map)}.
+   *
+   * <ul>
+   *   <li>Then {@link LoadBalancerStats#LoadBalancerStats()} ZoneStats size is one.
+   * </ul>
+   *
+   * <p>Method under test: {@link LoadBalancerStats#updateZoneServerMapping(Map)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void LoadBalancerStats.updateZoneServerMapping(Map)"})
+  public void testUpdateZoneServerMapping_thenLoadBalancerStatsZoneStatsSizeIsOne() {
+    // Arrange
+    LoadBalancerStats loadBalancerStats = new LoadBalancerStats();
+
+    HashMap<String, List<Server>> map = new HashMap<>();
+    ArrayList<Server> serverList = new ArrayList<>();
+    map.put("foo", serverList);
+
+    // Act
+    loadBalancerStats.updateZoneServerMapping(map);
+
+    // Assert
+    Map<String, ZoneStats> zoneStats = loadBalancerStats.getZoneStats();
+    assertEquals(1, zoneStats.size());
+    ZoneStats getResult = zoneStats.get("foo");
+    assertEquals("foo", getResult.getZone());
+    assertEquals("null:foo", getResult.monitorId);
+    assertEquals(0, getResult.getActiveRequestsCount());
+    assertEquals(0, getResult.getCircuitBreakerTrippedCount());
+    assertEquals(0, getResult.getInstanceCount());
+    assertEquals(0.0d, getResult.getActiveRequestsPerServer(), 0.0);
+    assertEquals(0.0d, getResult.getCircuitBreakerTrippedPercentage(), 0.0);
+    assertEquals(0L, getResult.getMeasuredZoneHits());
+    assertEquals(1, map.size());
+    Map<String, List<? extends Server>> stringListMap = loadBalancerStats.upServerListZoneMap;
+    assertEquals(1, stringListMap.size());
+    Set<String> availableZones = loadBalancerStats.getAvailableZones();
+    assertEquals(1, availableZones.size());
+    assertTrue(map.containsKey("foo"));
+    assertTrue(availableZones.contains("foo"));
+    assertSame(serverList, stringListMap.get("foo"));
+  }
+
+  /**
+   * Test {@link LoadBalancerStats#getInstanceCount(String)}.
+   *
+   * <p>Method under test: {@link LoadBalancerStats#getInstanceCount(String)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"int LoadBalancerStats.getInstanceCount(String)"})
+  public void testGetInstanceCount() {
+    // Arrange
+    LoadBalancerStats loadBalancerStats = new LoadBalancerStats("Name");
+    loadBalancerStats.updateZoneServerMapping(new HashMap<>());
+
+    // Act and Assert
+    assertEquals(0, loadBalancerStats.getInstanceCount(null));
+  }
+
+  /**
+   * Test {@link LoadBalancerStats#getInstanceCount(String)}.
+   *
+   * <ul>
+   *   <li>Given {@link LoadBalancerStats#LoadBalancerStats()}.
+   *   <li>When {@code Zone}.
+   * </ul>
+   *
+   * <p>Method under test: {@link LoadBalancerStats#getInstanceCount(String)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"int LoadBalancerStats.getInstanceCount(String)"})
+  public void testGetInstanceCount_givenLoadBalancerStats_whenZone() {
+    // Arrange, Act and Assert
+    assertEquals(0, new LoadBalancerStats().getInstanceCount("Zone"));
+  }
+
+  /**
+   * Test {@link LoadBalancerStats#getActiveRequestsCount(String)}.
+   *
+   * <p>Method under test: {@link LoadBalancerStats#getActiveRequestsCount(String)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"int LoadBalancerStats.getActiveRequestsCount(String)"})
+  public void testGetActiveRequestsCount() {
+    // Arrange
+    LoadBalancerStats loadBalancerStats = new LoadBalancerStats("Name");
+    loadBalancerStats.updateZoneServerMapping(new HashMap<>());
+
+    // Act and Assert
+    assertEquals(0, loadBalancerStats.getActiveRequestsCount(null));
+  }
+
+  /**
+   * Test {@link LoadBalancerStats#getActiveRequestsCount(String)}.
+   *
+   * <ul>
+   *   <li>Given {@link LoadBalancerStats#LoadBalancerStats()}.
+   *   <li>When {@code Zone}.
+   * </ul>
+   *
+   * <p>Method under test: {@link LoadBalancerStats#getActiveRequestsCount(String)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"int LoadBalancerStats.getActiveRequestsCount(String)"})
+  public void testGetActiveRequestsCount_givenLoadBalancerStats_whenZone() {
+    // Arrange, Act and Assert
+    assertEquals(0, new LoadBalancerStats().getActiveRequestsCount("Zone"));
+  }
+
+  /**
+   * Test {@link LoadBalancerStats#getActiveRequestsPerServer(String)}.
+   *
+   * <p>Method under test: {@link LoadBalancerStats#getActiveRequestsPerServer(String)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"double LoadBalancerStats.getActiveRequestsPerServer(String)"})
+  public void testGetActiveRequestsPerServer() {
+    // Arrange
+    LoadBalancerStats loadBalancerStats = new LoadBalancerStats("Name");
+    loadBalancerStats.updateZoneServerMapping(new HashMap<>());
+
+    // Act and Assert
+    assertEquals(0.0d, loadBalancerStats.getActiveRequestsPerServer(null), 0.0);
+  }
+
+  /**
+   * Test {@link LoadBalancerStats#getActiveRequestsPerServer(String)}.
+   *
+   * <ul>
+   *   <li>Given {@link LoadBalancerStats#LoadBalancerStats()}.
+   *   <li>When {@code Zone}.
+   * </ul>
+   *
+   * <p>Method under test: {@link LoadBalancerStats#getActiveRequestsPerServer(String)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"double LoadBalancerStats.getActiveRequestsPerServer(String)"})
+  public void testGetActiveRequestsPerServer_givenLoadBalancerStats_whenZone() {
+    // Arrange, Act and Assert
+    assertEquals(0.0d, new LoadBalancerStats().getActiveRequestsPerServer("Zone"), 0.0);
+  }
+
+  /**
+   * Test {@link LoadBalancerStats#getZoneSnapshot(List)} with {@code servers}.
+   *
+   * <ul>
+   *   <li>When {@link ArrayList#ArrayList()}.
+   *   <li>Then return ActiveRequestsCount is zero.
+   * </ul>
+   *
+   * <p>Method under test: {@link LoadBalancerStats#getZoneSnapshot(List)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"ZoneSnapshot LoadBalancerStats.getZoneSnapshot(List)"})
+  public void testGetZoneSnapshotWithServers_whenArrayList_thenReturnActiveRequestsCountIsZero() {
+    // Arrange
+    LoadBalancerStats loadBalancerStats = new LoadBalancerStats();
+
+    // Act
+    ZoneSnapshot actualZoneSnapshot = loadBalancerStats.getZoneSnapshot(new ArrayList<>());
+
+    // Assert
+    assertEquals(0, actualZoneSnapshot.getActiveRequestsCount());
+    assertEquals(0, actualZoneSnapshot.getCircuitTrippedCount());
+    assertEquals(0, actualZoneSnapshot.getInstanceCount());
+    assertEquals(0.0d, actualZoneSnapshot.getLoadPerServer(), 0.0);
+  }
+
+  /**
+   * Test {@link LoadBalancerStats#getZoneSnapshot(List)} with {@code servers}.
+   *
+   * <ul>
+   *   <li>When {@code null}.
+   *   <li>Then return ActiveRequestsCount is zero.
+   * </ul>
+   *
+   * <p>Method under test: {@link LoadBalancerStats#getZoneSnapshot(List)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"ZoneSnapshot LoadBalancerStats.getZoneSnapshot(List)"})
+  public void testGetZoneSnapshotWithServers_whenNull_thenReturnActiveRequestsCountIsZero() {
+    // Arrange and Act
+    ZoneSnapshot actualZoneSnapshot =
+        new LoadBalancerStats().getZoneSnapshot((List<? extends Server>) null);
+
+    // Assert
+    assertEquals(0, actualZoneSnapshot.getActiveRequestsCount());
+    assertEquals(0, actualZoneSnapshot.getCircuitTrippedCount());
+    assertEquals(0, actualZoneSnapshot.getInstanceCount());
+    assertEquals(0.0d, actualZoneSnapshot.getLoadPerServer(), 0.0);
+  }
+
+  /**
+   * Test {@link LoadBalancerStats#getZoneSnapshot(String)} with {@code zone}.
+   *
+   * <p>Method under test: {@link LoadBalancerStats#getZoneSnapshot(String)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"ZoneSnapshot LoadBalancerStats.getZoneSnapshot(String)"})
+  public void testGetZoneSnapshotWithZone() {
+    // Arrange
+    LoadBalancerStats loadBalancerStats = new LoadBalancerStats("Name");
+    loadBalancerStats.updateZoneServerMapping(new HashMap<>());
+
+    // Act
+    ZoneSnapshot actualZoneSnapshot = loadBalancerStats.getZoneSnapshot((String) null);
+
+    // Assert
+    assertEquals(0, actualZoneSnapshot.getActiveRequestsCount());
+    assertEquals(0, actualZoneSnapshot.getCircuitTrippedCount());
+    assertEquals(0, actualZoneSnapshot.getInstanceCount());
+    assertEquals(0.0d, actualZoneSnapshot.getLoadPerServer(), 0.0);
+  }
+
+  /**
+   * Test {@link LoadBalancerStats#getZoneSnapshot(String)} with {@code zone}.
+   *
+   * <ul>
+   *   <li>Given {@link LoadBalancerStats#LoadBalancerStats()}.
+   *   <li>When {@code Zone}.
+   * </ul>
+   *
+   * <p>Method under test: {@link LoadBalancerStats#getZoneSnapshot(String)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"ZoneSnapshot LoadBalancerStats.getZoneSnapshot(String)"})
+  public void testGetZoneSnapshotWithZone_givenLoadBalancerStats_whenZone() {
+    // Arrange and Act
+    ZoneSnapshot actualZoneSnapshot = new LoadBalancerStats().getZoneSnapshot("Zone");
+
+    // Assert
+    assertEquals(0, actualZoneSnapshot.getActiveRequestsCount());
+    assertEquals(0, actualZoneSnapshot.getCircuitTrippedCount());
+    assertEquals(0, actualZoneSnapshot.getInstanceCount());
+    assertEquals(0.0d, actualZoneSnapshot.getLoadPerServer(), 0.0);
+  }
+
+  /**
+   * Test {@link LoadBalancerStats#getCircuitBreakerTrippedCount()}.
+   *
+   * <p>Method under test: {@link LoadBalancerStats#getCircuitBreakerTrippedCount()}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"int LoadBalancerStats.getCircuitBreakerTrippedCount()"})
+  public void testGetCircuitBreakerTrippedCount() {
+    // Arrange
+    HashMap<String, List<Server>> map = new HashMap<>();
+    map.put("foo", new ArrayList<>());
+
+    LoadBalancerStats loadBalancerStats = new LoadBalancerStats();
+    loadBalancerStats.updateZoneServerMapping(map);
+
+    // Act and Assert
+    assertEquals(0, loadBalancerStats.getCircuitBreakerTrippedCount());
+  }
+
+  /**
+   * Test {@link LoadBalancerStats#getCircuitBreakerTrippedCount(String)} with {@code String}.
+   *
+   * <p>Method under test: {@link LoadBalancerStats#getCircuitBreakerTrippedCount(String)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"int LoadBalancerStats.getCircuitBreakerTrippedCount(String)"})
+  public void testGetCircuitBreakerTrippedCountWithString() {
+    // Arrange
+    LoadBalancerStats loadBalancerStats = new LoadBalancerStats("Name");
+    loadBalancerStats.updateZoneServerMapping(new HashMap<>());
+
+    // Act and Assert
+    assertEquals(0, loadBalancerStats.getCircuitBreakerTrippedCount(null));
+  }
+
+  /**
+   * Test {@link LoadBalancerStats#getCircuitBreakerTrippedCount(String)} with {@code String}.
+   *
+   * <ul>
+   *   <li>Given {@link LoadBalancerStats#LoadBalancerStats()}.
+   *   <li>When {@code Zone}.
+   * </ul>
+   *
+   * <p>Method under test: {@link LoadBalancerStats#getCircuitBreakerTrippedCount(String)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"int LoadBalancerStats.getCircuitBreakerTrippedCount(String)"})
+  public void testGetCircuitBreakerTrippedCountWithString_givenLoadBalancerStats_whenZone() {
+    // Arrange, Act and Assert
+    assertEquals(0, new LoadBalancerStats().getCircuitBreakerTrippedCount("Zone"));
+  }
+
+  /**
+   * Test {@link LoadBalancerStats#getCircuitBreakerTrippedCount()}.
+   *
+   * <ul>
+   *   <li>Given {@link LoadBalancerStats#LoadBalancerStats()}.
+   *   <li>Then return zero.
+   * </ul>
+   *
+   * <p>Method under test: {@link LoadBalancerStats#getCircuitBreakerTrippedCount()}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"int LoadBalancerStats.getCircuitBreakerTrippedCount()"})
+  public void testGetCircuitBreakerTrippedCount_givenLoadBalancerStats_thenReturnZero() {
+    // Arrange, Act and Assert
+    assertEquals(0, new LoadBalancerStats().getCircuitBreakerTrippedCount());
+  }
+
+  /**
+   * Test {@link LoadBalancerStats#getMeasuredZoneHits(String)}.
+   *
+   * <p>Method under test: {@link LoadBalancerStats#getMeasuredZoneHits(String)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"long LoadBalancerStats.getMeasuredZoneHits(String)"})
+  public void testGetMeasuredZoneHits() {
+    // Arrange
+    LoadBalancerStats loadBalancerStats = new LoadBalancerStats("Name");
+    loadBalancerStats.updateZoneServerMapping(new HashMap<>());
+
+    // Act and Assert
+    assertEquals(0L, loadBalancerStats.getMeasuredZoneHits(null));
+  }
+
+  /**
+   * Test {@link LoadBalancerStats#getMeasuredZoneHits(String)}.
+   *
+   * <ul>
+   *   <li>Given {@link LoadBalancerStats#LoadBalancerStats()}.
+   *   <li>When {@code Zone}.
+   * </ul>
+   *
+   * <p>Method under test: {@link LoadBalancerStats#getMeasuredZoneHits(String)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"long LoadBalancerStats.getMeasuredZoneHits(String)"})
+  public void testGetMeasuredZoneHits_givenLoadBalancerStats_whenZone() {
+    // Arrange, Act and Assert
+    assertEquals(0L, new LoadBalancerStats().getMeasuredZoneHits("Zone"));
+  }
+
+  /**
+   * Test {@link LoadBalancerStats#getCongestionRatePercentage(String)}.
+   *
+   * <p>Method under test: {@link LoadBalancerStats#getCongestionRatePercentage(String)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"int LoadBalancerStats.getCongestionRatePercentage(String)"})
+  public void testGetCongestionRatePercentage() {
+    // Arrange
+    LoadBalancerStats loadBalancerStats = new LoadBalancerStats("Name");
+    loadBalancerStats.updateZoneServerMapping(new HashMap<>());
+
+    // Act and Assert
+    assertEquals(0, loadBalancerStats.getCongestionRatePercentage(null));
+  }
+
+  /**
+   * Test {@link LoadBalancerStats#getCongestionRatePercentage(String)}.
+   *
+   * <ul>
+   *   <li>Given {@link LoadBalancerStats#LoadBalancerStats()}.
+   *   <li>When {@code Zone}.
+   * </ul>
+   *
+   * <p>Method under test: {@link LoadBalancerStats#getCongestionRatePercentage(String)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"int LoadBalancerStats.getCongestionRatePercentage(String)"})
+  public void testGetCongestionRatePercentage_givenLoadBalancerStats_whenZone() {
+    // Arrange, Act and Assert
+    assertEquals(0, new LoadBalancerStats().getCongestionRatePercentage("Zone"));
+  }
+
+  /**
+   * Test {@link LoadBalancerStats#getAvailableZones()}.
+   *
+   * <p>Method under test: {@link LoadBalancerStats#getAvailableZones()}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"Set LoadBalancerStats.getAvailableZones()"})
+  public void testGetAvailableZones() {
+    // Arrange, Act and Assert
+    assertTrue(new LoadBalancerStats().getAvailableZones().isEmpty());
+  }
+
+  /**
+   * Test {@link LoadBalancerStats#getSingleServerStat(Server)}.
+   *
+   * <ul>
+   *   <li>Given {@link LoadBalancerStats#LoadBalancerStats()}.
+   *   <li>When {@code null}.
+   *   <li>Then return {@code null}.
+   * </ul>
+   *
+   * <p>Method under test: {@link LoadBalancerStats#getSingleServerStat(Server)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"ServerStats LoadBalancerStats.getSingleServerStat(Server)"})
+  public void testGetSingleServerStat_givenLoadBalancerStats_whenNull_thenReturnNull() {
+    // Arrange, Act and Assert
+    assertNull(new LoadBalancerStats().getSingleServerStat(null));
+  }
+}
