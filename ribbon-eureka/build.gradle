@@ -16,7 +16,7 @@ dependencies {
     testImplementation "org.easymock:easymock:${easymock_version}"
     testImplementation "com.netflix.eureka:eureka-test-utils:${eureka_version}"
     testImplementation("org.springframework:spring-test:5.3.8")
-    compileOnly("com.diffblue.cover:cover-annotations:1.7.0")
-    testImplementation("com.diffblue.cover:cover-annotations:1.7.0")
+    compileOnly("com.diffblue.cover:cover-annotations:1.9.0")
+    testImplementation("com.diffblue.cover:cover-annotations:1.9.0")
     implementation("javax.servlet:javax.servlet-api:4.0.1")
 }

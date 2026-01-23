@@ -66,3 +66,9 @@ atlassian-ide-plugin.xml
 
 # publishing secrets
 secrets/signing-key
+
+.diffblue/cache
+**.diffblue/cache
+**/.diffblue/cache
+**/**.diffblue/cache
+**/**/.diffblue/cache
