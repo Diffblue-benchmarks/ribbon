@@ -5,7 +5,11 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import com.diffblue.cover.annotations.ContributionFromDiffblue;
 import com.diffblue.cover.annotations.ManagedByDiffblue;
 import com.diffblue.cover.annotations.MethodsUnderTest;
@@ -17,6 +21,7 @@ import java.util.Set;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.mockito.Mockito;
 
 public class ZoneAwareLoadBalancerDiffblueTest {
   /**
@@ -355,88 +360,6 @@ public class ZoneAwareLoadBalancerDiffblueTest {
   /**
    * Test {@link ZoneAwareLoadBalancer#getLoadBalancer(String)}.
    *
-   * <p>Method under test: {@link ZoneAwareLoadBalancer#getLoadBalancer(String)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"BaseLoadBalancer ZoneAwareLoadBalancer.getLoadBalancer(String)"})
-  public void testGetLoadBalancer3() {
-    // Arrange
-    ZoneAwareLoadBalancer<Server> zoneAwareLoadBalancer = new ZoneAwareLoadBalancer<>();
-    zoneAwareLoadBalancer.addServerStatusChangeListener(mock(ServerStatusChangeListener.class));
-    zoneAwareLoadBalancer.addServerListChangeListener(mock(ServerListChangeListener.class));
-    zoneAwareLoadBalancer.setPing(mock(IPing.class));
-
-    // Act
-    BaseLoadBalancer actualLoadBalancer = zoneAwareLoadBalancer.getLoadBalancer("Zone");
-
-    // Assert
-    assertTrue(actualLoadBalancer.getRule() instanceof RoundRobinRule);
-    assertTrue(actualLoadBalancer.serverComparator instanceof ServerComparator);
-    assertTrue(actualLoadBalancer.allServerLock instanceof ReentrantReadWriteLock);
-    assertTrue(actualLoadBalancer.upServerLock instanceof ReentrantReadWriteLock);
-    assertEquals("default_zone", actualLoadBalancer.getName());
-    assertNull(actualLoadBalancer.getPrimeConnections());
-    assertNull(actualLoadBalancer.getClientConfig());
-    assertNull(actualLoadBalancer.getPing());
-    assertNull(actualLoadBalancer.lbTimer);
-    assertEquals(10, actualLoadBalancer.getPingInterval());
-    assertEquals(5, actualLoadBalancer.getMaxTotalPingTime());
-    assertFalse(actualLoadBalancer.isEnablePrimingConnections());
-    assertFalse(actualLoadBalancer.isPingInProgress());
-    assertTrue(actualLoadBalancer.getAllServers().isEmpty());
-    assertTrue(actualLoadBalancer.getReachableServers().isEmpty());
-    assertTrue(actualLoadBalancer.allServerList.isEmpty());
-    assertTrue(actualLoadBalancer.upServerList.isEmpty());
-  }
-
-  /**
-   * Test {@link ZoneAwareLoadBalancer#getLoadBalancer(String)}.
-   *
-   * <ul>
-   *   <li>Given {@link ZoneAwareLoadBalancer#ZoneAwareLoadBalancer()} addServer {@code null}.
-   * </ul>
-   *
-   * <p>Method under test: {@link ZoneAwareLoadBalancer#getLoadBalancer(String)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"BaseLoadBalancer ZoneAwareLoadBalancer.getLoadBalancer(String)"})
-  public void testGetLoadBalancer_givenZoneAwareLoadBalancerAddServerNull() {
-    // Arrange
-    ZoneAwareLoadBalancer<Server> zoneAwareLoadBalancer = new ZoneAwareLoadBalancer<>();
-    zoneAwareLoadBalancer.addServer(null);
-    zoneAwareLoadBalancer.addServerListChangeListener(mock(ServerListChangeListener.class));
-    zoneAwareLoadBalancer.setPing(mock(IPing.class));
-
-    // Act
-    BaseLoadBalancer actualLoadBalancer = zoneAwareLoadBalancer.getLoadBalancer("Zone");
-
-    // Assert
-    assertTrue(actualLoadBalancer.getRule() instanceof RoundRobinRule);
-    assertTrue(actualLoadBalancer.serverComparator instanceof ServerComparator);
-    assertTrue(actualLoadBalancer.allServerLock instanceof ReentrantReadWriteLock);
-    assertTrue(actualLoadBalancer.upServerLock instanceof ReentrantReadWriteLock);
-    assertEquals("default_zone", actualLoadBalancer.getName());
-    assertNull(actualLoadBalancer.getPrimeConnections());
-    assertNull(actualLoadBalancer.getClientConfig());
-    assertNull(actualLoadBalancer.getPing());
-    assertNull(actualLoadBalancer.lbTimer);
-    assertEquals(10, actualLoadBalancer.getPingInterval());
-    assertEquals(5, actualLoadBalancer.getMaxTotalPingTime());
-    assertFalse(actualLoadBalancer.isEnablePrimingConnections());
-    assertFalse(actualLoadBalancer.isPingInProgress());
-    assertTrue(actualLoadBalancer.getAllServers().isEmpty());
-    assertTrue(actualLoadBalancer.getReachableServers().isEmpty());
-    assertTrue(actualLoadBalancer.allServerList.isEmpty());
-    assertTrue(actualLoadBalancer.upServerList.isEmpty());
-  }
-
-  /**
-   * Test {@link ZoneAwareLoadBalancer#getLoadBalancer(String)}.
-   *
    * <ul>
    *   <li>Given {@link ZoneAwareLoadBalancer#ZoneAwareLoadBalancer()} Ping is {@link IPing}.
    * </ul>
@@ -551,38 +474,6 @@ public class ZoneAwareLoadBalancerDiffblueTest {
    * Test {@link ZoneAwareLoadBalancer#setRule(IRule)}.
    *
    * <ul>
-   *   <li>Then {@link AvailabilityFilteringRule} (default constructor) LoadBalancer {@link
-   *       ZoneAwareLoadBalancer}.
-   * </ul>
-   *
-   * <p>Method under test: {@link ZoneAwareLoadBalancer#setRule(IRule)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void ZoneAwareLoadBalancer.setRule(IRule)"})
-  public void testSetRule_thenAvailabilityFilteringRuleLoadBalancerZoneAwareLoadBalancer2() {
-    // Arrange
-    ZoneAwareLoadBalancer<Server> zoneAwareLoadBalancer = new ZoneAwareLoadBalancer<>();
-    zoneAwareLoadBalancer.setPing(mock(IPing.class));
-    AvailabilityFilteringRule rule = new AvailabilityFilteringRule();
-
-    // Act
-    zoneAwareLoadBalancer.setRule(rule);
-
-    // Assert
-    ILoadBalancer loadBalancer = rule.getLoadBalancer();
-    assertTrue(loadBalancer instanceof ZoneAwareLoadBalancer);
-    assertEquals(0, rule.getAvailableServersCount());
-    assertSame(rule, zoneAwareLoadBalancer.getRule());
-    assertSame(rule, ((ZoneAwareLoadBalancer<Server>) loadBalancer).getRule());
-    assertSame(loadBalancer, rule.roundRobinRule.getLoadBalancer());
-  }
-
-  /**
-   * Test {@link ZoneAwareLoadBalancer#setRule(IRule)}.
-   *
-   * <ul>
    *   <li>Then {@link BestAvailableRule} (default constructor) LoadBalancer {@link
    *       ZoneAwareLoadBalancer}.
    * </ul>
@@ -663,7 +554,5 @@ public class ZoneAwareLoadBalancerDiffblueTest {
 
     // Assert that nothing has changed
     assertTrue(zoneAwareLoadBalancer.getRule() instanceof RoundRobinRule);
-    assertTrue(zoneAwareLoadBalancer.getReachableServers().isEmpty());
-    assertTrue(zoneAwareLoadBalancer.upServerList.isEmpty());
   }
 }

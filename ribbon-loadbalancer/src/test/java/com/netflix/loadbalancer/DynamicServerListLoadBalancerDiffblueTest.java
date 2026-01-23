@@ -11,11 +11,13 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import com.diffblue.cover.annotations.ContributionFromDiffblue;
 import com.diffblue.cover.annotations.ManagedByDiffblue;
 import com.diffblue.cover.annotations.MethodsUnderTest;
 import com.netflix.loadbalancer.ServerListUpdater.UpdateAction;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -527,8 +529,59 @@ public class DynamicServerListLoadBalancerDiffblueTest {
     // Act
     dynamicServerListLoadBalancer.enableAndInitLearnNewServersFeature();
 
-    // Assert
+    // Assert that nothing has changed
     verify(serverListUpdater).start(isA(UpdateAction.class));
+    assertTrue(dynamicServerListLoadBalancer.getReachableServers().isEmpty());
+    assertTrue(dynamicServerListLoadBalancer.upServerList.isEmpty());
+  }
+
+  /**
+   * Test {@link DynamicServerListLoadBalancer#stopServerListRefreshing()}.
+   *
+   * <p>Method under test: {@link DynamicServerListLoadBalancer#stopServerListRefreshing()}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void DynamicServerListLoadBalancer.stopServerListRefreshing()"})
+  public void testStopServerListRefreshing() {
+    // Arrange
+    DynamicServerListLoadBalancer<Server> dynamicServerListLoadBalancer =
+        new DynamicServerListLoadBalancer<>();
+    dynamicServerListLoadBalancer.setServerListUpdater(new PollingServerListUpdater());
+
+    // Act
+    dynamicServerListLoadBalancer.stopServerListRefreshing();
+
+    // Assert that nothing has changed
+    assertTrue(dynamicServerListLoadBalancer.getReachableServers().isEmpty());
+    assertTrue(dynamicServerListLoadBalancer.upServerList.isEmpty());
+  }
+
+  /**
+   * Test {@link DynamicServerListLoadBalancer#stopServerListRefreshing()}.
+   *
+   * <ul>
+   *   <li>Given {@link DynamicServerListLoadBalancer#DynamicServerListLoadBalancer()}.
+   * </ul>
+   *
+   * <p>Method under test: {@link DynamicServerListLoadBalancer#stopServerListRefreshing()}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void DynamicServerListLoadBalancer.stopServerListRefreshing()"})
+  public void testStopServerListRefreshing_givenDynamicServerListLoadBalancer() {
+    // Arrange
+    DynamicServerListLoadBalancer<Server> dynamicServerListLoadBalancer =
+        new DynamicServerListLoadBalancer<>();
+
+    // Act
+    dynamicServerListLoadBalancer.stopServerListRefreshing();
+
+    // Assert that nothing has changed
+    assertTrue(dynamicServerListLoadBalancer.getReachableServers().isEmpty());
+    assertTrue(dynamicServerListLoadBalancer.upServerList.isEmpty());
   }
 
   /**
@@ -770,34 +823,6 @@ public class DynamicServerListLoadBalancerDiffblueTest {
   }
 
   /**
-   * Test {@link DynamicServerListLoadBalancer#getLastUpdate()}.
-   *
-   * <ul>
-   *   <li>Then {@link DynamicServerListLoadBalancer#DynamicServerListLoadBalancer()}
-   *       ReachableServers Empty.
-   * </ul>
-   *
-   * <p>Method under test: {@link DynamicServerListLoadBalancer#getLastUpdate()}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"String DynamicServerListLoadBalancer.getLastUpdate()"})
-  public void testGetLastUpdate_thenDynamicServerListLoadBalancerReachableServersEmpty() {
-    // Arrange
-    DynamicServerListLoadBalancer<Server> dynamicServerListLoadBalancer =
-        new DynamicServerListLoadBalancer<>();
-    dynamicServerListLoadBalancer.setServerListUpdater(new PollingServerListUpdater());
-
-    // Act
-    dynamicServerListLoadBalancer.getLastUpdate();
-
-    // Assert
-    assertTrue(dynamicServerListLoadBalancer.getReachableServers().isEmpty());
-    assertTrue(dynamicServerListLoadBalancer.upServerList.isEmpty());
-  }
-
-  /**
    * Test {@link DynamicServerListLoadBalancer#getDurationSinceLastUpdateMs()}.
    *
    * <p>Method under test: {@link DynamicServerListLoadBalancer#getDurationSinceLastUpdateMs()}
@@ -841,8 +866,6 @@ public class DynamicServerListLoadBalancerDiffblueTest {
 
     // Act and Assert
     assertEquals(0, dynamicServerListLoadBalancer.getNumberMissedCycles());
-    assertTrue(dynamicServerListLoadBalancer.getReachableServers().isEmpty());
-    assertTrue(dynamicServerListLoadBalancer.upServerList.isEmpty());
   }
 
   /**

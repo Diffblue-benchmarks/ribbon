@@ -346,6 +346,32 @@ public class ZoneAvoidanceRuleDiffblueTest {
   public void testGetAvailableZonesWithSnapshotTriggeringLoadTriggeringBlackoutPercentage4() {
     // Arrange
     HashMap<String, ZoneSnapshot> snapshot = new HashMap<>();
+    snapshot.putAll(new HashMap<>());
+    ZoneSnapshot zoneSnapshot = new ZoneSnapshot(3, 3, 3, 10.0d);
+    snapshot.put("42", zoneSnapshot);
+    ZoneSnapshot zoneSnapshot2 = new ZoneSnapshot(3, 3, 3, 10.0d);
+    snapshot.put("foo", zoneSnapshot2);
+
+    // Act
+    Set<String> actualAvailableZones = ZoneAvoidanceRule.getAvailableZones(snapshot, 10.0d, 10.0d);
+
+    // Assert
+    assertEquals(1, actualAvailableZones.size());
+  }
+
+  /**
+   * Test {@link ZoneAvoidanceRule#getAvailableZones(Map, double, double)} with {@code snapshot},
+   * {@code triggeringLoad}, {@code triggeringBlackoutPercentage}.
+   *
+   * <p>Method under test: {@link ZoneAvoidanceRule#getAvailableZones(Map, double, double)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"Set ZoneAvoidanceRule.getAvailableZones(Map, double, double)"})
+  public void testGetAvailableZonesWithSnapshotTriggeringLoadTriggeringBlackoutPercentage5() {
+    // Arrange
+    HashMap<String, ZoneSnapshot> snapshot = new HashMap<>();
     ZoneSnapshot zoneSnapshot = new ZoneSnapshot(0, 3, 3, 10.0d);
     snapshot.put("42", zoneSnapshot);
     ZoneSnapshot zoneSnapshot2 = new ZoneSnapshot(3, 3, 3, 10.0d);
@@ -368,7 +394,7 @@ public class ZoneAvoidanceRuleDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"Set ZoneAvoidanceRule.getAvailableZones(Map, double, double)"})
-  public void testGetAvailableZonesWithSnapshotTriggeringLoadTriggeringBlackoutPercentage5() {
+  public void testGetAvailableZonesWithSnapshotTriggeringLoadTriggeringBlackoutPercentage6() {
     // Arrange
     HashMap<String, ZoneSnapshot> snapshot = new HashMap<>();
     ZoneSnapshot zoneSnapshot = new ZoneSnapshot(3, 3, 3, 1.0d);
@@ -394,7 +420,7 @@ public class ZoneAvoidanceRuleDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"Set ZoneAvoidanceRule.getAvailableZones(Map, double, double)"})
-  public void testGetAvailableZonesWithSnapshotTriggeringLoadTriggeringBlackoutPercentage6() {
+  public void testGetAvailableZonesWithSnapshotTriggeringLoadTriggeringBlackoutPercentage7() {
     // Arrange
     HashMap<String, ZoneSnapshot> snapshot = new HashMap<>();
     ZoneSnapshot zoneSnapshot = new ZoneSnapshot(3, 3, 3, -0.5d);
@@ -419,7 +445,7 @@ public class ZoneAvoidanceRuleDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"Set ZoneAvoidanceRule.getAvailableZones(Map, double, double)"})
-  public void testGetAvailableZonesWithSnapshotTriggeringLoadTriggeringBlackoutPercentage7() {
+  public void testGetAvailableZonesWithSnapshotTriggeringLoadTriggeringBlackoutPercentage8() {
     // Arrange
     HashMap<String, ZoneSnapshot> snapshot = new HashMap<>();
     ZoneSnapshot zoneSnapshot = new ZoneSnapshot(0, 3, 3, 10.0d);
@@ -444,7 +470,7 @@ public class ZoneAvoidanceRuleDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"Set ZoneAvoidanceRule.getAvailableZones(Map, double, double)"})
-  public void testGetAvailableZonesWithSnapshotTriggeringLoadTriggeringBlackoutPercentage8() {
+  public void testGetAvailableZonesWithSnapshotTriggeringLoadTriggeringBlackoutPercentage9() {
     // Arrange
     HashMap<String, ZoneSnapshot> snapshot = new HashMap<>();
     ZoneSnapshot zoneSnapshot = new ZoneSnapshot(3, 3, 3, 1.0d);
@@ -471,7 +497,7 @@ public class ZoneAvoidanceRuleDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"Set ZoneAvoidanceRule.getAvailableZones(Map, double, double)"})
-  public void testGetAvailableZonesWithSnapshotTriggeringLoadTriggeringBlackoutPercentage9() {
+  public void testGetAvailableZonesWithSnapshotTriggeringLoadTriggeringBlackoutPercentage10() {
     // Arrange
     HashMap<String, ZoneSnapshot> snapshot = new HashMap<>();
     ZoneSnapshot zoneSnapshot = new ZoneSnapshot(3, 3, 3, 10.0d);

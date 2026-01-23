@@ -23,6 +23,7 @@ import com.netflix.servo.monitor.Timer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
@@ -60,25 +61,6 @@ public class PrimeConnectionsDiffblueTest {
     assertEquals(
         5,
         new ASyncPrimeConnectionsThreadFactory("-thread-")
-            .newThread(mock(Runnable.class))
-            .getPriority());
-  }
-
-  /**
-   * Test ASyncPrimeConnectionsThreadFactory {@link
-   * ASyncPrimeConnectionsThreadFactory#newThread(Runnable)}.
-   *
-   * <p>Method under test: {@link ASyncPrimeConnectionsThreadFactory#newThread(Runnable)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"java.lang.Thread ASyncPrimeConnectionsThreadFactory.newThread(Runnable)"})
-  public void testASyncPrimeConnectionsThreadFactoryNewThread() {
-    // Arrange, Act and Assert
-    assertEquals(
-        5,
-        new ASyncPrimeConnectionsThreadFactory("Name")
             .newThread(mock(Runnable.class))
             .getPriority());
   }
@@ -176,20 +158,13 @@ public class PrimeConnectionsDiffblueTest {
     PrimeConnections primeConnections =
         new PrimeConnections("Name", 3, 1L, "Prime Connections URI");
 
-    ArrayList<Server> servers = new ArrayList<>();
-    servers.add(new Server("42"));
-
     // Act
-    primeConnections.primeConnections(servers);
+    primeConnections.primeConnections(new ArrayList<>());
 
-    // Assert
+    // Assert that nothing has changed
     Timer timer = primeConnections.initialPrimeTimer;
     assertTrue(timer instanceof BasicTimer);
-    PrimeConnectionEndStats endStats = primeConnections.getEndStats();
-    assertEquals(0, endStats.failure);
-    assertEquals(1, endStats.total);
-    assertEquals(1L, timer.getValue().longValue());
-    assertEquals(1L, endStats.totalTime);
+    assertEquals(0L, timer.getValue().longValue());
   }
 
   /**
@@ -204,7 +179,7 @@ public class PrimeConnectionsDiffblueTest {
   public void testPrimeConnections2() {
     // Arrange
     PrimeConnections primeConnections =
-        new PrimeConnections("_PrimeConnection", 3, 1L, "Prime Connections URI");
+        new PrimeConnections("Name", 3, 1L, "Prime Connections URI");
 
     ArrayList<Server> servers = new ArrayList<>();
     servers.add(new Server("42"));
@@ -234,7 +209,30 @@ public class PrimeConnectionsDiffblueTest {
   public void testPrimeConnections3() {
     // Arrange
     PrimeConnections primeConnections =
-        new PrimeConnections("_PrimeConnection", 3, 1L, "Prime Connections URI");
+        new PrimeConnections("Name", Integer.MIN_VALUE, 1L, "Prime Connections URI");
+
+    // Act
+    primeConnections.primeConnections(new ArrayList<>());
+
+    // Assert that nothing has changed
+    Timer timer = primeConnections.initialPrimeTimer;
+    assertTrue(timer instanceof BasicTimer);
+    assertEquals(0L, timer.getValue().longValue());
+  }
+
+  /**
+   * Test {@link PrimeConnections#primeConnections(List)}.
+   *
+   * <p>Method under test: {@link PrimeConnections#primeConnections(List)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void PrimeConnections.primeConnections(List)"})
+  public void testPrimeConnections4() {
+    // Arrange
+    PrimeConnections primeConnections =
+        new PrimeConnections("Name", Integer.MIN_VALUE, 1L, "Prime Connections URI");
 
     ArrayList<Server> servers = new ArrayList<>();
     servers.add(new Server("42"));
@@ -256,9 +254,37 @@ public class PrimeConnectionsDiffblueTest {
   /**
    * Test {@link PrimeConnections#primeConnections(List)}.
    *
-   * <ul>
-   *   <li>When {@link ArrayList#ArrayList()}.
-   * </ul>
+   * <p>Method under test: {@link PrimeConnections#primeConnections(List)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void PrimeConnections.primeConnections(List)"})
+  public void testPrimeConnections5() {
+    // Arrange
+    PrimeConnections primeConnections =
+        new PrimeConnections("Name", Integer.MIN_VALUE, 1L, "Prime Connections URI");
+
+    ArrayList<Server> servers = new ArrayList<>();
+    servers.addAll(new ArrayList<>());
+    servers.add(new Server("42"));
+    servers.add(new Server("42"));
+
+    // Act
+    primeConnections.primeConnections(servers);
+
+    // Assert
+    Timer timer = primeConnections.initialPrimeTimer;
+    assertTrue(timer instanceof BasicTimer);
+    PrimeConnectionEndStats endStats = primeConnections.getEndStats();
+    assertEquals(0, endStats.failure);
+    assertEquals(1L, timer.getValue().longValue());
+    assertEquals(1L, endStats.totalTime);
+    assertEquals(2, endStats.total);
+  }
+
+  /**
+   * Test {@link PrimeConnections#primeConnections(List)}.
    *
    * <p>Method under test: {@link PrimeConnections#primeConnections(List)}
    */
@@ -266,18 +292,32 @@ public class PrimeConnectionsDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void PrimeConnections.primeConnections(List)"})
-  public void testPrimeConnections_whenArrayList() {
+  public void testPrimeConnections6() {
     // Arrange
     PrimeConnections primeConnections =
-        new PrimeConnections("Name", 3, 1L, "Prime Connections URI");
+        new PrimeConnections(
+            "Priming Connections for RestClient:",
+            3,
+            1L,
+            "Priming Connections for RestClient:",
+            10.0f);
+
+    ArrayList<Server> servers = new ArrayList<>();
+    servers.addAll(new ArrayList<>());
+    servers.add(new Server("42"));
+    servers.add(new Server("42"));
 
     // Act
-    primeConnections.primeConnections(new ArrayList<>());
+    primeConnections.primeConnections(servers);
 
-    // Assert that nothing has changed
+    // Assert
     Timer timer = primeConnections.initialPrimeTimer;
     assertTrue(timer instanceof BasicTimer);
-    assertEquals(0L, timer.getValue().longValue());
+    PrimeConnectionEndStats endStats = primeConnections.getEndStats();
+    assertEquals(0, endStats.failure);
+    assertEquals(1L, timer.getValue().longValue());
+    assertEquals(1L, endStats.totalTime);
+    assertEquals(20, endStats.total);
   }
 
   /**
@@ -368,6 +408,45 @@ public class PrimeConnectionsDiffblueTest {
     assertEquals(1, servers.size());
     assertFalse(servers.get(0).isReadyToServe());
     assertTrue(actualPrimeConnectionsAsyncResult.isEmpty());
+  }
+
+  /**
+   * Test {@link PrimeConnections#primeConnectionsAsync(List, PrimeConnectionListener)}.
+   *
+   * <ul>
+   *   <li>Then return not first.
+   * </ul>
+   *
+   * <p>Method under test: {@link PrimeConnections#primeConnectionsAsync(List,
+   * PrimeConnectionListener)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"List PrimeConnections.primeConnectionsAsync(List, PrimeConnectionListener)"})
+  public void testPrimeConnectionsAsync_thenReturnNotFirst()
+      throws InterruptedException, ExecutionException {
+    // Arrange
+    PrimeConnections primeConnections =
+        new PrimeConnections("Name", Integer.MIN_VALUE, 1L, "Prime Connections URI");
+
+    Server server = new Server("42");
+    server.setSchemea("Priming Connections for RestClient:");
+
+    ArrayList<Server> servers = new ArrayList<>();
+    servers.add(new Server("Id"));
+    servers.add(new Server("42"));
+    servers.add(server);
+
+    // Act
+    List<Future<Boolean>> actualPrimeConnectionsAsyncResult =
+        primeConnections.primeConnectionsAsync(servers, mock(PrimeConnectionListener.class));
+
+    // Assert
+    assertEquals(3, servers.size());
+    assertEquals(3, actualPrimeConnectionsAsyncResult.size());
+    assertFalse(servers.get(2).isReadyToServe());
+    assertFalse(actualPrimeConnectionsAsyncResult.get(0).get());
   }
 
   /**

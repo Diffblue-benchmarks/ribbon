@@ -3,19 +3,19 @@
     "reportVersion" : "2.8"
   },
   "run" : {
-    "version" : "2025.11.01-3385b9f-licensed",
-    "creationTimestamp" : "2025-11-13T00:24:00.629Z",
+    "version" : "2026.01.01-c73dc7d-licensed",
+    "creationTimestamp" : "2026-01-23T13:21:28.881Z",
     "command" : "dcover create --coverage-reports --upload http://localhost:8080 --project-name ribbon --name with-diffblue-tests",
-    "totalTime" : 112.501,
-    "environmentDetectionTime" : 1.771,
-    "indexingTime" : 0.349,
-    "entryPointsTime" : 1.741,
-    "generationTime" : 24.298,
-    "timeToFirstTest" : 56.673,
-    "timeToLastTest" : 60.845,
-    "indexQueryTime" : 2.709,
-    "verificationTime" : 1.818,
-    "validationTime" : 20.446
+    "totalTime" : 108.381,
+    "environmentDetectionTime" : 1.72,
+    "indexingTime" : 0.491,
+    "entryPointsTime" : 1.689,
+    "generationTime" : 21.62,
+    "timeToFirstTest" : 52.835,
+    "timeToLastTest" : 56.691,
+    "indexQueryTime" : 2.9410000000000003,
+    "verificationTime" : 1.793,
+    "validationTime" : 20.248
   },
   "codes" : {
     "R000" : "Success",

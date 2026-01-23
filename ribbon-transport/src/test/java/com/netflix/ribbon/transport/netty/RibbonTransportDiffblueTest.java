@@ -1,7 +1,6 @@
 package com.netflix.ribbon.transport.netty;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.isA;
@@ -13,7 +12,6 @@ import com.diffblue.cover.annotations.ContributionFromDiffblue;
 import com.diffblue.cover.annotations.ManagedByDiffblue;
 import com.diffblue.cover.annotations.MethodsUnderTest;
 import com.netflix.client.DefaultLoadBalancerRetryHandler;
-import com.netflix.client.PrimeConnections;
 import com.netflix.client.RetryHandler;
 import com.netflix.client.config.DefaultClientConfigImpl;
 import com.netflix.client.config.IClientConfig;
@@ -26,8 +24,6 @@ import com.netflix.loadbalancer.LoadBalancerContext;
 import com.netflix.loadbalancer.NoOpLoadBalancer;
 import com.netflix.loadbalancer.Server;
 import com.netflix.loadbalancer.ServerListChangeListener;
-import com.netflix.loadbalancer.ServerStatusChangeListener;
-import com.netflix.loadbalancer.ZoneAvoidanceRule;
 import com.netflix.loadbalancer.reactive.ExecutionListener;
 import com.netflix.ribbon.transport.netty.http.LoadBalancingHttpClient;
 import com.netflix.ribbon.transport.netty.http.SSEClient;
@@ -48,7 +44,6 @@ import io.reactivex.netty.servo.http.HttpClientListener;
 import io.reactivex.netty.servo.tcp.TcpClientListener;
 import io.reactivex.netty.servo.udp.UdpClientListener;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import org.junit.Test;
@@ -310,207 +305,6 @@ public class RibbonTransportDiffblueTest {
   }
 
   /**
-   * Test {@link RibbonTransport#newTcpClient(ILoadBalancer, PipelineConfigurator, IClientConfig,
-   * RetryHandler)} with {@code loadBalancer}, {@code pipelineConfigurator}, {@code config}, {@code
-   * retryHandler}.
-   *
-   * <p>Method under test: {@link RibbonTransport#newTcpClient(ILoadBalancer, PipelineConfigurator,
-   * IClientConfig, RetryHandler)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "RxClient RibbonTransport.newTcpClient(ILoadBalancer, PipelineConfigurator, IClientConfig, RetryHandler)"
-  })
-  public void testNewTcpClientWithLoadBalancerPipelineConfiguratorConfigRetryHandler4() {
-    // Arrange
-    IPing ping = mock(IPing.class);
-    when(ping.isAlive(Mockito.<Server>any())).thenReturn(true);
-
-    BaseLoadBalancer loadBalancer = new BaseLoadBalancer();
-    loadBalancer.setPing(ping);
-    loadBalancer.addServer(new Server("42"));
-    PipelineConfigurator<Object, Object> pipelineConfigurator = mock(PipelineConfigurator.class);
-    DefaultClientConfigImpl config = DefaultClientConfigImpl.getEmptyConfig();
-
-    // Act
-    RxClient<Object, Object> actualNewTcpClientResult =
-        RibbonTransport.newTcpClient(
-            loadBalancer, pipelineConfigurator, config, new DefaultLoadBalancerRetryHandler());
-
-    // Assert
-    verify(ping).isAlive(isA(Server.class));
-    LoadBalancerContext loadBalancerContext =
-        ((LoadBalancingTcpClient<Object, Object>) actualNewTcpClientResult)
-            .getLoadBalancerContext();
-    assertTrue(loadBalancerContext.getLoadBalancer() instanceof BaseLoadBalancer);
-    assertTrue(actualNewTcpClientResult instanceof LoadBalancingTcpClient);
-    assertTrue(loadBalancerContext.getExecuteTracer() instanceof BasicTimer);
-    MetricEventsListener<? extends ClientMetricsEvent<?>> metricEventsListener =
-        ((LoadBalancingTcpClient<Object, Object>) actualNewTcpClientResult).listener;
-    assertTrue(
-        ((TcpClientListener) metricEventsListener).getConnectionTimes() instanceof BasicTimer);
-    assertTrue(((TcpClientListener) metricEventsListener).getFlushTimes() instanceof BasicTimer);
-    assertTrue(
-        ((TcpClientListener) metricEventsListener).getPoolAcquireTimes() instanceof BasicTimer);
-    assertTrue(
-        ((TcpClientListener) metricEventsListener).getPoolReleaseTimes() instanceof BasicTimer);
-    assertTrue(((TcpClientListener) metricEventsListener).getWriteTimes() instanceof BasicTimer);
-    assertTrue(metricEventsListener instanceof TcpClientListener);
-    assertSame(
-        ((LoadBalancingRxClient) actualNewTcpClientResult).defaultRetryHandler,
-        loadBalancerContext.getRetryHandler());
-  }
-
-  /**
-   * Test {@link RibbonTransport#newTcpClient(ILoadBalancer, PipelineConfigurator, IClientConfig,
-   * RetryHandler)} with {@code loadBalancer}, {@code pipelineConfigurator}, {@code config}, {@code
-   * retryHandler}.
-   *
-   * <p>Method under test: {@link RibbonTransport#newTcpClient(ILoadBalancer, PipelineConfigurator,
-   * IClientConfig, RetryHandler)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "RxClient RibbonTransport.newTcpClient(ILoadBalancer, PipelineConfigurator, IClientConfig, RetryHandler)"
-  })
-  public void testNewTcpClientWithLoadBalancerPipelineConfiguratorConfigRetryHandler5() {
-    // Arrange
-    Server newServer = new Server("42");
-    newServer.setAlive(true);
-
-    IPing ping = mock(IPing.class);
-    when(ping.isAlive(Mockito.<Server>any())).thenReturn(true);
-    IPing ping2 = mock(IPing.class);
-
-    BaseLoadBalancer loadBalancer = new BaseLoadBalancer(ping2, new AvailabilityFilteringRule());
-    loadBalancer.setPing(ping);
-    loadBalancer.addServer(newServer);
-    PipelineConfigurator<Object, Object> pipelineConfigurator = mock(PipelineConfigurator.class);
-    DefaultClientConfigImpl config = DefaultClientConfigImpl.getEmptyConfig();
-
-    // Act
-    RxClient<Object, Object> actualNewTcpClientResult =
-        RibbonTransport.newTcpClient(
-            loadBalancer, pipelineConfigurator, config, new DefaultLoadBalancerRetryHandler());
-
-    // Assert
-    verify(ping).isAlive(isA(Server.class));
-    LoadBalancerContext loadBalancerContext =
-        ((LoadBalancingTcpClient<Object, Object>) actualNewTcpClientResult)
-            .getLoadBalancerContext();
-    ILoadBalancer loadBalancer2 = loadBalancerContext.getLoadBalancer();
-    assertTrue(loadBalancer2 instanceof BaseLoadBalancer);
-    assertTrue(actualNewTcpClientResult instanceof LoadBalancingTcpClient);
-    assertTrue(loadBalancerContext.getExecuteTracer() instanceof BasicTimer);
-    MetricEventsListener<? extends ClientMetricsEvent<?>> metricEventsListener =
-        ((LoadBalancingTcpClient<Object, Object>) actualNewTcpClientResult).listener;
-    assertTrue(
-        ((TcpClientListener) metricEventsListener).getConnectionTimes() instanceof BasicTimer);
-    assertTrue(((TcpClientListener) metricEventsListener).getFlushTimes() instanceof BasicTimer);
-    assertTrue(
-        ((TcpClientListener) metricEventsListener).getPoolAcquireTimes() instanceof BasicTimer);
-    assertTrue(
-        ((TcpClientListener) metricEventsListener).getPoolReleaseTimes() instanceof BasicTimer);
-    assertTrue(((TcpClientListener) metricEventsListener).getWriteTimes() instanceof BasicTimer);
-    assertTrue(metricEventsListener instanceof TcpClientListener);
-    assertSame(loadBalancer, loadBalancer2);
-    assertSame(
-        ((LoadBalancingRxClient) actualNewTcpClientResult).defaultRetryHandler,
-        loadBalancerContext.getRetryHandler());
-  }
-
-  /**
-   * Test {@link RibbonTransport#newTcpClient(ILoadBalancer, PipelineConfigurator, IClientConfig,
-   * RetryHandler)} with {@code loadBalancer}, {@code pipelineConfigurator}, {@code config}, {@code
-   * retryHandler}.
-   *
-   * <p>Method under test: {@link RibbonTransport#newTcpClient(ILoadBalancer, PipelineConfigurator,
-   * IClientConfig, RetryHandler)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "RxClient RibbonTransport.newTcpClient(ILoadBalancer, PipelineConfigurator, IClientConfig, RetryHandler)"
-  })
-  public void testNewTcpClientWithLoadBalancerPipelineConfiguratorConfigRetryHandler6() {
-    // Arrange
-    BaseLoadBalancer loadBalancer = new BaseLoadBalancer();
-    PipelineConfigurator<Object, Object> pipelineConfigurator = mock(PipelineConfigurator.class);
-
-    Builder newBuilderResult = Builder.newBuilder();
-    newBuilderResult.withDeploymentContextBasedVipAddresses("42 Main St");
-    IClientConfig config =
-        newBuilderResult.ignoreUserTokenInConnectionPoolForSecureClient(true).build();
-
-    // Act
-    RxClient<Object, Object> actualNewTcpClientResult =
-        RibbonTransport.newTcpClient(
-            loadBalancer, pipelineConfigurator, config, new DefaultLoadBalancerRetryHandler());
-
-    // Assert
-    assertTrue(actualNewTcpClientResult instanceof LoadBalancingTcpClient);
-    assertSame(
-        config,
-        ((LoadBalancingTcpClient<Object, Object>) actualNewTcpClientResult).getClientConfig());
-    assertSame(
-        ((LoadBalancingRxClient) actualNewTcpClientResult).defaultRetryHandler,
-        ((LoadBalancingTcpClient<Object, Object>) actualNewTcpClientResult)
-            .getLoadBalancerContext()
-            .getRetryHandler());
-  }
-
-  /**
-   * Test {@link RibbonTransport#newTcpClient(ILoadBalancer, PipelineConfigurator, IClientConfig,
-   * RetryHandler)} with {@code loadBalancer}, {@code pipelineConfigurator}, {@code config}, {@code
-   * retryHandler}.
-   *
-   * <ul>
-   *   <li>Given {@code true}.
-   * </ul>
-   *
-   * <p>Method under test: {@link RibbonTransport#newTcpClient(ILoadBalancer, PipelineConfigurator,
-   * IClientConfig, RetryHandler)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "RxClient RibbonTransport.newTcpClient(ILoadBalancer, PipelineConfigurator, IClientConfig, RetryHandler)"
-  })
-  public void testNewTcpClientWithLoadBalancerPipelineConfiguratorConfigRetryHandler_givenTrue() {
-    // Arrange
-    BaseLoadBalancer loadBalancer = new BaseLoadBalancer();
-    PipelineConfigurator<Object, Object> pipelineConfigurator = mock(PipelineConfigurator.class);
-
-    Builder newBuilderResult = Builder.newBuilder();
-    newBuilderResult.withSecure(true);
-    newBuilderResult.withDeploymentContextBasedVipAddresses("42 Main St");
-    IClientConfig config =
-        newBuilderResult.ignoreUserTokenInConnectionPoolForSecureClient(true).build();
-
-    // Act
-    RxClient<Object, Object> actualNewTcpClientResult =
-        RibbonTransport.newTcpClient(
-            loadBalancer, pipelineConfigurator, config, new DefaultLoadBalancerRetryHandler());
-
-    // Assert
-    assertTrue(actualNewTcpClientResult instanceof LoadBalancingTcpClient);
-    assertSame(
-        config,
-        ((LoadBalancingTcpClient<Object, Object>) actualNewTcpClientResult).getClientConfig());
-    assertSame(
-        ((LoadBalancingRxClient) actualNewTcpClientResult).defaultRetryHandler,
-        ((LoadBalancingTcpClient<Object, Object>) actualNewTcpClientResult)
-            .getLoadBalancerContext()
-            .getRetryHandler());
-  }
-
-  /**
    * Test {@link RibbonTransport#newUdpClient(ILoadBalancer, IClientConfig)} with {@code
    * loadBalancer}, {@code config}.
    *
@@ -640,46 +434,6 @@ public class RibbonTransportDiffblueTest {
   @MethodsUnderTest({"RxClient RibbonTransport.newUdpClient(ILoadBalancer, IClientConfig)"})
   public void testNewUdpClientWithLoadBalancerConfig4() {
     // Arrange
-    IPing ping = mock(IPing.class);
-    when(ping.isAlive(Mockito.<Server>any())).thenReturn(true);
-
-    BaseLoadBalancer loadBalancer = new BaseLoadBalancer();
-    loadBalancer.setPing(ping);
-    Server newServer = new Server("42");
-    loadBalancer.addServer(newServer);
-
-    // Act
-    RxClient<DatagramPacket, DatagramPacket> actualNewUdpClientResult =
-        RibbonTransport.newUdpClient(loadBalancer, DefaultClientConfigImpl.getEmptyConfig());
-
-    // Assert
-    verify(ping).isAlive(isA(Server.class));
-    ILoadBalancer loadBalancer2 =
-        ((LoadBalancingUdpClient<DatagramPacket, DatagramPacket>) actualNewUdpClientResult)
-            .getLoadBalancerContext()
-            .getLoadBalancer();
-    assertTrue(loadBalancer2 instanceof BaseLoadBalancer);
-    assertTrue(actualNewUdpClientResult instanceof LoadBalancingUdpClient);
-    List<Server> allServers = loadBalancer2.getAllServers();
-    assertEquals(1, allServers.size());
-    List<Server> reachableServers = loadBalancer2.getReachableServers();
-    assertEquals(1, reachableServers.size());
-    assertSame(newServer, allServers.get(0));
-    assertSame(newServer, reachableServers.get(0));
-  }
-
-  /**
-   * Test {@link RibbonTransport#newUdpClient(ILoadBalancer, IClientConfig)} with {@code
-   * loadBalancer}, {@code config}.
-   *
-   * <p>Method under test: {@link RibbonTransport#newUdpClient(ILoadBalancer, IClientConfig)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"RxClient RibbonTransport.newUdpClient(ILoadBalancer, IClientConfig)"})
-  public void testNewUdpClientWithLoadBalancerConfig5() {
-    // Arrange
     BaseLoadBalancer loadBalancer = new BaseLoadBalancer();
 
     Builder newBuilderResult = Builder.newBuilder();
@@ -714,7 +468,7 @@ public class RibbonTransportDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"RxClient RibbonTransport.newUdpClient(ILoadBalancer, IClientConfig)"})
-  public void testNewUdpClientWithLoadBalancerConfig6() {
+  public void testNewUdpClientWithLoadBalancerConfig5() {
     // Arrange
     BaseLoadBalancer loadBalancer = new BaseLoadBalancer();
 
@@ -751,7 +505,7 @@ public class RibbonTransportDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"RxClient RibbonTransport.newUdpClient(ILoadBalancer, IClientConfig)"})
-  public void testNewUdpClientWithLoadBalancerConfig7() {
+  public void testNewUdpClientWithLoadBalancerConfig6() {
     // Arrange
     BaseLoadBalancer loadBalancer = new BaseLoadBalancer();
 
@@ -928,18 +682,36 @@ public class RibbonTransportDiffblueTest {
   @ManagedByDiffblue
   @MethodsUnderTest({"LoadBalancingHttpClient RibbonTransport.newHttpClient(ILoadBalancer)"})
   public void testNewHttpClientWithLoadBalancer() {
-    // Arrange and Act
+    // Arrange
+    BaseLoadBalancer loadBalancer = new BaseLoadBalancer();
+
+    // Act
     LoadBalancingHttpClient<ByteBuf, ByteBuf> actualNewHttpClientResult =
-        RibbonTransport.newHttpClient(new BaseLoadBalancer());
+        RibbonTransport.newHttpClient(loadBalancer);
 
     // Assert
-    ILoadBalancer loadBalancer =
-        actualNewHttpClientResult.getLoadBalancerContext().getLoadBalancer();
-    assertTrue(loadBalancer instanceof BaseLoadBalancer);
-    assertNull(((BaseLoadBalancer) loadBalancer).getPrimeConnections());
-    assertNull(((BaseLoadBalancer) loadBalancer).getPing());
-    assertTrue(loadBalancer.getAllServers().isEmpty());
-    assertTrue(loadBalancer.getReachableServers().isEmpty());
+    LoadBalancerContext loadBalancerContext = actualNewHttpClientResult.getLoadBalancerContext();
+    ILoadBalancer loadBalancer2 = loadBalancerContext.getLoadBalancer();
+    assertTrue(loadBalancer2 instanceof BaseLoadBalancer);
+    assertTrue(loadBalancerContext.getExecuteTracer() instanceof BasicTimer);
+    MetricEventsListener<? extends ClientMetricsEvent<?>> metricEventsListener =
+        actualNewHttpClientResult.listener;
+    assertTrue(
+        ((HttpClientListener) metricEventsListener).getRequestWriteTimes() instanceof BasicTimer);
+    assertTrue(
+        ((HttpClientListener) metricEventsListener).getResponseReadTimes() instanceof BasicTimer);
+    assertTrue(
+        ((HttpClientListener) metricEventsListener).getConnectionTimes() instanceof BasicTimer);
+    assertTrue(((HttpClientListener) metricEventsListener).getFlushTimes() instanceof BasicTimer);
+    assertTrue(
+        ((HttpClientListener) metricEventsListener).getPoolAcquireTimes() instanceof BasicTimer);
+    assertTrue(
+        ((HttpClientListener) metricEventsListener).getPoolReleaseTimes() instanceof BasicTimer);
+    assertTrue(((HttpClientListener) metricEventsListener).getWriteTimes() instanceof BasicTimer);
+    assertTrue(metricEventsListener instanceof HttpClientListener);
+    assertSame(loadBalancer, loadBalancer2);
+    assertSame(
+        actualNewHttpClientResult.defaultRetryHandler, loadBalancerContext.getRetryHandler());
   }
 
   /**
@@ -982,121 +754,6 @@ public class RibbonTransportDiffblueTest {
     assertSame(loadBalancer, loadBalancer2);
     assertSame(
         actualNewHttpClientResult.defaultRetryHandler, loadBalancerContext.getRetryHandler());
-  }
-
-  /**
-   * Test {@link RibbonTransport#newHttpClient(ILoadBalancer)} with {@code loadBalancer}.
-   *
-   * <p>Method under test: {@link RibbonTransport#newHttpClient(ILoadBalancer)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"LoadBalancingHttpClient RibbonTransport.newHttpClient(ILoadBalancer)"})
-  public void testNewHttpClientWithLoadBalancer3() {
-    // Arrange
-    IPing ping = mock(IPing.class);
-    when(ping.isAlive(Mockito.<Server>any())).thenReturn(true);
-
-    BaseLoadBalancer loadBalancer = new BaseLoadBalancer();
-    loadBalancer.setPing(ping);
-    Server newServer = new Server("42");
-    loadBalancer.addServer(newServer);
-
-    // Act
-    LoadBalancingHttpClient<ByteBuf, ByteBuf> actualNewHttpClientResult =
-        RibbonTransport.newHttpClient(loadBalancer);
-
-    // Assert
-    verify(ping).isAlive(isA(Server.class));
-    ILoadBalancer loadBalancer2 =
-        actualNewHttpClientResult.getLoadBalancerContext().getLoadBalancer();
-    assertTrue(loadBalancer2 instanceof BaseLoadBalancer);
-    assertNull(((BaseLoadBalancer) loadBalancer2).getPrimeConnections());
-    List<Server> allServers = loadBalancer2.getAllServers();
-    assertEquals(1, allServers.size());
-    List<Server> reachableServers = loadBalancer2.getReachableServers();
-    assertEquals(1, reachableServers.size());
-    assertSame(newServer, allServers.get(0));
-    assertSame(newServer, reachableServers.get(0));
-  }
-
-  /**
-   * Test {@link RibbonTransport#newHttpClient(ILoadBalancer)} with {@code loadBalancer}.
-   *
-   * <p>Method under test: {@link RibbonTransport#newHttpClient(ILoadBalancer)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"LoadBalancingHttpClient RibbonTransport.newHttpClient(ILoadBalancer)"})
-  public void testNewHttpClientWithLoadBalancer4() {
-    // Arrange
-    IPing ping = mock(IPing.class);
-    when(ping.isAlive(Mockito.<Server>any())).thenReturn(true);
-
-    ServerStatusChangeListener listener = mock(ServerStatusChangeListener.class);
-    doNothing().when(listener).serverStatusChanged(Mockito.<Collection<Server>>any());
-
-    ServerStatusChangeListener listener2 = mock(ServerStatusChangeListener.class);
-    doNothing().when(listener2).serverStatusChanged(Mockito.<Collection<Server>>any());
-
-    ServerStatusChangeListener listener3 = mock(ServerStatusChangeListener.class);
-    doNothing().when(listener3).serverStatusChanged(Mockito.<Collection<Server>>any());
-
-    ServerStatusChangeListener listener4 = mock(ServerStatusChangeListener.class);
-    doNothing().when(listener4).serverStatusChanged(Mockito.<Collection<Server>>any());
-
-    ServerStatusChangeListener listener5 = mock(ServerStatusChangeListener.class);
-    doNothing().when(listener5).serverStatusChanged(Mockito.<Collection<Server>>any());
-
-    ServerListChangeListener listener6 = mock(ServerListChangeListener.class);
-    doNothing()
-        .when(listener6)
-        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
-
-    ServerStatusChangeListener listener7 = mock(ServerStatusChangeListener.class);
-    doNothing().when(listener7).serverStatusChanged(Mockito.<Collection<Server>>any());
-
-    BaseLoadBalancer loadBalancer = new BaseLoadBalancer();
-    loadBalancer.addServerStatusChangeListener(listener7);
-    loadBalancer.addServerListChangeListener(listener6);
-    PrimeConnections primeConnections = new PrimeConnections(" ", 1, 1L, " ", 10.0f);
-    loadBalancer.setPrimeConnections(primeConnections);
-    loadBalancer.addServerStatusChangeListener(listener5);
-    loadBalancer.addServerStatusChangeListener(listener4);
-    loadBalancer.addServerStatusChangeListener(listener3);
-    loadBalancer.addServerStatusChangeListener(listener2);
-    loadBalancer.addServerStatusChangeListener(listener);
-    loadBalancer.setPing(ping);
-    Server newServer = new Server("42");
-    loadBalancer.addServer(newServer);
-
-    // Act
-    LoadBalancingHttpClient<ByteBuf, ByteBuf> actualNewHttpClientResult =
-        RibbonTransport.newHttpClient(loadBalancer);
-
-    // Assert
-    verify(ping).isAlive(isA(Server.class));
-    verify(listener6).serverListChanged(isA(List.class), isA(List.class));
-    verify(listener7).serverStatusChanged(isA(Collection.class));
-    verify(listener5).serverStatusChanged(isA(Collection.class));
-    verify(listener4).serverStatusChanged(isA(Collection.class));
-    verify(listener3).serverStatusChanged(isA(Collection.class));
-    verify(listener2).serverStatusChanged(isA(Collection.class));
-    verify(listener).serverStatusChanged(isA(Collection.class));
-    ILoadBalancer loadBalancer2 =
-        actualNewHttpClientResult.getLoadBalancerContext().getLoadBalancer();
-    assertTrue(loadBalancer2 instanceof BaseLoadBalancer);
-    PrimeConnections primeConnections2 = ((BaseLoadBalancer) loadBalancer2).getPrimeConnections();
-    assertNull(primeConnections2.getEndStats());
-    List<Server> allServers = loadBalancer2.getAllServers();
-    assertEquals(1, allServers.size());
-    List<Server> reachableServers = loadBalancer2.getReachableServers();
-    assertEquals(1, reachableServers.size());
-    assertSame(primeConnections, primeConnections2);
-    assertSame(newServer, allServers.get(0));
-    assertSame(newServer, reachableServers.get(0));
   }
 
   /**
@@ -1230,31 +887,21 @@ public class RibbonTransportDiffblueTest {
     "LoadBalancingHttpClient RibbonTransport.newHttpClient(ILoadBalancer, IClientConfig)"
   })
   public void testNewHttpClientWithLoadBalancerConfig4() {
-    // Arrange and Act
+    // Arrange
+    DefaultClientConfigImpl config =
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues("key cannot be null", " ");
+
+    // Act
     LoadBalancingHttpClient<ByteBuf, ByteBuf> actualNewHttpClientResult =
-        RibbonTransport.newHttpClient(
-            new BaseLoadBalancer(),
-            DefaultClientConfigImpl.getClientConfigWithDefaultValues("key cannot be null", " "));
+        RibbonTransport.newHttpClient(new BaseLoadBalancer(), config);
 
     // Assert
+    IClientConfig clientConfig = actualNewHttpClientResult.getClientConfig();
+    assertTrue(clientConfig instanceof DefaultClientConfigImpl);
+    assertEquals("key cannot be null", clientConfig.getClientName());
     LoadBalancerContext loadBalancerContext = actualNewHttpClientResult.getLoadBalancerContext();
-    assertTrue(loadBalancerContext.getLoadBalancer() instanceof BaseLoadBalancer);
-    assertTrue(loadBalancerContext.getExecuteTracer() instanceof BasicTimer);
-    MetricEventsListener<? extends ClientMetricsEvent<?>> metricEventsListener =
-        actualNewHttpClientResult.listener;
-    assertTrue(
-        ((HttpClientListener) metricEventsListener).getRequestWriteTimes() instanceof BasicTimer);
-    assertTrue(
-        ((HttpClientListener) metricEventsListener).getResponseReadTimes() instanceof BasicTimer);
-    assertTrue(
-        ((HttpClientListener) metricEventsListener).getConnectionTimes() instanceof BasicTimer);
-    assertTrue(((HttpClientListener) metricEventsListener).getFlushTimes() instanceof BasicTimer);
-    assertTrue(
-        ((HttpClientListener) metricEventsListener).getPoolAcquireTimes() instanceof BasicTimer);
-    assertTrue(
-        ((HttpClientListener) metricEventsListener).getPoolReleaseTimes() instanceof BasicTimer);
-    assertTrue(((HttpClientListener) metricEventsListener).getWriteTimes() instanceof BasicTimer);
-    assertTrue(metricEventsListener instanceof HttpClientListener);
+    assertEquals("key cannot be null", loadBalancerContext.getClientName());
+    assertSame(config, clientConfig);
     assertSame(
         actualNewHttpClientResult.defaultRetryHandler, loadBalancerContext.getRetryHandler());
   }
@@ -1273,53 +920,68 @@ public class RibbonTransportDiffblueTest {
   })
   public void testNewHttpClientWithLoadBalancerConfig5() {
     // Arrange
-    ArrayList<Server> newServers = new ArrayList<>();
-    newServers.add(new Server("42"));
-
     IPing ping = mock(IPing.class);
     when(ping.isAlive(Mockito.<Server>any())).thenReturn(true);
 
-    ServerStatusChangeListener listener = mock(ServerStatusChangeListener.class);
-    doNothing().when(listener).serverStatusChanged(Mockito.<Collection<Server>>any());
+    ServerListChangeListener listener = mock(ServerListChangeListener.class);
+    doNothing()
+        .when(listener)
+        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
 
-    BaseLoadBalancer loadBalancer = new BaseLoadBalancer(ping, new ZoneAvoidanceRule());
-    loadBalancer.setPingInterval(42);
-    loadBalancer.addServerStatusChangeListener(listener);
-    loadBalancer.setEnablePrimingConnections(true);
-    loadBalancer.addServers(new ArrayList<>());
-    loadBalancer.addServers(newServers);
+    BaseLoadBalancer loadBalancer = new BaseLoadBalancer();
+    loadBalancer.addServerListChangeListener(listener);
+    loadBalancer.setPing(ping);
+    Server newServer = new Server("42");
+    loadBalancer.addServer(newServer);
 
     // Act
     LoadBalancingHttpClient<ByteBuf, ByteBuf> actualNewHttpClientResult =
-        RibbonTransport.newHttpClient(
-            loadBalancer,
-            DefaultClientConfigImpl.getClientConfigWithDefaultValues("key cannot be null", " "));
+        RibbonTransport.newHttpClient(loadBalancer, DefaultClientConfigImpl.getEmptyConfig());
 
     // Assert
     verify(ping).isAlive(isA(Server.class));
-    verify(listener).serverStatusChanged(isA(Collection.class));
-    LoadBalancerContext loadBalancerContext = actualNewHttpClientResult.getLoadBalancerContext();
-    ILoadBalancer loadBalancer2 = loadBalancerContext.getLoadBalancer();
+    verify(listener).serverListChanged(isA(List.class), isA(List.class));
+    ILoadBalancer loadBalancer2 =
+        actualNewHttpClientResult.getLoadBalancerContext().getLoadBalancer();
     assertTrue(loadBalancer2 instanceof BaseLoadBalancer);
-    assertTrue(loadBalancerContext.getExecuteTracer() instanceof BasicTimer);
-    MetricEventsListener<? extends ClientMetricsEvent<?>> metricEventsListener =
-        actualNewHttpClientResult.listener;
-    assertTrue(
-        ((HttpClientListener) metricEventsListener).getRequestWriteTimes() instanceof BasicTimer);
-    assertTrue(
-        ((HttpClientListener) metricEventsListener).getResponseReadTimes() instanceof BasicTimer);
-    assertTrue(
-        ((HttpClientListener) metricEventsListener).getConnectionTimes() instanceof BasicTimer);
-    assertTrue(((HttpClientListener) metricEventsListener).getFlushTimes() instanceof BasicTimer);
-    assertTrue(
-        ((HttpClientListener) metricEventsListener).getPoolAcquireTimes() instanceof BasicTimer);
-    assertTrue(
-        ((HttpClientListener) metricEventsListener).getPoolReleaseTimes() instanceof BasicTimer);
-    assertTrue(((HttpClientListener) metricEventsListener).getWriteTimes() instanceof BasicTimer);
-    assertTrue(metricEventsListener instanceof HttpClientListener);
-    assertSame(loadBalancer, loadBalancer2);
+    List<Server> allServers = loadBalancer2.getAllServers();
+    assertEquals(1, allServers.size());
+    List<Server> reachableServers = loadBalancer2.getReachableServers();
+    assertEquals(1, reachableServers.size());
+    assertSame(newServer, allServers.get(0));
+    assertSame(newServer, reachableServers.get(0));
+  }
+
+  /**
+   * Test {@link RibbonTransport#newHttpClient(ILoadBalancer, IClientConfig)} with {@code
+   * loadBalancer}, {@code config}.
+   *
+   * <p>Method under test: {@link RibbonTransport#newHttpClient(ILoadBalancer, IClientConfig)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "LoadBalancingHttpClient RibbonTransport.newHttpClient(ILoadBalancer, IClientConfig)"
+  })
+  public void testNewHttpClientWithLoadBalancerConfig6() {
+    // Arrange
+    BaseLoadBalancer loadBalancer = new BaseLoadBalancer();
+
+    Builder newBuilderResult = Builder.newBuilder();
+    newBuilderResult.withDeploymentContextBasedVipAddresses("42 Main St");
+    IClientConfig config =
+        newBuilderResult.ignoreUserTokenInConnectionPoolForSecureClient(true).build();
+
+    // Act
+    LoadBalancingHttpClient<ByteBuf, ByteBuf> actualNewHttpClientResult =
+        RibbonTransport.newHttpClient(loadBalancer, config);
+
+    // Assert
+    assertSame(config, actualNewHttpClientResult.getClientConfig());
+    RetryHandler expectedRetryHandler = actualNewHttpClientResult.defaultRetryHandler;
     assertSame(
-        actualNewHttpClientResult.defaultRetryHandler, loadBalancerContext.getRetryHandler());
+        expectedRetryHandler, actualNewHttpClientResult.getLoadBalancerContext().getRetryHandler());
   }
 
   /**
@@ -1517,6 +1179,49 @@ public class RibbonTransportDiffblueTest {
         ((HttpClientListener) metricEventsListener).getPoolReleaseTimes() instanceof BasicTimer);
     assertTrue(((HttpClientListener) metricEventsListener).getWriteTimes() instanceof BasicTimer);
     assertTrue(metricEventsListener instanceof HttpClientListener);
+    assertSame(
+        actualNewHttpClientResult.defaultRetryHandler, loadBalancerContext.getRetryHandler());
+  }
+
+  /**
+   * Test {@link RibbonTransport#newHttpClient(ILoadBalancer, IClientConfig, RetryHandler)} with
+   * {@code loadBalancer}, {@code config}, {@code retryHandler}.
+   *
+   * <p>Method under test: {@link RibbonTransport#newHttpClient(ILoadBalancer, IClientConfig,
+   * RetryHandler)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({
+    "LoadBalancingHttpClient RibbonTransport.newHttpClient(ILoadBalancer, IClientConfig, RetryHandler)"
+  })
+  public void testNewHttpClientWithLoadBalancerConfigRetryHandler6() {
+    // Arrange
+    ArrayList<Server> newServers = new ArrayList<>();
+    newServers.add(new Server("42"));
+
+    IPing ping = mock(IPing.class);
+    when(ping.isAlive(Mockito.<Server>any())).thenReturn(true);
+
+    BaseLoadBalancer loadBalancer = new BaseLoadBalancer(ping, new AvailabilityFilteringRule());
+    loadBalancer.addServers(newServers);
+    DefaultClientConfigImpl config =
+        DefaultClientConfigImpl.getClientConfigWithDefaultValues("MILLISECONDS", " ");
+
+    // Act
+    LoadBalancingHttpClient<ByteBuf, ByteBuf> actualNewHttpClientResult =
+        RibbonTransport.newHttpClient(loadBalancer, config, new DefaultLoadBalancerRetryHandler());
+
+    // Assert
+    verify(ping).isAlive(isA(Server.class));
+    IClientConfig clientConfig = actualNewHttpClientResult.getClientConfig();
+    assertTrue(clientConfig instanceof DefaultClientConfigImpl);
+    assertEquals("MILLISECONDS", clientConfig.getClientName());
+    LoadBalancerContext loadBalancerContext = actualNewHttpClientResult.getLoadBalancerContext();
+    assertEquals("MILLISECONDS", loadBalancerContext.getClientName());
+    assertSame(loadBalancer, loadBalancerContext.getLoadBalancer());
+    assertSame(config, clientConfig);
     assertSame(
         actualNewHttpClientResult.defaultRetryHandler, loadBalancerContext.getRetryHandler());
   }
@@ -1848,100 +1553,6 @@ public class RibbonTransportDiffblueTest {
     assertTrue(metricEventsListener instanceof HttpClientListener);
     assertSame(
         actualNewHttpClientResult.defaultRetryHandler, loadBalancerContext.getRetryHandler());
-  }
-
-  /**
-   * Test {@link RibbonTransport#newHttpClient(ILoadBalancer)} with {@code loadBalancer}.
-   *
-   * <ul>
-   *   <li>Given {@link Server#Server(String)} with id is {@code 42} Zone is {@code Zone}.
-   * </ul>
-   *
-   * <p>Method under test: {@link RibbonTransport#newHttpClient(ILoadBalancer)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"LoadBalancingHttpClient RibbonTransport.newHttpClient(ILoadBalancer)"})
-  public void testNewHttpClientWithLoadBalancer_givenServerWithIdIs42ZoneIsZone() {
-    // Arrange
-    Server newServer = new Server("42");
-    newServer.setZone("Zone");
-
-    IPing ping = mock(IPing.class);
-    when(ping.isAlive(Mockito.<Server>any())).thenReturn(true);
-
-    ServerStatusChangeListener listener = mock(ServerStatusChangeListener.class);
-    doNothing().when(listener).serverStatusChanged(Mockito.<Collection<Server>>any());
-
-    ServerStatusChangeListener listener2 = mock(ServerStatusChangeListener.class);
-    doNothing().when(listener2).serverStatusChanged(Mockito.<Collection<Server>>any());
-
-    ServerStatusChangeListener listener3 = mock(ServerStatusChangeListener.class);
-    doNothing().when(listener3).serverStatusChanged(Mockito.<Collection<Server>>any());
-
-    ServerStatusChangeListener listener4 = mock(ServerStatusChangeListener.class);
-    doNothing().when(listener4).serverStatusChanged(Mockito.<Collection<Server>>any());
-
-    ServerStatusChangeListener listener5 = mock(ServerStatusChangeListener.class);
-    doNothing().when(listener5).serverStatusChanged(Mockito.<Collection<Server>>any());
-
-    ServerListChangeListener listener6 = mock(ServerListChangeListener.class);
-    doNothing()
-        .when(listener6)
-        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
-
-    ServerStatusChangeListener listener7 = mock(ServerStatusChangeListener.class);
-    doNothing().when(listener7).serverStatusChanged(Mockito.<Collection<Server>>any());
-
-    ServerStatusChangeListener listener8 = mock(ServerStatusChangeListener.class);
-    doNothing().when(listener8).serverStatusChanged(Mockito.<Collection<Server>>any());
-
-    ServerStatusChangeListener listener9 = mock(ServerStatusChangeListener.class);
-    doNothing().when(listener9).serverStatusChanged(Mockito.<Collection<Server>>any());
-
-    BaseLoadBalancer loadBalancer = new BaseLoadBalancer();
-    loadBalancer.addServerStatusChangeListener(listener9);
-    loadBalancer.addServerStatusChangeListener(listener8);
-    loadBalancer.addServerStatusChangeListener(listener7);
-    loadBalancer.addServerListChangeListener(listener6);
-    PrimeConnections primeConnections = new PrimeConnections(" ", 1, 1L, " ", 10.0f);
-    loadBalancer.setPrimeConnections(primeConnections);
-    loadBalancer.addServerStatusChangeListener(listener5);
-    loadBalancer.addServerStatusChangeListener(listener4);
-    loadBalancer.addServerStatusChangeListener(listener3);
-    loadBalancer.addServerStatusChangeListener(listener2);
-    loadBalancer.addServerStatusChangeListener(listener);
-    loadBalancer.setPing(ping);
-    loadBalancer.addServer(newServer);
-
-    // Act
-    LoadBalancingHttpClient<ByteBuf, ByteBuf> actualNewHttpClientResult =
-        RibbonTransport.newHttpClient(loadBalancer);
-
-    // Assert
-    verify(ping).isAlive(isA(Server.class));
-    verify(listener6).serverListChanged(isA(List.class), isA(List.class));
-    verify(listener9).serverStatusChanged(isA(Collection.class));
-    verify(listener8).serverStatusChanged(isA(Collection.class));
-    verify(listener7).serverStatusChanged(isA(Collection.class));
-    verify(listener5).serverStatusChanged(isA(Collection.class));
-    verify(listener4).serverStatusChanged(isA(Collection.class));
-    verify(listener3).serverStatusChanged(isA(Collection.class));
-    verify(listener2).serverStatusChanged(isA(Collection.class));
-    verify(listener).serverStatusChanged(isA(Collection.class));
-    ILoadBalancer loadBalancer2 =
-        actualNewHttpClientResult.getLoadBalancerContext().getLoadBalancer();
-    assertTrue(loadBalancer2 instanceof BaseLoadBalancer);
-    PrimeConnections primeConnections2 = ((BaseLoadBalancer) loadBalancer2).getPrimeConnections();
-    assertNull(primeConnections2.getEndStats());
-    List<Server> allServers = loadBalancer2.getAllServers();
-    assertEquals(1, allServers.size());
-    List<Server> reachableServers = loadBalancer2.getReachableServers();
-    assertEquals(1, reachableServers.size());
-    assertSame(primeConnections, primeConnections2);
-    assertSame(newServer, allServers.get(0));
-    assertSame(newServer, reachableServers.get(0));
   }
 
   /**
@@ -2443,8 +2054,9 @@ public class RibbonTransportDiffblueTest {
             new BaseLoadBalancer(), DefaultClientConfigImpl.getEmptyConfig());
 
     // Assert
-    assertTrue(actualNewSSEClientResult instanceof SSEClient);
     LoadBalancerContext loadBalancerContext = actualNewSSEClientResult.getLoadBalancerContext();
+    assertTrue(loadBalancerContext.getLoadBalancer() instanceof BaseLoadBalancer);
+    assertTrue(actualNewSSEClientResult instanceof SSEClient);
     assertTrue(loadBalancerContext.getExecuteTracer() instanceof BasicTimer);
     MetricEventsListener<? extends ClientMetricsEvent<?>> metricEventsListener =
         ((SSEClient<ByteBuf>) actualNewSSEClientResult).listener;
@@ -2536,96 +2148,6 @@ public class RibbonTransportDiffblueTest {
     assertEquals("Dr Jane Doe", loadBalancerContext.getClientName());
     assertSame(config, actualNewSSEClientResult.getClientConfig());
     assertSame(actualNewSSEClientResult.defaultRetryHandler, loadBalancerContext.getRetryHandler());
-  }
-
-  /**
-   * Test {@link RibbonTransport#newSSEClient(ILoadBalancer, IClientConfig)} with {@code
-   * loadBalancer}, {@code config}.
-   *
-   * <ul>
-   *   <li>Given {@link Server#Server(String)} with id is {@code 42}.
-   * </ul>
-   *
-   * <p>Method under test: {@link RibbonTransport#newSSEClient(ILoadBalancer, IClientConfig)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "LoadBalancingHttpClient RibbonTransport.newSSEClient(ILoadBalancer, IClientConfig)"
-  })
-  public void testNewSSEClientWithLoadBalancerConfig_givenServerWithIdIs42() {
-    // Arrange
-    IPing ping = mock(IPing.class);
-    when(ping.isAlive(Mockito.<Server>any())).thenReturn(true);
-
-    BaseLoadBalancer loadBalancer = new BaseLoadBalancer();
-    loadBalancer.setPing(ping);
-    Server newServer = new Server("42");
-    loadBalancer.addServer(newServer);
-
-    // Act
-    LoadBalancingHttpClient<ByteBuf, ServerSentEvent> actualNewSSEClientResult =
-        RibbonTransport.newSSEClient(loadBalancer, DefaultClientConfigImpl.getEmptyConfig());
-
-    // Assert
-    verify(ping).isAlive(isA(Server.class));
-    ILoadBalancer loadBalancer2 =
-        actualNewSSEClientResult.getLoadBalancerContext().getLoadBalancer();
-    assertTrue(loadBalancer2 instanceof BaseLoadBalancer);
-    assertTrue(actualNewSSEClientResult instanceof SSEClient);
-    List<Server> allServers = loadBalancer2.getAllServers();
-    assertEquals(1, allServers.size());
-    List<Server> reachableServers = loadBalancer2.getReachableServers();
-    assertEquals(1, reachableServers.size());
-    assertSame(newServer, allServers.get(0));
-    assertSame(newServer, reachableServers.get(0));
-  }
-
-  /**
-   * Test {@link RibbonTransport#newSSEClient(ILoadBalancer, IClientConfig)} with {@code
-   * loadBalancer}, {@code config}.
-   *
-   * <ul>
-   *   <li>Given {@link Server#Server(String)} with id is {@code 42} Alive is {@code true}.
-   * </ul>
-   *
-   * <p>Method under test: {@link RibbonTransport#newSSEClient(ILoadBalancer, IClientConfig)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({
-    "LoadBalancingHttpClient RibbonTransport.newSSEClient(ILoadBalancer, IClientConfig)"
-  })
-  public void testNewSSEClientWithLoadBalancerConfig_givenServerWithIdIs42AliveIsTrue() {
-    // Arrange
-    Server newServer = new Server("42");
-    newServer.setAlive(true);
-
-    IPing ping = mock(IPing.class);
-    when(ping.isAlive(Mockito.<Server>any())).thenReturn(true);
-
-    BaseLoadBalancer loadBalancer = new BaseLoadBalancer();
-    loadBalancer.setPing(ping);
-    loadBalancer.addServer(newServer);
-
-    // Act
-    LoadBalancingHttpClient<ByteBuf, ServerSentEvent> actualNewSSEClientResult =
-        RibbonTransport.newSSEClient(loadBalancer, DefaultClientConfigImpl.getEmptyConfig());
-
-    // Assert
-    verify(ping).isAlive(isA(Server.class));
-    ILoadBalancer loadBalancer2 =
-        actualNewSSEClientResult.getLoadBalancerContext().getLoadBalancer();
-    assertTrue(loadBalancer2 instanceof BaseLoadBalancer);
-    assertTrue(actualNewSSEClientResult instanceof SSEClient);
-    List<Server> allServers = loadBalancer2.getAllServers();
-    assertEquals(1, allServers.size());
-    List<Server> reachableServers = loadBalancer2.getReachableServers();
-    assertEquals(1, reachableServers.size());
-    assertSame(newServer, allServers.get(0));
-    assertSame(newServer, reachableServers.get(0));
   }
 
   /**

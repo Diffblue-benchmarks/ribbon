@@ -62,22 +62,6 @@ public class CompositePredicateDiffblueTest {
   }
 
   /**
-   * Test Builder {@link Builder#Builder(AbstractServerPredicate)}.
-   *
-   * <p>Method under test: {@link Builder#Builder(AbstractServerPredicate)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void Builder.<init>(AbstractServerPredicate)"})
-  public void testBuilderNewBuilder() {
-    // Arrange, Act and Assert
-    CompositePredicate compositePredicate = new Builder(new CompositePredicate()).build();
-    assertNull(compositePredicate.rule);
-    assertNull(compositePredicate.getLBStats());
-  }
-
-  /**
    * Test Builder {@link Builder#Builder(AbstractServerPredicate[])}.
    *
    * <ul>

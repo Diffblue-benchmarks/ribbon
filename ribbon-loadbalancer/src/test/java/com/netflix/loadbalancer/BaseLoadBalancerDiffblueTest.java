@@ -75,67 +75,7 @@ public class BaseLoadBalancerDiffblueTest {
   }
 
   /**
-   * Test {@link BaseLoadBalancer#BaseLoadBalancer(String, IRule, LoadBalancerStats, IPing)}.
-   *
-   * <p>Method under test: {@link BaseLoadBalancer#BaseLoadBalancer(String, IRule,
-   * LoadBalancerStats, IPing)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void BaseLoadBalancer.<init>(String, IRule, LoadBalancerStats, IPing)"})
-  public void testNewBaseLoadBalancer2() {
-    // Arrange
-    BestAvailableRule rule = new BestAvailableRule();
-
-    // Act
-    BaseLoadBalancer actualBaseLoadBalancer =
-        new BaseLoadBalancer(
-            "com.netflix.loadbalancer.IPing$MockitoMock$1553284035",
-            rule,
-            new LoadBalancerStats(),
-            mock(IPing.class));
-
-    // Assert
-    assertEquals(
-        "com.netflix.loadbalancer.IPing$MockitoMock$1553284035", actualBaseLoadBalancer.getName());
-    assertSame(rule, actualBaseLoadBalancer.getRule());
-  }
-
-  /**
-   * Test {@link BaseLoadBalancer#BaseLoadBalancer(String, IRule, LoadBalancerStats, IPing)}.
-   *
-   * <p>Method under test: {@link BaseLoadBalancer#BaseLoadBalancer(String, IRule,
-   * LoadBalancerStats, IPing)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void BaseLoadBalancer.<init>(String, IRule, LoadBalancerStats, IPing)"})
-  public void testNewBaseLoadBalancer3() {
-    // Arrange
-    WeightedResponseTimeRule rule = new WeightedResponseTimeRule();
-
-    // Act
-    BaseLoadBalancer actualBaseLoadBalancer =
-        new BaseLoadBalancer(
-            "com.netflix.loadbalancer.IPing$MockitoMock$1553284035",
-            rule,
-            new LoadBalancerStats(),
-            mock(IPing.class));
-
-    // Assert
-    assertEquals("com.netflix.loadbalancer.IPing$MockitoMock$1553284035", rule.name);
-    assertSame(rule, actualBaseLoadBalancer.getRule());
-  }
-
-  /**
    * Test {@link BaseLoadBalancer#BaseLoadBalancer(IPing, IRule)}.
-   *
-   * <ul>
-   *   <li>Given {@link BaseLoadBalancer#BaseLoadBalancer()} Rule is {@link
-   *       AvailabilityFilteringRule} (default constructor).
-   * </ul>
    *
    * <p>Method under test: {@link BaseLoadBalancer#BaseLoadBalancer(IPing, IRule)}
    */
@@ -143,12 +83,12 @@ public class BaseLoadBalancerDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void BaseLoadBalancer.<init>(IPing, IRule)"})
-  public void testNewBaseLoadBalancer_givenBaseLoadBalancerRuleIsAvailabilityFilteringRule() {
+  public void testNewBaseLoadBalancer2() {
     // Arrange
     IPing ping = mock(IPing.class);
 
     BaseLoadBalancer lb = new BaseLoadBalancer();
-    lb.setRule(new AvailabilityFilteringRule());
+    lb.addServer(new Server("42"));
 
     ResponseTimeWeightedRule rule = new ResponseTimeWeightedRule();
     rule.setLoadBalancer(lb);
@@ -161,58 +101,39 @@ public class BaseLoadBalancerDiffblueTest {
   }
 
   /**
-   * Test {@link BaseLoadBalancer#BaseLoadBalancer(IPing, IRule, IPingStrategy)}.
+   * Test {@link BaseLoadBalancer#BaseLoadBalancer(String, IRule, LoadBalancerStats, IPing)}.
    *
-   * <ul>
-   *   <li>Given {@code null}.
-   *   <li>When {@link IPingStrategy} {@link IPingStrategy#pingServers(IPing, Server[])} return
-   *       {@code null}.
-   * </ul>
-   *
-   * <p>Method under test: {@link BaseLoadBalancer#BaseLoadBalancer(IPing, IRule, IPingStrategy)}
+   * <p>Method under test: {@link BaseLoadBalancer#BaseLoadBalancer(String, IRule,
+   * LoadBalancerStats, IPing)}
    */
   @Test
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
-  @MethodsUnderTest({"void BaseLoadBalancer.<init>(IPing, IRule, IPingStrategy)"})
-  public void testNewBaseLoadBalancer_givenNull_whenIPingStrategyPingServersReturnNull() {
+  @MethodsUnderTest({"void BaseLoadBalancer.<init>(String, IRule, LoadBalancerStats, IPing)"})
+  public void testNewBaseLoadBalancer5() {
     // Arrange
-    IPing ping = mock(IPing.class);
-
-    IPingStrategy pingStrategy = mock(IPingStrategy.class);
-    when(pingStrategy.pingServers(Mockito.<IPing>any(), Mockito.<Server[]>any())).thenReturn(null);
+    AvailabilityFilteringRule rule = new AvailabilityFilteringRule();
 
     // Act
-    BaseLoadBalancer actualBaseLoadBalancer = new BaseLoadBalancer(ping, null, pingStrategy);
+    BaseLoadBalancer actualBaseLoadBalancer =
+        new BaseLoadBalancer(
+            "com.netflix.loadbalancer.IPing$MockitoMock$1570122152",
+            rule,
+            new LoadBalancerStats(),
+            mock(IPing.class));
 
     // Assert
-    verify(pingStrategy).pingServers(isA(IPing.class), isA(Server[].class));
-    assertTrue(actualBaseLoadBalancer.getRule() instanceof RoundRobinRule);
-    assertTrue(actualBaseLoadBalancer.serverComparator instanceof ServerComparator);
-    assertTrue(actualBaseLoadBalancer.lbTimer instanceof ShutdownEnabledTimer);
-    assertTrue(actualBaseLoadBalancer.allServerLock instanceof ReentrantReadWriteLock);
-    assertTrue(actualBaseLoadBalancer.upServerLock instanceof ReentrantReadWriteLock);
-    assertEquals("default", actualBaseLoadBalancer.getName());
-    assertNull(actualBaseLoadBalancer.getPrimeConnections());
-    assertNull(actualBaseLoadBalancer.getClientConfig());
-    assertEquals(10, actualBaseLoadBalancer.getPingInterval());
-    assertEquals(5, actualBaseLoadBalancer.getMaxTotalPingTime());
-    assertFalse(actualBaseLoadBalancer.isEnablePrimingConnections());
-    assertFalse(actualBaseLoadBalancer.isPingInProgress());
-    assertTrue(actualBaseLoadBalancer.getAllServers().isEmpty());
-    assertTrue(actualBaseLoadBalancer.getReachableServers().isEmpty());
-    assertTrue(actualBaseLoadBalancer.allServerList.isEmpty());
-    assertTrue(actualBaseLoadBalancer.upServerList.isEmpty());
-    assertSame(ping, actualBaseLoadBalancer.getPing());
+    assertEquals(
+        "com.netflix.loadbalancer.IPing$MockitoMock$1570122152", actualBaseLoadBalancer.getName());
+    assertEquals(0, rule.getAvailableServersCount());
+    assertSame(rule, actualBaseLoadBalancer.getRule());
   }
 
   /**
    * Test {@link BaseLoadBalancer#BaseLoadBalancer(IPing, IRule)}.
    *
    * <ul>
-   *   <li>Given {@code null}.
-   *   <li>When {@link ResponseTimeWeightedRule#ResponseTimeWeightedRule()} LoadBalancer is {@code
-   *       null}.
+   *   <li>Given {@link DynamicServerListLoadBalancer#DynamicServerListLoadBalancer()}.
    * </ul>
    *
    * <p>Method under test: {@link BaseLoadBalancer#BaseLoadBalancer(IPing, IRule)}
@@ -221,18 +142,143 @@ public class BaseLoadBalancerDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void BaseLoadBalancer.<init>(IPing, IRule)"})
-  public void testNewBaseLoadBalancer_givenNull_whenResponseTimeWeightedRuleLoadBalancerIsNull() {
+  public void testNewBaseLoadBalancer_givenDynamicServerListLoadBalancer() {
     // Arrange
     IPing ping = mock(IPing.class);
 
+    Server newServer = new Server("42");
+    newServer.setSchemea(" ");
+
+    IPing ping2 = mock(IPing.class);
+    when(ping2.isAlive(Mockito.<Server>any())).thenThrow(new RuntimeException());
+
+    ServerListChangeListener listener = mock(ServerListChangeListener.class);
+    doNothing()
+        .when(listener)
+        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
+
+    ServerListChangeListener listener2 = mock(ServerListChangeListener.class);
+    doThrow(new RuntimeException())
+        .when(listener2)
+        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
+
+    BaseLoadBalancer lb = new BaseLoadBalancer();
+    PrimeConnections primeConnections =
+        new PrimeConnections("Name", 3, 1L, "Prime Connections URI");
+    lb.setPrimeConnections(primeConnections);
+    lb.addServerListChangeListener(listener2);
+    lb.addServerListChangeListener(listener);
+    lb.setPing(ping2);
+    lb.addServer(newServer);
+
     ResponseTimeWeightedRule rule = new ResponseTimeWeightedRule();
-    rule.setLoadBalancer(null);
+    rule.initialize(new DynamicServerListLoadBalancer<>());
+    rule.setLoadBalancer(lb);
 
     // Act
     BaseLoadBalancer actualBaseLoadBalancer = new BaseLoadBalancer(ping, rule);
 
     // Assert
-    assertEquals("default", rule.name);
+    verify(ping2).isAlive(isA(Server.class));
+    verify(listener2).serverListChanged(isA(List.class), isA(List.class));
+    verify(listener).serverListChanged(isA(List.class), isA(List.class));
+    assertSame(rule, actualBaseLoadBalancer.getRule());
+  }
+
+  /**
+   * Test {@link BaseLoadBalancer#BaseLoadBalancer(IPing, IRule)}.
+   *
+   * <ul>
+   *   <li>Given {@link Server#Server(String)} with id is {@code 42} Schemea is space.
+   * </ul>
+   *
+   * <p>Method under test: {@link BaseLoadBalancer#BaseLoadBalancer(IPing, IRule)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void BaseLoadBalancer.<init>(IPing, IRule)"})
+  public void testNewBaseLoadBalancer_givenServerWithIdIs42SchemeaIsSpace() {
+    // Arrange
+    IPing ping = mock(IPing.class);
+
+    Server newServer = new Server("42");
+    newServer.setSchemea(" ");
+
+    IPing ping2 = mock(IPing.class);
+    when(ping2.isAlive(Mockito.<Server>any())).thenThrow(new RuntimeException());
+
+    ServerListChangeListener listener = mock(ServerListChangeListener.class);
+    doNothing()
+        .when(listener)
+        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
+
+    BaseLoadBalancer lb = new BaseLoadBalancer();
+    lb.addServerListChangeListener(listener);
+    lb.setPing(ping2);
+    lb.addServer(newServer);
+
+    ResponseTimeWeightedRule rule = new ResponseTimeWeightedRule();
+    rule.setLoadBalancer(lb);
+
+    // Act
+    BaseLoadBalancer actualBaseLoadBalancer = new BaseLoadBalancer(ping, rule);
+
+    // Assert
+    verify(ping2).isAlive(isA(Server.class));
+    verify(listener).serverListChanged(isA(List.class), isA(List.class));
+    assertSame(rule, actualBaseLoadBalancer.getRule());
+  }
+
+  /**
+   * Test {@link BaseLoadBalancer#BaseLoadBalancer(IPing, IRule)}.
+   *
+   * <ul>
+   *   <li>Given {@link Server#Server(String)} with id is {@code 42/} Schemea is space.
+   * </ul>
+   *
+   * <p>Method under test: {@link BaseLoadBalancer#BaseLoadBalancer(IPing, IRule)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void BaseLoadBalancer.<init>(IPing, IRule)"})
+  public void testNewBaseLoadBalancer_givenServerWithIdIs42SchemeaIsSpace2() {
+    // Arrange
+    IPing ping = mock(IPing.class);
+
+    Server newServer = new Server("42/");
+    newServer.setSchemea(" ");
+
+    IPing ping2 = mock(IPing.class);
+    when(ping2.isAlive(Mockito.<Server>any())).thenThrow(new RuntimeException());
+
+    ServerListChangeListener listener = mock(ServerListChangeListener.class);
+    doNothing()
+        .when(listener)
+        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
+
+    ServerListChangeListener listener2 = mock(ServerListChangeListener.class);
+    doThrow(new IllegalArgumentException())
+        .when(listener2)
+        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
+
+    BaseLoadBalancer lb = new BaseLoadBalancer();
+    lb.addServerListChangeListener(listener2);
+    lb.addServerListChangeListener(listener);
+    lb.setPing(ping2);
+    lb.addServer(newServer);
+
+    ResponseTimeWeightedRule rule = new ResponseTimeWeightedRule();
+    rule.setLoadBalancer(lb);
+
+    // Act
+    BaseLoadBalancer actualBaseLoadBalancer = new BaseLoadBalancer(ping, rule);
+
+    // Assert
+    verify(ping2).isAlive(isA(Server.class));
+    verify(listener2).serverListChanged(isA(List.class), isA(List.class));
+    verify(listener).serverListChanged(isA(List.class), isA(List.class));
     assertSame(rule, actualBaseLoadBalancer.getRule());
   }
 
@@ -264,38 +310,6 @@ public class BaseLoadBalancerDiffblueTest {
   }
 
   /**
-   * Test {@link BaseLoadBalancer#BaseLoadBalancer(IPing, IRule, IPingStrategy)}.
-   *
-   * <ul>
-   *   <li>Then {@link AvailabilityFilteringRule} (default constructor) AvailableServersCount is
-   *       zero.
-   * </ul>
-   *
-   * <p>Method under test: {@link BaseLoadBalancer#BaseLoadBalancer(IPing, IRule, IPingStrategy)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void BaseLoadBalancer.<init>(IPing, IRule, IPingStrategy)"})
-  public void testNewBaseLoadBalancer_thenAvailabilityFilteringRuleAvailableServersCountIsZero2() {
-    // Arrange
-    IPing ping = mock(IPing.class);
-    AvailabilityFilteringRule rule = new AvailabilityFilteringRule();
-
-    IPingStrategy pingStrategy = mock(IPingStrategy.class);
-    when(pingStrategy.pingServers(Mockito.<IPing>any(), Mockito.<Server[]>any()))
-        .thenReturn(new boolean[] {true, false, true, false});
-
-    // Act
-    BaseLoadBalancer actualBaseLoadBalancer = new BaseLoadBalancer(ping, rule, pingStrategy);
-
-    // Assert
-    verify(pingStrategy).pingServers(isA(IPing.class), isA(Server[].class));
-    assertEquals(0, rule.getAvailableServersCount());
-    assertSame(rule, actualBaseLoadBalancer.getRule());
-  }
-
-  /**
    * Test {@link BaseLoadBalancer#BaseLoadBalancer(String, IRule, LoadBalancerStats)}.
    *
    * <ul>
@@ -310,7 +324,7 @@ public class BaseLoadBalancerDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void BaseLoadBalancer.<init>(String, IRule, LoadBalancerStats)"})
-  public void testNewBaseLoadBalancer_thenAvailabilityFilteringRuleAvailableServersCountIsZero3() {
+  public void testNewBaseLoadBalancer_thenAvailabilityFilteringRuleAvailableServersCountIsZero4() {
     // Arrange
     AvailabilityFilteringRule rule = new AvailabilityFilteringRule();
 
@@ -338,7 +352,7 @@ public class BaseLoadBalancerDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void BaseLoadBalancer.<init>(String, IRule, LoadBalancerStats, IPing)"})
-  public void testNewBaseLoadBalancer_thenAvailabilityFilteringRuleAvailableServersCountIsZero4() {
+  public void testNewBaseLoadBalancer_thenAvailabilityFilteringRuleAvailableServersCountIsZero5() {
     // Arrange
     AvailabilityFilteringRule rule = new AvailabilityFilteringRule();
 
@@ -348,6 +362,33 @@ public class BaseLoadBalancerDiffblueTest {
 
     // Assert
     assertEquals(0, rule.getAvailableServersCount());
+    assertSame(rule, actualBaseLoadBalancer.getRule());
+  }
+
+  /**
+   * Test {@link BaseLoadBalancer#BaseLoadBalancer(IPing, IRule)}.
+   *
+   * <ul>
+   *   <li>Then {@link ResponseTimeWeightedRule#ResponseTimeWeightedRule()} {@link
+   *       ResponseTimeWeightedRule#name} is {@code default}.
+   * </ul>
+   *
+   * <p>Method under test: {@link BaseLoadBalancer#BaseLoadBalancer(IPing, IRule)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void BaseLoadBalancer.<init>(IPing, IRule)"})
+  public void testNewBaseLoadBalancer_thenResponseTimeWeightedRuleNameIsDefault() {
+    // Arrange
+    IPing ping = mock(IPing.class);
+    ResponseTimeWeightedRule rule = new ResponseTimeWeightedRule();
+
+    // Act
+    BaseLoadBalancer actualBaseLoadBalancer = new BaseLoadBalancer(ping, rule);
+
+    // Assert
+    assertEquals("default", rule.name);
     assertSame(rule, actualBaseLoadBalancer.getRule());
   }
 
@@ -408,35 +449,71 @@ public class BaseLoadBalancerDiffblueTest {
   }
 
   /**
-   * Test {@link BaseLoadBalancer#BaseLoadBalancer(String, IRule, LoadBalancerStats, IPing)}.
+   * Test {@link BaseLoadBalancer#BaseLoadBalancer(String, IRule, LoadBalancerStats, IPing,
+   * IPingStrategy)}.
    *
    * <ul>
-   *   <li>Then Rule return {@link AvailabilityFilteringRule}.
+   *   <li>Then return Name is {@code BaseLoadBalancer}.
    * </ul>
    *
    * <p>Method under test: {@link BaseLoadBalancer#BaseLoadBalancer(String, IRule,
-   * LoadBalancerStats, IPing)}
+   * LoadBalancerStats, IPing, IPingStrategy)}
    */
   @Test
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
-  @MethodsUnderTest({"void BaseLoadBalancer.<init>(String, IRule, LoadBalancerStats, IPing)"})
-  public void testNewBaseLoadBalancer_thenRuleReturnAvailabilityFilteringRule() {
+  @MethodsUnderTest({
+    "void BaseLoadBalancer.<init>(String, IRule, LoadBalancerStats, IPing, IPingStrategy)"
+  })
+  public void testNewBaseLoadBalancer_thenReturnNameIsComNetflixLoadbalancerBaseLoadBalancer() {
     // Arrange
-    AvailabilityFilteringRule rule = new AvailabilityFilteringRule();
+    LoadBalancerStats stats = new LoadBalancerStats();
+    IPing ping = mock(IPing.class);
+
+    IPingStrategy pingStrategy = mock(IPingStrategy.class);
+    when(pingStrategy.pingServers(Mockito.<IPing>any(), Mockito.<Server[]>any()))
+        .thenThrow(new IllegalArgumentException());
 
     // Act
     BaseLoadBalancer actualBaseLoadBalancer =
-        new BaseLoadBalancer("Name", rule, new LoadBalancerStats(), null);
+        new BaseLoadBalancer(
+            "com.netflix.loadbalancer.BaseLoadBalancer", null, stats, ping, pingStrategy);
+
+    // Assert
+    verify(pingStrategy).pingServers(isA(IPing.class), isA(Server[].class));
+    IRule rule = actualBaseLoadBalancer.getRule();
+    assertTrue(rule instanceof RoundRobinRule);
+    assertEquals("com.netflix.loadbalancer.BaseLoadBalancer", actualBaseLoadBalancer.getName());
+    assertSame(actualBaseLoadBalancer, rule.getLoadBalancer());
+    assertSame(stats, actualBaseLoadBalancer.getLoadBalancerStats());
+  }
+
+  /**
+   * Test {@link BaseLoadBalancer#BaseLoadBalancer(IPing, IRule)}.
+   *
+   * <ul>
+   *   <li>Then Rule return {@link ResponseTimeWeightedRule}.
+   * </ul>
+   *
+   * <p>Method under test: {@link BaseLoadBalancer#BaseLoadBalancer(IPing, IRule)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void BaseLoadBalancer.<init>(IPing, IRule)"})
+  public void testNewBaseLoadBalancer_thenRuleReturnResponseTimeWeightedRule() {
+    // Arrange
+    ResponseTimeWeightedRule rule = new ResponseTimeWeightedRule();
+
+    // Act
+    BaseLoadBalancer actualBaseLoadBalancer = new BaseLoadBalancer(null, rule);
 
     // Assert
     IRule rule2 = actualBaseLoadBalancer.getRule();
-    assertTrue(rule2 instanceof AvailabilityFilteringRule);
+    assertTrue(rule2 instanceof ResponseTimeWeightedRule);
+    assertEquals("default", rule.name);
     assertNull(actualBaseLoadBalancer.getPing());
     assertNull(actualBaseLoadBalancer.lbTimer);
-    assertSame(
-        actualBaseLoadBalancer,
-        ((AvailabilityFilteringRule) rule2).roundRobinRule.getLoadBalancer());
     assertSame(actualBaseLoadBalancer, rule2.getLoadBalancer());
   }
 
@@ -454,7 +531,7 @@ public class BaseLoadBalancerDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void BaseLoadBalancer.<init>(String, IRule, LoadBalancerStats)"})
-  public void testNewBaseLoadBalancer_thenRuleReturnResponseTimeWeightedRule() {
+  public void testNewBaseLoadBalancer_thenRuleReturnResponseTimeWeightedRule2() {
     // Arrange
     ResponseTimeWeightedRule rule = new ResponseTimeWeightedRule();
 
@@ -472,12 +549,40 @@ public class BaseLoadBalancerDiffblueTest {
   }
 
   /**
+   * Test {@link BaseLoadBalancer#BaseLoadBalancer(IPing, IRule)}.
+   *
+   * <ul>
+   *   <li>When {@link AvailabilityFilteringRule} (default constructor).
+   *   <li>Then return Ping is {@code null}.
+   * </ul>
+   *
+   * <p>Method under test: {@link BaseLoadBalancer#BaseLoadBalancer(IPing, IRule)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void BaseLoadBalancer.<init>(IPing, IRule)"})
+  public void testNewBaseLoadBalancer_whenAvailabilityFilteringRule_thenReturnPingIsNull() {
+    // Arrange
+    AvailabilityFilteringRule rule = new AvailabilityFilteringRule();
+
+    // Act
+    BaseLoadBalancer actualBaseLoadBalancer = new BaseLoadBalancer(null, rule);
+
+    // Assert
+    assertNull(actualBaseLoadBalancer.getPing());
+    assertNull(actualBaseLoadBalancer.lbTimer);
+    assertEquals(0, rule.getAvailableServersCount());
+    assertSame(rule, actualBaseLoadBalancer.getRule());
+  }
+
+  /**
    * Test {@link BaseLoadBalancer#BaseLoadBalancer(String, IRule, LoadBalancerStats, IPing,
    * IPingStrategy)}.
    *
    * <ul>
-   *   <li>Then {@link WeightedResponseTimeRule#WeightedResponseTimeRule()} {@link
-   *       WeightedResponseTimeRule#name} is {@code String}.
+   *   <li>When {@link BestAvailableRule} (default constructor) LoadBalancer is {@link
+   *       BaseLoadBalancer#BaseLoadBalancer()}.
    * </ul>
    *
    * <p>Method under test: {@link BaseLoadBalancer#BaseLoadBalancer(String, IRule,
@@ -489,23 +594,31 @@ public class BaseLoadBalancerDiffblueTest {
   @MethodsUnderTest({
     "void BaseLoadBalancer.<init>(String, IRule, LoadBalancerStats, IPing, IPingStrategy)"
   })
-  public void testNewBaseLoadBalancer_thenWeightedResponseTimeRuleNameIsJavaLangString() {
+  public void testNewBaseLoadBalancer_whenBestAvailableRuleLoadBalancerIsBaseLoadBalancer() {
     // Arrange
-    WeightedResponseTimeRule rule = new WeightedResponseTimeRule();
-    LoadBalancerStats stats = new LoadBalancerStats();
     IPing ping = mock(IPing.class);
+    when(ping.isAlive(Mockito.<Server>any())).thenReturn(true);
+
+    BaseLoadBalancer lb = new BaseLoadBalancer();
+    lb.setPing(ping);
+    lb.addServer(new Server("42"));
+
+    BestAvailableRule rule = new BestAvailableRule();
+    rule.setLoadBalancer(lb);
+    LoadBalancerStats stats = new LoadBalancerStats();
+    IPing ping2 = mock(IPing.class);
 
     IPingStrategy pingStrategy = mock(IPingStrategy.class);
     when(pingStrategy.pingServers(Mockito.<IPing>any(), Mockito.<Server[]>any()))
-        .thenThrow(new IllegalArgumentException());
+        .thenThrow(new RuntimeException());
 
     // Act
     BaseLoadBalancer actualBaseLoadBalancer =
-        new BaseLoadBalancer("java.lang.String", rule, stats, ping, pingStrategy);
+        new BaseLoadBalancer("Name", rule, stats, ping2, pingStrategy);
 
     // Assert
+    verify(ping).isAlive(isA(Server.class));
     verify(pingStrategy).pingServers(isA(IPing.class), isA(Server[].class));
-    assertEquals("java.lang.String", rule.name);
     assertSame(rule, actualBaseLoadBalancer.getRule());
   }
 
@@ -621,72 +734,8 @@ public class BaseLoadBalancerDiffblueTest {
   }
 
   /**
-   * Test {@link BaseLoadBalancer#BaseLoadBalancer(String, IRule, LoadBalancerStats, IPing)}.
-   *
-   * <ul>
-   *   <li>When {@code config}.
-   *   <li>Then return Name is {@code config}.
-   * </ul>
-   *
-   * <p>Method under test: {@link BaseLoadBalancer#BaseLoadBalancer(String, IRule,
-   * LoadBalancerStats, IPing)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void BaseLoadBalancer.<init>(String, IRule, LoadBalancerStats, IPing)"})
-  public void testNewBaseLoadBalancer_whenConfig_thenReturnNameIsConfig() {
-    // Arrange
-    ResponseTimeWeightedRule rule = new ResponseTimeWeightedRule();
-
-    // Act
-    BaseLoadBalancer actualBaseLoadBalancer =
-        new BaseLoadBalancer("config", rule, new LoadBalancerStats(), mock(IPing.class));
-
-    // Assert
-    IRule rule2 = actualBaseLoadBalancer.getRule();
-    assertTrue(rule2 instanceof ResponseTimeWeightedRule);
-    assertEquals("config", actualBaseLoadBalancer.getName());
-    assertEquals("config", rule.name);
-    assertEquals("config", ((ResponseTimeWeightedRule) rule2).name);
-    assertSame(actualBaseLoadBalancer, rule2.getLoadBalancer());
-  }
-
-  /**
-   * Test {@link BaseLoadBalancer#BaseLoadBalancer(String, IRule, LoadBalancerStats, IPing)}.
-   *
-   * <ul>
-   *   <li>When {@link DummyPing} (default constructor).
-   *   <li>Then Ping return {@link DummyPing}.
-   * </ul>
-   *
-   * <p>Method under test: {@link BaseLoadBalancer#BaseLoadBalancer(String, IRule,
-   * LoadBalancerStats, IPing)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void BaseLoadBalancer.<init>(String, IRule, LoadBalancerStats, IPing)"})
-  public void testNewBaseLoadBalancer_whenDummyPing_thenPingReturnDummyPing() {
-    // Arrange
-    LoadBalancerStats stats = new LoadBalancerStats();
-    DummyPing ping = new DummyPing();
-
-    // Act
-    BaseLoadBalancer actualBaseLoadBalancer = new BaseLoadBalancer(" ", null, stats, ping);
-
-    // Assert
-    IPing ping2 = actualBaseLoadBalancer.getPing();
-    assertTrue(ping2 instanceof DummyPing);
-    IRule rule = actualBaseLoadBalancer.getRule();
-    assertTrue(rule instanceof RoundRobinRule);
-    assertNull(((DummyPing) ping2).getLoadBalancer());
-    assertSame(actualBaseLoadBalancer, rule.getLoadBalancer());
-    assertSame(ping, ping2);
-  }
-
-  /**
-   * Test {@link BaseLoadBalancer#BaseLoadBalancer(String, IRule, LoadBalancerStats, IPing)}.
+   * Test {@link BaseLoadBalancer#BaseLoadBalancer(String, IRule, LoadBalancerStats, IPing,
+   * IPingStrategy)}.
    *
    * <ul>
    *   <li>When {@code null}.
@@ -694,56 +743,68 @@ public class BaseLoadBalancerDiffblueTest {
    * </ul>
    *
    * <p>Method under test: {@link BaseLoadBalancer#BaseLoadBalancer(String, IRule,
-   * LoadBalancerStats, IPing)}
+   * LoadBalancerStats, IPing, IPingStrategy)}
    */
   @Test
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
-  @MethodsUnderTest({"void BaseLoadBalancer.<init>(String, IRule, LoadBalancerStats, IPing)"})
+  @MethodsUnderTest({
+    "void BaseLoadBalancer.<init>(String, IRule, LoadBalancerStats, IPing, IPingStrategy)"
+  })
   public void testNewBaseLoadBalancer_whenNull_thenReturnName() {
     // Arrange
+    LoadBalancerStats stats = new LoadBalancerStats();
     IPing ping = mock(IPing.class);
+
+    IPingStrategy pingStrategy = mock(IPingStrategy.class);
+    when(pingStrategy.pingServers(Mockito.<IPing>any(), Mockito.<Server[]>any()))
+        .thenReturn(new boolean[] {true, false, true, false});
 
     // Act
     BaseLoadBalancer actualBaseLoadBalancer =
-        new BaseLoadBalancer("Name", null, new LoadBalancerStats(), ping);
+        new BaseLoadBalancer("Name", null, stats, ping, pingStrategy);
 
     // Assert
+    verify(pingStrategy).pingServers(isA(IPing.class), isA(Server[].class));
     IRule rule = actualBaseLoadBalancer.getRule();
     assertTrue(rule instanceof RoundRobinRule);
     assertEquals("Name", actualBaseLoadBalancer.getName());
     assertSame(actualBaseLoadBalancer, rule.getLoadBalancer());
-    assertSame(ping, actualBaseLoadBalancer.getPing());
+    assertSame(stats, actualBaseLoadBalancer.getLoadBalancerStats());
   }
 
   /**
-   * Test {@link BaseLoadBalancer#BaseLoadBalancer(IPing, IRule)}.
+   * Test {@link BaseLoadBalancer#BaseLoadBalancer(String, IRule, LoadBalancerStats, IPing)}.
    *
    * <ul>
    *   <li>When {@code null}.
    *   <li>Then Rule return {@link AvailabilityFilteringRule}.
    * </ul>
    *
-   * <p>Method under test: {@link BaseLoadBalancer#BaseLoadBalancer(IPing, IRule)}
+   * <p>Method under test: {@link BaseLoadBalancer#BaseLoadBalancer(String, IRule,
+   * LoadBalancerStats, IPing)}
    */
   @Test
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
-  @MethodsUnderTest({"void BaseLoadBalancer.<init>(IPing, IRule)"})
+  @MethodsUnderTest({"void BaseLoadBalancer.<init>(String, IRule, LoadBalancerStats, IPing)"})
   public void testNewBaseLoadBalancer_whenNull_thenRuleReturnAvailabilityFilteringRule() {
-    // Arrange and Act
+    // Arrange
+    AvailabilityFilteringRule rule = new AvailabilityFilteringRule();
+
+    // Act
     BaseLoadBalancer actualBaseLoadBalancer =
-        new BaseLoadBalancer(null, new AvailabilityFilteringRule());
+        new BaseLoadBalancer("Name", rule, new LoadBalancerStats(), null);
 
     // Assert
-    IRule rule = actualBaseLoadBalancer.getRule();
-    assertTrue(rule instanceof AvailabilityFilteringRule);
+    IRule rule2 = actualBaseLoadBalancer.getRule();
+    assertTrue(rule2 instanceof AvailabilityFilteringRule);
     assertNull(actualBaseLoadBalancer.getPing());
     assertNull(actualBaseLoadBalancer.lbTimer);
     assertSame(
         actualBaseLoadBalancer,
-        ((AvailabilityFilteringRule) rule).roundRobinRule.getLoadBalancer());
-    assertSame(actualBaseLoadBalancer, rule.getLoadBalancer());
+        ((AvailabilityFilteringRule) rule2).roundRobinRule.getLoadBalancer());
+    assertSame(actualBaseLoadBalancer, rule2.getLoadBalancer());
   }
 
   /**
@@ -776,98 +837,6 @@ public class BaseLoadBalancerDiffblueTest {
   }
 
   /**
-   * Test {@link BaseLoadBalancer#BaseLoadBalancer(IPing, IRule, IPingStrategy)}.
-   *
-   * <ul>
-   *   <li>When {@code null}.
-   *   <li>Then Rule return {@link RoundRobinRule}.
-   * </ul>
-   *
-   * <p>Method under test: {@link BaseLoadBalancer#BaseLoadBalancer(IPing, IRule, IPingStrategy)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void BaseLoadBalancer.<init>(IPing, IRule, IPingStrategy)"})
-  public void testNewBaseLoadBalancer_whenNull_thenRuleReturnRoundRobinRule2() {
-    // Arrange
-    IPing ping = mock(IPing.class);
-
-    IPingStrategy pingStrategy = mock(IPingStrategy.class);
-    when(pingStrategy.pingServers(Mockito.<IPing>any(), Mockito.<Server[]>any()))
-        .thenReturn(new boolean[] {true, false, true, false});
-
-    // Act
-    BaseLoadBalancer actualBaseLoadBalancer = new BaseLoadBalancer(ping, null, pingStrategy);
-
-    // Assert
-    verify(pingStrategy).pingServers(isA(IPing.class), isA(Server[].class));
-    assertTrue(actualBaseLoadBalancer.getRule() instanceof RoundRobinRule);
-    assertTrue(actualBaseLoadBalancer.serverComparator instanceof ServerComparator);
-    assertTrue(actualBaseLoadBalancer.lbTimer instanceof ShutdownEnabledTimer);
-    assertTrue(actualBaseLoadBalancer.allServerLock instanceof ReentrantReadWriteLock);
-    assertTrue(actualBaseLoadBalancer.upServerLock instanceof ReentrantReadWriteLock);
-    assertEquals("default", actualBaseLoadBalancer.getName());
-    assertNull(actualBaseLoadBalancer.getPrimeConnections());
-    assertNull(actualBaseLoadBalancer.getClientConfig());
-    assertEquals(10, actualBaseLoadBalancer.getPingInterval());
-    assertEquals(5, actualBaseLoadBalancer.getMaxTotalPingTime());
-    assertFalse(actualBaseLoadBalancer.isEnablePrimingConnections());
-    assertFalse(actualBaseLoadBalancer.isPingInProgress());
-    assertTrue(actualBaseLoadBalancer.getAllServers().isEmpty());
-    assertTrue(actualBaseLoadBalancer.getReachableServers().isEmpty());
-    assertTrue(actualBaseLoadBalancer.allServerList.isEmpty());
-    assertTrue(actualBaseLoadBalancer.upServerList.isEmpty());
-    assertSame(ping, actualBaseLoadBalancer.getPing());
-  }
-
-  /**
-   * Test {@link BaseLoadBalancer#BaseLoadBalancer(IPing, IRule, IPingStrategy)}.
-   *
-   * <ul>
-   *   <li>When {@code null}.
-   *   <li>Then Rule return {@link RoundRobinRule}.
-   * </ul>
-   *
-   * <p>Method under test: {@link BaseLoadBalancer#BaseLoadBalancer(IPing, IRule, IPingStrategy)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void BaseLoadBalancer.<init>(IPing, IRule, IPingStrategy)"})
-  public void testNewBaseLoadBalancer_whenNull_thenRuleReturnRoundRobinRule3() {
-    // Arrange
-    IPing ping = mock(IPing.class);
-
-    IPingStrategy pingStrategy = mock(IPingStrategy.class);
-    when(pingStrategy.pingServers(Mockito.<IPing>any(), Mockito.<Server[]>any()))
-        .thenThrow(new IllegalArgumentException());
-
-    // Act
-    BaseLoadBalancer actualBaseLoadBalancer = new BaseLoadBalancer(ping, null, pingStrategy);
-
-    // Assert
-    verify(pingStrategy).pingServers(isA(IPing.class), isA(Server[].class));
-    assertTrue(actualBaseLoadBalancer.getRule() instanceof RoundRobinRule);
-    assertTrue(actualBaseLoadBalancer.serverComparator instanceof ServerComparator);
-    assertTrue(actualBaseLoadBalancer.lbTimer instanceof ShutdownEnabledTimer);
-    assertTrue(actualBaseLoadBalancer.allServerLock instanceof ReentrantReadWriteLock);
-    assertTrue(actualBaseLoadBalancer.upServerLock instanceof ReentrantReadWriteLock);
-    assertEquals("default", actualBaseLoadBalancer.getName());
-    assertNull(actualBaseLoadBalancer.getPrimeConnections());
-    assertNull(actualBaseLoadBalancer.getClientConfig());
-    assertEquals(10, actualBaseLoadBalancer.getPingInterval());
-    assertEquals(5, actualBaseLoadBalancer.getMaxTotalPingTime());
-    assertFalse(actualBaseLoadBalancer.isEnablePrimingConnections());
-    assertFalse(actualBaseLoadBalancer.isPingInProgress());
-    assertTrue(actualBaseLoadBalancer.getAllServers().isEmpty());
-    assertTrue(actualBaseLoadBalancer.getReachableServers().isEmpty());
-    assertTrue(actualBaseLoadBalancer.allServerList.isEmpty());
-    assertTrue(actualBaseLoadBalancer.upServerList.isEmpty());
-    assertSame(ping, actualBaseLoadBalancer.getPing());
-  }
-
-  /**
    * Test {@link BaseLoadBalancer#BaseLoadBalancer(String, IRule, LoadBalancerStats)}.
    *
    * <ul>
@@ -882,7 +851,7 @@ public class BaseLoadBalancerDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void BaseLoadBalancer.<init>(String, IRule, LoadBalancerStats)"})
-  public void testNewBaseLoadBalancer_whenNull_thenRuleReturnRoundRobinRule4() {
+  public void testNewBaseLoadBalancer_whenNull_thenRuleReturnRoundRobinRule3() {
     // Arrange
     LoadBalancerStats lbStats = new LoadBalancerStats();
 
@@ -914,8 +883,8 @@ public class BaseLoadBalancerDiffblueTest {
    * Test {@link BaseLoadBalancer#BaseLoadBalancer(String, IRule, LoadBalancerStats, IPing)}.
    *
    * <ul>
-   *   <li>When {@link PingConstant} (default constructor).
-   *   <li>Then Ping return {@link PingConstant}.
+   *   <li>When {@code null}.
+   *   <li>Then Rule return {@link RoundRobinRule}.
    * </ul>
    *
    * <p>Method under test: {@link BaseLoadBalancer#BaseLoadBalancer(String, IRule,
@@ -925,131 +894,58 @@ public class BaseLoadBalancerDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void BaseLoadBalancer.<init>(String, IRule, LoadBalancerStats, IPing)"})
-  public void testNewBaseLoadBalancer_whenPingConstant_thenPingReturnPingConstant() {
+  public void testNewBaseLoadBalancer_whenNull_thenRuleReturnRoundRobinRule4() {
     // Arrange
-    LoadBalancerStats stats = new LoadBalancerStats();
-    PingConstant ping = new PingConstant();
+    IPing ping = mock(IPing.class);
 
     // Act
-    BaseLoadBalancer actualBaseLoadBalancer = new BaseLoadBalancer(" ", null, stats, ping);
+    BaseLoadBalancer actualBaseLoadBalancer =
+        new BaseLoadBalancer("Name", null, new LoadBalancerStats(), ping);
 
     // Assert
-    IPing ping2 = actualBaseLoadBalancer.getPing();
-    assertTrue(ping2 instanceof PingConstant);
     IRule rule = actualBaseLoadBalancer.getRule();
     assertTrue(rule instanceof RoundRobinRule);
-    assertTrue(((PingConstant) ping2).getConstant());
+    assertTrue(actualBaseLoadBalancer.lbTimer instanceof ShutdownEnabledTimer);
+    assertEquals("Name", actualBaseLoadBalancer.getName());
     assertSame(actualBaseLoadBalancer, rule.getLoadBalancer());
-    assertSame(ping, ping2);
+    assertSame(ping, actualBaseLoadBalancer.getPing());
   }
 
   /**
-   * Test {@link BaseLoadBalancer#BaseLoadBalancer(IPing, IRule)}.
+   * Test {@link BaseLoadBalancer#BaseLoadBalancer(String, IRule, LoadBalancerStats, IPing,
+   * IPingStrategy)}.
    *
    * <ul>
    *   <li>When {@link ResponseTimeWeightedRule#ResponseTimeWeightedRule()}.
    * </ul>
    *
-   * <p>Method under test: {@link BaseLoadBalancer#BaseLoadBalancer(IPing, IRule)}
+   * <p>Method under test: {@link BaseLoadBalancer#BaseLoadBalancer(String, IRule,
+   * LoadBalancerStats, IPing, IPingStrategy)}
    */
   @Test
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
-  @MethodsUnderTest({"void BaseLoadBalancer.<init>(IPing, IRule)"})
-  public void testNewBaseLoadBalancer_whenResponseTimeWeightedRule() {
-    // Arrange
-    IPing ping = mock(IPing.class);
-    ResponseTimeWeightedRule rule = new ResponseTimeWeightedRule();
-
-    // Act
-    BaseLoadBalancer actualBaseLoadBalancer = new BaseLoadBalancer(ping, rule);
-
-    // Assert
-    assertEquals("default", rule.name);
-    assertSame(rule, actualBaseLoadBalancer.getRule());
-  }
-
-  /**
-   * Test {@link BaseLoadBalancer#BaseLoadBalancer(IPing, IRule, IPingStrategy)}.
-   *
-   * <ul>
-   *   <li>When {@link ResponseTimeWeightedRule#ResponseTimeWeightedRule()}.
-   * </ul>
-   *
-   * <p>Method under test: {@link BaseLoadBalancer#BaseLoadBalancer(IPing, IRule, IPingStrategy)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void BaseLoadBalancer.<init>(IPing, IRule, IPingStrategy)"})
+  @MethodsUnderTest({
+    "void BaseLoadBalancer.<init>(String, IRule, LoadBalancerStats, IPing, IPingStrategy)"
+  })
   public void testNewBaseLoadBalancer_whenResponseTimeWeightedRule2() {
     // Arrange
-    IPing ping = mock(IPing.class);
     ResponseTimeWeightedRule rule = new ResponseTimeWeightedRule();
+    LoadBalancerStats stats = new LoadBalancerStats();
+    IPing ping = mock(IPing.class);
 
     IPingStrategy pingStrategy = mock(IPingStrategy.class);
     when(pingStrategy.pingServers(Mockito.<IPing>any(), Mockito.<Server[]>any()))
         .thenThrow(new IllegalArgumentException());
 
     // Act
-    BaseLoadBalancer actualBaseLoadBalancer = new BaseLoadBalancer(ping, rule, pingStrategy);
+    BaseLoadBalancer actualBaseLoadBalancer =
+        new BaseLoadBalancer("Name", rule, stats, ping, pingStrategy);
 
     // Assert
     verify(pingStrategy).pingServers(isA(IPing.class), isA(Server[].class));
-    assertEquals("default", rule.name);
+    assertEquals("Name", rule.name);
     assertSame(rule, actualBaseLoadBalancer.getRule());
-  }
-
-  /**
-   * Test {@link BaseLoadBalancer#BaseLoadBalancer(IPing, IRule, IPingStrategy)}.
-   *
-   * <ul>
-   *   <li>When {@link RoundRobinRule#RoundRobinRule()}.
-   *   <li>Then return Rule is {@link RoundRobinRule#RoundRobinRule()}.
-   * </ul>
-   *
-   * <p>Method under test: {@link BaseLoadBalancer#BaseLoadBalancer(IPing, IRule, IPingStrategy)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void BaseLoadBalancer.<init>(IPing, IRule, IPingStrategy)"})
-  public void testNewBaseLoadBalancer_whenRoundRobinRule_thenReturnRuleIsRoundRobinRule() {
-    // Arrange
-    IPing ping = mock(IPing.class);
-    RoundRobinRule rule = new RoundRobinRule();
-
-    IPingStrategy pingStrategy = mock(IPingStrategy.class);
-    when(pingStrategy.pingServers(Mockito.<IPing>any(), Mockito.<Server[]>any()))
-        .thenReturn(
-            new boolean[] {
-              true, false, true, false, true, false, true, false, true, false, true, false
-            });
-
-    // Act
-    BaseLoadBalancer actualBaseLoadBalancer = new BaseLoadBalancer(ping, rule, pingStrategy);
-
-    // Assert
-    verify(pingStrategy).pingServers(isA(IPing.class), isA(Server[].class));
-    IRule rule2 = actualBaseLoadBalancer.getRule();
-    assertTrue(rule2 instanceof RoundRobinRule);
-    assertTrue(actualBaseLoadBalancer.serverComparator instanceof ServerComparator);
-    assertTrue(actualBaseLoadBalancer.lbTimer instanceof ShutdownEnabledTimer);
-    assertTrue(actualBaseLoadBalancer.allServerLock instanceof ReentrantReadWriteLock);
-    assertTrue(actualBaseLoadBalancer.upServerLock instanceof ReentrantReadWriteLock);
-    assertEquals("default", actualBaseLoadBalancer.getName());
-    assertNull(actualBaseLoadBalancer.getPrimeConnections());
-    assertNull(actualBaseLoadBalancer.getClientConfig());
-    assertEquals(10, actualBaseLoadBalancer.getPingInterval());
-    assertEquals(5, actualBaseLoadBalancer.getMaxTotalPingTime());
-    assertFalse(actualBaseLoadBalancer.isEnablePrimingConnections());
-    assertFalse(actualBaseLoadBalancer.isPingInProgress());
-    assertTrue(actualBaseLoadBalancer.getAllServers().isEmpty());
-    assertTrue(actualBaseLoadBalancer.getReachableServers().isEmpty());
-    assertTrue(actualBaseLoadBalancer.allServerList.isEmpty());
-    assertTrue(actualBaseLoadBalancer.upServerList.isEmpty());
-    assertSame(rule, rule2);
-    assertSame(ping, actualBaseLoadBalancer.getPing());
   }
 
   /**
@@ -1087,93 +983,23 @@ public class BaseLoadBalancerDiffblueTest {
   @MethodsUnderTest({"void PingTask.run()"})
   public void testPingTaskRun2() {
     // Arrange
-    DynamicServerListLoadBalancer<Server> dynamicServerListLoadBalancer =
-        new DynamicServerListLoadBalancer<>();
-
-    ServerStatusChangeListener listener = mock(ServerStatusChangeListener.class);
-    doThrow(new RuntimeException())
-        .when(listener)
-        .serverStatusChanged(Mockito.<Collection<Server>>any());
-    dynamicServerListLoadBalancer.addServerStatusChangeListener(listener);
-
-    IPing ping = mock(IPing.class);
-    when(ping.isAlive(Mockito.<Server>any())).thenReturn(true);
-    dynamicServerListLoadBalancer.setPing(ping);
-    dynamicServerListLoadBalancer.addServer(new Server("42"));
-
-    // Act
-    dynamicServerListLoadBalancer.new PingTask().run();
-
-    // Assert
-    verify(listener).serverStatusChanged(isA(Collection.class));
-    verify(ping, atLeast(1)).isAlive(isA(Server.class));
-  }
-
-  /**
-   * Test PingTask {@link PingTask#run()}.
-   *
-   * <ul>
-   *   <li>Given {@link IPing} {@link IPing#isAlive(Server)} return {@code true}.
-   *   <li>Then calls {@link IPing#isAlive(Server)}.
-   * </ul>
-   *
-   * <p>Method under test: {@link PingTask#run()}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void PingTask.run()"})
-  public void testPingTaskRun_givenIPingIsAliveReturnTrue_thenCallsIsAlive() {
-    // Arrange
-    IPing ping = mock(IPing.class);
-    when(ping.isAlive(Mockito.<Server>any())).thenReturn(true);
-
-    DynamicServerListLoadBalancer<Server> dynamicServerListLoadBalancer =
-        new DynamicServerListLoadBalancer<>();
-    dynamicServerListLoadBalancer.setPing(ping);
-    dynamicServerListLoadBalancer.addServer(new Server("42"));
-
-    // Act
-    dynamicServerListLoadBalancer.new PingTask().run();
-
-    // Assert
-    verify(ping, atLeast(1)).isAlive(isA(Server.class));
-  }
-
-  /**
-   * Test PingTask {@link PingTask#run()}.
-   *
-   * <ul>
-   *   <li>Given {@link ServerStatusChangeListener} {@link
-   *       ServerStatusChangeListener#serverStatusChanged(Collection)} does nothing.
-   * </ul>
-   *
-   * <p>Method under test: {@link PingTask#run()}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void PingTask.run()"})
-  public void testPingTaskRun_givenServerStatusChangeListenerServerStatusChangedDoesNothing() {
-    // Arrange
-    IPing ping = mock(IPing.class);
-    when(ping.isAlive(Mockito.<Server>any())).thenReturn(true);
-
     ServerStatusChangeListener listener = mock(ServerStatusChangeListener.class);
     doNothing().when(listener).serverStatusChanged(Mockito.<Collection<Server>>any());
 
-    DynamicServerListLoadBalancer<Server> dynamicServerListLoadBalancer =
-        new DynamicServerListLoadBalancer<>();
-    dynamicServerListLoadBalancer.addServerStatusChangeListener(listener);
-    dynamicServerListLoadBalancer.setPing(ping);
-    dynamicServerListLoadBalancer.addServer(new Server("42"));
+    BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer();
+    baseLoadBalancer.addServerStatusChangeListener(listener);
+
+    IPing ping = mock(IPing.class);
+    when(ping.isAlive(Mockito.<Server>any())).thenReturn(true);
+    baseLoadBalancer.setPing(ping);
+    baseLoadBalancer.addServer(new Server("42"));
 
     // Act
-    dynamicServerListLoadBalancer.new PingTask().run();
+    baseLoadBalancer.new PingTask().run();
 
     // Assert
-    verify(listener).serverStatusChanged(isA(Collection.class));
     verify(ping, atLeast(1)).isAlive(isA(Server.class));
+    verify(listener).serverStatusChanged(isA(Collection.class));
   }
 
   /**
@@ -1231,6 +1057,42 @@ public class BaseLoadBalancerDiffblueTest {
   /**
    * Test Pinger {@link Pinger#runPinger()}.
    *
+   * <p>Method under test: {@link Pinger#runPinger()}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void Pinger.runPinger()"})
+  public void testPingerRunPinger4() throws Exception {
+    // Arrange
+    IPing ping = mock(IPing.class);
+    when(ping.isAlive(Mockito.<Server>any())).thenReturn(true);
+
+    ServerStatusChangeListener listener = mock(ServerStatusChangeListener.class);
+    doNothing().when(listener).serverStatusChanged(Mockito.<Collection<Server>>any());
+
+    DynamicServerListLoadBalancer<Server> dynamicServerListLoadBalancer =
+        new DynamicServerListLoadBalancer<>();
+    dynamicServerListLoadBalancer.addServerStatusChangeListener(listener);
+    dynamicServerListLoadBalancer.setPing(ping);
+    dynamicServerListLoadBalancer.addServer(new Server("42"));
+
+    IPingStrategy pingerStrategy = mock(IPingStrategy.class);
+    when(pingerStrategy.pingServers(Mockito.<IPing>any(), Mockito.<Server[]>any()))
+        .thenReturn(new boolean[] {true, false, true, false});
+
+    // Act
+    dynamicServerListLoadBalancer.new Pinger(pingerStrategy).runPinger();
+
+    // Assert
+    verify(ping).isAlive(isA(Server.class));
+    verify(pingerStrategy).pingServers(isA(IPing.class), isA(Server[].class));
+    verify(listener).serverStatusChanged(isA(Collection.class));
+  }
+
+  /**
+   * Test Pinger {@link Pinger#runPinger()}.
+   *
    * <ul>
    *   <li>Given {@link BaseLoadBalancer#BaseLoadBalancer()} addServer {@link Server#Server(String)}
    *       with id is {@code 42}.
@@ -1263,7 +1125,7 @@ public class BaseLoadBalancerDiffblueTest {
    * Test {@link BaseLoadBalancer#setupPingTask()}.
    *
    * <ul>
-   *   <li>Given {@link BaseLoadBalancer#BaseLoadBalancer()}.
+   *   <li>Then {@link BaseLoadBalancer#BaseLoadBalancer()} ReachableServers Empty.
    * </ul>
    *
    * <p>Method under test: {@link BaseLoadBalancer#setupPingTask()}
@@ -1272,7 +1134,7 @@ public class BaseLoadBalancerDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void BaseLoadBalancer.setupPingTask()"})
-  public void testSetupPingTask_givenBaseLoadBalancer() {
+  public void testSetupPingTask_thenBaseLoadBalancerReachableServersEmpty() {
     // Arrange
     BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer();
 
@@ -1287,9 +1149,44 @@ public class BaseLoadBalancerDiffblueTest {
   /**
    * Test {@link BaseLoadBalancer#setName(String)}.
    *
+   * <p>Method under test: {@link BaseLoadBalancer#setName(String)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void BaseLoadBalancer.setName(String)"})
+  public void testSetName() {
+    // Arrange
+    IPing ping = mock(IPing.class);
+    when(ping.isAlive(Mockito.<Server>any())).thenReturn(true);
+
+    BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer();
+    baseLoadBalancer.setPing(ping);
+    baseLoadBalancer.addServer(new Server("42"));
+    baseLoadBalancer.setLoadBalancerStats(null);
+
+    // Act
+    baseLoadBalancer.setName("Name");
+
+    // Assert
+    verify(ping).isAlive(isA(Server.class));
+    LoadBalancerStats loadBalancerStats = baseLoadBalancer.getLoadBalancerStats();
+    assertEquals(0, loadBalancerStats.getCircuitBreakerTrippedCount());
+    assertEquals(10, loadBalancerStats.getCircuitTrippedTimeoutFactor().get());
+    assertEquals(3, loadBalancerStats.getConnectionFailureCountThreshold().get());
+    assertEquals(30, loadBalancerStats.getCircuitTripMaxTimeoutSeconds().get());
+    assertEquals(600, loadBalancerStats.getActiveRequestsCountTimeout().get());
+    assertTrue(loadBalancerStats.getServerStats().isEmpty());
+    assertTrue(loadBalancerStats.getZoneStats().isEmpty());
+    assertTrue(loadBalancerStats.upServerListZoneMap.isEmpty());
+    assertTrue(loadBalancerStats.getAvailableZones().isEmpty());
+  }
+
+  /**
+   * Test {@link BaseLoadBalancer#setName(String)}.
+   *
    * <ul>
    *   <li>Given {@link BaseLoadBalancer#BaseLoadBalancer()}.
-   *   <li>When {@code Name}.
    * </ul>
    *
    * <p>Method under test: {@link BaseLoadBalancer#setName(String)}
@@ -1298,7 +1195,7 @@ public class BaseLoadBalancerDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void BaseLoadBalancer.setName(String)"})
-  public void testSetName_givenBaseLoadBalancer_whenName() {
+  public void testSetName_givenBaseLoadBalancer() {
     // Arrange
     BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer();
 
@@ -1322,8 +1219,8 @@ public class BaseLoadBalancerDiffblueTest {
    * Test {@link BaseLoadBalancer#setName(String)}.
    *
    * <ul>
-   *   <li>Given {@link IPing} {@link IPing#isAlive(Server)} return {@code true}.
-   *   <li>Then {@link BaseLoadBalancer#BaseLoadBalancer()} Name is {@code ,}.
+   *   <li>Then {@link BaseLoadBalancer#BaseLoadBalancer()} Name is {@code LoadBalancer [{}]: Server
+   *       [{}] status changed to {}}.
    * </ul>
    *
    * <p>Method under test: {@link BaseLoadBalancer#setName(String)}
@@ -1332,41 +1229,47 @@ public class BaseLoadBalancerDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void BaseLoadBalancer.setName(String)"})
-  public void testSetName_givenIPingIsAliveReturnTrue_thenBaseLoadBalancerNameIsComma() {
+  public void testSetName_thenBaseLoadBalancerNameIsLoadBalancerServerStatusChangedTo() {
     // Arrange
     IPing ping = mock(IPing.class);
     when(ping.isAlive(Mockito.<Server>any())).thenReturn(true);
 
+    ServerStatusChangeListener listener = mock(ServerStatusChangeListener.class);
+    doThrow(new RuntimeException())
+        .when(listener)
+        .serverStatusChanged(Mockito.<Collection<Server>>any());
+
+    ServerStatusChangeListener listener2 = mock(ServerStatusChangeListener.class);
+    doNothing().when(listener2).serverStatusChanged(Mockito.<Collection<Server>>any());
+
     BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer();
+    baseLoadBalancer.addServerStatusChangeListener(listener2);
+    baseLoadBalancer.addServerStatusChangeListener(listener);
     baseLoadBalancer.setPing(ping);
     baseLoadBalancer.addServer(new Server("42"));
     baseLoadBalancer.setLoadBalancerStats(null);
 
     // Act
-    baseLoadBalancer.setName(",");
+    baseLoadBalancer.setName("LoadBalancer [{}]:  Server [{}] status changed to {}");
 
     // Assert
     verify(ping).isAlive(isA(Server.class));
-    assertEquals(",", baseLoadBalancer.getName());
-    LoadBalancerStats loadBalancerStats = baseLoadBalancer.getLoadBalancerStats();
-    assertEquals(",", loadBalancerStats.getName());
-    assertEquals(0, loadBalancerStats.getCircuitBreakerTrippedCount());
-    assertEquals(10, loadBalancerStats.getCircuitTrippedTimeoutFactor().get());
-    assertEquals(3, loadBalancerStats.getConnectionFailureCountThreshold().get());
-    assertEquals(30, loadBalancerStats.getCircuitTripMaxTimeoutSeconds().get());
-    assertEquals(600, loadBalancerStats.getActiveRequestsCountTimeout().get());
-    assertTrue(loadBalancerStats.getServerStats().isEmpty());
-    assertTrue(loadBalancerStats.getZoneStats().isEmpty());
-    assertTrue(loadBalancerStats.upServerListZoneMap.isEmpty());
-    assertTrue(loadBalancerStats.getAvailableZones().isEmpty());
+    verify(listener2).serverStatusChanged(isA(Collection.class));
+    verify(listener).serverStatusChanged(isA(Collection.class));
+    assertEquals(
+        "LoadBalancer [{}]:  Server [{}] status changed to {}", baseLoadBalancer.getName());
+    assertEquals(
+        "LoadBalancer [{}]:  Server [{}] status changed to {}",
+        baseLoadBalancer.getLoadBalancerStats().getName());
+    assertEquals(1, baseLoadBalancer.getReachableServers().size());
+    assertEquals(1, baseLoadBalancer.upServerList.size());
   }
 
   /**
    * Test {@link BaseLoadBalancer#setName(String)}.
    *
    * <ul>
-   *   <li>Given {@link IPing} {@link IPing#isAlive(Server)} throw {@link
-   *       RuntimeException#RuntimeException()}.
+   *   <li>Then {@link BaseLoadBalancer#BaseLoadBalancer()} Name is {@code Name}.
    * </ul>
    *
    * <p>Method under test: {@link BaseLoadBalancer#setName(String)}
@@ -1375,12 +1278,18 @@ public class BaseLoadBalancerDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void BaseLoadBalancer.setName(String)"})
-  public void testSetName_givenIPingIsAliveThrowRuntimeException() {
+  public void testSetName_thenBaseLoadBalancerNameIsName() {
     // Arrange
     IPing ping = mock(IPing.class);
-    when(ping.isAlive(Mockito.<Server>any())).thenThrow(new RuntimeException());
+    when(ping.isAlive(Mockito.<Server>any())).thenReturn(true);
+
+    ServerStatusChangeListener listener = mock(ServerStatusChangeListener.class);
+    doThrow(new RuntimeException())
+        .when(listener)
+        .serverStatusChanged(Mockito.<Collection<Server>>any());
 
     BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer();
+    baseLoadBalancer.addServerStatusChangeListener(listener);
     baseLoadBalancer.setPing(ping);
     baseLoadBalancer.addServer(new Server("42"));
     baseLoadBalancer.setLoadBalancerStats(null);
@@ -1389,19 +1298,8 @@ public class BaseLoadBalancerDiffblueTest {
     baseLoadBalancer.setName("Name");
 
     // Assert
-    verify(ping).isAlive(isA(Server.class));
     assertEquals("Name", baseLoadBalancer.getName());
-    LoadBalancerStats loadBalancerStats = baseLoadBalancer.getLoadBalancerStats();
-    assertEquals("Name", loadBalancerStats.getName());
-    assertEquals(0, loadBalancerStats.getCircuitBreakerTrippedCount());
-    assertEquals(10, loadBalancerStats.getCircuitTrippedTimeoutFactor().get());
-    assertEquals(3, loadBalancerStats.getConnectionFailureCountThreshold().get());
-    assertEquals(30, loadBalancerStats.getCircuitTripMaxTimeoutSeconds().get());
-    assertEquals(600, loadBalancerStats.getActiveRequestsCountTimeout().get());
-    assertTrue(loadBalancerStats.getServerStats().isEmpty());
-    assertTrue(loadBalancerStats.getZoneStats().isEmpty());
-    assertTrue(loadBalancerStats.upServerListZoneMap.isEmpty());
-    assertTrue(loadBalancerStats.getAvailableZones().isEmpty());
+    assertEquals("Name", baseLoadBalancer.getLoadBalancerStats().getName());
   }
 
   /**
@@ -1428,17 +1326,9 @@ public class BaseLoadBalancerDiffblueTest {
 
     // Assert
     assertEquals("Name", baseLoadBalancer.getName());
-    LoadBalancerStats loadBalancerStats = baseLoadBalancer.getLoadBalancerStats();
-    assertEquals("Name", loadBalancerStats.getName());
-    assertEquals(0, loadBalancerStats.getCircuitBreakerTrippedCount());
-    assertEquals(10, loadBalancerStats.getCircuitTrippedTimeoutFactor().get());
-    assertEquals(3, loadBalancerStats.getConnectionFailureCountThreshold().get());
-    assertEquals(30, loadBalancerStats.getCircuitTripMaxTimeoutSeconds().get());
-    assertEquals(600, loadBalancerStats.getActiveRequestsCountTimeout().get());
-    assertTrue(loadBalancerStats.getServerStats().isEmpty());
-    assertTrue(loadBalancerStats.getZoneStats().isEmpty());
-    assertTrue(loadBalancerStats.upServerListZoneMap.isEmpty());
-    assertTrue(loadBalancerStats.getAvailableZones().isEmpty());
+    assertEquals("Name", baseLoadBalancer.getLoadBalancerStats().getName());
+    assertTrue(baseLoadBalancer.getReachableServers().isEmpty());
+    assertTrue(baseLoadBalancer.upServerList.isEmpty());
   }
 
   /**
@@ -1465,17 +1355,9 @@ public class BaseLoadBalancerDiffblueTest {
 
     // Assert
     assertNull(baseLoadBalancer.getName());
-    LoadBalancerStats loadBalancerStats = baseLoadBalancer.getLoadBalancerStats();
-    assertNull(loadBalancerStats.getName());
-    assertEquals(0, loadBalancerStats.getCircuitBreakerTrippedCount());
-    assertEquals(10, loadBalancerStats.getCircuitTrippedTimeoutFactor().get());
-    assertEquals(3, loadBalancerStats.getConnectionFailureCountThreshold().get());
-    assertEquals(30, loadBalancerStats.getCircuitTripMaxTimeoutSeconds().get());
-    assertEquals(600, loadBalancerStats.getActiveRequestsCountTimeout().get());
-    assertTrue(loadBalancerStats.getServerStats().isEmpty());
-    assertTrue(loadBalancerStats.getZoneStats().isEmpty());
-    assertTrue(loadBalancerStats.upServerListZoneMap.isEmpty());
-    assertTrue(loadBalancerStats.getAvailableZones().isEmpty());
+    assertNull(baseLoadBalancer.getLoadBalancerStats().getName());
+    assertTrue(baseLoadBalancer.getReachableServers().isEmpty());
+    assertTrue(baseLoadBalancer.upServerList.isEmpty());
   }
 
   /**
@@ -1648,102 +1530,7 @@ public class BaseLoadBalancerDiffblueTest {
   /**
    * Test {@link BaseLoadBalancer#setMaxTotalPingTime(int)}.
    *
-   * <p>Method under test: {@link BaseLoadBalancer#setMaxTotalPingTime(int)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void BaseLoadBalancer.setMaxTotalPingTime(int)"})
-  public void testSetMaxTotalPingTime() {
-    // Arrange
-    IPing ping = mock(IPing.class);
-    when(ping.isAlive(Mockito.<Server>any())).thenReturn(true);
-
-    ServerStatusChangeListener listener = mock(ServerStatusChangeListener.class);
-    doThrow(new IllegalArgumentException())
-        .when(listener)
-        .serverStatusChanged(Mockito.<Collection<Server>>any());
-
-    BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer();
-    baseLoadBalancer.addServerStatusChangeListener(listener);
-    baseLoadBalancer.setPing(ping);
-    baseLoadBalancer.addServer(new Server("42"));
-
-    // Act
-    baseLoadBalancer.setMaxTotalPingTime(3);
-
-    // Assert
-    assertEquals(3, baseLoadBalancer.getMaxTotalPingTime());
-  }
-
-  /**
-   * Test {@link BaseLoadBalancer#setMaxTotalPingTime(int)}.
-   *
    * <ul>
-   *   <li>Given {@link BaseLoadBalancer#BaseLoadBalancer()}.
-   * </ul>
-   *
-   * <p>Method under test: {@link BaseLoadBalancer#setMaxTotalPingTime(int)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void BaseLoadBalancer.setMaxTotalPingTime(int)"})
-  public void testSetMaxTotalPingTime_givenBaseLoadBalancer() {
-    // Arrange
-    BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer();
-
-    // Act
-    baseLoadBalancer.setMaxTotalPingTime(3);
-
-    // Assert
-    assertEquals(3, baseLoadBalancer.getMaxTotalPingTime());
-    assertTrue(baseLoadBalancer.getReachableServers().isEmpty());
-    assertTrue(baseLoadBalancer.upServerList.isEmpty());
-  }
-
-  /**
-   * Test {@link BaseLoadBalancer#setMaxTotalPingTime(int)}.
-   *
-   * <ul>
-   *   <li>Then {@link BaseLoadBalancer#BaseLoadBalancer()} ReachableServers size is one.
-   * </ul>
-   *
-   * <p>Method under test: {@link BaseLoadBalancer#setMaxTotalPingTime(int)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void BaseLoadBalancer.setMaxTotalPingTime(int)"})
-  public void testSetMaxTotalPingTime_thenBaseLoadBalancerReachableServersSizeIsOne() {
-    // Arrange
-    IPing ping = mock(IPing.class);
-    when(ping.isAlive(Mockito.<Server>any())).thenReturn(true);
-
-    ServerStatusChangeListener listener = mock(ServerStatusChangeListener.class);
-    doNothing().when(listener).serverStatusChanged(Mockito.<Collection<Server>>any());
-
-    BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer();
-    baseLoadBalancer.addServerStatusChangeListener(listener);
-    baseLoadBalancer.setPing(ping);
-    baseLoadBalancer.addServer(new Server("42"));
-
-    // Act
-    baseLoadBalancer.setMaxTotalPingTime(3);
-
-    // Assert
-    verify(ping).isAlive(isA(Server.class));
-    verify(listener).serverStatusChanged(isA(Collection.class));
-    assertEquals(1, baseLoadBalancer.getReachableServers().size());
-    assertEquals(1, baseLoadBalancer.upServerList.size());
-    assertEquals(3, baseLoadBalancer.getMaxTotalPingTime());
-  }
-
-  /**
-   * Test {@link BaseLoadBalancer#setMaxTotalPingTime(int)}.
-   *
-   * <ul>
-   *   <li>When zero.
    *   <li>Then {@link BaseLoadBalancer#BaseLoadBalancer()} MaxTotalPingTime is five.
    * </ul>
    *
@@ -1753,7 +1540,7 @@ public class BaseLoadBalancerDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void BaseLoadBalancer.setMaxTotalPingTime(int)"})
-  public void testSetMaxTotalPingTime_whenZero_thenBaseLoadBalancerMaxTotalPingTimeIsFive() {
+  public void testSetMaxTotalPingTime_thenBaseLoadBalancerMaxTotalPingTimeIsFive() {
     // Arrange
     BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer();
 
@@ -1762,17 +1549,35 @@ public class BaseLoadBalancerDiffblueTest {
 
     // Assert that nothing has changed
     assertEquals(5, baseLoadBalancer.getMaxTotalPingTime());
-    assertTrue(baseLoadBalancer.getReachableServers().isEmpty());
-    assertTrue(baseLoadBalancer.upServerList.isEmpty());
+  }
+
+  /**
+   * Test {@link BaseLoadBalancer#setMaxTotalPingTime(int)}.
+   *
+   * <ul>
+   *   <li>When three.
+   *   <li>Then {@link BaseLoadBalancer#BaseLoadBalancer()} MaxTotalPingTime is three.
+   * </ul>
+   *
+   * <p>Method under test: {@link BaseLoadBalancer#setMaxTotalPingTime(int)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void BaseLoadBalancer.setMaxTotalPingTime(int)"})
+  public void testSetMaxTotalPingTime_whenThree_thenBaseLoadBalancerMaxTotalPingTimeIsThree() {
+    // Arrange
+    BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer();
+
+    // Act
+    baseLoadBalancer.setMaxTotalPingTime(3);
+
+    // Assert
+    assertEquals(3, baseLoadBalancer.getMaxTotalPingTime());
   }
 
   /**
    * Test {@link BaseLoadBalancer#isPingInProgress()}.
-   *
-   * <ul>
-   *   <li>Given {@link BaseLoadBalancer#BaseLoadBalancer()}.
-   *   <li>Then return {@code false}.
-   * </ul>
    *
    * <p>Method under test: {@link BaseLoadBalancer#isPingInProgress()}
    */
@@ -1780,14 +1585,34 @@ public class BaseLoadBalancerDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"boolean BaseLoadBalancer.isPingInProgress()"})
-  public void testIsPingInProgress_givenBaseLoadBalancer_thenReturnFalse() {
-    // Arrange
-    BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer();
+  public void testIsPingInProgress() {
+    // Arrange, Act and Assert
+    assertFalse(new BaseLoadBalancer().isPingInProgress());
+  }
 
-    // Act and Assert
-    assertFalse(baseLoadBalancer.isPingInProgress());
+  /**
+   * Test {@link BaseLoadBalancer#setPing(IPing)}.
+   *
+   * <p>Method under test: {@link BaseLoadBalancer#setPing(IPing)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void BaseLoadBalancer.setPing(IPing)"})
+  public void testSetPing() {
+    // Arrange
+    IPing ping = mock(IPing.class);
+    BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer(ping, new AvailabilityFilteringRule());
+    IPing ping2 = mock(IPing.class);
+
+    // Act
+    baseLoadBalancer.setPing(ping2);
+
+    // Assert
+    assertTrue(baseLoadBalancer.lbTimer instanceof ShutdownEnabledTimer);
     assertTrue(baseLoadBalancer.getReachableServers().isEmpty());
     assertTrue(baseLoadBalancer.upServerList.isEmpty());
+    assertSame(ping2, baseLoadBalancer.getPing());
   }
 
   /**
@@ -1821,6 +1646,211 @@ public class BaseLoadBalancerDiffblueTest {
   }
 
   /**
+   * Test {@link BaseLoadBalancer#setPing(IPing)}.
+   *
+   * <ul>
+   *   <li>Given {@link IPing} {@link IPing#isAlive(Server)} throw {@link
+   *       IllegalArgumentException#IllegalArgumentException()}.
+   * </ul>
+   *
+   * <p>Method under test: {@link BaseLoadBalancer#setPing(IPing)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void BaseLoadBalancer.setPing(IPing)"})
+  public void testSetPing_givenIPingIsAliveThrowIllegalArgumentException() {
+    // Arrange
+    IPing ping = mock(IPing.class);
+    when(ping.isAlive(Mockito.<Server>any())).thenThrow(new IllegalArgumentException());
+
+    BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer(ping, new AvailabilityFilteringRule());
+    baseLoadBalancer.addServer(new Server("42"));
+
+    IPing ping2 = mock(IPing.class);
+    when(ping2.isAlive(Mockito.<Server>any())).thenReturn(true);
+
+    // Act
+    baseLoadBalancer.setPing(ping2);
+
+    // Assert
+    List<Server> serverList = baseLoadBalancer.allServerList;
+    verify(ping).isAlive(isA(Server.class));
+    verify(ping2).isAlive(isA(Server.class));
+    List<Server> allServers = baseLoadBalancer.getAllServers();
+    assertEquals(1, allServers.size());
+    assertTrue(allServers.get(0).isAlive());
+    assertEquals(serverList, baseLoadBalancer.getReachableServers());
+    assertEquals(serverList, baseLoadBalancer.upServerList);
+  }
+
+  /**
+   * Test {@link BaseLoadBalancer#setPing(IPing)}.
+   *
+   * <ul>
+   *   <li>Given {@link RuntimeException#RuntimeException()}.
+   *   <li>Then not {@link BaseLoadBalancer#BaseLoadBalancer()} AllServers first Alive.
+   * </ul>
+   *
+   * <p>Method under test: {@link BaseLoadBalancer#setPing(IPing)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void BaseLoadBalancer.setPing(IPing)"})
+  public void testSetPing_givenRuntimeException_thenNotBaseLoadBalancerAllServersFirstAlive() {
+    // Arrange
+    BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer();
+    baseLoadBalancer.addServer(new Server("42"));
+
+    IPing ping = mock(IPing.class);
+    when(ping.isAlive(Mockito.<Server>any())).thenThrow(new RuntimeException());
+
+    // Act
+    baseLoadBalancer.setPing(ping);
+
+    // Assert
+    verify(ping).isAlive(isA(Server.class));
+    assertTrue(baseLoadBalancer.lbTimer instanceof ShutdownEnabledTimer);
+    List<Server> allServers = baseLoadBalancer.getAllServers();
+    assertEquals(1, allServers.size());
+    assertFalse(allServers.get(0).isAlive());
+    assertTrue(baseLoadBalancer.getReachableServers().isEmpty());
+    assertTrue(baseLoadBalancer.upServerList.isEmpty());
+  }
+
+  /**
+   * Test {@link BaseLoadBalancer#setPing(IPing)}.
+   *
+   * <ul>
+   *   <li>Given {@link ServerStatusChangeListener} {@link
+   *       ServerStatusChangeListener#serverStatusChanged(Collection)} does nothing.
+   * </ul>
+   *
+   * <p>Method under test: {@link BaseLoadBalancer#setPing(IPing)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void BaseLoadBalancer.setPing(IPing)"})
+  public void testSetPing_givenServerStatusChangeListenerServerStatusChangedDoesNothing() {
+    // Arrange
+    IPing ping = mock(IPing.class);
+    when(ping.isAlive(Mockito.<Server>any())).thenThrow(new RuntimeException());
+
+    ServerStatusChangeListener listener = mock(ServerStatusChangeListener.class);
+    doNothing().when(listener).serverStatusChanged(Mockito.<Collection<Server>>any());
+
+    BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer(ping, new AvailabilityFilteringRule());
+    baseLoadBalancer.addServerStatusChangeListener(listener);
+    baseLoadBalancer.addServer(new Server("42"));
+
+    IPing ping2 = mock(IPing.class);
+    when(ping2.isAlive(Mockito.<Server>any())).thenReturn(true);
+
+    // Act
+    baseLoadBalancer.setPing(ping2);
+
+    // Assert
+    verify(ping).isAlive(isA(Server.class));
+    verify(ping2).isAlive(isA(Server.class));
+    verify(listener).serverStatusChanged(isA(Collection.class));
+    List<Server> allServers = baseLoadBalancer.getAllServers();
+    assertEquals(1, allServers.size());
+    assertTrue(allServers.get(0).isAlive());
+    List<Server> serverList = baseLoadBalancer.allServerList;
+    assertEquals(serverList, baseLoadBalancer.getReachableServers());
+    assertEquals(serverList, baseLoadBalancer.upServerList);
+  }
+
+  /**
+   * Test {@link BaseLoadBalancer#setPing(IPing)}.
+   *
+   * <ul>
+   *   <li>Then {@link BaseLoadBalancer#BaseLoadBalancer()} AllServers first Alive.
+   * </ul>
+   *
+   * <p>Method under test: {@link BaseLoadBalancer#setPing(IPing)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void BaseLoadBalancer.setPing(IPing)"})
+  public void testSetPing_thenBaseLoadBalancerAllServersFirstAlive() {
+    // Arrange
+    BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer();
+    baseLoadBalancer.addServer(new Server("42"));
+
+    IPing ping = mock(IPing.class);
+    when(ping.isAlive(Mockito.<Server>any())).thenReturn(true);
+
+    // Act
+    baseLoadBalancer.setPing(ping);
+
+    // Assert
+    verify(ping).isAlive(isA(Server.class));
+    assertTrue(baseLoadBalancer.lbTimer instanceof ShutdownEnabledTimer);
+    List<Server> allServers = baseLoadBalancer.getAllServers();
+    assertEquals(1, allServers.size());
+    assertTrue(allServers.get(0).isAlive());
+    List<Server> serverList = baseLoadBalancer.allServerList;
+    assertEquals(serverList, baseLoadBalancer.getReachableServers());
+    assertEquals(serverList, baseLoadBalancer.upServerList);
+  }
+
+  /**
+   * Test {@link BaseLoadBalancer#setPing(IPing)}.
+   *
+   * <ul>
+   *   <li>Then {@link BaseLoadBalancer} {@link BaseLoadBalancer#lbTimer} {@link
+   *       ShutdownEnabledTimer}.
+   * </ul>
+   *
+   * <p>Method under test: {@link BaseLoadBalancer#setPing(IPing)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void BaseLoadBalancer.setPing(IPing)"})
+  public void testSetPing_thenBaseLoadBalancerLbTimerShutdownEnabledTimer() {
+    // Arrange
+    IPing ping = mock(IPing.class);
+
+    // Act
+    baseLoadBalancer.setPing(ping);
+
+    // Assert
+    assertTrue(baseLoadBalancer.lbTimer instanceof ShutdownEnabledTimer);
+    assertSame(ping, baseLoadBalancer.getPing());
+  }
+
+  /**
+   * Test {@link BaseLoadBalancer#setPing(IPing)}.
+   *
+   * <ul>
+   *   <li>When {@link DummyPing} (default constructor).
+   *   <li>Then {@link BaseLoadBalancer} {@link BaseLoadBalancer#lbTimer} is {@code null}.
+   * </ul>
+   *
+   * <p>Method under test: {@link BaseLoadBalancer#setPing(IPing)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void BaseLoadBalancer.setPing(IPing)"})
+  public void testSetPing_whenDummyPing_thenBaseLoadBalancerLbTimerIsNull() {
+    // Arrange
+    DummyPing ping = new DummyPing();
+
+    // Act
+    baseLoadBalancer.setPing(ping);
+
+    // Assert
+    assertNull(baseLoadBalancer.lbTimer);
+    assertSame(ping, baseLoadBalancer.getPing());
+  }
+
+  /**
    * Test {@link BaseLoadBalancer#setRule(IRule)}.
    *
    * <p>Method under test: {@link BaseLoadBalancer#setRule(IRule)}
@@ -1831,27 +1861,26 @@ public class BaseLoadBalancerDiffblueTest {
   @MethodsUnderTest({"void BaseLoadBalancer.setRule(IRule)"})
   public void testSetRule() {
     // Arrange
-    IPing ping = mock(IPing.class);
-    when(ping.isAlive(Mockito.<Server>any())).thenThrow(new RuntimeException());
-
     BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer();
-    baseLoadBalancer.setPing(ping);
-    baseLoadBalancer.addServer(new Server("42"));
+    Server newServer = new Server("42");
+    baseLoadBalancer.addServer(newServer);
     ResponseTimeWeightedRule rule = new ResponseTimeWeightedRule();
 
     // Act
     baseLoadBalancer.setRule(rule);
 
     // Assert
-    verify(ping).isAlive(isA(Server.class));
     ILoadBalancer loadBalancer = rule.getLoadBalancer();
     assertTrue(loadBalancer instanceof BaseLoadBalancer);
+    List<Server> allServers = loadBalancer.getAllServers();
+    assertEquals(1, allServers.size());
+    List<Server> reachableServers = loadBalancer.getReachableServers();
+    assertEquals(1, reachableServers.size());
     List<Server> serverList = ((BaseLoadBalancer) loadBalancer).allServerList;
     assertEquals(1, serverList.size());
-    List<Server> serverList2 = baseLoadBalancer.allServerList;
-    assertEquals(serverList2, loadBalancer.getAllServers());
-    assertSame(serverList2, serverList);
-    assertSame(baseLoadBalancer.lbTimer, ((BaseLoadBalancer) loadBalancer).lbTimer);
+    assertSame(newServer, allServers.get(0));
+    assertSame(newServer, reachableServers.get(0));
+    assertSame(newServer, serverList.get(0));
   }
 
   /**
@@ -1865,11 +1894,7 @@ public class BaseLoadBalancerDiffblueTest {
   @MethodsUnderTest({"void BaseLoadBalancer.setRule(IRule)"})
   public void testSetRule2() {
     // Arrange
-    IPing ping = mock(IPing.class);
-    when(ping.isAlive(Mockito.<Server>any())).thenThrow(new RuntimeException());
-
     BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer();
-    baseLoadBalancer.setPing(ping);
     Server newServer = new Server(null);
     baseLoadBalancer.addServer(newServer);
     ResponseTimeWeightedRule rule = new ResponseTimeWeightedRule();
@@ -1878,14 +1903,16 @@ public class BaseLoadBalancerDiffblueTest {
     baseLoadBalancer.setRule(rule);
 
     // Assert
-    verify(ping).isAlive(isA(Server.class));
     ILoadBalancer loadBalancer = rule.getLoadBalancer();
     assertTrue(loadBalancer instanceof BaseLoadBalancer);
     List<Server> allServers = loadBalancer.getAllServers();
     assertEquals(1, allServers.size());
+    List<Server> reachableServers = loadBalancer.getReachableServers();
+    assertEquals(1, reachableServers.size());
     List<Server> serverList = ((BaseLoadBalancer) loadBalancer).allServerList;
     assertEquals(1, serverList.size());
     assertSame(newServer, allServers.get(0));
+    assertSame(newServer, reachableServers.get(0));
     assertSame(newServer, serverList.get(0));
   }
 
@@ -1954,8 +1981,8 @@ public class BaseLoadBalancerDiffblueTest {
    * Test {@link BaseLoadBalancer#setRule(IRule)}.
    *
    * <ul>
-   *   <li>Then {@link ResponseTimeWeightedRule#ResponseTimeWeightedRule()} LoadBalancer AllServers
-   *       first Alive.
+   *   <li>Then {@link ResponseTimeWeightedRule#ResponseTimeWeightedRule()} {@link
+   *       ResponseTimeWeightedRule#name} is {@code default}.
    * </ul>
    *
    * <p>Method under test: {@link BaseLoadBalancer#setRule(IRule)}
@@ -1964,42 +1991,7 @@ public class BaseLoadBalancerDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void BaseLoadBalancer.setRule(IRule)"})
-  public void testSetRule_thenResponseTimeWeightedRuleLoadBalancerAllServersFirstAlive() {
-    // Arrange
-    BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer();
-    baseLoadBalancer.addServer(new Server("42"));
-    ResponseTimeWeightedRule rule = new ResponseTimeWeightedRule();
-
-    // Act
-    baseLoadBalancer.setRule(rule);
-
-    // Assert
-    ILoadBalancer loadBalancer = rule.getLoadBalancer();
-    assertTrue(loadBalancer instanceof BaseLoadBalancer);
-    List<Server> allServers = loadBalancer.getAllServers();
-    assertEquals(1, allServers.size());
-    assertTrue(allServers.get(0).isAlive());
-    List<Server> serverList = baseLoadBalancer.upServerList;
-    assertEquals(serverList, loadBalancer.getReachableServers());
-    assertSame(serverList, ((BaseLoadBalancer) loadBalancer).allServerList);
-    assertSame(serverList, ((BaseLoadBalancer) loadBalancer).upServerList);
-  }
-
-  /**
-   * Test {@link BaseLoadBalancer#setRule(IRule)}.
-   *
-   * <ul>
-   *   <li>Then {@link ResponseTimeWeightedRule#ResponseTimeWeightedRule()} LoadBalancer Ping is
-   *       {@code null}.
-   * </ul>
-   *
-   * <p>Method under test: {@link BaseLoadBalancer#setRule(IRule)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void BaseLoadBalancer.setRule(IRule)"})
-  public void testSetRule_thenResponseTimeWeightedRuleLoadBalancerPingIsNull() {
+  public void testSetRule_thenResponseTimeWeightedRuleNameIsDefault() {
     // Arrange
     BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer();
     ResponseTimeWeightedRule rule = new ResponseTimeWeightedRule();
@@ -2010,10 +2002,13 @@ public class BaseLoadBalancerDiffblueTest {
     // Assert
     ILoadBalancer loadBalancer = rule.getLoadBalancer();
     assertTrue(loadBalancer instanceof BaseLoadBalancer);
-    assertNull(((BaseLoadBalancer) loadBalancer).getPing());
-    assertNull(((BaseLoadBalancer) loadBalancer).lbTimer);
+    assertEquals("default", rule.name);
     assertTrue(loadBalancer.getAllServers().isEmpty());
+    assertTrue(loadBalancer.getReachableServers().isEmpty());
     assertTrue(((BaseLoadBalancer) loadBalancer).allServerList.isEmpty());
+    assertTrue(((BaseLoadBalancer) loadBalancer).upServerList.isEmpty());
+    assertSame(rule, baseLoadBalancer.getRule());
+    assertSame(rule, ((BaseLoadBalancer) loadBalancer).getRule());
   }
 
   /**
@@ -2045,7 +2040,9 @@ public class BaseLoadBalancerDiffblueTest {
    * Test {@link BaseLoadBalancer#getServerCount(boolean)}.
    *
    * <ul>
+   *   <li>Given {@link BaseLoadBalancer#BaseLoadBalancer()} Ping is {@link IPing}.
    *   <li>When {@code false}.
+   *   <li>Then return one.
    * </ul>
    *
    * <p>Method under test: {@link BaseLoadBalancer#getServerCount(boolean)}
@@ -2054,7 +2051,39 @@ public class BaseLoadBalancerDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"int BaseLoadBalancer.getServerCount(boolean)"})
-  public void testGetServerCount_whenFalse() {
+  public void testGetServerCount_givenBaseLoadBalancerPingIsIPing_whenFalse_thenReturnOne() {
+    // Arrange
+    IPing ping = mock(IPing.class);
+    when(ping.isAlive(Mockito.<Server>any())).thenReturn(true);
+
+    BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer();
+    baseLoadBalancer.setPing(ping);
+    baseLoadBalancer.addServer(new Server("42"));
+
+    // Act
+    int actualServerCount = baseLoadBalancer.getServerCount(false);
+
+    // Assert
+    verify(ping).isAlive(isA(Server.class));
+    assertEquals(1, actualServerCount);
+  }
+
+  /**
+   * Test {@link BaseLoadBalancer#getServerCount(boolean)}.
+   *
+   * <ul>
+   *   <li>Given {@link BaseLoadBalancer#BaseLoadBalancer()}.
+   *   <li>When {@code false}.
+   *   <li>Then return zero.
+   * </ul>
+   *
+   * <p>Method under test: {@link BaseLoadBalancer#getServerCount(boolean)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"int BaseLoadBalancer.getServerCount(boolean)"})
+  public void testGetServerCount_givenBaseLoadBalancer_whenFalse_thenReturnZero() {
     // Arrange, Act and Assert
     assertEquals(0, new BaseLoadBalancer().getServerCount(false));
   }
@@ -2063,7 +2092,9 @@ public class BaseLoadBalancerDiffblueTest {
    * Test {@link BaseLoadBalancer#getServerCount(boolean)}.
    *
    * <ul>
+   *   <li>Given {@link BaseLoadBalancer#BaseLoadBalancer()}.
    *   <li>When {@code true}.
+   *   <li>Then return zero.
    * </ul>
    *
    * <p>Method under test: {@link BaseLoadBalancer#getServerCount(boolean)}
@@ -2072,7 +2103,7 @@ public class BaseLoadBalancerDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"int BaseLoadBalancer.getServerCount(boolean)"})
-  public void testGetServerCount_whenTrue() {
+  public void testGetServerCount_givenBaseLoadBalancer_whenTrue_thenReturnZero() {
     // Arrange, Act and Assert
     assertEquals(0, new BaseLoadBalancer().getServerCount(true));
   }
@@ -2485,6 +2516,49 @@ public class BaseLoadBalancerDiffblueTest {
     baseLoadBalancer.setPrimeConnections(primeConnections);
 
     // Act
+    baseLoadBalancer.setServers("");
+
+    // Assert
+    verify(ping).isAlive(isA(Server.class));
+    verify(listener, atLeast(1))
+        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
+    IRule rule = baseLoadBalancer.getRule();
+    assertTrue(rule instanceof AvailabilityFilteringRule);
+    assertEquals(0, ((AvailabilityFilteringRule) rule).getAvailableServersCount());
+    assertTrue(baseLoadBalancer.getAllServers().isEmpty());
+    assertTrue(baseLoadBalancer.getReachableServers().isEmpty());
+    assertTrue(baseLoadBalancer.allServerList.isEmpty());
+    assertTrue(baseLoadBalancer.upServerList.isEmpty());
+  }
+
+  /**
+   * Test {@link BaseLoadBalancer#setServers(String)}.
+   *
+   * <p>Method under test: {@link BaseLoadBalancer#setServers(String)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void BaseLoadBalancer.setServers(String)"})
+  public void testSetServers4() {
+    // Arrange
+    ServerListChangeListener listener = mock(ServerListChangeListener.class);
+    doNothing()
+        .when(listener)
+        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
+
+    IPing ping = mock(IPing.class);
+    when(ping.isAlive(Mockito.<Server>any())).thenReturn(true);
+
+    BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer(ping, new AvailabilityFilteringRule());
+    baseLoadBalancer.addServerListChangeListener(listener);
+    baseLoadBalancer.setEnablePrimingConnections(false);
+    baseLoadBalancer.addServer(new Server("42"));
+    PrimeConnections primeConnections =
+        new PrimeConnections("Name", 3, 1L, "Prime Connections URI");
+    baseLoadBalancer.setPrimeConnections(primeConnections);
+
+    // Act
     baseLoadBalancer.setServers("foo,bar");
 
     // Assert
@@ -2505,7 +2579,7 @@ public class BaseLoadBalancerDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void BaseLoadBalancer.setServers(String)"})
-  public void testSetServers4() {
+  public void testSetServers5() {
     // Arrange
     ServerListChangeListener listener = mock(ServerListChangeListener.class);
     doNothing()
@@ -2533,6 +2607,41 @@ public class BaseLoadBalancerDiffblueTest {
     assertEquals(2, baseLoadBalancer.allServerList.size());
     List<Server> expectedAllServers = baseLoadBalancer.allServerList;
     assertEquals(expectedAllServers, baseLoadBalancer.getAllServers());
+  }
+
+  /**
+   * Test {@link BaseLoadBalancer#setServers(String)}.
+   *
+   * <p>Method under test: {@link BaseLoadBalancer#setServers(String)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void BaseLoadBalancer.setServers(String)"})
+  public void testSetServers6() {
+    // Arrange
+    ServerListChangeListener listener = mock(ServerListChangeListener.class);
+    doNothing()
+        .when(listener)
+        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
+
+    PrimeConnections primeConnections =
+        new PrimeConnections("Name", 3, 1L, "Prime Connections URI");
+    primeConnections.primeConnections(new ArrayList<>());
+    baseLoadBalancer.addServerListChangeListener(listener);
+    baseLoadBalancer.setEnablePrimingConnections(true);
+    Server newServer = new Server("42");
+    baseLoadBalancer.addServer(newServer);
+    baseLoadBalancer.setPrimeConnections(primeConnections);
+
+    // Act
+    baseLoadBalancer.setServers("42");
+
+    // Assert
+    verify(listener).serverListChanged(isA(List.class), isA(List.class));
+    List<Server> allServers = baseLoadBalancer.getAllServers();
+    assertEquals(1, allServers.size());
+    assertEquals(newServer, allServers.get(0));
   }
 
   /**
@@ -2687,55 +2796,6 @@ public class BaseLoadBalancerDiffblueTest {
     List<Server> allServers = baseLoadBalancer.getAllServers();
     assertEquals(1, allServers.size());
     assertSame(newServer, allServers.get(0));
-  }
-
-  /**
-   * Test {@link BaseLoadBalancer#setServers(String)}.
-   *
-   * <ul>
-   *   <li>Then {@link BaseLoadBalancer} AllServers first Scheme is {@code null}.
-   * </ul>
-   *
-   * <p>Method under test: {@link BaseLoadBalancer#setServers(String)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void BaseLoadBalancer.setServers(String)"})
-  public void testSetServers_thenBaseLoadBalancerAllServersFirstSchemeIsNull() {
-    // Arrange
-    ServerListChangeListener listener = mock(ServerListChangeListener.class);
-    doNothing()
-        .when(listener)
-        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
-    baseLoadBalancer.addServerListChangeListener(listener);
-    baseLoadBalancer.setEnablePrimingConnections(true);
-    baseLoadBalancer.addServer(null);
-    PrimeConnections primeConnections =
-        new PrimeConnections("Name", 3, 1L, "Prime Connections URI");
-    baseLoadBalancer.setPrimeConnections(primeConnections);
-
-    // Act
-    baseLoadBalancer.setServers("Srv String");
-
-    // Assert
-    verify(listener).serverListChanged(isA(List.class), isA(List.class));
-    List<Server> allServers = baseLoadBalancer.getAllServers();
-    assertEquals(1, allServers.size());
-    Server getResult = allServers.get(0);
-    assertNull(getResult.getScheme());
-    List<Server> reachableServers = baseLoadBalancer.getReachableServers();
-    assertEquals(1, reachableServers.size());
-    List<Server> serverList = baseLoadBalancer.allServerList;
-    assertEquals(1, serverList.size());
-    List<Server> serverList2 = baseLoadBalancer.upServerList;
-    assertEquals(1, serverList2.size());
-    assertFalse(getResult.isReadyToServe());
-    assertTrue(getResult.isAlive());
-    assertEquals(Server.UNKNOWN_ZONE, getResult.getZone());
-    assertSame(getResult, reachableServers.get(0));
-    assertSame(getResult, serverList.get(0));
-    assertSame(getResult, serverList2.get(0));
   }
 
   /**
@@ -2906,6 +2966,45 @@ public class BaseLoadBalancerDiffblueTest {
     assertTrue(dynamicServerListLoadBalancer.getReachableServers().isEmpty());
     assertTrue(dynamicServerListLoadBalancer.allServerList.isEmpty());
     assertTrue(dynamicServerListLoadBalancer.upServerList.isEmpty());
+  }
+
+  /**
+   * Test {@link BaseLoadBalancer#setServers(String)}.
+   *
+   * <ul>
+   *   <li>Then not {@link BaseLoadBalancer} AllServers first ReadyToServe.
+   * </ul>
+   *
+   * <p>Method under test: {@link BaseLoadBalancer#setServers(String)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void BaseLoadBalancer.setServers(String)"})
+  public void testSetServers_thenNotBaseLoadBalancerAllServersFirstReadyToServe() {
+    // Arrange
+    ServerListChangeListener listener = mock(ServerListChangeListener.class);
+    doNothing()
+        .when(listener)
+        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
+    baseLoadBalancer.addServerListChangeListener(listener);
+    baseLoadBalancer.setEnablePrimingConnections(true);
+    baseLoadBalancer.addServer(null);
+    PrimeConnections primeConnections =
+        new PrimeConnections("Name", 3, 1L, "Prime Connections URI");
+    baseLoadBalancer.setPrimeConnections(primeConnections);
+
+    // Act
+    baseLoadBalancer.setServers("Srv String");
+
+    // Assert
+    verify(listener).serverListChanged(isA(List.class), isA(List.class));
+    List<Server> allServers = baseLoadBalancer.getAllServers();
+    assertEquals(1, allServers.size());
+    assertEquals(1, baseLoadBalancer.getReachableServers().size());
+    assertEquals(1, baseLoadBalancer.allServerList.size());
+    assertEquals(1, baseLoadBalancer.upServerList.size());
+    assertFalse(allServers.get(0).isReadyToServe());
   }
 
   /**
@@ -3230,57 +3329,6 @@ public class BaseLoadBalancerDiffblueTest {
    * Test {@link BaseLoadBalancer#getServerByIndex(int, boolean)}.
    *
    * <ul>
-   *   <li>Given {@link BaseLoadBalancer#BaseLoadBalancer()} addServer {@link Server#Server(String)}
-   *       with id is {@code 42}.
-   * </ul>
-   *
-   * <p>Method under test: {@link BaseLoadBalancer#getServerByIndex(int, boolean)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"Server BaseLoadBalancer.getServerByIndex(int, boolean)"})
-  public void testGetServerByIndex_givenBaseLoadBalancerAddServerServerWithIdIs42() {
-    // Arrange
-    BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer();
-    baseLoadBalancer.addServer(new Server("42"));
-    Server newServer = new Server("42");
-    baseLoadBalancer.addServer(newServer);
-
-    // Act and Assert
-    assertSame(newServer, baseLoadBalancer.getServerByIndex(1, false));
-  }
-
-  /**
-   * Test {@link BaseLoadBalancer#getServerByIndex(int, boolean)}.
-   *
-   * <ul>
-   *   <li>Given {@link BaseLoadBalancer#BaseLoadBalancer()} addServer {@link Server#Server(String)}
-   *       with id is {@code 42}.
-   *   <li>When {@code true}.
-   * </ul>
-   *
-   * <p>Method under test: {@link BaseLoadBalancer#getServerByIndex(int, boolean)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"Server BaseLoadBalancer.getServerByIndex(int, boolean)"})
-  public void testGetServerByIndex_givenBaseLoadBalancerAddServerServerWithIdIs42_whenTrue() {
-    // Arrange
-    BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer();
-    baseLoadBalancer.addServer(new Server("42"));
-    Server newServer = new Server("42");
-    baseLoadBalancer.addServer(newServer);
-
-    // Act and Assert
-    assertSame(newServer, baseLoadBalancer.getServerByIndex(1, true));
-  }
-
-  /**
-   * Test {@link BaseLoadBalancer#getServerByIndex(int, boolean)}.
-   *
-   * <ul>
    *   <li>Given {@link BaseLoadBalancer#BaseLoadBalancer()}.
    *   <li>When {@code false}.
    *   <li>Then return {@code null}.
@@ -3318,9 +3366,86 @@ public class BaseLoadBalancerDiffblueTest {
   }
 
   /**
+   * Test {@link BaseLoadBalancer#getServerByIndex(int, boolean)}.
+   *
+   * <ul>
+   *   <li>Then return {@link Server#Server(String)} with id is {@code 42}.
+   * </ul>
+   *
+   * <p>Method under test: {@link BaseLoadBalancer#getServerByIndex(int, boolean)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"Server BaseLoadBalancer.getServerByIndex(int, boolean)"})
+  public void testGetServerByIndex_thenReturnServerWithIdIs42() {
+    // Arrange
+    BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer();
+    baseLoadBalancer.addServer(new Server("42"));
+    Server newServer = new Server("42");
+    baseLoadBalancer.addServer(newServer);
+
+    // Act and Assert
+    assertSame(newServer, baseLoadBalancer.getServerByIndex(1, true));
+  }
+
+  /**
+   * Test {@link BaseLoadBalancer#getServerByIndex(int, boolean)}.
+   *
+   * <ul>
+   *   <li>When {@code false}.
+   *   <li>Then return {@link Server#Server(String)} with id is {@code 42}.
+   * </ul>
+   *
+   * <p>Method under test: {@link BaseLoadBalancer#getServerByIndex(int, boolean)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"Server BaseLoadBalancer.getServerByIndex(int, boolean)"})
+  public void testGetServerByIndex_whenFalse_thenReturnServerWithIdIs42() {
+    // Arrange
+    BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer();
+    baseLoadBalancer.addServer(new Server("42"));
+    Server newServer = new Server("42");
+    baseLoadBalancer.addServer(newServer);
+
+    // Act and Assert
+    assertSame(newServer, baseLoadBalancer.getServerByIndex(1, false));
+  }
+
+  /**
+   * Test {@link BaseLoadBalancer#getServerList(boolean)} with {@code availableOnly}.
+   *
+   * <p>Method under test: {@link BaseLoadBalancer#getServerList(boolean)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"List BaseLoadBalancer.getServerList(boolean)"})
+  public void testGetServerListWithAvailableOnly() {
+    // Arrange
+    DynamicServerListLoadBalancer<Server> dynamicServerListLoadBalancer =
+        new DynamicServerListLoadBalancer<>();
+    dynamicServerListLoadBalancer.addServerStatusChangeListener(
+        mock(ServerStatusChangeListener.class));
+    dynamicServerListLoadBalancer.setPing(mock(IPing.class));
+    dynamicServerListLoadBalancer.addServer(new Server("42"));
+
+    // Act
+    List<Server> actualServerList = dynamicServerListLoadBalancer.getServerList(true);
+
+    // Assert
+    assertTrue(dynamicServerListLoadBalancer.getReachableServers().isEmpty());
+    assertTrue(actualServerList.isEmpty());
+    assertTrue(dynamicServerListLoadBalancer.upServerList.isEmpty());
+  }
+
+  /**
    * Test {@link BaseLoadBalancer#getServerList(boolean)} with {@code availableOnly}.
    *
    * <ul>
+   *   <li>Given {@link BaseLoadBalancer#BaseLoadBalancer()} Ping is {@link IPing}.
    *   <li>When {@code false}.
    * </ul>
    *
@@ -3330,15 +3455,52 @@ public class BaseLoadBalancerDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"List BaseLoadBalancer.getServerList(boolean)"})
-  public void testGetServerListWithAvailableOnly_whenFalse() {
-    // Arrange, Act and Assert
-    assertTrue(new BaseLoadBalancer().getServerList(false).isEmpty());
+  public void testGetServerListWithAvailableOnly_givenBaseLoadBalancerPingIsIPing_whenFalse() {
+    // Arrange
+    BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer();
+    baseLoadBalancer.setPing(mock(IPing.class));
+
+    // Act
+    List<Server> actualServerList = baseLoadBalancer.getServerList(false);
+
+    // Assert
+    assertTrue(baseLoadBalancer.getReachableServers().isEmpty());
+    assertTrue(actualServerList.isEmpty());
+    assertTrue(baseLoadBalancer.upServerList.isEmpty());
   }
 
   /**
    * Test {@link BaseLoadBalancer#getServerList(boolean)} with {@code availableOnly}.
    *
    * <ul>
+   *   <li>Given {@link BaseLoadBalancer#BaseLoadBalancer()}.
+   *   <li>When {@code false}.
+   * </ul>
+   *
+   * <p>Method under test: {@link BaseLoadBalancer#getServerList(boolean)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"List BaseLoadBalancer.getServerList(boolean)"})
+  public void testGetServerListWithAvailableOnly_givenBaseLoadBalancer_whenFalse() {
+    // Arrange
+    BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer();
+
+    // Act
+    List<Server> actualServerList = baseLoadBalancer.getServerList(false);
+
+    // Assert
+    assertTrue(baseLoadBalancer.getReachableServers().isEmpty());
+    assertTrue(actualServerList.isEmpty());
+    assertTrue(baseLoadBalancer.upServerList.isEmpty());
+  }
+
+  /**
+   * Test {@link BaseLoadBalancer#getServerList(boolean)} with {@code availableOnly}.
+   *
+   * <ul>
+   *   <li>Given {@link BaseLoadBalancer#BaseLoadBalancer()}.
    *   <li>When {@code true}.
    * </ul>
    *
@@ -3348,17 +3510,24 @@ public class BaseLoadBalancerDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"List BaseLoadBalancer.getServerList(boolean)"})
-  public void testGetServerListWithAvailableOnly_whenTrue() {
-    // Arrange, Act and Assert
-    assertTrue(new BaseLoadBalancer().getServerList(true).isEmpty());
+  public void testGetServerListWithAvailableOnly_givenBaseLoadBalancer_whenTrue() {
+    // Arrange
+    BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer();
+
+    // Act
+    List<Server> actualServerList = baseLoadBalancer.getServerList(true);
+
+    // Assert
+    assertTrue(baseLoadBalancer.getReachableServers().isEmpty());
+    assertTrue(actualServerList.isEmpty());
+    assertTrue(baseLoadBalancer.upServerList.isEmpty());
   }
 
   /**
    * Test {@link BaseLoadBalancer#getServerList(ServerGroup)} with {@code serverGroup}.
    *
    * <ul>
-   *   <li>Given {@link BaseLoadBalancer#BaseLoadBalancer()} addServer {@link Server#Server(String)}
-   *       with id is {@code 42}.
+   *   <li>Then {@link BaseLoadBalancer#BaseLoadBalancer()} ReachableServers Empty.
    * </ul>
    *
    * <p>Method under test: {@link BaseLoadBalancer#getServerList(ServerGroup)}
@@ -3367,21 +3536,51 @@ public class BaseLoadBalancerDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"List BaseLoadBalancer.getServerList(ServerGroup)"})
-  public void testGetServerListWithServerGroup_givenBaseLoadBalancerAddServerServerWithIdIs42() {
+  public void testGetServerListWithServerGroup_thenBaseLoadBalancerReachableServersEmpty() {
+    // Arrange
+    BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer();
+
+    // Act
+    List<Server> actualServerList = baseLoadBalancer.getServerList(ServerGroup.STATUS_NOT_UP);
+
+    // Assert
+    assertTrue(baseLoadBalancer.getReachableServers().isEmpty());
+    assertTrue(actualServerList.isEmpty());
+    assertTrue(baseLoadBalancer.upServerList.isEmpty());
+  }
+
+  /**
+   * Test {@link BaseLoadBalancer#getServerList(ServerGroup)} with {@code serverGroup}.
+   *
+   * <ul>
+   *   <li>Then {@link BaseLoadBalancer#BaseLoadBalancer()} ReachableServers size is one.
+   * </ul>
+   *
+   * <p>Method under test: {@link BaseLoadBalancer#getServerList(ServerGroup)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"List BaseLoadBalancer.getServerList(ServerGroup)"})
+  public void testGetServerListWithServerGroup_thenBaseLoadBalancerReachableServersSizeIsOne() {
     // Arrange
     BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer();
     baseLoadBalancer.addServer(new Server("42"));
 
-    // Act and Assert
-    assertTrue(baseLoadBalancer.getServerList(ServerGroup.STATUS_NOT_UP).isEmpty());
+    // Act
+    baseLoadBalancer.getServerList(ServerGroup.STATUS_NOT_UP);
+
+    // Assert that nothing has changed
+    assertEquals(1, baseLoadBalancer.getReachableServers().size());
+    assertEquals(1, baseLoadBalancer.upServerList.size());
   }
 
   /**
    * Test {@link BaseLoadBalancer#getServerList(ServerGroup)} with {@code serverGroup}.
    *
    * <ul>
-   *   <li>Given {@link BaseLoadBalancer#BaseLoadBalancer()} addServer {@link Server#Server(String)}
-   *       with id is {@code 42}.
+   *   <li>Then {@link BaseLoadBalancer#BaseLoadBalancer()} {@link BaseLoadBalancer#upServerList}
+   *       size is two.
    * </ul>
    *
    * <p>Method under test: {@link BaseLoadBalancer#getServerList(ServerGroup)}
@@ -3390,72 +3589,19 @@ public class BaseLoadBalancerDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"List BaseLoadBalancer.getServerList(ServerGroup)"})
-  public void testGetServerListWithServerGroup_givenBaseLoadBalancerAddServerServerWithIdIs422() {
+  public void testGetServerListWithServerGroup_thenBaseLoadBalancerUpServerListSizeIsTwo() {
     // Arrange
     BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer();
     baseLoadBalancer.addServer(new Server("42"));
     baseLoadBalancer.addServer(new Server("42"));
 
-    // Act and Assert
-    assertTrue(baseLoadBalancer.getServerList(ServerGroup.STATUS_NOT_UP).isEmpty());
-  }
+    // Act
+    baseLoadBalancer.getServerList(ServerGroup.STATUS_NOT_UP);
 
-  /**
-   * Test {@link BaseLoadBalancer#getServerList(ServerGroup)} with {@code serverGroup}.
-   *
-   * <ul>
-   *   <li>Given {@link BaseLoadBalancer#BaseLoadBalancer()}.
-   *   <li>Then return Empty.
-   * </ul>
-   *
-   * <p>Method under test: {@link BaseLoadBalancer#getServerList(ServerGroup)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"List BaseLoadBalancer.getServerList(ServerGroup)"})
-  public void testGetServerListWithServerGroup_givenBaseLoadBalancer_thenReturnEmpty() {
-    // Arrange, Act and Assert
-    assertTrue(new BaseLoadBalancer().getServerList(ServerGroup.STATUS_NOT_UP).isEmpty());
-  }
-
-  /**
-   * Test {@link BaseLoadBalancer#getServerList(ServerGroup)} with {@code serverGroup}.
-   *
-   * <ul>
-   *   <li>Given {@link BaseLoadBalancer#BaseLoadBalancer()}.
-   *   <li>When {@code ALL}.
-   *   <li>Then return Empty.
-   * </ul>
-   *
-   * <p>Method under test: {@link BaseLoadBalancer#getServerList(ServerGroup)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"List BaseLoadBalancer.getServerList(ServerGroup)"})
-  public void testGetServerListWithServerGroup_givenBaseLoadBalancer_whenAll_thenReturnEmpty() {
-    // Arrange, Act and Assert
-    assertTrue(new BaseLoadBalancer().getServerList(ServerGroup.ALL).isEmpty());
-  }
-
-  /**
-   * Test {@link BaseLoadBalancer#getServerList(ServerGroup)} with {@code serverGroup}.
-   *
-   * <ul>
-   *   <li>Given {@link BaseLoadBalancer#BaseLoadBalancer()}.
-   *   <li>When {@code STATUS_UP}.
-   * </ul>
-   *
-   * <p>Method under test: {@link BaseLoadBalancer#getServerList(ServerGroup)}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"List BaseLoadBalancer.getServerList(ServerGroup)"})
-  public void testGetServerListWithServerGroup_givenBaseLoadBalancer_whenStatusUp() {
-    // Arrange, Act and Assert
-    assertTrue(new BaseLoadBalancer().getServerList(ServerGroup.STATUS_UP).isEmpty());
+    // Assert that nothing has changed
+    assertEquals(2, baseLoadBalancer.upServerList.size());
+    List<Server> expectedReachableServers = baseLoadBalancer.upServerList;
+    assertEquals(expectedReachableServers, baseLoadBalancer.getReachableServers());
   }
 
   /**
@@ -3490,7 +3636,64 @@ public class BaseLoadBalancerDiffblueTest {
   }
 
   /**
+   * Test {@link BaseLoadBalancer#getServerList(ServerGroup)} with {@code serverGroup}.
+   *
+   * <ul>
+   *   <li>When {@code ALL}.
+   * </ul>
+   *
+   * <p>Method under test: {@link BaseLoadBalancer#getServerList(ServerGroup)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"List BaseLoadBalancer.getServerList(ServerGroup)"})
+  public void testGetServerListWithServerGroup_whenAll() {
+    // Arrange
+    BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer();
+
+    // Act
+    List<Server> actualServerList = baseLoadBalancer.getServerList(ServerGroup.ALL);
+
+    // Assert
+    assertTrue(baseLoadBalancer.getReachableServers().isEmpty());
+    assertTrue(actualServerList.isEmpty());
+    assertTrue(baseLoadBalancer.upServerList.isEmpty());
+  }
+
+  /**
+   * Test {@link BaseLoadBalancer#getServerList(ServerGroup)} with {@code serverGroup}.
+   *
+   * <ul>
+   *   <li>When {@code STATUS_UP}.
+   * </ul>
+   *
+   * <p>Method under test: {@link BaseLoadBalancer#getServerList(ServerGroup)}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"List BaseLoadBalancer.getServerList(ServerGroup)"})
+  public void testGetServerListWithServerGroup_whenStatusUp() {
+    // Arrange
+    BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer();
+
+    // Act
+    List<Server> actualServerList = baseLoadBalancer.getServerList(ServerGroup.STATUS_UP);
+
+    // Assert
+    assertTrue(baseLoadBalancer.getReachableServers().isEmpty());
+    assertTrue(actualServerList.isEmpty());
+    assertTrue(baseLoadBalancer.upServerList.isEmpty());
+  }
+
+  /**
    * Test {@link BaseLoadBalancer#getReachableServers()}.
+   *
+   * <ul>
+   *   <li>Given {@link BaseLoadBalancer#BaseLoadBalancer()}.
+   *   <li>Then return Empty.
+   * </ul>
    *
    * <p>Method under test: {@link BaseLoadBalancer#getReachableServers()}
    */
@@ -3498,23 +3701,41 @@ public class BaseLoadBalancerDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"List BaseLoadBalancer.getReachableServers()"})
-  public void testGetReachableServers() {
+  public void testGetReachableServers_givenBaseLoadBalancer_thenReturnEmpty() {
     // Arrange, Act and Assert
     assertTrue(new BaseLoadBalancer().getReachableServers().isEmpty());
   }
 
   /**
-   * Test {@link BaseLoadBalancer#getAllServers()}.
+   * Test {@link BaseLoadBalancer#getReachableServers()}.
    *
-   * <p>Method under test: {@link BaseLoadBalancer#getAllServers()}
+   * <ul>
+   *   <li>Given {@link IPing} {@link IPing#isAlive(Server)} throw {@link
+   *       RuntimeException#RuntimeException()}.
+   *   <li>Then return Empty.
+   * </ul>
+   *
+   * <p>Method under test: {@link BaseLoadBalancer#getReachableServers()}
    */
   @Test
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
-  @MethodsUnderTest({"List BaseLoadBalancer.getAllServers()"})
-  public void testGetAllServers() {
-    // Arrange, Act and Assert
-    assertTrue(new BaseLoadBalancer().getAllServers().isEmpty());
+  @MethodsUnderTest({"List BaseLoadBalancer.getReachableServers()"})
+  public void testGetReachableServers_givenIPingIsAliveThrowRuntimeException_thenReturnEmpty() {
+    // Arrange
+    IPing ping = mock(IPing.class);
+    when(ping.isAlive(Mockito.<Server>any())).thenThrow(new RuntimeException());
+
+    BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer();
+    baseLoadBalancer.setPing(ping);
+    baseLoadBalancer.addServers(new Object[] {"New Servers", "New Servers", "New Servers"});
+
+    // Act
+    List<Server> actualReachableServers = baseLoadBalancer.getReachableServers();
+
+    // Assert
+    verify(ping, atLeast(1)).isAlive(isA(Server.class));
+    assertTrue(actualReachableServers.isEmpty());
   }
 
   /**
@@ -3827,40 +4048,31 @@ public class BaseLoadBalancerDiffblueTest {
   /**
    * Test {@link BaseLoadBalancer#forceQuickPing()}.
    *
-   * <ul>
-   *   <li>Given {@link IPing} {@link IPing#isAlive(Server)} return {@code true}.
-   *   <li>Then calls {@link IPing#isAlive(Server)}.
-   * </ul>
-   *
    * <p>Method under test: {@link BaseLoadBalancer#forceQuickPing()}
    */
   @Test
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void BaseLoadBalancer.forceQuickPing()"})
-  public void testForceQuickPing_givenIPingIsAliveReturnTrue_thenCallsIsAlive() {
+  public void testForceQuickPing() {
     // Arrange
-    IPing ping = mock(IPing.class);
-    when(ping.isAlive(Mockito.<Server>any())).thenReturn(true);
-
     BaseLoadBalancer baseLoadBalancer =
         new BaseLoadBalancer(DefaultClientConfigImpl.getEmptyConfig());
-    baseLoadBalancer.addServer(new Server("42"));
-    baseLoadBalancer.setPing(ping);
+    baseLoadBalancer.setPing(mock(IPing.class));
 
     // Act
     baseLoadBalancer.forceQuickPing();
 
-    // Assert
-    verify(ping, atLeast(1)).isAlive(isA(Server.class));
+    // Assert that nothing has changed
+    assertTrue(baseLoadBalancer.getReachableServers().isEmpty());
+    assertTrue(baseLoadBalancer.upServerList.isEmpty());
   }
 
   /**
    * Test {@link BaseLoadBalancer#forceQuickPing()}.
    *
    * <ul>
-   *   <li>Given {@link IPing} {@link IPing#isAlive(Server)} throw {@link
-   *       IllegalArgumentException#IllegalArgumentException()}.
+   *   <li>Then {@link BaseLoadBalancer#BaseLoadBalancer()} ReachableServers Empty.
    * </ul>
    *
    * <p>Method under test: {@link BaseLoadBalancer#forceQuickPing()}
@@ -3869,57 +4081,16 @@ public class BaseLoadBalancerDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void BaseLoadBalancer.forceQuickPing()"})
-  public void testForceQuickPing_givenIPingIsAliveThrowIllegalArgumentException() {
+  public void testForceQuickPing_thenBaseLoadBalancerReachableServersEmpty() {
     // Arrange
-    IPing ping = mock(IPing.class);
-    when(ping.isAlive(Mockito.<Server>any())).thenReturn(true);
-
-    IPing ping2 = mock(IPing.class);
-    when(ping2.isAlive(Mockito.<Server>any())).thenThrow(new IllegalArgumentException());
-
-    BaseLoadBalancer baseLoadBalancer =
-        new BaseLoadBalancer(ping2, new AvailabilityFilteringRule());
-    baseLoadBalancer.addServer(new Server("42"));
-    baseLoadBalancer.setPing(ping);
+    BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer();
 
     // Act
     baseLoadBalancer.forceQuickPing();
 
-    // Assert
-    verify(ping2).isAlive(isA(Server.class));
-    verify(ping, atLeast(1)).isAlive(isA(Server.class));
-  }
-
-  /**
-   * Test {@link BaseLoadBalancer#forceQuickPing()}.
-   *
-   * <ul>
-   *   <li>Given {@link IPing} {@link IPing#isAlive(Server)} throw {@link
-   *       RuntimeException#RuntimeException()}.
-   *   <li>Then calls {@link IPing#isAlive(Server)}.
-   * </ul>
-   *
-   * <p>Method under test: {@link BaseLoadBalancer#forceQuickPing()}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void BaseLoadBalancer.forceQuickPing()"})
-  public void testForceQuickPing_givenIPingIsAliveThrowRuntimeException_thenCallsIsAlive() {
-    // Arrange
-    IPing ping = mock(IPing.class);
-    when(ping.isAlive(Mockito.<Server>any())).thenThrow(new RuntimeException());
-
-    BaseLoadBalancer baseLoadBalancer =
-        new BaseLoadBalancer(DefaultClientConfigImpl.getEmptyConfig());
-    baseLoadBalancer.addServer(new Server("42"));
-    baseLoadBalancer.setPing(ping);
-
-    // Act
-    baseLoadBalancer.forceQuickPing();
-
-    // Assert
-    verify(ping, atLeast(1)).isAlive(isA(Server.class));
+    // Assert that nothing has changed
+    assertTrue(baseLoadBalancer.getReachableServers().isEmpty());
+    assertTrue(baseLoadBalancer.upServerList.isEmpty());
   }
 
   /**
@@ -3964,25 +4135,13 @@ public class BaseLoadBalancerDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void BaseLoadBalancer.init()"})
-  public void testInit2() {
+  public void testInit3() {
     // Arrange
     IPing ping = mock(IPing.class);
     when(ping.isAlive(Mockito.<Server>any())).thenReturn(true);
 
-    ServerStatusChangeListener listener = mock(ServerStatusChangeListener.class);
-    doThrow(new IllegalArgumentException())
-        .when(listener)
-        .serverStatusChanged(Mockito.<Collection<Server>>any());
-
-    ServerListChangeListener listener2 = mock(ServerListChangeListener.class);
-    doThrow(new IllegalArgumentException())
-        .when(listener2)
-        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
-
     BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer(ping, new AvailabilityFilteringRule());
-    baseLoadBalancer.addServerListChangeListener(listener2);
-    baseLoadBalancer.addServerStatusChangeListener(listener);
-    baseLoadBalancer.setMaxTotalPingTime(3);
+    baseLoadBalancer.addServer(new Server("42"));
     baseLoadBalancer.addServer(new Server("42"));
     baseLoadBalancer.setEnablePrimingConnections(true);
     PrimeConnections primeConnections =
@@ -3993,66 +4152,14 @@ public class BaseLoadBalancerDiffblueTest {
     baseLoadBalancer.init();
 
     // Assert
-    verify(ping).isAlive(isA(Server.class));
-    verify(listener2).serverListChanged(isA(List.class), isA(List.class));
-    verify(listener).serverStatusChanged(isA(Collection.class));
+    verify(ping, atLeast(1)).isAlive(isA(Server.class));
     PrimeConnectionEndStats endStats = baseLoadBalancer.getPrimeConnections().getEndStats();
     assertEquals(0, endStats.failure);
     assertEquals(0, endStats.success);
-    List<Server> allServers = baseLoadBalancer.getAllServers();
-    assertEquals(1, allServers.size());
-    assertEquals(1, endStats.total);
     assertEquals(1L, endStats.totalTime);
-    assertFalse(allServers.get(0).isReadyToServe());
-  }
-
-  /**
-   * Test {@link BaseLoadBalancer#init()}.
-   *
-   * <p>Method under test: {@link BaseLoadBalancer#init()}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void BaseLoadBalancer.init()"})
-  public void testInit3() {
-    // Arrange
-    IPing ping = mock(IPing.class);
-    when(ping.isAlive(Mockito.<Server>any())).thenReturn(true);
-
-    ServerStatusChangeListener listener = mock(ServerStatusChangeListener.class);
-    doThrow(new IllegalArgumentException())
-        .when(listener)
-        .serverStatusChanged(Mockito.<Collection<Server>>any());
-
-    ServerListChangeListener listener2 = mock(ServerListChangeListener.class);
-    doNothing()
-        .when(listener2)
-        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
-
-    BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer(ping, new AvailabilityFilteringRule());
-    baseLoadBalancer.addServerListChangeListener(listener2);
-    baseLoadBalancer.addServerStatusChangeListener(listener);
-    baseLoadBalancer.setMaxTotalPingTime(3);
-    baseLoadBalancer.addServer(new Server("42"));
-    baseLoadBalancer.setEnablePrimingConnections(true);
-    PrimeConnections primeConnections = new PrimeConnections(" ", 3, 25L, " ", 10.0f);
-    baseLoadBalancer.setPrimeConnections(primeConnections);
-
-    // Act
-    baseLoadBalancer.init();
-
-    // Assert
-    verify(ping).isAlive(isA(Server.class));
-    verify(listener2).serverListChanged(isA(List.class), isA(List.class));
-    verify(listener).serverStatusChanged(isA(Collection.class));
-    PrimeConnectionEndStats endStats = baseLoadBalancer.getPrimeConnections().getEndStats();
-    assertEquals(0, endStats.failure);
-    assertEquals(0, endStats.success);
     List<Server> allServers = baseLoadBalancer.getAllServers();
-    assertEquals(1, allServers.size());
-    assertEquals(10, endStats.total);
-    assertEquals(25L, endStats.totalTime);
+    assertEquals(2, allServers.size());
+    assertEquals(2, endStats.total);
     assertFalse(allServers.get(0).isReadyToServe());
   }
 
@@ -4070,26 +4177,46 @@ public class BaseLoadBalancerDiffblueTest {
     IPing ping = mock(IPing.class);
     when(ping.isAlive(Mockito.<Server>any())).thenReturn(true);
 
-    ServerStatusChangeListener listener = mock(ServerStatusChangeListener.class);
-    doThrow(new IllegalArgumentException())
-        .when(listener)
-        .serverStatusChanged(Mockito.<Collection<Server>>any());
+    BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer(ping, new AvailabilityFilteringRule());
+    baseLoadBalancer.setMaxTotalPingTime(3);
+    baseLoadBalancer.addServer(new Server("42"));
+    baseLoadBalancer.addServer(new Server("42"));
+    baseLoadBalancer.setEnablePrimingConnections(true);
+    PrimeConnections primeConnections =
+        new PrimeConnections("Name", 3, 1L, "Prime Connections URI");
+    baseLoadBalancer.setPrimeConnections(primeConnections);
 
-    ServerListChangeListener listener2 = mock(ServerListChangeListener.class);
-    doThrow(new IllegalArgumentException())
-        .when(listener2)
-        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
+    // Act
+    baseLoadBalancer.init();
 
-    ServerStatusChangeListener listener3 = mock(ServerStatusChangeListener.class);
-    doThrow(new IllegalArgumentException())
-        .when(listener3)
-        .serverStatusChanged(Mockito.<Collection<Server>>any());
+    // Assert
+    verify(ping, atLeast(1)).isAlive(isA(Server.class));
+    PrimeConnectionEndStats endStats = baseLoadBalancer.getPrimeConnections().getEndStats();
+    assertEquals(0, endStats.failure);
+    assertEquals(0, endStats.success);
+    assertEquals(1L, endStats.totalTime);
+    List<Server> allServers = baseLoadBalancer.getAllServers();
+    assertEquals(2, allServers.size());
+    assertEquals(2, endStats.total);
+    assertFalse(allServers.get(0).isReadyToServe());
+  }
+
+  /**
+   * Test {@link BaseLoadBalancer#init()}.
+   *
+   * <p>Method under test: {@link BaseLoadBalancer#init()}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void BaseLoadBalancer.init()"})
+  public void testInit5() {
+    // Arrange
+    IPing ping = mock(IPing.class);
+    when(ping.isAlive(Mockito.<Server>any())).thenReturn(true);
 
     BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer(ping, new AvailabilityFilteringRule());
-    baseLoadBalancer.addServerStatusChangeListener(listener3);
-    baseLoadBalancer.addServerListChangeListener(listener2);
-    baseLoadBalancer.addServerStatusChangeListener(listener);
-    baseLoadBalancer.setMaxTotalPingTime(3);
+    baseLoadBalancer.addServer(null);
     baseLoadBalancer.addServer(new Server("42"));
     baseLoadBalancer.setEnablePrimingConnections(true);
     PrimeConnections primeConnections =
@@ -4101,9 +4228,6 @@ public class BaseLoadBalancerDiffblueTest {
 
     // Assert
     verify(ping).isAlive(isA(Server.class));
-    verify(listener2).serverListChanged(isA(List.class), isA(List.class));
-    verify(listener3).serverStatusChanged(isA(Collection.class));
-    verify(listener).serverStatusChanged(isA(Collection.class));
     PrimeConnectionEndStats endStats = baseLoadBalancer.getPrimeConnections().getEndStats();
     assertEquals(0, endStats.failure);
     assertEquals(0, endStats.success);
@@ -4117,36 +4241,25 @@ public class BaseLoadBalancerDiffblueTest {
   /**
    * Test {@link BaseLoadBalancer#init()}.
    *
-   * <ul>
-   *   <li>Given {@link ServerListChangeListener} {@link
-   *       ServerListChangeListener#serverListChanged(List, List)} does nothing.
-   * </ul>
-   *
    * <p>Method under test: {@link BaseLoadBalancer#init()}
    */
   @Test
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void BaseLoadBalancer.init()"})
-  public void testInit_givenServerListChangeListenerServerListChangedDoesNothing() {
+  public void testInit6() {
     // Arrange
     IPing ping = mock(IPing.class);
     when(ping.isAlive(Mockito.<Server>any())).thenReturn(true);
 
-    ServerStatusChangeListener listener = mock(ServerStatusChangeListener.class);
-    doThrow(new IllegalArgumentException())
-        .when(listener)
-        .serverStatusChanged(Mockito.<Collection<Server>>any());
-
-    ServerListChangeListener listener2 = mock(ServerListChangeListener.class);
+    ServerListChangeListener listener = mock(ServerListChangeListener.class);
     doNothing()
-        .when(listener2)
+        .when(listener)
         .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
 
     BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer(ping, new AvailabilityFilteringRule());
-    baseLoadBalancer.addServerListChangeListener(listener2);
-    baseLoadBalancer.addServerStatusChangeListener(listener);
-    baseLoadBalancer.setMaxTotalPingTime(3);
+    baseLoadBalancer.addServerListChangeListener(listener);
+    baseLoadBalancer.addServer(null);
     baseLoadBalancer.addServer(new Server("42"));
     baseLoadBalancer.setEnablePrimingConnections(true);
     PrimeConnections primeConnections =
@@ -4158,8 +4271,7 @@ public class BaseLoadBalancerDiffblueTest {
 
     // Assert
     verify(ping).isAlive(isA(Server.class));
-    verify(listener2).serverListChanged(isA(List.class), isA(List.class));
-    verify(listener).serverStatusChanged(isA(Collection.class));
+    verify(listener).serverListChanged(isA(List.class), isA(List.class));
     PrimeConnectionEndStats endStats = baseLoadBalancer.getPrimeConnections().getEndStats();
     assertEquals(0, endStats.failure);
     assertEquals(0, endStats.success);
@@ -4168,6 +4280,52 @@ public class BaseLoadBalancerDiffblueTest {
     assertEquals(1, endStats.total);
     assertEquals(1L, endStats.totalTime);
     assertFalse(allServers.get(0).isReadyToServe());
+  }
+
+  /**
+   * Test {@link BaseLoadBalancer#init()}.
+   *
+   * <p>Method under test: {@link BaseLoadBalancer#init()}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void BaseLoadBalancer.init()"})
+  public void testInit7() {
+    // Arrange
+    IPing ping = mock(IPing.class);
+    when(ping.isAlive(Mockito.<Server>any())).thenReturn(true);
+
+    ServerListChangeListener listener = mock(ServerListChangeListener.class);
+    doNothing()
+        .when(listener)
+        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
+
+    BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer(ping, new AvailabilityFilteringRule());
+    baseLoadBalancer.addServers(new Object[] {"New Servers"});
+    baseLoadBalancer.addServerListChangeListener(listener);
+    baseLoadBalancer.addServer(null);
+    baseLoadBalancer.addServer(new Server("42"));
+    baseLoadBalancer.setEnablePrimingConnections(true);
+    PrimeConnections primeConnections =
+        new PrimeConnections("Name", 3, 1L, "Prime Connections URI");
+    baseLoadBalancer.setPrimeConnections(primeConnections);
+
+    // Act
+    baseLoadBalancer.init();
+
+    // Assert
+    verify(ping, atLeast(1)).isAlive(Mockito.<Server>any());
+    verify(listener).serverListChanged(isA(List.class), isA(List.class));
+    PrimeConnectionEndStats endStats = baseLoadBalancer.getPrimeConnections().getEndStats();
+    assertEquals(0, endStats.failure);
+    assertEquals(0, endStats.success);
+    assertEquals(1L, endStats.totalTime);
+    List<Server> allServers = baseLoadBalancer.getAllServers();
+    assertEquals(2, allServers.size());
+    assertEquals(2, endStats.total);
+    assertFalse(allServers.get(0).isReadyToServe());
+    assertFalse(allServers.get(1).isReadyToServe());
   }
 
   /**
@@ -4175,7 +4333,7 @@ public class BaseLoadBalancerDiffblueTest {
    *
    * <ul>
    *   <li>Then {@link DynamicServerListLoadBalancer#DynamicServerListLoadBalancer()} AllServers
-   *       first ReadyToServe.
+   *       size is one.
    * </ul>
    *
    * <p>Method under test: {@link BaseLoadBalancer#init()}
@@ -4184,101 +4342,23 @@ public class BaseLoadBalancerDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void BaseLoadBalancer.init()"})
-  public void testInit_thenDynamicServerListLoadBalancerAllServersFirstReadyToServe() {
+  public void testInit_thenDynamicServerListLoadBalancerAllServersSizeIsOne() {
     // Arrange
     ServerListChangeListener listener = mock(ServerListChangeListener.class);
-    doThrow(new IllegalArgumentException())
+    doNothing()
         .when(listener)
         .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
 
     ServerListChangeListener listener2 = mock(ServerListChangeListener.class);
-    doThrow(new IllegalArgumentException())
-        .when(listener2)
-        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
-
-    ServerListChangeListener listener3 = mock(ServerListChangeListener.class);
     doNothing()
-        .when(listener3)
-        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
-
-    ServerListChangeListener listener4 = mock(ServerListChangeListener.class);
-    doThrow(new IllegalArgumentException())
-        .when(listener4)
+        .when(listener2)
         .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
 
     DynamicServerListLoadBalancer<Server> dynamicServerListLoadBalancer =
         new DynamicServerListLoadBalancer<>();
-    dynamicServerListLoadBalancer.addServerListChangeListener(listener4);
-    dynamicServerListLoadBalancer.addServers(new ArrayList<>());
-    dynamicServerListLoadBalancer.addServerListChangeListener(listener3);
     dynamicServerListLoadBalancer.addServerListChangeListener(listener2);
-    dynamicServerListLoadBalancer.addServerStatusChangeListener(
-        mock(ServerStatusChangeListener.class));
     dynamicServerListLoadBalancer.addServerListChangeListener(listener);
-    dynamicServerListLoadBalancer.addServerStatusChangeListener(
-        mock(ServerStatusChangeListener.class));
-    dynamicServerListLoadBalancer.setMaxTotalPingTime(3);
-    dynamicServerListLoadBalancer.addServer(new Server("42"));
-    dynamicServerListLoadBalancer.setEnablePrimingConnections(false);
-    PrimeConnections primeConnections =
-        new PrimeConnections("Name", 3, 1L, "Prime Connections URI");
-    dynamicServerListLoadBalancer.setPrimeConnections(primeConnections);
-
-    // Act
-    dynamicServerListLoadBalancer.init();
-
-    // Assert that nothing has changed
-    verify(listener4).serverListChanged(isA(List.class), isA(List.class));
-    verify(listener3).serverListChanged(isA(List.class), isA(List.class));
-    verify(listener2).serverListChanged(isA(List.class), isA(List.class));
-    verify(listener).serverListChanged(isA(List.class), isA(List.class));
-    List<Server> allServers = dynamicServerListLoadBalancer.getAllServers();
-    assertEquals(1, allServers.size());
-    assertTrue(allServers.get(0).isReadyToServe());
-  }
-
-  /**
-   * Test {@link BaseLoadBalancer#init()}.
-   *
-   * <ul>
-   *   <li>Then {@link DynamicServerListLoadBalancer#DynamicServerListLoadBalancer()}
-   *       PrimeConnections EndStats {@link PrimeConnections.PrimeConnectionEndStats#failure} is
-   *       zero.
-   * </ul>
-   *
-   * <p>Method under test: {@link BaseLoadBalancer#init()}
-   */
-  @Test
-  @Category(ContributionFromDiffblue.class)
-  @ManagedByDiffblue
-  @MethodsUnderTest({"void BaseLoadBalancer.init()"})
-  public void testInit_thenDynamicServerListLoadBalancerPrimeConnectionsEndStatsFailureIsZero() {
-    // Arrange
-    ServerListChangeListener listener = mock(ServerListChangeListener.class);
-    doThrow(new IllegalArgumentException())
-        .when(listener)
-        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
-
-    ServerListChangeListener listener2 = mock(ServerListChangeListener.class);
-    doThrow(new IllegalArgumentException())
-        .when(listener2)
-        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
-
-    ServerListChangeListener listener3 = mock(ServerListChangeListener.class);
-    doNothing()
-        .when(listener3)
-        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
-
-    DynamicServerListLoadBalancer<Server> dynamicServerListLoadBalancer =
-        new DynamicServerListLoadBalancer<>();
-    dynamicServerListLoadBalancer.addServerListChangeListener(listener3);
-    dynamicServerListLoadBalancer.addServerListChangeListener(listener2);
-    dynamicServerListLoadBalancer.addServerStatusChangeListener(
-        mock(ServerStatusChangeListener.class));
-    dynamicServerListLoadBalancer.addServerListChangeListener(listener);
-    dynamicServerListLoadBalancer.addServerStatusChangeListener(
-        mock(ServerStatusChangeListener.class));
-    dynamicServerListLoadBalancer.setMaxTotalPingTime(3);
+    dynamicServerListLoadBalancer.addServer(null);
     dynamicServerListLoadBalancer.addServer(new Server("42"));
     dynamicServerListLoadBalancer.setEnablePrimingConnections(true);
     PrimeConnections primeConnections =
@@ -4289,7 +4369,6 @@ public class BaseLoadBalancerDiffblueTest {
     dynamicServerListLoadBalancer.init();
 
     // Assert
-    verify(listener3).serverListChanged(isA(List.class), isA(List.class));
     verify(listener2).serverListChanged(isA(List.class), isA(List.class));
     verify(listener).serverListChanged(isA(List.class), isA(List.class));
     PrimeConnectionEndStats endStats =
@@ -4304,12 +4383,249 @@ public class BaseLoadBalancerDiffblueTest {
   }
 
   /**
-   * Test {@link BaseLoadBalancer#primeCompleted(Server, Throwable)}.
+   * Test {@link BaseLoadBalancer#init()}.
    *
    * <ul>
-   *   <li>Given {@link IPing} {@link IPing#isAlive(Server)} throw {@link
-   *       RuntimeException#RuntimeException()}.
+   *   <li>Then {@link DynamicServerListLoadBalancer#DynamicServerListLoadBalancer()} AllServers
+   *       size is two.
    * </ul>
+   *
+   * <p>Method under test: {@link BaseLoadBalancer#init()}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void BaseLoadBalancer.init()"})
+  public void testInit_thenDynamicServerListLoadBalancerAllServersSizeIsTwo() {
+    // Arrange
+    ServerListChangeListener listener = mock(ServerListChangeListener.class);
+    doNothing()
+        .when(listener)
+        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
+
+    ServerListChangeListener listener2 = mock(ServerListChangeListener.class);
+    doNothing()
+        .when(listener2)
+        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
+
+    DynamicServerListLoadBalancer<Server> dynamicServerListLoadBalancer =
+        new DynamicServerListLoadBalancer<>();
+    dynamicServerListLoadBalancer.setPingInterval(42);
+    dynamicServerListLoadBalancer.addServer(new Server("42"));
+    dynamicServerListLoadBalancer.addServerListChangeListener(listener2);
+    dynamicServerListLoadBalancer.addServerListChangeListener(listener);
+    dynamicServerListLoadBalancer.addServer(null);
+    dynamicServerListLoadBalancer.addServer(new Server("42"));
+    dynamicServerListLoadBalancer.setEnablePrimingConnections(true);
+    PrimeConnections primeConnections =
+        new PrimeConnections("Name", 3, 1L, "Prime Connections URI");
+    dynamicServerListLoadBalancer.setPrimeConnections(primeConnections);
+
+    // Act
+    dynamicServerListLoadBalancer.init();
+
+    // Assert
+    verify(listener2).serverListChanged(isA(List.class), isA(List.class));
+    verify(listener).serverListChanged(isA(List.class), isA(List.class));
+    PrimeConnectionEndStats endStats =
+        dynamicServerListLoadBalancer.getPrimeConnections().getEndStats();
+    assertEquals(0, endStats.failure);
+    assertEquals(0, endStats.success);
+    assertEquals(1L, endStats.totalTime);
+    List<Server> allServers = dynamicServerListLoadBalancer.getAllServers();
+    assertEquals(2, allServers.size());
+    assertEquals(2, endStats.total);
+    assertFalse(allServers.get(0).isReadyToServe());
+  }
+
+  /**
+   * Test {@link BaseLoadBalancer#init()}.
+   *
+   * <ul>
+   *   <li>Then {@link DynamicServerListLoadBalancer#DynamicServerListLoadBalancer()} AllServers
+   *       size is two.
+   * </ul>
+   *
+   * <p>Method under test: {@link BaseLoadBalancer#init()}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void BaseLoadBalancer.init()"})
+  public void testInit_thenDynamicServerListLoadBalancerAllServersSizeIsTwo2() {
+    // Arrange
+    PrimeConnections primeConnections =
+        new PrimeConnections("Name", 3, 1L, "Prime Connections URI");
+    primeConnections.primeConnections(new ArrayList<>());
+
+    ServerListChangeListener listener = mock(ServerListChangeListener.class);
+    doNothing()
+        .when(listener)
+        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
+
+    ServerListChangeListener listener2 = mock(ServerListChangeListener.class);
+    doNothing()
+        .when(listener2)
+        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
+
+    DynamicServerListLoadBalancer<Server> dynamicServerListLoadBalancer =
+        new DynamicServerListLoadBalancer<>();
+    dynamicServerListLoadBalancer.setPingInterval(42);
+    dynamicServerListLoadBalancer.addServer(new Server("42"));
+    dynamicServerListLoadBalancer.addServerListChangeListener(listener2);
+    dynamicServerListLoadBalancer.addServerListChangeListener(listener);
+    dynamicServerListLoadBalancer.addServer(null);
+    dynamicServerListLoadBalancer.addServer(new Server("42"));
+    dynamicServerListLoadBalancer.setEnablePrimingConnections(true);
+    dynamicServerListLoadBalancer.setPrimeConnections(primeConnections);
+
+    // Act
+    dynamicServerListLoadBalancer.init();
+
+    // Assert
+    verify(listener2).serverListChanged(isA(List.class), isA(List.class));
+    verify(listener).serverListChanged(isA(List.class), isA(List.class));
+    PrimeConnectionEndStats endStats =
+        dynamicServerListLoadBalancer.getPrimeConnections().getEndStats();
+    assertEquals(0, endStats.failure);
+    assertEquals(0, endStats.success);
+    assertEquals(1L, endStats.totalTime);
+    List<Server> allServers = dynamicServerListLoadBalancer.getAllServers();
+    assertEquals(2, allServers.size());
+    assertEquals(2, endStats.total);
+    assertFalse(allServers.get(0).isReadyToServe());
+  }
+
+  /**
+   * Test {@link BaseLoadBalancer#init()}.
+   *
+   * <ul>
+   *   <li>Then not {@link DynamicServerListLoadBalancer#DynamicServerListLoadBalancer()} AllServers
+   *       second ReadyToServe.
+   * </ul>
+   *
+   * <p>Method under test: {@link BaseLoadBalancer#init()}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void BaseLoadBalancer.init()"})
+  public void testInit_thenNotDynamicServerListLoadBalancerAllServersSecondReadyToServe() {
+    // Arrange
+    PrimeConnections primeConnections =
+        new PrimeConnections("Name", 3, 1L, "Prime Connections URI");
+    primeConnections.primeConnections(new ArrayList<>());
+
+    ServerListChangeListener listener = mock(ServerListChangeListener.class);
+    doNothing()
+        .when(listener)
+        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
+
+    ServerListChangeListener listener2 = mock(ServerListChangeListener.class);
+    doNothing()
+        .when(listener2)
+        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
+
+    Server newServer = new Server("42");
+    newServer.setZone(" ");
+    newServer.setReadyToServe(true);
+
+    DynamicServerListLoadBalancer<Server> dynamicServerListLoadBalancer =
+        new DynamicServerListLoadBalancer<>();
+    dynamicServerListLoadBalancer.setPingInterval(42);
+    dynamicServerListLoadBalancer.addServer(newServer);
+    dynamicServerListLoadBalancer.addServerListChangeListener(listener2);
+    dynamicServerListLoadBalancer.addServerListChangeListener(listener);
+    dynamicServerListLoadBalancer.addServer(null);
+    dynamicServerListLoadBalancer.addServer(new Server("42"));
+    dynamicServerListLoadBalancer.setEnablePrimingConnections(true);
+    dynamicServerListLoadBalancer.setPrimeConnections(primeConnections);
+
+    // Act
+    dynamicServerListLoadBalancer.init();
+
+    // Assert
+    verify(listener2).serverListChanged(isA(List.class), isA(List.class));
+    verify(listener).serverListChanged(isA(List.class), isA(List.class));
+    PrimeConnectionEndStats endStats =
+        dynamicServerListLoadBalancer.getPrimeConnections().getEndStats();
+    assertEquals(0, endStats.failure);
+    assertEquals(0, endStats.success);
+    assertEquals(1L, endStats.totalTime);
+    List<Server> allServers = dynamicServerListLoadBalancer.getAllServers();
+    assertEquals(2, allServers.size());
+    assertEquals(2, endStats.total);
+    assertFalse(allServers.get(0).isReadyToServe());
+    assertFalse(allServers.get(1).isReadyToServe());
+  }
+
+  /**
+   * Test {@link BaseLoadBalancer#init()}.
+   *
+   * <ul>
+   *   <li>Then {@link ZoneAwareLoadBalancer#ZoneAwareLoadBalancer()} PrimeConnections EndStats
+   *       {@link PrimeConnections.PrimeConnectionEndStats#failure} is zero.
+   * </ul>
+   *
+   * <p>Method under test: {@link BaseLoadBalancer#init()}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void BaseLoadBalancer.init()"})
+  public void testInit_thenZoneAwareLoadBalancerPrimeConnectionsEndStatsFailureIsZero() {
+    // Arrange
+    PrimeConnections primeConnections =
+        new PrimeConnections("Name", 3, 1L, "Prime Connections URI");
+    primeConnections.primeConnections(new ArrayList<>());
+
+    ServerListChangeListener listener = mock(ServerListChangeListener.class);
+    doNothing()
+        .when(listener)
+        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
+
+    ServerListChangeListener listener2 = mock(ServerListChangeListener.class);
+    doNothing()
+        .when(listener2)
+        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
+
+    ServerListChangeListener listener3 = mock(ServerListChangeListener.class);
+    doThrow(new RuntimeException())
+        .when(listener3)
+        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
+
+    ZoneAwareLoadBalancer<Server> zoneAwareLoadBalancer = new ZoneAwareLoadBalancer<>();
+    zoneAwareLoadBalancer.addServers(new ArrayList<>());
+    zoneAwareLoadBalancer.addServerListChangeListener(listener3);
+    zoneAwareLoadBalancer.setPingInterval(42);
+    zoneAwareLoadBalancer.addServer(new Server("42"));
+    zoneAwareLoadBalancer.addServerListChangeListener(listener2);
+    zoneAwareLoadBalancer.addServerListChangeListener(listener);
+    zoneAwareLoadBalancer.addServer(null);
+    zoneAwareLoadBalancer.addServer(new Server("42"));
+    zoneAwareLoadBalancer.setEnablePrimingConnections(true);
+    zoneAwareLoadBalancer.setPrimeConnections(primeConnections);
+
+    // Act
+    zoneAwareLoadBalancer.init();
+
+    // Assert
+    verify(listener2).serverListChanged(isA(List.class), isA(List.class));
+    verify(listener).serverListChanged(isA(List.class), isA(List.class));
+    verify(listener3, atLeast(1))
+        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
+    PrimeConnectionEndStats endStats = zoneAwareLoadBalancer.getPrimeConnections().getEndStats();
+    assertEquals(0, endStats.failure);
+    assertEquals(0, endStats.success);
+    assertEquals(1L, endStats.totalTime);
+    List<Server> allServers = zoneAwareLoadBalancer.getAllServers();
+    assertEquals(2, allServers.size());
+    assertEquals(2, endStats.total);
+    assertFalse(allServers.get(0).isReadyToServe());
+  }
+
+  /**
+   * Test {@link BaseLoadBalancer#primeCompleted(Server, Throwable)}.
    *
    * <p>Method under test: {@link BaseLoadBalancer#primeCompleted(Server, Throwable)}
    */
@@ -4317,12 +4633,22 @@ public class BaseLoadBalancerDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void BaseLoadBalancer.primeCompleted(Server, Throwable)"})
-  public void testPrimeCompleted_givenIPingIsAliveThrowRuntimeException() {
+  public void testPrimeCompleted() {
     // Arrange
     IPing ping = mock(IPing.class);
-    when(ping.isAlive(Mockito.<Server>any())).thenThrow(new RuntimeException());
+    when(ping.isAlive(Mockito.<Server>any())).thenReturn(true);
+
+    ServerStatusChangeListener listener = mock(ServerStatusChangeListener.class);
+    doNothing().when(listener).serverStatusChanged(Mockito.<Collection<Server>>any());
+
+    ServerStatusChangeListener listener2 = mock(ServerStatusChangeListener.class);
+    doThrow(new IllegalArgumentException())
+        .when(listener2)
+        .serverStatusChanged(Mockito.<Collection<Server>>any());
 
     BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer();
+    baseLoadBalancer.addServerStatusChangeListener(listener2);
+    baseLoadBalancer.addServerStatusChangeListener(listener);
     baseLoadBalancer.setPing(ping);
     baseLoadBalancer.addServer(new Server("42"));
     Server s = new Server("42");
@@ -4332,15 +4658,18 @@ public class BaseLoadBalancerDiffblueTest {
 
     // Assert that nothing has changed
     verify(ping).isAlive(isA(Server.class));
-    assertTrue(baseLoadBalancer.upServerList.isEmpty());
-    assertTrue(baseLoadBalancer.getReachableServers().isEmpty());
+    verify(listener2).serverStatusChanged(isA(Collection.class));
+    verify(listener).serverStatusChanged(isA(Collection.class));
+    List<Server> serverList = baseLoadBalancer.allServerList;
+    assertEquals(serverList, baseLoadBalancer.getReachableServers());
+    assertEquals(serverList, baseLoadBalancer.upServerList);
   }
 
   /**
    * Test {@link BaseLoadBalancer#primeCompleted(Server, Throwable)}.
    *
    * <ul>
-   *   <li>Then {@link BaseLoadBalancer#BaseLoadBalancer()} ReachableServers Empty.
+   *   <li>Given {@link BaseLoadBalancer#BaseLoadBalancer()}.
    * </ul>
    *
    * <p>Method under test: {@link BaseLoadBalancer#primeCompleted(Server, Throwable)}
@@ -4349,7 +4678,7 @@ public class BaseLoadBalancerDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void BaseLoadBalancer.primeCompleted(Server, Throwable)"})
-  public void testPrimeCompleted_thenBaseLoadBalancerReachableServersEmpty() {
+  public void testPrimeCompleted_givenBaseLoadBalancer() {
     // Arrange
     BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer();
     Server s = new Server("42");
@@ -4366,8 +4695,8 @@ public class BaseLoadBalancerDiffblueTest {
    * Test {@link BaseLoadBalancer#shutdown()}.
    *
    * <ul>
-   *   <li>Given {@link BaseLoadBalancer#BaseLoadBalancer()}.
-   *   <li>Then does not throw.
+   *   <li>Given {@link IPing} {@link IPing#isAlive(Server)} return {@code true}.
+   *   <li>Then calls {@link IPing#isAlive(Server)}.
    * </ul>
    *
    * <p>Method under test: {@link BaseLoadBalancer#shutdown()}
@@ -4376,8 +4705,68 @@ public class BaseLoadBalancerDiffblueTest {
   @Category(ContributionFromDiffblue.class)
   @ManagedByDiffblue
   @MethodsUnderTest({"void BaseLoadBalancer.shutdown()"})
-  public void testShutdown_givenBaseLoadBalancer_thenDoesNotThrow() {
-    // Arrange, Act and Assert
-    new BaseLoadBalancer().shutdown();
+  public void testShutdown_givenIPingIsAliveReturnTrue_thenCallsIsAlive() {
+    // Arrange
+    IPing ping = mock(IPing.class);
+    when(ping.isAlive(Mockito.<Server>any())).thenReturn(true);
+
+    ServerListChangeListener listener = mock(ServerListChangeListener.class);
+    doNothing()
+        .when(listener)
+        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
+
+    BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer(ping, new AvailabilityFilteringRule());
+    baseLoadBalancer.addServerListChangeListener(listener);
+    baseLoadBalancer.setPingInterval(42);
+    baseLoadBalancer.addServer(new Server("42"));
+
+    // Act
+    baseLoadBalancer.shutdown();
+
+    // Assert
+    verify(ping).isAlive(isA(Server.class));
+    verify(listener).serverListChanged(isA(List.class), isA(List.class));
+  }
+
+  /**
+   * Test {@link BaseLoadBalancer#shutdown()}.
+   *
+   * <ul>
+   *   <li>Given {@link ServerStatusChangeListener} {@link
+   *       ServerStatusChangeListener#serverStatusChanged(Collection)} does nothing.
+   * </ul>
+   *
+   * <p>Method under test: {@link BaseLoadBalancer#shutdown()}
+   */
+  @Test
+  @Category(ContributionFromDiffblue.class)
+  @ManagedByDiffblue
+  @MethodsUnderTest({"void BaseLoadBalancer.shutdown()"})
+  public void testShutdown_givenServerStatusChangeListenerServerStatusChangedDoesNothing() {
+    // Arrange
+    IPing ping = mock(IPing.class);
+    when(ping.isAlive(Mockito.<Server>any())).thenReturn(true);
+
+    ServerListChangeListener listener = mock(ServerListChangeListener.class);
+    doNothing()
+        .when(listener)
+        .serverListChanged(Mockito.<List<Server>>any(), Mockito.<List<Server>>any());
+
+    ServerStatusChangeListener listener2 = mock(ServerStatusChangeListener.class);
+    doNothing().when(listener2).serverStatusChanged(Mockito.<Collection<Server>>any());
+
+    BaseLoadBalancer baseLoadBalancer = new BaseLoadBalancer(ping, new AvailabilityFilteringRule());
+    baseLoadBalancer.addServerStatusChangeListener(listener2);
+    baseLoadBalancer.addServerListChangeListener(listener);
+    baseLoadBalancer.setPingInterval(42);
+    baseLoadBalancer.addServer(new Server("42"));
+
+    // Act
+    baseLoadBalancer.shutdown();
+
+    // Assert
+    verify(ping).isAlive(isA(Server.class));
+    verify(listener).serverListChanged(isA(List.class), isA(List.class));
+    verify(listener2).serverStatusChanged(isA(Collection.class));
   }
 }
